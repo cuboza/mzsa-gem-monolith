@@ -1,0 +1,194 @@
+import { Vehicle } from '../types';
+
+export const vehicleDatabase: Record<string, Vehicle[]> = {
+  snowmobile: [
+    {
+      brand: "Ski-Doo",
+      model: "MXZ X-RS 850",
+      length: 3200,
+      width: 1150,
+      height: 1350,
+      weight: 225,
+      loadingAngle: 18,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Русская механика",
+      model: "Буран А",
+      length: 3100,
+      width: 1200,
+      height: 1400,
+      weight: 310,
+      loadingAngle: 20,
+      tiePoints: "dual_track"
+    },
+    {
+      brand: "Русская механика",
+      model: "Тайга Варяг 550",
+      length: 3200,
+      width: 1150,
+      height: 1350,
+      weight: 260,
+      loadingAngle: 18,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Arctic Cat",
+      model: "ZR 8000",
+      length: 3050,
+      width: 1200,
+      height: 1300,
+      weight: 240,
+      loadingAngle: 18,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Yamaha",
+      model: "VK Professional II",
+      length: 3100,
+      width: 1200,
+      height: 1400,
+      weight: 280,
+      loadingAngle: 20,
+      tiePoints: "standard"
+    }
+  ],
+  boat: [
+    {
+      brand: "Фрегат",
+      model: "М-350 С",
+      length: 3500,
+      width: 1770,
+      height: 470,
+      weight: 65,
+      loadingAngle: 12,
+      tiePoints: "bow_stern"
+    },
+    {
+      brand: "Saturn",
+      model: "HD330 ПВХ",
+      length: 3300,
+      width: 1600,
+      height: 500,
+      weight: 65,
+      loadingAngle: 12,
+      tiePoints: "bow_stern"
+    },
+    {
+      brand: "Пеликан",
+      model: "280Т",
+      length: 2800,
+      width: 1400,
+      height: 400,
+      weight: 35,
+      loadingAngle: 10,
+      tiePoints: "bow_stern"
+    },
+    {
+      brand: "Посейдон",
+      model: "Викинг-340",
+      length: 3400,
+      width: 1650,
+      height: 500,
+      weight: 70,
+      loadingAngle: 12,
+      tiePoints: "bow_stern"
+    },
+    {
+      brand: "Хантер",
+      model: "380 ПРО",
+      length: 3800,
+      width: 1800,
+      height: 550,
+      weight: 85,
+      loadingAngle: 14,
+      tiePoints: "bow_stern"
+    }
+  ],
+  atv: [
+    {
+      brand: "Русская механика",
+      model: "РМ 650-2",
+      length: 2200,
+      width: 1210,
+      height: 1380,
+      weight: 380,
+      loadingAngle: 25,
+      tiePoints: "front_rear"
+    },
+    {
+      brand: "Polaris",
+      model: "Sportsman 570",
+      length: 1980,
+      width: 1220,
+      height: 1220,
+      weight: 320,
+      loadingAngle: 25,
+      tiePoints: "front_rear"
+    },
+    {
+      brand: "Stels",
+      model: "ATV 650 Guepard",
+      length: 2100,
+      width: 1200,
+      height: 1250,
+      weight: 340,
+      loadingAngle: 25,
+      tiePoints: "front_rear"
+    },
+    {
+      brand: "CF Moto",
+      model: "X8 H.O. EPS",
+      length: 2280,
+      width: 1280,
+      height: 1320,
+      weight: 410,
+      loadingAngle: 27,
+      tiePoints: "front_rear"
+    },
+    {
+      brand: "Can-Am",
+      model: "Outlander 650",
+      length: 2050,
+      width: 1170,
+      height: 1240,
+      weight: 340,
+      loadingAngle: 25,
+      tiePoints: "front_rear"
+    }
+  ],
+  motorcycle: [
+    {
+      brand: "Урал",
+      model: "М-72",
+      length: 2400,
+      width: 900,
+      height: 1100,
+      weight: 320,
+      loadingAngle: 20,
+      tiePoints: "front_rear"
+    },
+    {
+      brand: "Honda",
+      model: "Africa Twin",
+      length: 2230,
+      width: 930,
+      height: 1475,
+      weight: 238,
+      loadingAngle: 18,
+      tiePoints: "front_rear"
+    },
+    {
+      brand: "Kawasaki",
+      model: "Versys 650",
+      length: 2165,
+      width: 840,
+      height: 1400,
+
+      weight: 216,
+      loadingAngle: 18,
+      tiePoints: "front_rear"
+    }
+  ]
+};
+

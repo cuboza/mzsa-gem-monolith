@@ -1,0 +1,147 @@
+import { DataProvider } from 'react-admin';
+import { db } from '../services/api';
+import { Trailer, Order, Customer } from '../types';
+
+// Вспомогательная функция фильтрации
+const filterData = (data: any[], filter: any) => {
+  if (!filter) return data;
+  
+  return data.filter(item => {
+    return Object.keys(filter).every(key => {
+      const itemValue = String(item[key] || '').toLowerCase();
+      const filterValue = String(filter[key] || '').toLowerCase();
+      
+      // Поддержка поиска по q (q обычно ищет по всем полям, но упростим)
+      if (key === 'q') {
+        return JSON.stringify(item).toLowerCase().includes(filterValue);
+      }
+      
+      return itemValue.includes(filterValue);
+    });
+  });
+};
+
+export const dataProvider: DataProvider = {
+  getList: async (resource, params) => {
+    const { page, perPage } = params.pagination;
+    const { field, order } = params.sort;
+    
+    let data: any[] = [];
+
+    switch (resource) {
+      case 'orders':
+        data = await db.getOrders();
+        break;
+      case 'trailers':
+        data = await db.getTrailers();
+        break;
+      case 'customers':
+        data = await db.getCustomers();
+        break;
+      default:
+        throw new Error(`Unknown resource ${resource}`);
+    }
+
+    // Фильтрация
+    data = filterData(data, params.filter);
+
+    // Сортировка
+    data.sort((a, b) => {
+      // Обработка вложенных полей (например customer.name)
+      const getField = (obj: any, path: string) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
+      
+      const valA = getField(a, field);
+      const valB = getField(b, field);
+
+      if (valA < valB) return order === 'ASC' ? -1 : 1;
+      if (valA > valB) return order === 'ASC' ? 1 : -1;
+      return 0;
+    });
+
+    // Пагинация
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+
+    return {
+      data: data.slice(start, end),
+      total: data.length
+    };
+  },
+
+  getOne: async (resource, params) => {
+    let item;
+    const id = String(params.id);
+    switch (resource) {
+      case 'orders':
+        item = await db.getOrder(id);
+        break;
+      case 'trailers':
+        item = await db.getTrailer(id);
+        break;
+      case 'customers':
+        item = await db.getCustomer(id);
+        break;
+    }
+    
+    if (!item) throw new Error('Item not found');
+    return { data: item } as any;
+  },
+
+  getMany: async (resource, params) => {
+    let data: any[] = [];
+    switch (resource) {
+      case 'orders': data = await db.getOrders(); break;
+      case 'trailers': data = await db.getTrailers(); break;
+      case 'customers': data = await db.getCustomers(); break;
+    }
+    
+    const items = data.filter(item => params.ids.includes(item.id));
+    return { data: items } as any;
+  },
+
+  getManyReference: () => Promise.resolve({ data: [], total: 0 }),
+
+  create: async (resource, params) => {
+    // В этом проекте создание через админку не приоритет, но реализуем базово
+    const newItem = {
+      ...params.data,
+      id: `${resource}-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    // Здесь нужно было бы вызвать db.createSomething, но в интерфейсе не все методы есть
+    // Для простоты добавим в методах update через LocalStorageProvider расширение
+    // Но правильнее расширить интерфейс. Пока оставим упрощенно:
+    
+    if (resource === 'orders') await db.createOrder(newItem as Order);
+    else if (resource === 'trailers') await db.saveTrailer(newItem as Trailer);
+    else if (resource === 'customers') await db.saveCustomer(newItem as unknown as Customer);
+
+    return { data: newItem } as any;
+  },
+
+  update: async (resource, params) => {
+    let updatedItem;
+    const id = String(params.id);
+    if (resource === 'orders') {
+      updatedItem = await db.updateOrder(id, params.data);
+    } else if (resource === 'trailers') {
+      updatedItem = await db.saveTrailer({ ...params.previousData, ...params.data } as Trailer);
+    } else if (resource === 'customers') {
+      updatedItem = await db.saveCustomer({ ...params.previousData, ...params.data } as Customer);
+    }
+
+    return { data: updatedItem } as any;
+  },
+
+  updateMany: () => Promise.resolve({ data: [] }),
+  
+  delete: async (resource, params) => {
+    // Удаление пока не реализовано в интерфейсе DB, оставим заглушку
+    return { data: params.previousData } as any;
+  },
+  
+  deleteMany: () => Promise.resolve({ data: [] }),
+};
+

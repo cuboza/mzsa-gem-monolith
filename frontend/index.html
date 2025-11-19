@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        document.body.innerHTML += '<div style="color:red; padding:20px; border:1px solid red; margin:20px;">' +
+          '<h3>Global Error</h3>' +
+          '<p>' + message + '</p>' +
+          '<p>' + source + ':' + lineno + ':' + colno + '</p>' +
+          '<pre>' + (error && error.stack ? error.stack : '') + '</pre>' +
+          '</div>';
+      };
+      window.onunhandledrejection = function(event) {
+        document.body.innerHTML += '<div style="color:red; padding:20px; border:1px solid red; margin:20px;">' +
+          '<h3>Unhandled Promise Rejection</h3>' +
+          '<p>' + event.reason + '</p>' +
+          '</div>';
+      };
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
