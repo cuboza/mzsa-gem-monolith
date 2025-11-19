@@ -46,10 +46,41 @@ export class LocalStorageProvider implements IDatabaseProvider {
     return trailer;
   }
 
+  async deleteTrailer(id: string): Promise<void> {
+    const trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
+    const filtered = trailers.filter(t => t.id !== id);
+    this.set(STORAGE_KEYS.TRAILERS, filtered);
+  }
+
   // --- Accessories ---
 
   async getAccessories(): Promise<Accessory[]> {
     return this.get<Accessory>(STORAGE_KEYS.ACCESSORIES);
+  }
+
+  async getAccessory(id: string): Promise<Accessory | null> {
+    const accessories = this.get<Accessory>(STORAGE_KEYS.ACCESSORIES);
+    return accessories.find(a => a.id === id) || null;
+  }
+
+  async saveAccessory(accessory: Accessory): Promise<Accessory> {
+    const accessories = this.get<Accessory>(STORAGE_KEYS.ACCESSORIES);
+    const index = accessories.findIndex(a => a.id === accessory.id);
+    
+    if (index >= 0) {
+      accessories[index] = accessory;
+    } else {
+      accessories.push(accessory);
+    }
+    
+    this.set(STORAGE_KEYS.ACCESSORIES, accessories);
+    return accessory;
+  }
+
+  async deleteAccessory(id: string): Promise<void> {
+    const accessories = this.get<Accessory>(STORAGE_KEYS.ACCESSORIES);
+    const filtered = accessories.filter(a => a.id !== id);
+    this.set(STORAGE_KEYS.ACCESSORIES, filtered);
   }
 
   // --- Orders ---
@@ -90,6 +121,12 @@ export class LocalStorageProvider implements IDatabaseProvider {
     return updatedOrder;
   }
 
+  async deleteOrder(id: string): Promise<void> {
+    const orders = this.get<Order>(STORAGE_KEYS.ORDERS);
+    const filtered = orders.filter(o => o.id !== id);
+    this.set(STORAGE_KEYS.ORDERS, filtered);
+  }
+
   // --- Customers ---
 
   async getCustomers(): Promise<Customer[]> {
@@ -113,6 +150,12 @@ export class LocalStorageProvider implements IDatabaseProvider {
     
     this.set(STORAGE_KEYS.CUSTOMERS, customers);
     return customer;
+  }
+
+  async deleteCustomer(id: string): Promise<void> {
+    const customers = this.get<Customer>(STORAGE_KEYS.CUSTOMERS);
+    const filtered = customers.filter(c => c.id !== id);
+    this.set(STORAGE_KEYS.CUSTOMERS, filtered);
   }
 
   // --- Settings ---

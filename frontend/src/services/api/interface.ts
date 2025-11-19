@@ -5,9 +5,13 @@ export interface IDatabaseProvider {
   getTrailers(): Promise<Trailer[]>;
   getTrailer(id: string): Promise<Trailer | null>;
   saveTrailer(trailer: Trailer): Promise<Trailer>;
+  deleteTrailer(id: string): Promise<void>;
   
   // Accessories
   getAccessories(): Promise<Accessory[]>;
+  getAccessory(id: string): Promise<Accessory | null>;
+  saveAccessory(accessory: Accessory): Promise<Accessory>;
+  deleteAccessory(id: string): Promise<void>;
   
   // Orders
   getOrders(): Promise<Order[]>;
@@ -15,11 +19,13 @@ export interface IDatabaseProvider {
   getOrderByNumber(orderNumber: string): Promise<Order | null>;
   createOrder(order: Order): Promise<Order>;
   updateOrder(id: string, order: Partial<Order>): Promise<Order>;
+  deleteOrder(id: string): Promise<void>;
   
   // Customers
   getCustomers(): Promise<Customer[]>;
   getCustomer(id: string): Promise<Customer | null>;
   saveCustomer(customer: Customer): Promise<Customer>;
+  deleteCustomer(id: string): Promise<void>;
   
   // Settings
   getSettings(): Promise<Settings | null>;

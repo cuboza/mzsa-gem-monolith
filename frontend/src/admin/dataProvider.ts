@@ -1,6 +1,6 @@
 import { DataProvider } from 'react-admin';
 import { db } from '../services/api';
-import { Trailer, Order, Customer } from '../types';
+import { Trailer, Order, Customer, Accessory, Settings } from '../types';
 
 // Вспомогательная функция фильтрации
 const filterData = (data: any[], filter: any) => {
@@ -37,6 +37,14 @@ export const dataProvider: DataProvider = {
         break;
       case 'customers':
         data = await db.getCustomers();
+        break;
+      case 'accessories':
+        data = await db.getAccessories();
+        break;
+      case 'settings':
+        // Settings is a singleton, but React Admin expects a list
+        const settings = await db.getSettings();
+        data = settings ? [{ id: 'default', ...settings }] : [];
         break;
       default:
         throw new Error(`Unknown resource ${resource}`);
@@ -81,6 +89,13 @@ export const dataProvider: DataProvider = {
       case 'customers':
         item = await db.getCustomer(id);
         break;
+      case 'accessories':
+        item = await db.getAccessory(id);
+        break;
+      case 'settings':
+        const settings = await db.getSettings();
+        item = settings ? { id: 'default', ...settings } : null;
+        break;
     }
     
     if (!item) throw new Error('Item not found');
@@ -93,6 +108,11 @@ export const dataProvider: DataProvider = {
       case 'orders': data = await db.getOrders(); break;
       case 'trailers': data = await db.getTrailers(); break;
       case 'customers': data = await db.getCustomers(); break;
+      case 'accessories': data = await db.getAccessories(); break;
+      case 'settings': 
+        const s = await db.getSettings();
+        data = s ? [{ id: 'default', ...s }] : [];
+        break;
     }
     
     const items = data.filter(item => params.ids.includes(item.id));
@@ -117,6 +137,7 @@ export const dataProvider: DataProvider = {
     if (resource === 'orders') await db.createOrder(newItem as Order);
     else if (resource === 'trailers') await db.saveTrailer(newItem as Trailer);
     else if (resource === 'customers') await db.saveCustomer(newItem as unknown as Customer);
+    else if (resource === 'accessories') await db.saveAccessory(newItem as Accessory);
 
     return { data: newItem } as any;
   },
@@ -130,6 +151,13 @@ export const dataProvider: DataProvider = {
       updatedItem = await db.saveTrailer({ ...params.previousData, ...params.data } as Trailer);
     } else if (resource === 'customers') {
       updatedItem = await db.saveCustomer({ ...params.previousData, ...params.data } as Customer);
+    } else if (resource === 'accessories') {
+      updatedItem = await db.saveAccessory({ ...params.previousData, ...params.data } as Accessory);
+    } else if (resource === 'settings') {
+      // Remove id from data before saving
+      const { id, ...settingsData } = params.data;
+      const saved = await db.saveSettings(settingsData as Settings);
+      updatedItem = { id: 'default', ...saved };
     }
 
     return { data: updatedItem } as any;
@@ -138,10 +166,27 @@ export const dataProvider: DataProvider = {
   updateMany: () => Promise.resolve({ data: [] }),
   
   delete: async (resource, params) => {
-    // Удаление пока не реализовано в интерфейсе DB, оставим заглушку
+    const id = String(params.id);
+    if (resource === 'orders') await db.deleteOrder(id);
+    else if (resource === 'trailers') await db.deleteTrailer(id);
+    else if (resource === 'customers') await db.deleteCustomer(id);
+    else if (resource === 'accessories') await db.deleteAccessory(id);
+    
     return { data: params.previousData } as any;
   },
   
-  deleteMany: () => Promise.resolve({ data: [] }),
+  deleteMany: async (resource, params) => {
+    const ids = params.ids.map(String);
+    
+    // Последовательное удаление, так как в интерфейсе нет deleteMany
+    for (const id of ids) {
+      if (resource === 'orders') await db.deleteOrder(id);
+      else if (resource === 'trailers') await db.deleteTrailer(id);
+      else if (resource === 'customers') await db.deleteCustomer(id);
+      else if (resource === 'accessories') await db.deleteAccessory(id);
+    }
+    
+    return { data: ids } as any;
+  },
 };
 
