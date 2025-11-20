@@ -7,7 +7,7 @@ export const accessories: Accessory[] = [
     price: 15000,
     category: "loading",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://www.mzsa.ru/netcat_files/116/118/h_8b3aefb513c5a8a3431f57b1d4d767e3", // Using bracket image as placeholder
     description: "Для загрузки тяжелой техники",
     compatibleWith: ["snowmobile", "boat", "atv"]
   },
@@ -17,7 +17,7 @@ export const accessories: Accessory[] = [
     price: 3500,
     category: "support",
     required: true,
-    image: "/api/placeholder/120/80",
+    image: "https://www.mzsa.ru/netcat_files/116/118/h_3708c65658ed9d131c45a36657807c6d",
     description: "Стандартное опорное колесо Ø48",
     compatibleWith: ["all"]
   },
@@ -27,7 +27,7 @@ export const accessories: Accessory[] = [
     price: 2800,
     category: "spare",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://www.mzsa.ru/netcat_files/116/118/h_47058cedcb5e16ed415b7380d8eab6d8",
     description: "Для колес R13, R13C, R14C",
     compatibleWith: ["all"]
   },
@@ -37,7 +37,7 @@ export const accessories: Accessory[] = [
     price: 8500,
     category: "cover",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://www.mzsa.ru/netcat_files/116/118/h_c348d5ee650ef1ac0f3b95d7b55aadd6",
     description: "Водонепроницаемый тент",
     compatibleWith: ["general", "moto"]
   },
@@ -87,7 +87,7 @@ export const accessories: Accessory[] = [
     price: 12000,
     category: "loading",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://www.mzsa.ru/netcat_files/116/118/h_922b310b478c33861971b862b92a8ab1", // Using side board image as placeholder for ramp
     description: "Съемная рампа 500 кг",
     compatibleWith: ["atv", "snowmobile"]
   },

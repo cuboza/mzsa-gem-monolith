@@ -1,3 +1,5 @@
+export type UserRole = 'user' | 'manager' | 'admin';
+
 export interface Trailer {
   id: string;
   model: string; // "МЗСА 817700.002"
@@ -15,6 +17,13 @@ export interface Trailer {
   image: string; // URL placeholder
   description?: string;
   
+  specs?: {
+    dimensions: string;
+    capacity: string;
+    weight: string;
+    axles: number;
+  };
+
   // Для конфигуратора
   compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle')[];
   maxVehicleLength?: number; // мм

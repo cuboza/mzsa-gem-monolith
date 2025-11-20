@@ -22,43 +22,47 @@ export const AdminPanel = () => (
     authProvider={authProvider}
     title="O-N-R Admin"
   >
-    <Resource 
-      name="orders" 
-      list={OrderList} 
-      edit={OrderEdit} 
-      icon={OrderIcon}
-      options={{ label: 'Заказы' }} 
-    />
-    <Resource 
-      name="trailers" 
-      list={TrailerList} 
-      edit={TrailerEdit}
-      create={TrailerCreate}
-      icon={TrailerIcon}
-      options={{ label: 'Прицепы' }} 
-    />
-    <Resource 
-      name="accessories" 
-      list={AccessoryList} 
-      edit={AccessoryEdit}
-      create={AccessoryCreate}
-      icon={AccessoryIcon}
-      options={{ label: 'Аксессуары' }} 
-    />
-    <Resource 
-      name="customers" 
-      list={CustomerList} 
-      edit={CustomerEdit}
-      create={CustomerCreate}
-      icon={CustomerIcon}
-      options={{ label: 'Клиенты' }} 
-    />
-    <Resource 
-      name="settings" 
-      list={SettingsEdit}
-      icon={SettingsIcon}
-      options={{ label: 'Настройки' }} 
-    />
+    {(permissions: string) => [
+      <Resource 
+        name="orders" 
+        list={OrderList} 
+        edit={OrderEdit} 
+        icon={OrderIcon}
+        options={{ label: 'Заказы' }} 
+      />,
+      <Resource 
+        name="trailers" 
+        list={TrailerList} 
+        edit={TrailerEdit}
+        create={TrailerCreate}
+        icon={TrailerIcon}
+        options={{ label: 'Прицепы' }} 
+      />,
+      <Resource 
+        name="accessories" 
+        list={AccessoryList} 
+        edit={AccessoryEdit}
+        create={AccessoryCreate}
+        icon={AccessoryIcon}
+        options={{ label: 'Аксессуары' }} 
+      />,
+      <Resource 
+        name="customers" 
+        list={CustomerList} 
+        edit={CustomerEdit}
+        create={CustomerCreate}
+        icon={CustomerIcon}
+        options={{ label: 'Клиенты' }} 
+      />,
+      permissions === 'admin' ? (
+        <Resource 
+          name="settings" 
+          list={SettingsEdit}
+          icon={SettingsIcon}
+          options={{ label: 'Настройки' }} 
+        />
+      ) : null,
+    ]}
   </Admin>
 );
 

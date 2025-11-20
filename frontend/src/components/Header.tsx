@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ShoppingCart, Search } from 'lucide-react';
+import { Menu, X, Phone, ShoppingCart, Search, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -60,6 +62,18 @@ export const Header = () => {
             >
               Подобрать прицеп
             </Link>
+            
+            <Link
+              to={user ? "/profile" : "/login"}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                isActive('/profile') || isActive('/login') 
+                  ? 'bg-blue-50 text-blue-600' 
+                  : 'text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              <User size={20} />
+              <span className="font-medium">{user ? 'Кабинет' : 'Войти'}</span>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -89,6 +103,14 @@ export const Header = () => {
               </Link>
             ))}
             <div className="pt-4 border-t">
+              <Link
+                to={user ? "/profile" : "/login"}
+                className="flex items-center space-x-2 py-2 font-medium text-gray-700"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <User size={20} />
+                <span>{user ? 'Личный кабинет' : 'Войти'}</span>
+              </Link>
               <a href="tel:+73467123456" className="block py-2 font-bold text-gray-800">
                 +7 (3467) 123-45-67
               </a>

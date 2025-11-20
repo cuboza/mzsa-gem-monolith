@@ -172,7 +172,7 @@ export class LocalStorageProvider implements IDatabaseProvider {
 
   // --- Init ---
 
-  async initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings): Promise<void> {
+  async initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings, orders: Order[] = []): Promise<void> {
     if (localStorage.getItem(STORAGE_KEYS.INITIALIZED)) {
       return;
     }
@@ -181,8 +181,8 @@ export class LocalStorageProvider implements IDatabaseProvider {
     this.set(STORAGE_KEYS.ACCESSORIES, accessories);
     this.saveSettings(defaultSettings);
     
-    // Пустые массивы для заказов и клиентов
-    if (!localStorage.getItem(STORAGE_KEYS.ORDERS)) this.set(STORAGE_KEYS.ORDERS, []);
+    // Пустые массивы для заказов и клиентов, если не переданы
+    if (!localStorage.getItem(STORAGE_KEYS.ORDERS)) this.set(STORAGE_KEYS.ORDERS, orders);
     if (!localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) this.set(STORAGE_KEYS.CUSTOMERS, []);
     
     localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');

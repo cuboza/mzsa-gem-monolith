@@ -14,7 +14,7 @@ const generalTrailers: Trailer[] = [
     badge: "Хит продаж",
     isPopular: true,
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i700500c610b58cca8b0c8aa965de673ec3e869.jpg",
     compatibility: ["atv"],
     maxVehicleLength: 2000,
     maxVehicleWidth: 1000,
@@ -31,7 +31,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3177×1712×848",
     features: ["Стандартные борта 29 см", "Горячее цинкование", "Компактный"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0469%202web.jpg.jpg"
   },
   {
     id: "mzsa-817701-014",
@@ -44,7 +44,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3177×1712×1028",
     features: ["Высокие борта 47 см", "Увеличенный объем", "Надежная конструкция"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0415%20web.jpg.jpg"
   },
   {
     id: "mzsa-817701-016",
@@ -57,7 +57,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3177×1712×998",
     features: ["Средние борта 44 см", "Оптимальный объем", "Универсальный"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0469%202web.jpg.jpg"
   },
   {
     id: "mzsa-817701-022",
@@ -70,7 +70,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3177×1803×1102",
     features: ["Тент в комплекте", "Защита от осадков", "Высота тента 110 см"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0377%20web.jpg.jpg"
   },
   {
     id: "mzsa-817701-026",
@@ -84,7 +84,7 @@ const generalTrailers: Trailer[] = [
     features: ["Увеличенный клиренс", "Усиленная подвеска", "Для бездорожья"],
     badge: "OFF-ROAD",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0636%20web.jpg.jpg"
   },
   {
     id: "mzsa-817701-032",
@@ -97,7 +97,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3177×1712×1028",
     features: ["Алюминиевые борта", "Легкая конструкция", "Не ржавеют"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0469%202web.jpg.jpg"
   },
   {
     id: "mzsa-817704-012",
@@ -110,7 +110,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1712×848",
     features: ["Удлиненная платформа", "Стандартный борт", "Универсальный"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0303%20web_0.jpg.jpg"
   },
   {
     id: "mzsa-817704-014",
@@ -123,7 +123,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1712×1028",
     features: ["Удлиненная платформа", "Высокий борт", "Большой объем"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0440%20web.jpg.jpg"
   },
   {
     id: "mzsa-817704-022",
@@ -137,7 +137,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1712×848",
     features: ["Удлиненный", "Тент в комплекте", "Защита груза"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0303%20web_0.jpg.jpg"
   },
   {
     id: "mzsa-817704-034",
@@ -150,7 +150,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1712×1028",
     features: ["Пластиковая крышка 64 см", "Защита от осадков", "Легкий доступ"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0303%20web_0.jpg.jpg"
   },
   {
     id: "mzsa-817705-012",
@@ -163,7 +163,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1852×848",
     features: ["Увеличенная ширина", "Для мототехники", "Универсальный"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0475%20web_1.jpg.jpg",
     compatibility: ["atv", "motorcycle"],
     maxVehicleLength: 2500,
     maxVehicleWidth: 1400,
@@ -180,7 +180,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1852×1028",
     features: ["Широкий", "Высокий борт 47 см", "Большой объем"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0475%20web_1.jpg.jpg"
   },
   {
     id: "mzsa-817705-022",
@@ -193,7 +193,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1852×848",
     features: ["Тент АЭРО 150 см", "Широкая платформа", "Аэродинамичный"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0475%20web_1.jpg.jpg"
   },
   {
     id: "mzsa-817706-012",
@@ -206,7 +206,7 @@ const generalTrailers: Trailer[] = [
     gabarity: "3777×1992×848",
     features: ["Сверхширокая платформа", "Для мотоциклов", "Для ATV"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0303%20web.jpg.jpg",
     compatibility: ["atv", "motorcycle"],
     maxVehicleLength: 2500,
     maxVehicleWidth: 1500,
@@ -224,7 +224,7 @@ const generalTrailers: Trailer[] = [
     features: ["Две оси", "Повышенная устойчивость", "Плавный ход"],
     badge: "Двухосный",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0616%20web.jpg.jpg"
   }
 ];
 
@@ -241,7 +241,7 @@ const motoTrailers: Trailer[] = [
     features: ["Направляющие для снегохода", "Лебедка в комплекте", "Усиленная рама"],
     badge: "Для снегоходов",
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0475%20web.jpg.jpg",
     compatibility: ["snowmobile"],
     maxVehicleLength: 3500,
     maxVehicleWidth: 1300,
@@ -258,7 +258,7 @@ const motoTrailers: Trailer[] = [
     gabarity: "3777×1712×848",
     features: ["Направляющие", "Лебедка", "Тент в комплекте"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0475%20web.jpg.jpg",
     compatibility: ["snowmobile"],
     maxVehicleLength: 3500,
     maxVehicleWidth: 1300,
@@ -276,7 +276,7 @@ const motoTrailers: Trailer[] = [
     features: ["Широкая платформа", "Аппарель", "Крепления ATV"],
     badge: "Для ATV",
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0354%20web.jpg.jpg",
     compatibility: ["atv"],
     maxVehicleLength: 2500,
     maxVehicleWidth: 1400,
@@ -294,7 +294,7 @@ const motoTrailers: Trailer[] = [
     features: ["Сверхширокая база", "Упоры для колес", "Удобная погрузка"],
     badge: "Для мотоциклов",
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0303%20web.jpg.jpg",
     compatibility: ["motorcycle"],
     maxVehicleLength: 2300,
     maxVehicleWidth: 1000,
@@ -311,7 +311,7 @@ const motoTrailers: Trailer[] = [
     gabarity: "4633×1852×848",
     features: ["Удлиненная платформа", "Для крупной техники", "Универсальный"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140small_817717022web.jpg.jpg",
     compatibility: ["snowmobile", "atv"],
     maxVehicleLength: 3500,
     maxVehicleWidth: 1400,
@@ -328,7 +328,7 @@ const motoTrailers: Trailer[] = [
     gabarity: "4633×1852×848",
     features: ["Тент АЭРО 150 см", "Удлиненный", "Защита техники"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_817717022web.jpg.jpg"
   }
 ];
 
@@ -344,7 +344,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "4460×1550×1079",
     features: ["Для плоскодонок", "Ролики", "Простая конструкция"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140ec741d88c1f479ddd455efb728a8595c.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 4300,
     maxVehicleWidth: 1500,
@@ -361,7 +361,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "4290×1550×1095",
     features: ["Для каяков", "Для байдарок", "Легкая конструкция"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140551eadde69d4e731f5346db3043c2c8d.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 4100,
     maxVehicleWidth: 1000,
@@ -379,7 +379,7 @@ const waterTrailers: Trailer[] = [
     features: ["Ролики", "Лебедка", "Передвижные петли"],
     badge: "Для гидроциклов",
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i1401400624ecd0cbf34dd7bde9809146ab8f4c.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 3000,
     maxVehicleWidth: 1300,
@@ -398,7 +398,7 @@ const waterTrailers: Trailer[] = [
     badge: "Универсальный",
     isPopular: true,
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140dab55f0ab92db6144dbad8454fb62769.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 3400,
     maxVehicleWidth: 1800,
@@ -415,7 +415,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "3976×1625×1163",
     features: ["Усиленные ролики", "Легкая загрузка", "Защита киля"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140fb507597fe34465e5e26fcce8a9059a0.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 3400,
     maxVehicleWidth: 1800,
@@ -432,7 +432,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "4476×1625×1163",
     features: ["Удлиненная база", "Ролики", "Ложементы"],
     availability: "in_stock",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140dab55f0ab92db6144dbad8454fb62769.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 3900,
     maxVehicleWidth: 1800,
@@ -449,7 +449,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "4976×1965×1163",
     features: ["Широкая база", "Для катеров", "Усиленная рама"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i1401409ccf45b3a63e58e744bd550c9d204557.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 4300,
     maxVehicleWidth: 1900,
@@ -466,7 +466,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "4976×1965×1163",
     features: ["Дополнительные ролики", "Широкий", "Плавная загрузка"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i1401409ccf45b3a63e58e744bd550c9d204557.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 4300,
     maxVehicleWidth: 1900,
@@ -483,7 +483,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "5476×1965×1163",
     features: ["Удлиненный", "Широкий", "Для крупных судов"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i14014003b1dd53324ae5fe06ba1ed0dab9e40e.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 4750,
     maxVehicleWidth: 1900,
@@ -500,7 +500,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "5476×1965×1163",
     features: ["Усиленная рама", "Повышенная прочность", "Для тяжелых судов"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i1401404e579491e2ddda4ba0d162c8d81ee1a4.jpg"
   },
   {
     id: "mzsa-81774g-021",
@@ -514,7 +514,7 @@ const waterTrailers: Trailer[] = [
     features: ["Сверхширокая база", "Для широких катеров", "Стабильность"],
     badge: "Сверхширокий",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140360dc3ea222d2fbf78a7a71df79d32ff.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 4750,
     maxVehicleWidth: 2200,
@@ -531,7 +531,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "5474×2240×1199",
     features: ["Ложементы", "Сверхширокий", "Защита корпуса"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140019eff22a884460bcb94fb78273cfc85.jpg"
   },
   {
     id: "mzsa-81775g-021",
@@ -545,7 +545,7 @@ const waterTrailers: Trailer[] = [
     features: ["Максимальная длина", "Сверхширокий", "Для яхт"],
     badge: "Премиум",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200",
+    image: "https://www.mzsa.ru/images/mini/i140140e5659690dc3239847f335115d4ef7b60.jpg",
     compatibility: ["boat"],
     maxVehicleLength: 5450,
     maxVehicleWidth: 2200,
@@ -563,7 +563,7 @@ const waterTrailers: Trailer[] = [
     features: ["1300 кг полная масса", "Усиленная конструкция", "Для тяжелых судов"],
     badge: "1300 кг",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i1401405b3cdddd998da52672bb28f8b55c77f5.jpg"
   },
   {
     id: "mzsa-817732-022",
@@ -576,7 +576,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "4633×1852×848",
     features: ["Две оси", "Тент АЭРО 150", "Плавный ход"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0324%20web_0.jpg.jpg"
   },
   {
     id: "mzsa-817735-022",
@@ -589,7 +589,7 @@ const waterTrailers: Trailer[] = [
     gabarity: "5194×1992×848",
     features: ["Две оси", "Тент АЭРО 150", "Максимальный объем"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-822221-102",
@@ -603,7 +603,7 @@ const waterTrailers: Trailer[] = [
     features: ["Для байдарок-восьмерок", "Специальная конструкция", "Профессиональный"],
     badge: "Спортивный",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140531d2838c49783225ba4ffcb30b135c5.jpg"
   }
 ];
 
@@ -619,7 +619,7 @@ const commercialTrailers: Trailer[] = [
     gabarity: "3903×1784×985",
     features: ["Компактный коммерческий", "До 750 кг", "Одна ось"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-817738-001",
@@ -632,7 +632,7 @@ const commercialTrailers: Trailer[] = [
     gabarity: "4633×1984×985",
     features: ["Удлиненный", "Увеличенная ширина", "Большой объем"],
     availability: "days_1_3",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-817739-001",
@@ -646,7 +646,7 @@ const commercialTrailers: Trailer[] = [
     features: ["Максимальные размеры", "Сверхширокий", "Для крупных грузов"],
     badge: "Макси",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-817740-251",
@@ -660,7 +660,7 @@ const commercialTrailers: Trailer[] = [
     features: ["Две оси", "2500 кг полная масса", "Усиленная рама"],
     badge: "2500 кг",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-817740-301",
@@ -674,7 +674,7 @@ const commercialTrailers: Trailer[] = [
     features: ["Две оси", "3000 кг полная масса", "Коммерческий класс"],
     badge: "3000 кг",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-817741-251",
@@ -687,7 +687,7 @@ const commercialTrailers: Trailer[] = [
     gabarity: "5608×2169×1169",
     features: ["Удлиненный", "Две оси", "2500 кг"],
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   },
   {
     id: "mzsa-817741-301",
@@ -701,7 +701,7 @@ const commercialTrailers: Trailer[] = [
     features: ["Удлиненный", "Две оси", "3000 кг", "Максимальная загрузка"],
     badge: "Макси 3т",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0449%20web.jpg.jpg"
   }
 ];
 
@@ -718,7 +718,7 @@ const wreckerTrailers: Trailer[] = [
     features: ["Платформа-эвакуатор", "2500 кг полная масса", "Лебедка в комплекте"],
     badge: "Эвакуатор",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_pricep-mzsa832132-211-01.jpg.jpg"
   },
   {
     id: "mzsa-m5220-270-101",
@@ -732,7 +732,7 @@ const wreckerTrailers: Trailer[] = [
     features: ["Удлиненная платформа", "3500 кг полная масса", "Для крупных авто"],
     badge: "3500 кг",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_pricep-mzsa832132-211-01.jpg.jpg"
   },
   {
     id: "mzsa-834020-251",
@@ -747,7 +747,7 @@ const wreckerTrailers: Trailer[] = [
     badge: "Низкорамный",
 
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_pricep-mzsa832132-211-01.jpg.jpg"
   },
   {
     id: "mzsa-835120-301",
@@ -761,7 +761,7 @@ const wreckerTrailers: Trailer[] = [
     features: ["Низкая рама", "Удлиненный", "3500 кг", "Для тяжелой техники"],
     badge: "Низкорамный 3.5т",
     availability: "days_7_14",
-    image: "/api/placeholder/300/200"
+    image: "https://www.mzsa.ru/images/mini/i140140small_pricep-mzsa832132-211-01.jpg.jpg"
   }
 ];
 

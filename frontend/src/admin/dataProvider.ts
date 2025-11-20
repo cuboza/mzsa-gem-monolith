@@ -134,10 +134,10 @@ export const dataProvider: DataProvider = {
     // Для простоты добавим в методах update через LocalStorageProvider расширение
     // Но правильнее расширить интерфейс. Пока оставим упрощенно:
     
-    if (resource === 'orders') await db.createOrder(newItem as Order);
-    else if (resource === 'trailers') await db.saveTrailer(newItem as Trailer);
+    if (resource === 'orders') await db.createOrder(newItem as unknown as Order);
+    else if (resource === 'trailers') await db.saveTrailer(newItem as unknown as Trailer);
     else if (resource === 'customers') await db.saveCustomer(newItem as unknown as Customer);
-    else if (resource === 'accessories') await db.saveAccessory(newItem as Accessory);
+    else if (resource === 'accessories') await db.saveAccessory(newItem as unknown as Accessory);
 
     return { data: newItem } as any;
   },

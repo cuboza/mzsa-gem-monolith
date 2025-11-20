@@ -32,6 +32,6 @@ export interface IDatabaseProvider {
   saveSettings(settings: Settings): Promise<Settings>;
   
   // Initialization
-  initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings): Promise<void>;
+  initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings, orders?: Order[]): Promise<void>;
 }
 

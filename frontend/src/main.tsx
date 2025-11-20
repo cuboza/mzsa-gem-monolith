@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { db } from './services/api'
-import { allTrailers, accessories, defaultSettings } from './data'
+import { allTrailers, accessories, defaultSettings, mockOrders } from './data'
 
 console.log('Starting app initialization...');
 
-const initPromise = db.initializeData(allTrailers, accessories, defaultSettings);
+const initPromise = db.initializeData(allTrailers, accessories, defaultSettings, mockOrders);
 const timeoutPromise = new Promise((_, reject) => 
   setTimeout(() => reject(new Error('Initialization timed out (3s)')), 3000)
 );

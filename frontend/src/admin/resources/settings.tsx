@@ -13,7 +13,7 @@ export const SettingsEdit = () => (
       
       <ArrayInput source="about.advantages" label="Преимущества">
         <SimpleFormIterator>
-          <TextInput label="Преимущество" fullWidth />
+          <TextInput source="" label="Преимущество" fullWidth />
         </SimpleFormIterator>
       </ArrayInput>
     </SimpleForm>

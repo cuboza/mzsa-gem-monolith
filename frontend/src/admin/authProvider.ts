@@ -3,7 +3,11 @@ import { AuthProvider } from 'react-admin';
 export const authProvider: AuthProvider = {
   login: ({ username, password }) => {
     if (username === 'admin' && password === 'admin123') {
-      localStorage.setItem('onr_admin_auth', 'true');
+      localStorage.setItem('onr_admin_auth', JSON.stringify({ role: 'admin', username }));
+      return Promise.resolve();
+    }
+    if (username === 'manager' && password === 'manager123') {
+      localStorage.setItem('onr_admin_auth', JSON.stringify({ role: 'manager', username }));
       return Promise.resolve();
     }
     return Promise.reject(new Error('Неверный логин или пароль'));
@@ -15,7 +19,7 @@ export const authProvider: AuthProvider = {
   },
   
   checkAuth: () => {
-    return localStorage.getItem('onr_admin_auth') === 'true'
+    return localStorage.getItem('onr_admin_auth')
       ? Promise.resolve()
       : Promise.reject();
   },
@@ -30,7 +34,13 @@ export const authProvider: AuthProvider = {
   },
   
   getPermissions: () => {
-    return Promise.resolve();
+    const auth = localStorage.getItem('onr_admin_auth');
+    if (auth) {
+      const { role } = JSON.parse(auth);
+      return Promise.resolve(role);
+    }
+    return Promise.reject();
   }
 };
+
 
