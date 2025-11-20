@@ -296,12 +296,39 @@ export const Configurator = () => {
                       }`}
                     >
                       {selectedTrailer?.id === trailer.id && (
-                        <div className="absolute -top-3 -right-3 bg-blue-600 text-white p-1 rounded-full">
+                        <div className="absolute -top-3 -right-3 bg-blue-600 text-white p-1 rounded-full z-10">
                           <CheckCircle size={20} />
                         </div>
                       )}
+                      
+                      <div className="aspect-video bg-gray-100 rounded-lg mb-3 overflow-hidden border border-gray-200">
+                        <img 
+                          src={trailer.image} 
+                          alt={trailer.model}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                          }}
+                        />
+                      </div>
+
                       <h3 className="font-bold mb-1">{trailer.model}</h3>
-                      <p className="text-sm text-gray-600 mb-3">{trailer.name}</p>
+                      <p className="text-sm text-gray-600 mb-2">{trailer.name}</p>
+                      
+                      {trailer.description ? (
+                        <p className="text-xs text-gray-500 mb-3 italic border-l-2 border-blue-200 pl-2">
+                          {trailer.description}
+                        </p>
+                      ) : (
+                        <p className="text-xs text-gray-500 mb-3 italic border-l-2 border-gray-200 pl-2">
+                           {trailer.category === 'general' && 'Универсальный прицеп для различных грузов'}
+                           {trailer.category === 'moto' && 'Для перевозки мототехники (снегоходы, квадроциклы, мотоциклы)'}
+                           {trailer.category === 'water' && 'Для перевозки водной техники'}
+                           {trailer.category === 'commercial' && 'Для коммерческих перевозок и тяжелых грузов'}
+                           {trailer.category === 'wrecker' && 'Для эвакуации автомобилей и спецтехники'}
+                        </p>
+                      )}
+
                       <div className="text-xs space-y-1 text-gray-500 mb-4">
                         <p>Кузов: {trailer.dimensions}</p>
                         <p>Г/п: {trailer.capacity} кг</p>
@@ -364,6 +391,19 @@ export const Configurator = () => {
                       }`}>
                         {isSelected && <Check size={14} />}
                       </div>
+                      
+                      {/* Фото аксессуара */}
+                      <div className="w-20 h-20 mr-4 flex-shrink-0 bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <img 
+                          src={acc.image} 
+                          alt={acc.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                          }}
+                        />
+                      </div>
+
                       <div className="flex-grow">
                         <h4 className="font-bold text-sm">{acc.name}</h4>
                         <p className="text-xs text-gray-500">{acc.description}</p>
@@ -422,8 +462,20 @@ export const Configurator = () => {
                     <div className="space-y-2 mb-4">
                       <div className="text-sm font-semibold text-gray-500">Дополнительно:</div>
                       {selectedAccessories.map(acc => (
-                        <div key={acc.id} className="flex justify-between text-sm pl-2 border-l-2 border-orange-200">
-                          <span>{acc.name}</span>
+                        <div key={acc.id} className="flex justify-between items-center text-sm pl-2 border-l-2 border-orange-200">
+                          <div className="flex items-center gap-2">
+                             <div className="w-8 h-8 bg-gray-100 rounded overflow-hidden flex-shrink-0 border border-gray-200">
+                                <img 
+                                  src={acc.image} 
+                                  alt={acc.name}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                                  }}
+                                />
+                             </div>
+                             <span>{acc.name}</span>
+                          </div>
                           <span>{formatPrice(acc.price)} ₽</span>
                         </div>
                       ))}

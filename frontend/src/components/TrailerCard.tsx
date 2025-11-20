@@ -17,9 +17,27 @@ export const TrailerCard = ({ trailer, onOrder }: TrailerCardProps) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full group">
       {/* Изображение */}
-      <div className="relative h-48 bg-gray-100 overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center text-gray-400 bg-gray-200">
-          {/* Placeholder, т.к. реальных картинок нет */}
+      <div className="relative h-48 bg-gray-100 overflow-hidden group-hover:opacity-95 transition-opacity">
+        {trailer.image ? (
+          <img 
+            src={trailer.image} 
+            alt={trailer.model} 
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              // Try a placeholder if the main image fails (e.g. hotlinking protection)
+              if (!target.src.includes('placehold.co')) {
+                target.src = `https://placehold.co/600x400?text=${encodeURIComponent(trailer.model)}`;
+              } else {
+                // If placeholder also fails, hide image and show icon
+                target.style.display = 'none';
+                target.nextElementSibling?.classList.remove('hidden');
+              }
+            }}
+          />
+        ) : null}
+        
+        <div className={`absolute inset-0 flex items-center justify-center text-gray-400 bg-gray-200 ${trailer.image ? 'hidden' : ''}`}>
           <Truck size={48} className="opacity-50" />
         </div>
         

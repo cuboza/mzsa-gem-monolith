@@ -23,8 +23,22 @@ export class LocalStorageProvider implements IDatabaseProvider {
 
   // --- Trailers ---
 
-  async getTrailers(): Promise<Trailer[]> {
-    return this.get<Trailer>(STORAGE_KEYS.TRAILERS);
+  async getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
+    let trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
+    
+    if (params?.category && params.category !== 'all') {
+      trailers = trailers.filter(t => t.category === params.category);
+    }
+    
+    if (params?.q) {
+      const q = params.q.toLowerCase();
+      trailers = trailers.filter(t => 
+        t.model.toLowerCase().includes(q) || 
+        t.name.toLowerCase().includes(q)
+      );
+    }
+    
+    return trailers;
   }
 
   async getTrailer(id: string): Promise<Trailer | null> {

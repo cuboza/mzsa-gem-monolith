@@ -152,16 +152,40 @@ export const TrackOrder = () => {
                 
                 <div className="space-y-4">
                   <div className="flex justify-between items-start pb-4 border-b border-dashed">
-                    <div>
-                      <div className="font-bold">{order.configuration.trailer.model}</div>
-                      <div className="text-sm text-gray-500">{order.configuration.trailer.name}</div>
+                    <div className="flex gap-3">
+                      <div className="w-16 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0 border border-gray-200">
+                        <img 
+                          src={order.configuration.trailer.image} 
+                          alt={order.configuration.trailer.model}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <div className="font-bold">{order.configuration.trailer.model}</div>
+                        <div className="text-sm text-gray-500">{order.configuration.trailer.name}</div>
+                      </div>
                     </div>
                     <div className="font-bold">{formatPrice(order.configuration.trailer.price)} ₽</div>
                   </div>
 
                   {order.configuration.accessories.map(acc => (
-                    <div key={acc.id} className="flex justify-between items-start text-sm">
-                      <span className="text-gray-600">{acc.name}</span>
+                    <div key={acc.id} className="flex justify-between items-center text-sm">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gray-100 rounded overflow-hidden flex-shrink-0 border border-gray-200">
+                          <img 
+                            src={acc.image} 
+                            alt={acc.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                            }}
+                          />
+                        </div>
+                        <span className="text-gray-600">{acc.name}</span>
+                      </div>
                       <span className="font-medium">{formatPrice(acc.price)} ₽</span>
                     </div>
                   ))}

@@ -2,7 +2,7 @@ import { Trailer, Order, Customer, Settings, Accessory } from '../../types';
 
 export interface IDatabaseProvider {
   // Trailers
-  getTrailers(): Promise<Trailer[]>;
+  getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]>;
   getTrailer(id: string): Promise<Trailer | null>;
   saveTrailer(trailer: Trailer): Promise<Trailer>;
   deleteTrailer(id: string): Promise<void>;

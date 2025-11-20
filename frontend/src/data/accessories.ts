@@ -47,7 +47,7 @@ export const accessories: Accessory[] = [
     price: 1200,
     category: "safety",
     required: true,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Упоры",
     description: "2 шт. в комплекте",
     compatibleWith: ["all"]
   },
@@ -57,7 +57,7 @@ export const accessories: Accessory[] = [
     price: 4500,
     category: "guides",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Направляющие",
     description: "Специальные полозья",
     compatibleWith: ["snowmobile"]
   },
@@ -67,7 +67,7 @@ export const accessories: Accessory[] = [
     price: 6000,
     category: "boat_support",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Ложементы",
     description: "Мягкие опоры для корпуса",
     compatibleWith: ["boat"]
   },
@@ -77,7 +77,7 @@ export const accessories: Accessory[] = [
     price: 2500,
     category: "boat_support",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Ролик",
     description: "Защита киля при загрузке",
     compatibleWith: ["boat"]
   },
@@ -97,7 +97,7 @@ export const accessories: Accessory[] = [
     price: 1800,
     category: "guides",
     required: false,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Упор+колеса",
     description: "Фиксатор для мотоциклов",
     compatibleWith: ["atv", "motorcycle"]
   },
@@ -107,7 +107,7 @@ export const accessories: Accessory[] = [
     price: 800,
     category: "support",
     required: true,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Штекер",
     description: "Для подключения электропроводки",
     compatibleWith: ["all"]
   },
@@ -117,7 +117,7 @@ export const accessories: Accessory[] = [
     price: 1500,
     category: "safety",
     required: true,
-    image: "/api/placeholder/120/80",
+    image: "https://placehold.co/300x200?text=Цепи",
     description: "Для безопасности сцепки",
     compatibleWith: ["all"]
   }
