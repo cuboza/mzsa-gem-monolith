@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 interface TrailerCardProps {
   trailer: Trailer;
   onOrder?: (trailer: Trailer) => void;
+  onClick?: (trailer: Trailer) => void;
 }
 
-export const TrailerCard = ({ trailer, onOrder }: TrailerCardProps) => {
+export const TrailerCard = ({ trailer, onOrder, onClick }: TrailerCardProps) => {
   const navigate = useNavigate();
 
   const formatPrice = (price: number) => {
@@ -15,7 +16,10 @@ export const TrailerCard = ({ trailer, onOrder }: TrailerCardProps) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full group">
+    <div 
+      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full group cursor-pointer"
+      onClick={() => onClick?.(trailer)}
+    >
       {/* Изображение */}
       <div className="relative h-48 bg-gray-100 overflow-hidden group-hover:opacity-95 transition-opacity">
         {trailer.image ? (
@@ -123,13 +127,19 @@ export const TrailerCard = ({ trailer, onOrder }: TrailerCardProps) => {
 
           <div className="grid grid-cols-2 gap-2">
             <button 
-              onClick={() => navigate('/configurator', { state: { trailer } })}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/configurator', { state: { trailer } });
+              }}
               className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg font-semibold text-sm transition-colors"
             >
               Конфигуратор
             </button>
             <button 
-              onClick={() => onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } })}
+              onClick={(e) => {
+                e.stopPropagation();
+                onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } });
+              }}
               className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
             >
               Заказать

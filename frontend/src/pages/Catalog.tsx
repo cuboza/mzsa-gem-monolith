@@ -5,11 +5,13 @@ import { TrailerCard } from '../components/TrailerCard';
 import { SkeletonTrailerCard } from '../components/SkeletonTrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
 import { CatalogSearch } from '../components/CatalogSearch';
+import { TrailerDetailsModal } from '../components/TrailerDetailsModal';
 import { useSearchParams } from 'react-router-dom';
 
 export const Catalog = () => {
   const [trailers, setTrailers] = useState<Trailer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedTrailer, setSelectedTrailer] = useState<Trailer | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Фильтры
@@ -158,6 +160,7 @@ export const Catalog = () => {
               <TrailerCard 
                 key={trailer.id} 
                 trailer={trailer} 
+                onClick={setSelectedTrailer}
               />
             ))}
           </div>
@@ -179,6 +182,13 @@ export const Catalog = () => {
           </div>
         )}
       </div>
+
+      {selectedTrailer && (
+        <TrailerDetailsModal 
+          trailer={selectedTrailer} 
+          onClose={() => setSelectedTrailer(null)} 
+        />
+      )}
     </div>
   );
 };

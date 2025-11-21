@@ -24,6 +24,9 @@ export interface Trailer {
     axles: number;
   };
 
+  suspension?: string;
+  brakes?: string;
+
   // Для конфигуратора
   compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle')[];
   maxVehicleLength?: number; // мм

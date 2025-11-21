@@ -24,7 +24,7 @@ export const mockOrders: Order[] = [
         capacity: 550,
         features: ["Оцинкованная рама"],
         availability: "in_stock",
-        image: "https://www.mzsa.ru/images/mini/i140140small_IMGP0377%20web.jpg.jpg"
+        image: "https://www.mzsa.ru/images/big/IMGP0377%20web.jpg.jpg"
       },
       accessories: [
         {
@@ -99,7 +99,7 @@ export const mockOrders: Order[] = [
         price: 102000,
         category: "commercial",
         capacity: 490,
-        image: "https://www.mzsa.ru/images/mini/i140140small_817717022web.jpg.jpg",
+          image: "https://www.mzsa.ru/images/big/817717022web.jpg.jpg",
         specs: {
           dimensions: "4791x1992x848 мм",
           capacity: "490 кг",

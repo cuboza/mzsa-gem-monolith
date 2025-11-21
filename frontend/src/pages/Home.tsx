@@ -7,23 +7,23 @@ export const Home = () => {
   const advantages = [
     {
       icon: <Award className="w-8 h-8 text-white" />,
-      title: "Лидер отрасли",
-      desc: "ТОП-10 в Европе"
+      title: "Партнер завода",
+      desc: "15 лет"
     },
     {
-      icon: <CheckCircle className="w-8 h-8 text-white" />,
+      icon: <MapPin className="w-8 h-8 text-white" />,
       title: "В наличии",
-      desc: "Склад в Сургуте"
-    },
-    {
-      icon: <Truck className="w-8 h-8 text-white" />,
-      title: "Доставка",
-      desc: "По ХМАО и ЯНАО"
+      desc: "В 4-х городах"
     },
     {
       icon: <Shield className="w-8 h-8 text-white" />,
-      title: "Гарантия",
+      title: "Гарантия 1 год",
       desc: "От производителя"
+    },
+    {
+      icon: <Settings className="w-8 h-8 text-white" />,
+      title: "Аксессуары",
+      desc: "Выбор опций"
     }
   ];
 

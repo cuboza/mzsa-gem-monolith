@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Options",
+  "description": "List of additional options for the product",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the option"
+      },
+      "sku": {
+        "type": "string",
+        "description": "SKU number of the option"
+      },
+      "price": {
+        "type": "integer",
+        "description": "Price of the option in RUB"
+      },
+      "image": {
+        "type": "string",
+        "description": "Local file path to the option image"
+      }
+    },
+    "required": ["name"]
+  }
+}
