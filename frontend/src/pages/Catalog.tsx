@@ -26,6 +26,7 @@ export const Catalog = () => {
   const [priceRange, setPriceRange] = useState<'all' | 'low' | 'mid' | 'high'>((searchParams.get('price') as any) || 'all');
   const [axles, setAxles] = useState(searchParams.get('axles') || 'all');
   const [brakes, setBrakes] = useState(searchParams.get('brakes') || 'all');
+  const [sortOption, setSortOption] = useState(searchParams.get('sort') || 'price_asc');
 
   // Sync local state with URL param
   useEffect(() => {
@@ -42,6 +43,25 @@ export const Catalog = () => {
       }
       return prev;
     });
+  };
+
+  const parseDimensions = (dimStr?: string) => {
+    if (!dimStr) return { length: 0, width: 0, height: 0 };
+    const match = dimStr.match(/(\d+)[xх](\d+)[xх](\d+)/);
+    if (match) {
+      return {
+        length: parseInt(match[1]),
+        width: parseInt(match[2]),
+        height: parseInt(match[3])
+      };
+    }
+    return { length: 0, width: 0, height: 0 };
+  };
+
+  const parseBoatLength = (dimStr?: string) => {
+    if (!dimStr) return 0;
+    const match = dimStr.match(/(\d+)/);
+    return match ? parseInt(match[1]) : 0;
   };
 
   useEffect(() => {
@@ -62,9 +82,9 @@ export const Catalog = () => {
     loadTrailers();
   }, [activeCategory, queryParam]);
 
-  // Client-side filtering
+  // Client-side filtering and sorting
   const filteredTrailers = useMemo(() => {
-    return trailers.filter(trailer => {
+    let result = trailers.filter(trailer => {
       // 1. Наличие
       if (onlyInStock && trailer.availability !== 'in_stock') return false;
 
@@ -92,7 +112,45 @@ export const Catalog = () => {
 
       return true;
     });
-  }, [trailers, onlyInStock, priceRange, axles, brakes]);
+
+    // Sorting
+    result.sort((a, b) => {
+      switch (sortOption) {
+        case 'price_asc':
+          return a.price - b.price;
+        case 'price_desc':
+          return b.price - a.price;
+        case 'availability':
+          const availOrder = { 'in_stock': 0, 'days_1_3': 1, 'days_7_14': 2 };
+          return (availOrder[a.availability] || 3) - (availOrder[b.availability] || 3);
+        case 'axles_asc':
+          return (a.specs?.axles || 0) - (b.specs?.axles || 0);
+        case 'axles_desc':
+          return (b.specs?.axles || 0) - (a.specs?.axles || 0);
+        case 'brakes':
+           // Sort by weight as proxy for brakes/complexity
+           const wA = parseInt((a.specs?.weight || '0').replace(/\D/g, ''));
+           const wB = parseInt((b.specs?.weight || '0').replace(/\D/g, ''));
+           return wB - wA;
+        case 'length_desc':
+          return parseDimensions(b.dimensions).length - parseDimensions(a.dimensions).length;
+        case 'area_desc':
+          const dimA = parseDimensions(a.dimensions);
+          const dimB = parseDimensions(b.dimensions);
+          return (dimB.length * dimB.width) - (dimA.length * dimA.width);
+        case 'volume_desc':
+          const volA = parseDimensions(a.dimensions);
+          const volB = parseDimensions(b.dimensions);
+          return (volB.length * volB.width * volB.height) - (volA.length * volA.width * volA.height);
+        case 'boat_length_desc':
+          return parseBoatLength(b.bodyDimensions) - parseBoatLength(a.bodyDimensions);
+        default:
+          return 0;
+      }
+    });
+
+    return result;
+  }, [trailers, onlyInStock, priceRange, axles, brakes, sortOption]);
 
   const handleCategoryChange = (id: string) => {
     setSearchParams(prev => {
@@ -136,6 +194,9 @@ export const Catalog = () => {
               brakes={brakes}
               onBrakesChange={(val) => { setBrakes(val); updateFilters('brakes', val); }}
               
+              sortOption={sortOption}
+              onSortChange={(val) => { setSortOption(val); updateFilters('sort', val); }}
+
               totalCount={filteredTrailers.length}
             />
             

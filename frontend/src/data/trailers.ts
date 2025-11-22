@@ -9,6 +9,7 @@ export const allTrailers: Trailer[] = [
     "price": 58800,
     "capacity": 616,
     "dimensions": "2050x1100x300 мм",
+    "boardHeight": 300,
     "gabarity": "2945x1550x775 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры.\n\nУстойчиво к износу и воздействию влаги.",
@@ -33,7 +34,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2050x1100x300 мм",
       "capacity": "616 кг",
       "weight": "134 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 300
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -46,6 +48,7 @@ export const allTrailers: Trailer[] = [
     "price": 74700,
     "capacity": 550,
     "dimensions": "2453x1231x290 мм",
+    "boardHeight": 290,
     "gabarity": "3777x1712x848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -67,7 +70,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x290 мм",
       "capacity": "550 кг",
       "weight": "200 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -80,6 +84,7 @@ export const allTrailers: Trailer[] = [
     "price": 78300,
     "capacity": 535,
     "dimensions": "2453x1231x470 мм",
+    "boardHeight": 470,
     "gabarity": "3777x1712x1028 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
@@ -101,7 +106,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x470 мм",
       "capacity": "535 кг",
       "weight": "215 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 470
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -114,6 +120,7 @@ export const allTrailers: Trailer[] = [
     "price": 116700,
     "capacity": 481,
     "dimensions": "2453x1231x470 мм",
+    "boardHeight": 470,
     "gabarity": "3777x1803x1102 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -134,7 +141,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x470 мм",
       "capacity": "481 кг",
       "weight": "269 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 470
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -147,6 +155,7 @@ export const allTrailers: Trailer[] = [
     "price": 83400,
     "capacity": 528,
     "dimensions": "2435x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "3777x1992x848 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
@@ -168,7 +177,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2435x1511x290 мм",
       "capacity": "528 кг",
       "weight": "222 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -181,6 +191,7 @@ export const allTrailers: Trailer[] = [
     "price": 89400,
     "capacity": 507,
     "dimensions": "2735x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "4077x1992x848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -203,7 +214,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2735x1511x290 мм",
       "capacity": "507 кг",
       "weight": "243 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -216,6 +228,7 @@ export const allTrailers: Trailer[] = [
     "price": 81900,
     "capacity": 537,
     "dimensions": "2435x1371x290 мм",
+    "boardHeight": 290,
     "gabarity": "3777x1852x848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -237,7 +250,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2435x1371x290 мм",
       "capacity": "537 кг",
       "weight": "213 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -250,6 +264,7 @@ export const allTrailers: Trailer[] = [
     "price": 86400,
     "capacity": 518,
     "dimensions": "2435х1371х470 мм",
+    "boardHeight": 0,
     "gabarity": "3777х1852х1028 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
@@ -269,7 +284,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2435х1371х470 мм",
       "capacity": "518 кг",
       "weight": "232 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -282,6 +298,7 @@ export const allTrailers: Trailer[] = [
     "price": 89800,
     "capacity": 516,
     "dimensions": "2735x1371x290 мм",
+    "boardHeight": 290,
     "gabarity": "4077x1852x848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -303,7 +320,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2735x1371x290 мм",
       "capacity": "516 кг",
       "weight": "234 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -316,6 +334,7 @@ export const allTrailers: Trailer[] = [
     "price": 69600,
     "capacity": 565,
     "dimensions": "1853x1231x290 мм",
+    "boardHeight": 290,
     "gabarity": "3177х1712х848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -336,7 +355,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "1853x1231x290 мм",
       "capacity": "565 кг",
       "weight": "185 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -349,6 +369,7 @@ export const allTrailers: Trailer[] = [
     "price": 75600,
     "capacity": 553,
     "dimensions": "1853x1231x470 мм",
+    "boardHeight": 470,
     "gabarity": "3177х1712x1028 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
@@ -368,7 +389,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "1853x1231x470 мм",
       "capacity": "553 кг",
       "weight": "197 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 470
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -381,6 +403,7 @@ export const allTrailers: Trailer[] = [
     "price": 114000,
     "capacity": 500,
     "dimensions": "1853x1231x470 мм",
+    "boardHeight": 470,
     "gabarity": "3177х1803х1102 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -402,7 +425,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "1853x1231x470 мм",
       "capacity": "500 кг",
       "weight": "250 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 470
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -415,6 +439,7 @@ export const allTrailers: Trailer[] = [
     "price": 92200,
     "capacity": 510,
     "dimensions": "3009x1371x290 мм",
+    "boardHeight": 290,
     "gabarity": "4351x1852x848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -437,7 +462,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1371x290 мм",
       "capacity": "510 кг",
       "weight": "240 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -450,6 +476,7 @@ export const allTrailers: Trailer[] = [
     "price": 127200,
     "capacity": 456,
     "dimensions": "3009x1371x290 мм",
+    "boardHeight": 290,
     "gabarity": "4351x1943x922 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -471,7 +498,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1371x290 мм",
       "capacity": "456 кг",
       "weight": "294 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -484,6 +512,7 @@ export const allTrailers: Trailer[] = [
     "price": 92900,
     "capacity": 501,
     "dimensions": "3009x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "4351x1992x848 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -505,7 +534,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1511x290 мм",
       "capacity": "501 кг",
       "weight": "249 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -518,6 +548,7 @@ export const allTrailers: Trailer[] = [
     "price": 102000,
     "capacity": 490,
     "dimensions": "3449x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "4791x1992x848 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
@@ -539,7 +570,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1511x290 мм",
       "capacity": "490 кг",
       "weight": "260 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -552,6 +584,7 @@ export const allTrailers: Trailer[] = [
     "price": 138800,
     "capacity": 428,
     "dimensions": "3449x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "4791x2083x922 мм",
     "features": [
       "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
@@ -573,7 +606,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1511x290 мм",
       "capacity": "428 кг",
       "weight": "322 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -586,6 +620,7 @@ export const allTrailers: Trailer[] = [
     "price": 146400,
     "capacity": 376,
     "dimensions": "3449x1951x290 мм",
+    "boardHeight": 290,
     "gabarity": "4848x2437x890 мм",
     "features": [
       "Откидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов.",
@@ -605,7 +640,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1951x290 мм",
       "capacity": "376 кг",
       "weight": "374 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -618,6 +654,7 @@ export const allTrailers: Trailer[] = [
     "price": 174000,
     "capacity": 344,
     "dimensions": "3449х1951х290 мм",
+    "boardHeight": 0,
     "gabarity": "4848х2523х952 мм",
     "features": [
       "Откидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов.",
@@ -639,7 +676,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449х1951х290 мм",
       "capacity": "344 кг",
       "weight": "406 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -652,6 +690,7 @@ export const allTrailers: Trailer[] = [
     "price": 141600,
     "capacity": 391,
     "dimensions": "3449x1811x290 мм",
+    "boardHeight": 290,
     "gabarity": "4848x2297x890 мм",
     "features": [
       "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
@@ -671,7 +710,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1811x290 мм",
       "capacity": "391 кг",
       "weight": "359 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -684,6 +724,7 @@ export const allTrailers: Trailer[] = [
     "price": 115000,
     "capacity": 484,
     "dimensions": "2453x1231x290 мм",
+    "boardHeight": 290,
     "gabarity": "3777x1712x848 мм",
     "features": [
       "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
@@ -705,7 +746,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x290 мм",
       "capacity": "484 кг",
       "weight": "266 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -718,6 +760,7 @@ export const allTrailers: Trailer[] = [
     "price": 124800,
     "capacity": 439,
     "dimensions": "3009x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "4351x1992x848 мм",
     "features": [
       "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
@@ -740,7 +783,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1511x290 мм",
       "capacity": "439 кг",
       "weight": "311 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -753,6 +797,7 @@ export const allTrailers: Trailer[] = [
     "price": 130400,
     "capacity": 422,
     "dimensions": "3449x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "4791x1992x848 мм",
     "features": [
       "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
@@ -775,7 +820,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1511x290 мм",
       "capacity": "422 кг",
       "weight": "328 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -788,6 +834,7 @@ export const allTrailers: Trailer[] = [
     "price": 119600,
     "capacity": 456,
     "dimensions": "2735x1371x290 мм",
+    "boardHeight": 290,
     "gabarity": "4077x1852x848 мм",
     "features": [
       "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
@@ -811,7 +858,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2735x1371x290 мм",
       "capacity": "456 кг",
       "weight": "294 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -824,6 +872,7 @@ export const allTrailers: Trailer[] = [
     "price": 172800,
     "capacity": 345,
     "dimensions": "4587x1511x290 мм",
+    "boardHeight": 290,
     "gabarity": "5986x1992x908 мм",
     "features": [
       "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
@@ -845,7 +894,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "4587x1511x290 мм",
       "capacity": "345 кг",
       "weight": "405 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -858,6 +908,7 @@ export const allTrailers: Trailer[] = [
     "price": 163200,
     "capacity": 340,
     "dimensions": "3449x1951x290 мм",
+    "boardHeight": 290,
     "gabarity": "4848x2427x878 мм",
     "features": [
       "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
@@ -879,7 +930,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1951x290 мм",
       "capacity": "340 кг",
       "weight": "410 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 290
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы"
@@ -892,6 +944,7 @@ export const allTrailers: Trailer[] = [
     "price": 86300,
     "capacity": 583,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "3976х1625х1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -914,7 +967,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "583 кг",
       "weight": "167 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -928,6 +982,7 @@ export const allTrailers: Trailer[] = [
     "price": 94400,
     "capacity": 587,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "3976х1625х1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -949,7 +1004,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "587 кг",
       "weight": "163 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -963,6 +1019,7 @@ export const allTrailers: Trailer[] = [
     "price": 87800,
     "capacity": 574,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "4476х1625х1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -985,7 +1042,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "574 кг",
       "weight": "176 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -999,6 +1057,7 @@ export const allTrailers: Trailer[] = [
     "price": 95800,
     "capacity": 582,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "4476х1625х1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1020,7 +1079,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "582 кг",
       "weight": "168 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1034,6 +1094,7 @@ export const allTrailers: Trailer[] = [
     "price": 88700,
     "capacity": 563,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "4976x1965x1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1056,7 +1117,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "563 кг",
       "weight": "187 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1070,6 +1132,7 @@ export const allTrailers: Trailer[] = [
     "price": 96600,
     "capacity": 571,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "4976x1965x1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1091,7 +1154,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "571 кг",
       "weight": "179 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1105,6 +1169,7 @@ export const allTrailers: Trailer[] = [
     "price": 90000,
     "capacity": 554,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5476x1965x1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1127,7 +1192,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "554 кг",
       "weight": "196 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1141,6 +1207,7 @@ export const allTrailers: Trailer[] = [
     "price": 98100,
     "capacity": 550,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5476x1965x1163 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1162,7 +1229,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "550 кг",
       "weight": "200 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1176,6 +1244,7 @@ export const allTrailers: Trailer[] = [
     "price": 131100,
     "capacity": 490,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5474х2240х1199 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1198,7 +1267,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "490 кг",
       "weight": "260 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1212,6 +1282,7 @@ export const allTrailers: Trailer[] = [
     "price": 143800,
     "capacity": 488,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5474х2240х1199 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1233,7 +1304,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "488 кг",
       "weight": "262 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1247,6 +1319,7 @@ export const allTrailers: Trailer[] = [
     "price": 134000,
     "capacity": 480,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5974х2240х1199 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1269,7 +1342,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "480 кг",
       "weight": "270 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1283,6 +1357,7 @@ export const allTrailers: Trailer[] = [
     "price": 146800,
     "capacity": 481,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5974х2240х1199 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1304,7 +1379,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "481 кг",
       "weight": "269 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1318,6 +1394,7 @@ export const allTrailers: Trailer[] = [
     "price": 65300,
     "capacity": 366,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "4460х1550х1079 мм",
     "features": [
       "Рессорная подвеска (2 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
@@ -1337,7 +1414,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "366 кг",
       "weight": "134 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1351,6 +1429,7 @@ export const allTrailers: Trailer[] = [
     "price": 69800,
     "capacity": 367,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "4290х1550х1095 мм",
     "features": [
       "Рессорная подвеска (2 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
@@ -1370,7 +1449,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "367 кг",
       "weight": "133 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1384,6 +1464,7 @@ export const allTrailers: Trailer[] = [
     "price": 85000,
     "capacity": 590,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "3476х1625х942 мм",
     "features": [
       "Передвижные петли крепления груза (2 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1405,7 +1486,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "590 кг",
       "weight": "160 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1419,6 +1501,7 @@ export const allTrailers: Trailer[] = [
     "price": 179700,
     "capacity": 438,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5024x2240x1139 мм",
     "features": [
       "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1439,7 +1522,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "438 кг",
       "weight": "312 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1453,6 +1537,7 @@ export const allTrailers: Trailer[] = [
     "price": 142700,
     "capacity": 450,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5474х2175х1187 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1474,7 +1559,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "450 кг",
       "weight": "300 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1488,6 +1574,7 @@ export const allTrailers: Trailer[] = [
     "price": 155800,
     "capacity": 449,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5474х2175х1187 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1509,7 +1596,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "449 кг",
       "weight": "301 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1523,6 +1611,7 @@ export const allTrailers: Trailer[] = [
     "price": 151000,
     "capacity": 440,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5974х2175х1187 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1544,7 +1633,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "440 кг",
       "weight": "310 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1558,6 +1648,7 @@ export const allTrailers: Trailer[] = [
     "price": 159900,
     "capacity": 442,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5974х2175х1187 мм",
     "features": [
       "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
@@ -1579,7 +1670,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "442 кг",
       "weight": "308 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
@@ -1593,6 +1685,7 @@ export const allTrailers: Trailer[] = [
     "price": 690500,
     "capacity": 2294,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "10139x2410x1595 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1613,7 +1706,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "2294 кг",
       "weight": "1206 кг",
-      "axles": 1
+      "axles": 1,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1627,6 +1721,7 @@ export const allTrailers: Trailer[] = [
     "price": 262000,
     "capacity": 1224,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "6490x2240x1322 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1647,7 +1742,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1224 кг",
       "weight": "376 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1661,6 +1757,7 @@ export const allTrailers: Trailer[] = [
     "price": 254800,
     "capacity": 966,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5980x2240x1321 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1680,7 +1777,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "966 кг",
       "weight": "334 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1694,6 +1792,7 @@ export const allTrailers: Trailer[] = [
     "price": 531900,
     "capacity": 2572,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "9139x2410x1326 мм",
     "features": [
       "В базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.)."
@@ -1713,7 +1812,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "2572 кг",
       "weight": "928 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорно-балансирная",
     "brakes": "тормоз наката",
@@ -1727,6 +1827,7 @@ export const allTrailers: Trailer[] = [
     "price": 337500,
     "capacity": 1142,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "6480x2240x1282 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1747,7 +1848,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1142 кг",
       "weight": "458 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1761,6 +1863,7 @@ export const allTrailers: Trailer[] = [
     "price": 423400,
     "capacity": 2314,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "7974x2240x1294 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1780,7 +1883,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "2314 кг",
       "weight": "686 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1794,6 +1898,7 @@ export const allTrailers: Trailer[] = [
     "price": 357300,
     "capacity": 1486,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "6978x2240x1476 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1814,7 +1919,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1486 кг",
       "weight": "514 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1828,6 +1934,7 @@ export const allTrailers: Trailer[] = [
     "price": 516000,
     "capacity": 2618,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "8139x2410x1326 мм",
     "features": [
       "В базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.)."
@@ -1847,7 +1954,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "2618 кг",
       "weight": "882 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1861,6 +1969,7 @@ export const allTrailers: Trailer[] = [
     "price": 397000,
     "capacity": 1960,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "6974x2240x1511 мм",
     "features": [
       "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1881,7 +1990,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1960 кг",
       "weight": "540 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
@@ -1895,6 +2005,7 @@ export const allTrailers: Trailer[] = [
     "price": 0,
     "capacity": 1100,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "8150x2300x2650 мм",
     "features": [],
     "availability": "in_stock",
@@ -1910,7 +2021,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1100 кг",
       "weight": "0 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "резино-жгутовая",
     "brakes": "тормоз наката",
@@ -1924,6 +2036,7 @@ export const allTrailers: Trailer[] = [
     "price": 0,
     "capacity": 1340,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "11567х2400х2780 мм",
     "features": [],
     "availability": "in_stock",
@@ -1941,7 +2054,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1340 кг",
       "weight": "0 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "резино-жгутовая",
     "brakes": "тормоз наката",
@@ -1955,6 +2069,7 @@ export const allTrailers: Trailer[] = [
     "price": 276600,
     "capacity": 938,
     "dimensions": "",
+    "boardHeight": 0,
     "gabarity": "5370х2410х1170 мм",
     "features": [
       "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
@@ -1975,7 +2090,8 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "938 кг",
       "weight": "362 кг",
-      "axles": 2
+      "axles": 2,
+      "boardHeight": 0
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",

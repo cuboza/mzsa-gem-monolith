@@ -89,25 +89,42 @@ export const TrailerCard = ({ trailer, onOrder, onClick }: TrailerCardProps) => 
               <span className="text-gray-500">Г/п:</span>
               <span className="font-semibold text-gray-900">{trailer.capacity} кг</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">Кузов:</span>
-              <span className="font-semibold text-gray-900">{trailer.dimensions}</span>
-            </div>
+            {trailer.dimensions && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Размеры кузова:</span>
+                <span className="font-semibold text-gray-900">{trailer.dimensions}</span>
+              </div>
+            )}
+            {trailer.boardHeight && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Высота борта:</span>
+                <span className="font-semibold text-gray-900">{trailer.boardHeight} мм</span>
+              </div>
+            )}
+            {trailer.gabarity && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Габариты:</span>
+                <span className="font-semibold text-gray-900">{trailer.gabarity}</span>
+              </div>
+            )}
             {trailer.bodyDimensions && (
               <div className="flex justify-between">
-                <span className="text-gray-500">Судно:</span>
+                <span className="text-gray-500">Длина судна:</span>
                 <span className="font-semibold text-gray-900">{trailer.bodyDimensions}</span>
               </div>
             )}
-          </div>
-
-          {/* Теги */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {trailer.features.slice(0, 3).map((feature, idx) => (
-              <span key={idx} className="bg-blue-50 text-blue-700 text-[10px] px-2 py-1 rounded border border-blue-100">
-                {feature}
-              </span>
-            ))}
+            {trailer.suspension && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Подвеска:</span>
+                <span className="font-semibold text-gray-900">{trailer.suspension}</span>
+              </div>
+            )}
+            {trailer.brakes && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Тормоза:</span>
+                <span className="font-semibold text-gray-900">{trailer.brakes}</span>
+              </div>
+            )}
           </div>
         </div>
 

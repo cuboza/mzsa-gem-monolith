@@ -8,6 +8,7 @@ export interface Trailer {
   price: number;
   capacity: number; // грузоподъемность, кг
   dimensions?: string; // "2050×1100×300" (ДxШxВ кузова)
+  boardHeight?: number; // высота борта, мм
   bodyDimensions?: string; // для лодочных: макс. длина судна
   gabarity?: string; // габаритные размеры
   features: string[]; // особенности
@@ -23,6 +24,7 @@ export interface Trailer {
     capacity: string;
     weight: string;
     axles: number;
+    boardHeight?: number;
   };
 
   suspension?: string;

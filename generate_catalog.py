@@ -107,6 +107,7 @@ for category in os.listdir(OUTPUT_DIR):
             "price": data.get("price", 0),
             "capacity": specs.get("gruzopodemnost", 0),
             "dimensions": specs.get("razmery_kuzova", ""),
+            "boardHeight": specs.get("razmery_kuzova_height", 0),
             "gabarity": specs.get("gabaritnye_razmery", ""),
             "features": get_features(data.get("description", "")),
             "availability": "in_stock",
@@ -117,7 +118,8 @@ for category in os.listdir(OUTPUT_DIR):
                 "dimensions": specs.get("razmery_kuzova", ""),
                 "capacity": f"{specs.get('gruzopodemnost', 0)} кг",
                 "weight": f"{specs.get('snaryazhyonnaya_massa', 0)} кг",
-                "axles": parse_axles(specs)
+                "axles": parse_axles(specs),
+                "boardHeight": specs.get("razmery_kuzova_height", 0)
             },
             "suspension": specs.get("podveska", "Рессорная"),
             "brakes": specs.get("tormoz", "Нет")

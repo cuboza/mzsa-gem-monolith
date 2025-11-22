@@ -13,6 +13,8 @@ interface CatalogFiltersProps {
   onAxlesChange: (val: string) => void;
   brakes: string;
   onBrakesChange: (val: string) => void;
+  sortOption: string;
+  onSortChange: (val: string) => void;
   totalCount: number;
 }
 
@@ -29,6 +31,8 @@ export const CatalogFilters = ({
   onAxlesChange,
   brakes,
   onBrakesChange,
+  sortOption,
+  onSortChange,
   totalCount
 }: CatalogFiltersProps) => {
   const categories = [
@@ -90,6 +94,27 @@ export const CatalogFilters = ({
       {/* Расширенные фильтры */}
       {(showFilters || window.innerWidth >= 768) && (
         <div className={`md:flex gap-6 items-center pt-4 border-t ${showFilters ? 'block' : 'hidden md:flex'}`}>
+          {/* Сортировка */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-700">Сортировка:</span>
+            <select 
+              value={sortOption}
+              onChange={(e) => onSortChange(e.target.value)}
+              className="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+            >
+              <option value="price_asc">Цена (возрастание)</option>
+              <option value="price_desc">Цена (убывание)</option>
+              <option value="availability">Сначала в наличии</option>
+              <option value="axles_asc">Кол-во осей (возрастание)</option>
+              <option value="axles_desc">Кол-во осей (убывание)</option>
+              <option value="brakes">Сначала с тормозами</option>
+              <option value="length_desc">Длина кузова (убывание)</option>
+              <option value="area_desc">Площадь кузова (убывание)</option>
+              <option value="volume_desc">Объем фургона (убывание)</option>
+              <option value="boat_length_desc">Длина судна (убывание)</option>
+            </select>
+          </div>
+
           {/* Цена */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-gray-700">Цена:</span>
