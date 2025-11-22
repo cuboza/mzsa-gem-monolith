@@ -1,875 +1,1984 @@
 import { Trailer } from '../types';
 
-const generalTrailers: Trailer[] = [
-  {
-    id: "mzsa-817700-002",
-    model: "МЗСА 817700.002",
-    name: "Прицеп КОМПАКТ",
-    category: "general",
-    price: 50600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 616,
-    dimensions: "2050×1100×300",
-    gabarity: "2945×1550×775",
-    features: ["Компактный размер", "Горячее цинкование", "Рессорная подвеска"],
-    badge: "Хит продаж",
-    isPopular: true,
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/c610b58cca8b0c8aa965de673ec3e869.jpg",
-    compatibility: ["atv"],
-    maxVehicleLength: 2000,
-    maxVehicleWidth: 1000,
-    maxVehicleWeight: 300
-  },
-  {
-    id: "mzsa-817701-012",
-    model: "МЗСА 817701.012",
-    name: "Стандартный одноосный",
-    category: "general",
-    price: 69600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 565,
-    dimensions: "1853×1231×290",
-    gabarity: "3177×1712×848",
-    features: ["Стандартные борта 29 см", "Горячее цинкование", "Компактный"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0469%202web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817701-014",
-    model: "МЗСА 817701.014",
-    name: "С высоким бортом",
-    category: "general",
-    price: 75600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 553,
-    dimensions: "1853×1231×470",
-    gabarity: "3177×1712×1028",
-    features: ["Высокие борта 47 см", "Увеличенный объем", "Надежная конструкция"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0415%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817701-016",
-    model: "МЗСА 817701.016",
-    name: "Средний борт",
-    category: "general",
-    price: 74700,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 556,
-    dimensions: "1849×1231×440",
-    gabarity: "3177×1712×998",
-    features: ["Средние борта 44 см", "Оптимальный объем", "Универсальный"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0469%202web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817701-022",
-    model: "МЗСА 817701.022",
-    name: "С тентом 110 см",
-    category: "general",
-    price: 78300,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 500,
-    dimensions: "1853×1231×470",
-    gabarity: "3177×1803×1102",
-    features: ["Тент в комплекте", "Защита от осадков", "Высота тента 110 см"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0377%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817701-026",
-    model: "МЗСА 817701.026",
-    name: "OFF-ROAD высокий",
-    category: "general",
-    price: 116700,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 481,
-    dimensions: "2453×1231×470",
-    gabarity: "3777×1803×1102",
-    features: ["Увеличенный клиренс", "Усиленная подвеска", "Для бездорожья"],
-    badge: "OFF-ROAD",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0636%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817701-032",
-    model: "МЗСА 817701.032",
-    name: "С алюминиевыми бортами",
-    category: "general",
-    price: 78300,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 550,
-    dimensions: "1853×1231×470",
-    gabarity: "3177×1712×1028",
-    features: ["Алюминиевые борта", "Легкая конструкция", "Не ржавеют"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0469%202web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817704-012",
-    model: "МЗСА 817704.012",
-    name: "Удлиненный 29 см",
-    category: "general",
-    price: 74700,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 550,
-    dimensions: "2453×1231×290",
-    gabarity: "3777×1712×848",
-    features: ["Удлиненная платформа", "Стандартный борт", "Универсальный"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0303%20web_0.jpg.jpg"
-  },
-  {
-    id: "mzsa-817704-014",
-    model: "МЗСА 817704.014",
-    name: "Удлиненный 47 см",
-    category: "general",
-    price: 78300,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 535,
-    dimensions: "2453×1231×470",
-    gabarity: "3777×1712×1028",
-    features: ["Удлиненная платформа", "Высокий борт", "Большой объем"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0440%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817704-022",
-    model: "МЗСА 817704.022",
-    name: "Удлиненный с тентом",
-    category: "general",
-    price: 81900,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 484,
-
-    dimensions: "2453×1231×290",
-    gabarity: "3777×1712×848",
-    features: ["Удлиненный", "Тент в комплекте", "Защита груза"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0303%20web_0.jpg.jpg"
-  },
-  {
-    id: "mzsa-817704-034",
-    model: "МЗСА 817704.034",
-    name: "С низкой пластиковой крышкой",
-    category: "general",
-    price: 78300,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 540,
-    dimensions: "2453×1231×470",
-    gabarity: "3777×1712×1028",
-    features: ["Пластиковая крышка 64 см", "Защита от осадков", "Легкий доступ"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0303%20web_0.jpg.jpg"
-  },
-  {
-    id: "mzsa-817705-012",
-    model: "МЗСА 817705.012",
-    name: "Широкий для дачи",
-    category: "general",
-    price: 81900,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 537,
-    dimensions: "2435×1371×290",
-    gabarity: "3777×1852×848",
-    features: ["Увеличенная ширина", "Для мототехники", "Универсальный"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0475%20web_1.jpg.jpg",
-    compatibility: ["atv", "motorcycle"],
-    maxVehicleLength: 2500,
-    maxVehicleWidth: 1400,
-    maxVehicleWeight: 400
-  },
-  {
-    id: "mzsa-817705-014",
-    model: "МЗСА 817705.014",
-    name: "Широкий высокий борт",
-    category: "general",
-    price: 86400,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 518,
-    dimensions: "2435×1371×470",
-    gabarity: "3777×1852×1028",
-    features: ["Широкий", "Высокий борт 47 см", "Большой объем"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0475%20web_1.jpg.jpg"
-  },
-  {
-    id: "mzsa-817705-022",
-    model: "МЗСА 817705.022",
-    name: "Широкий с тентом АЭРО",
-    category: "general",
-    price: 87900,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 530,
-    dimensions: "2435×1371×290",
-    gabarity: "3777×1852×848",
-    features: ["Тент АЭРО 150 см", "Широкая платформа", "Аэродинамичный"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0475%20web_1.jpg.jpg"
-  },
-  {
-    id: "mzsa-817706-012",
-    model: "МЗСА 817706.012",
-    name: "Сверхширокий",
-    category: "general",
-    price: 83400,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 528,
-    dimensions: "2435×1511×290",
-    gabarity: "3777×1992×848",
-    features: ["Сверхширокая платформа", "Для мотоциклов", "Для ATV"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0303%20web.jpg.jpg",
-    compatibility: ["atv", "motorcycle"],
-    maxVehicleLength: 2500,
-    maxVehicleWidth: 1500,
-    maxVehicleWeight: 450
-  },
-  {
-    id: "mzsa-817730-022",
-    model: "МЗСА 817730.022",
-    name: "Двухосный для дачи",
-    category: "general",
-    price: 115000,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 484,
-    dimensions: "2453×1231×290",
-    gabarity: "3777×1712×848",
-    features: ["Две оси", "Повышенная устойчивость", "Плавный ход"],
-    badge: "Двухосный",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0616%20web.jpg.jpg"
-  }
-];
-
-const motoTrailers: Trailer[] = [
-  {
-    id: "mzsa-817711-012",
-    model: "МЗСА 817711.012",
-    name: "Для снегоходов",
-    category: "moto",
-    price: 78900,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 550,
-    dimensions: "2453×1231×290",
-    gabarity: "3777×1712×848",
-    features: ["Направляющие для снегохода", "Лебедка в комплекте", "Усиленная рама"],
-    badge: "Для снегоходов",
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0475%20web.jpg.jpg",
-    compatibility: ["snowmobile"],
-    maxVehicleLength: 3500,
-    maxVehicleWidth: 1300,
-    maxVehicleWeight: 350
-  },
-  {
-    id: "mzsa-817711-022",
-    model: "МЗСА 817711.022",
-    name: "Снегоход с тентом",
-    category: "moto",
-    price: 85600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 540,
-    dimensions: "2453×1231×290",
-    gabarity: "3777×1712×848",
-    features: ["Направляющие", "Лебедка", "Тент в комплекте"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0475%20web.jpg.jpg",
-    compatibility: ["snowmobile"],
-    maxVehicleLength: 3500,
-    maxVehicleWidth: 1300,
-    maxVehicleWeight: 350
-  },
-  {
-    id: "mzsa-817712-012",
-    model: "МЗСА 817712.012",
-    name: "Для квадроциклов",
-    category: "moto",
-    price: 82400,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 537,
-    dimensions: "2453×1371×290",
-    gabarity: "3777×1852×848",
-    features: ["Широкая платформа", "Аппарель", "Крепления ATV"],
-    badge: "Для ATV",
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0354%20web.jpg.jpg",
-    compatibility: ["atv"],
-    maxVehicleLength: 2500,
-    maxVehicleWidth: 1400,
-    maxVehicleWeight: 400
-  },
-  {
-    id: "mzsa-817715-012",
-    model: "МЗСА 817715.012",
-    name: "Для мотоциклов",
-    category: "moto",
-    price: 85900,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 530,
-    dimensions: "2435×1511×290",
-    gabarity: "3777×1992×848",
-    features: ["Сверхширокая база", "Упоры для колес", "Удобная погрузка"],
-    badge: "Для мотоциклов",
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/IMGP0303%20web.jpg.jpg",
-    compatibility: ["motorcycle"],
-    maxVehicleLength: 2300,
-    maxVehicleWidth: 1000,
-    maxVehicleWeight: 350
-  },
-  {
-    id: "mzsa-817717-012",
-    model: "МЗСА 817717.012",
-    name: "Удлиненный для техники",
-    category: "moto",
-    price: 88700,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 520,
-    dimensions: "3083×1371×290",
-    gabarity: "4633×1852×848",
-    features: ["Удлиненная платформа", "Для крупной техники", "Универсальный"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/817717022web.jpg.jpg",
-    compatibility: ["snowmobile", "atv"],
-    maxVehicleLength: 3500,
-    maxVehicleWidth: 1400,
-    maxVehicleWeight: 400
-  },
-  {
-    id: "mzsa-817717-022",
-    model: "МЗСА 817717.022",
-    name: "Удлиненный с тентом АЭРО",
-    category: "moto",
-    price: 96200,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 510,
-    dimensions: "3083×1371×290",
-    gabarity: "4633×1852×848",
-    features: ["Тент АЭРО 150 см", "Удлиненный", "Защита техники"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/817717022web.jpg.jpg"
-  }
-];
-
-const waterTrailers: Trailer[] = [
-  {
-    id: "mzsa-81771a-101",
-    model: "МЗСА 81771A.101",
-    name: "Для плоскодонных лодок",
-    category: "water",
-    price: 65300,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 366,
-    bodyDimensions: "4300 мм судно",
-    gabarity: "4460×1550×1079",
-    features: ["Для плоскодонок", "Ролики", "Простая конструкция"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/ec741d88c1f479ddd455efb728a8595c.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 4300,
-    maxVehicleWidth: 1500,
-    maxVehicleWeight: 300
-  },
-  {
-    id: "mzsa-81771b-101",
-    model: "МЗСА 81771B.101",
-    name: "Для каяков и байдарок",
-    category: "water",
-    price: 67800,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 367,
-    bodyDimensions: "4100 мм судно",
-    gabarity: "4290×1550×1095",
-    features: ["Для каяков", "Для байдарок", "Легкая конструкция"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/551eadde69d4e731f5346db3043c2c8d.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 4100,
-    maxVehicleWidth: 1000,
-    maxVehicleWeight: 150
-  },
-  {
-    id: "mzsa-81771c-101",
-    model: "МЗСА 81771C.101",
-    name: "Для гидроциклов",
-    category: "water",
-    price: 85400,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 590,
-    bodyDimensions: "3000 мм судно",
-    gabarity: "3476×1625×942",
-    features: ["Ролики", "Лебедка", "Передвижные петли"],
-    badge: "Для гидроциклов",
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/0624ecd0cbf34dd7bde9809146ab8f4c.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 3000,
-    maxVehicleWidth: 1300,
-    maxVehicleWeight: 400
-  },
-  {
-    id: "mzsa-81771d-101",
-    model: "МЗСА 81771D.101",
-    name: "Универсальный лодочный",
-    category: "water",
-    price: 89600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 583,
-    bodyDimensions: "3400 мм судно",
-    gabarity: "3976×1625×1163",
-    features: ["Ложементы", "Ролики", "Киль-ролик"],
-    badge: "Универсальный",
-    isPopular: true,
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/dab55f0ab92db6144dbad8454fb62769.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 3400,
-    maxVehicleWidth: 1800,
-    maxVehicleWeight: 400
-  },
-  {
-    id: "mzsa-81771e-101",
-    model: "МЗСА 81771E.101",
-    name: "С роликами",
-    category: "water",
-    price: 90100,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 587,
-    bodyDimensions: "3400 мм судно",
-    gabarity: "3976×1625×1163",
-    features: ["Усиленные ролики", "Легкая загрузка", "Защита киля"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/fb507597fe34465e5e26fcce8a9059a0.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 3400,
-    maxVehicleWidth: 1800,
-    maxVehicleWeight: 400
-  },
-  {
-    id: "mzsa-81771f-101",
-    model: "МЗСА 81771F.101",
-    name: "Для лодок до 3.9 м",
-    category: "water",
-    price: 92800,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 574,
-    bodyDimensions: "3900 мм судно",
-    gabarity: "4476×1625×1163",
-    features: ["Удлиненная база", "Ролики", "Ложементы"],
-    availability: "in_stock",
-    image: "https://www.mzsa.ru/images/big/dab55f0ab92db6144dbad8454fb62769.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 3900,
-    maxVehicleWidth: 1800,
-    maxVehicleWeight: 450
-  },
-  {
-    id: "mzsa-81771g-011",
-    model: "МЗСА 81771G.011",
-    name: "Широкий для катеров",
-    category: "water",
-    price: 95400,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 563,
-    bodyDimensions: "4300 мм судно",
-    gabarity: "4976×1965×1163",
-    features: ["Широкая база", "Для катеров", "Усиленная рама"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/9ccf45b3a63e58e744bd550c9d204557.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 4300,
-    maxVehicleWidth: 1900,
-    maxVehicleWeight: 500
-  },
-  {
-    id: "mzsa-81771g-021",
-    model: "МЗСА 81771G.021",
-    name: "Катерный с доп. роликами",
-    category: "water",
-    price: 96200,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 571,
-    bodyDimensions: "4300 мм судно",
-    gabarity: "4976×1965×1163",
-    features: ["Дополнительные ролики", "Широкий", "Плавная загрузка"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/9ccf45b3a63e58e744bd550c9d204557.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 4300,
-    maxVehicleWidth: 1900,
-    maxVehicleWeight: 500
-  },
-  {
-    id: "mzsa-81773g-011",
-    model: "МЗСА 81773G.011",
-    name: "Для больших лодок",
-    category: "water",
-    price: 105600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 554,
-    bodyDimensions: "4750 мм судно",
-    gabarity: "5476×1965×1163",
-    features: ["Удлиненный", "Широкий", "Для крупных судов"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/03b1dd53324ae5fe06ba1ed0dab9e40e.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 4750,
-    maxVehicleWidth: 1900,
-    maxVehicleWeight: 500
-  },
-  {
-    id: "mzsa-81773g-013",
-    model: "МЗСА 81773G.013",
-    name: "С усиленной рамой",
-    category: "water",
-    price: 106400,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 550,
-    bodyDimensions: "4750 мм судно",
-    gabarity: "5476×1965×1163",
-    features: ["Усиленная рама", "Повышенная прочность", "Для тяжелых судов"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/4e579491e2ddda4ba0d162c8d81ee1a4.jpg"
-  },
-  {
-    id: "mzsa-81774g-021",
-    model: "МЗСА 81774G.021",
-    name: "Сверхширокий",
-    category: "water",
-    price: 115800,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 490,
-    bodyDimensions: "4750 мм судно",
-    gabarity: "5474×2240×1199",
-    features: ["Сверхширокая база", "Для широких катеров", "Стабильность"],
-    badge: "Сверхширокий",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/360dc3ea222d2fbf78a7a71df79d32ff.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 4750,
-    maxVehicleWidth: 2200,
-    maxVehicleWeight: 450
-  },
-  {
-    id: "mzsa-81774g-023",
-    model: "МЗСА 81774G.023",
-    name: "Сверхширокий с ложементами",
-    category: "water",
-    price: 116600,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 488,
-    bodyDimensions: "4750 мм судно",
-    gabarity: "5474×2240×1199",
-    features: ["Ложементы", "Сверхширокий", "Защита корпуса"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/019eff22a884460bcb94fb78273cfc85.jpg"
-  },
-  {
-    id: "mzsa-81775g-021",
-    model: "МЗСА 81775G.021",
-    name: "Для больших катеров",
-    category: "water",
-    price: 125200,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 480,
-    bodyDimensions: "5450 мм судно",
-    gabarity: "5974×2240×1199",
-    features: ["Максимальная длина", "Сверхширокий", "Для яхт"],
-    badge: "Премиум",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/e5659690dc3239847f335115d4ef7b60.jpg",
-    compatibility: ["boat"],
-    maxVehicleLength: 5450,
-    maxVehicleWidth: 2200,
-    maxVehicleWeight: 450
-  },
-  {
-    id: "mzsa-81773h-131",
-    model: "МЗСА 81773H.131",
-    name: "Повышенная грузоподъемность",
-    category: "water",
-    price: 180000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 938,
-    bodyDimensions: "4500 мм судно",
-    gabarity: "5370×2410×1170",
-    features: ["1300 кг полная масса", "Усиленная конструкция", "Для тяжелых судов"],
-    badge: "1300 кг",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/5b3cdddd998da52672bb28f8b55c77f5.jpg"
-  },
-  {
-    id: "mzsa-817732-022",
-    model: "МЗСА 817732.022",
-    name: "Двухосный с тентом",
-    category: "water",
-    price: 125000,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 500,
-    dimensions: "3083×1371×290",
-    gabarity: "4633×1852×848",
-    features: ["Две оси", "Тент АЭРО 150", "Плавный ход"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0324%20web_0.jpg.jpg"
-  },
-  {
-    id: "mzsa-817735-022",
-    model: "МЗСА 817735.022",
-    name: "Двухосный большой",
-    category: "water",
-    price: 145000,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 480,
-    dimensions: "3644×1511×290",
-    gabarity: "5194×1992×848",
-    features: ["Две оси", "Тент АЭРО 150", "Максимальный объем"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-822221-102",
-    model: "МЗСА 822221.102",
-    name: "Для академических судов",
-    category: "water",
-    price: 350000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 1100,
-    bodyDimensions: "8000 мм судно",
-    gabarity: "8150×2300×2650",
-    features: ["Для байдарок-восьмерок", "Специальная конструкция", "Профессиональный"],
-    badge: "Спортивный",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/531d2838c49783225ba4ffcb30b135c5.jpg"
-  }
-];
-
-const commercialTrailers: Trailer[] = [
-  {
-    id: "mzsa-817737-001",
-    model: "МЗСА 817737.001",
-    name: "Коммерческий компакт",
-    category: "commercial",
-    price: 136100,
-    suspension: "Рессорная",
-    brakes: "Нет",
-    capacity: 448,
-    dimensions: "2608×1650×300",
-    gabarity: "3903×1784×985",
-    features: ["Компактный коммерческий", "До 750 кг", "Одна ось"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817738-001",
-    model: "МЗСА 817738.001",
-    name: "Удлиненный коммерческий",
-    category: "commercial",
-    price: 155600,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 412,
-    dimensions: "3083×1850×300",
-    gabarity: "4633×1984×985",
-    features: ["Удлиненный", "Увеличенная ширина", "Большой объем"],
-    availability: "days_1_3",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817739-001",
-    model: "МЗСА 817739.001",
-    name: "Максимальный объем",
-    category: "commercial",
-    price: 180000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 345,
-    dimensions: "3644×2100×300",
-    gabarity: "5194×2234×991",
-    features: ["Максимальные размеры", "Сверхширокий", "Для крупных грузов"],
-    badge: "Макси",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817740-251",
-    model: "МЗСА 817740.251",
-    name: "Двухосный 2500 кг",
-    category: "commercial",
-    price: 320000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 1800,
-    dimensions: "3646×2100×400",
-    gabarity: "5126×2169×1169",
-    features: ["Две оси", "2500 кг полная масса", "Усиленная рама"],
-    badge: "2500 кг",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817740-301",
-    model: "МЗСА 817740.301",
-    name: "Двухосный 3000 кг",
-    category: "commercial",
-    price: 350000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 2246,
-    dimensions: "3646×2100×400",
-    gabarity: "5041×2169×1176",
-    features: ["Две оси", "3000 кг полная масса", "Коммерческий класс"],
-    badge: "3000 кг",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817741-251",
-    model: "МЗСА 817741.251",
-    name: "Удлиненный 2500 кг",
-    category: "commercial",
-    price: 340000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 1762,
-    dimensions: "4126×2100×400",
-    gabarity: "5608×2169×1169",
-    features: ["Удлиненный", "Две оси", "2500 кг"],
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  },
-  {
-    id: "mzsa-817741-301",
-    model: "МЗСА 817741.301",
-    name: "Удлиненный 3000 кг",
-    category: "commercial",
-    price: 370000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 2262,
-    dimensions: "4126×2100×400",
-    gabarity: "5608×2169×1169",
-    features: ["Удлиненный", "Две оси", "3000 кг", "Максимальная загрузка"],
-    badge: "Макси 3т",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg"
-  }
-];
-
-const wreckerTrailers: Trailer[] = [
-  {
-    id: "mzsa-m4620-225-101",
-    model: "МЗСА M 4620-2.25.101",
-    name: "Эвакуатор 2500 кг",
-    category: "wrecker",
-    price: 396000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 1800,
-    dimensions: "4600×1958×170",
-    gabarity: "6464×2536×791",
-    features: ["Платформа-эвакуатор", "2500 кг полная масса", "Лебедка в комплекте"],
-    badge: "Эвакуатор",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg"
-  },
-  {
-    id: "mzsa-m5220-270-101",
-    model: "МЗСА M 5220-2.70.101",
-    name: "Эвакуатор 3500 кг",
-    category: "wrecker",
-    price: 480000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 2680,
-    dimensions: "5200×1953×167",
-    gabarity: "7095×2535×784",
-    features: ["Удлиненная платформа", "3500 кг полная масса", "Для крупных авто"],
-    badge: "3500 кг",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg"
-  },
-  {
-    id: "mzsa-834020-251",
-    model: "МЗСА 834020.251",
-    name: "Низкорамный 2500 кг",
-    category: "wrecker",
-    price: 420000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 1790,
-    dimensions: "4607×2123×35",
-    gabarity: "6408×2200×771",
-    features: ["Низкая рама 35 мм", "Легкая загрузка", "2500 кг"],
-    badge: "Низкорамный",
-
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg"
-  },
-  {
-    id: "mzsa-835120-301",
-    model: "МЗСА 835120.301",
-    name: "Низкорамный 3500 кг",
-    category: "wrecker",
-    price: 520000,
-    suspension: "Рессорная",
-    brakes: "Есть",
-    capacity: 2540,
-    dimensions: "5100×2200×35",
-    gabarity: "7003×2200×795",
-    features: ["Низкая рама", "Удлиненный", "3500 кг", "Для тяжелой техники"],
-    badge: "Низкорамный 3.5т",
-    availability: "days_7_14",
-    image: "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg"
-  }
-];
-
 export const allTrailers: Trailer[] = [
-  ...generalTrailers,
-  ...motoTrailers,
-  ...waterTrailers,
-  ...commercialTrailers,
-  ...wreckerTrailers
+  {
+    "id": "mzsa_817700_002",
+    "model": "МЗСА 817700.002",
+    "name": "Прицеп «КОМПАКТ»",
+    "category": "general",
+    "price": 58800,
+    "capacity": 616,
+    "dimensions": "2050x1100x300 мм",
+    "gabarity": "2945x1550x775 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры.\n\nУстойчиво к износу и воздействию влаги.",
+      "Борта выполнены из оцинкованного стального листа и оборудованы петлями крепления груза (4 шт.).\n\nЗадний борт — откидной.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Специальный силовой подрамник\n\nпринимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.",
+      "Светотехника с герметичными байонетными разъёмами.\n\nЖгут электропроводки убран в защитный гофрированный кожух. Штекер\n\n7-pin\n\n."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002.jpg",
+    "images": [
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002.jpg",
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002_1.jpg",
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002_2.jpg",
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002_3.jpg",
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002_4.jpg",
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002_5.jpg",
+      "/images/trailers/mzsa_817700_002/pritsep_bort_mzsa_817700_002_6.jpg"
+    ],
+    "description": "●\n\nОцинкованное\n\nI-образное\n\nдышло продлено до заднего фартука прицепа. Оно выполнено из замкнутого стального профиля (60×60)\n\n, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа и оборудованы петлями крепления груза (4 шт.).\n\nЗадний борт — откидной.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 750 кг,\n\nступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nСпециальный силовой подрамник\n\nпринимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nСветотехника с герметичными байонетными разъёмами.\n\nЖгут электропроводки убран в защитный гофрированный кожух. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2050x1100x300 мм",
+      "capacity": "616 кг",
+      "weight": "134 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817701_022",
+    "model": "МЗСА 817701.022",
+    "name": "Прицеп для дачи, охоты и рыбалки",
+    "category": "general",
+    "price": 74700,
+    "capacity": 550,
+    "dimensions": "2453x1231x290 мм",
+    "gabarity": "3777x1712x848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022.jpg",
+      "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022_1.jpg",
+      "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022_2.jpg",
+      "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022_3.jpg",
+      "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022_4.jpg",
+      "/images/trailers/mzsa_817701_022/pritsep_bort_mzsa_817701_022_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2453x1231x290 мм",
+      "capacity": "550 кг",
+      "weight": "200 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817701_024",
+    "model": "МЗСА 817701.024",
+    "name": "Прицеп для дачи, охоты и рыбалки (с высоким бортом)",
+    "category": "general",
+    "price": 78300,
+    "capacity": 535,
+    "dimensions": "2453x1231x470 мм",
+    "gabarity": "3777x1712x1028 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024.jpg",
+    "images": [
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024.jpg",
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024_1.jpg",
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024_2.jpg",
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024_3.jpg",
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024_4.jpg",
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024_5.jpg",
+      "/images/trailers/mzsa_817701_024/pritsep_bort_mzsa_817701_024_6.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nВысокие борта увеличивают объём кузова в 1,5 раза. Они выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР р\n\nазъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n● А\n\nнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2453x1231x470 мм",
+      "capacity": "535 кг",
+      "weight": "215 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817701_026",
+    "model": "МЗСА 817701.026",
+    "name": "Прицеп \"OFF-ROAD\" для дачи, охоты и рыбалки (с высоким бортом)",
+    "category": "general",
+    "price": 116700,
+    "capacity": 481,
+    "dimensions": "2453x1231x470 мм",
+    "gabarity": "3777x1803x1102 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817701_026/pritsep_bort_mzsa_817701_026.jpg",
+    "images": [
+      "/images/trailers/mzsa_817701_026/pritsep_bort_mzsa_817701_026.jpg",
+      "/images/trailers/mzsa_817701_026/pritsep_bort_mzsa_817701_026_1.jpg",
+      "/images/trailers/mzsa_817701_026/pritsep_bort_mzsa_817701_026_2.jpg",
+      "/images/trailers/mzsa_817701_026/pritsep_bort_mzsa_817701_026_3.jpg",
+      "/images/trailers/mzsa_817701_026/pritsep_bort_mzsa_817701_026_4.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nВысокие борта увеличивают объём кузова в 1,5 раза. Они выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные.\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2453x1231x470 мм",
+      "capacity": "481 кг",
+      "weight": "269 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817702_022",
+    "model": "МЗСА 817702.022",
+    "name": "Прицеп для перевозки мотоциклов, ATV и других грузов",
+    "category": "general",
+    "price": 83400,
+    "capacity": 528,
+    "dimensions": "2435x1511x290 мм",
+    "gabarity": "3777x1992x848 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022.jpg",
+      "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022_1.jpg",
+      "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022_2.jpg",
+      "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022_3.jpg",
+      "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022_4.jpg",
+      "/images/trailers/mzsa_817702_022/pritsep_bort_mzsa_817702_022_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР р\n\nазъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2435x1511x290 мм",
+      "capacity": "528 кг",
+      "weight": "222 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817703_022",
+    "model": "МЗСА 817703.022",
+    "name": "Прицеп для перевозки мотоциклов, ATV и других грузов",
+    "category": "general",
+    "price": 89400,
+    "capacity": 507,
+    "dimensions": "2735x1511x290 мм",
+    "gabarity": "4077x1992x848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022.jpg",
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022_1.jpg",
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022_2.jpg",
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022_3.jpg",
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022_4.jpg",
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022_5.jpg",
+      "/images/trailers/mzsa_817703_022/pritsep_bort_mzsa_817703_022_6.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2735x1511x290 мм",
+      "capacity": "507 кг",
+      "weight": "243 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817704_022",
+    "model": "МЗСА 817704.022",
+    "name": "Прицеп для дачи и мототехники",
+    "category": "general",
+    "price": 81900,
+    "capacity": 537,
+    "dimensions": "2435x1371x290 мм",
+    "gabarity": "3777x1852x848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022.jpg",
+      "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022_1.jpg",
+      "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022_2.jpg",
+      "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022_3.jpg",
+      "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022_4.jpg",
+      "/images/trailers/mzsa_817704_022/pritsep_bort_mzsa_817704_022_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2435x1371x290 мм",
+      "capacity": "537 кг",
+      "weight": "213 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817704_024",
+    "model": "МЗСА 817704.024",
+    "name": "Прицеп для дачи и мототехники (с высоким бортом)",
+    "category": "general",
+    "price": 86400,
+    "capacity": 518,
+    "dimensions": "2435х1371х470 мм",
+    "gabarity": "3777х1852х1028 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817704_024/pritsep_bort_mzsa_817704_024.jpg",
+    "images": [
+      "/images/trailers/mzsa_817704_024/pritsep_bort_mzsa_817704_024.jpg",
+      "/images/trailers/mzsa_817704_024/pritsep_bort_mzsa_817704_024_1.jpg",
+      "/images/trailers/mzsa_817704_024/pritsep_bort_mzsa_817704_024_2.jpg",
+      "/images/trailers/mzsa_817704_024/pritsep_bort_mzsa_817704_024_3.jpg",
+      "/images/trailers/mzsa_817704_024/pritsep_bort_mzsa_817704_024_4.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nВысокие борта увеличивают объём кузова в 1,5 раза. Они выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР р\n\nазъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n● А\n\nнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2435х1371х470 мм",
+      "capacity": "518 кг",
+      "weight": "232 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817705_022",
+    "model": "МЗСА 817705.022",
+    "name": "Прицеп для перевозки стройматериалов и мототехники",
+    "category": "general",
+    "price": 89800,
+    "capacity": 516,
+    "dimensions": "2735x1371x290 мм",
+    "gabarity": "4077x1852x848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022.jpg",
+      "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022_1.jpg",
+      "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022_2.jpg",
+      "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022_3.jpg",
+      "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022_4.jpg",
+      "/images/trailers/mzsa_817705_022/pritsep_bort_mzsa_817705_022_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2735x1371x290 мм",
+      "capacity": "516 кг",
+      "weight": "234 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817710_022",
+    "model": "МЗСА 817710.022",
+    "name": "Прицеп для дачи",
+    "category": "general",
+    "price": 69600,
+    "capacity": 565,
+    "dimensions": "1853x1231x290 мм",
+    "gabarity": "3177х1712х848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817710_022/pritsep_bort_mzsa_817710_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817710_022/pritsep_bort_mzsa_817710_022.jpg",
+      "/images/trailers/mzsa_817710_022/pritsep_bort_mzsa_817710_022_1.jpg",
+      "/images/trailers/mzsa_817710_022/pritsep_bort_mzsa_817710_022_2.jpg",
+      "/images/trailers/mzsa_817710_022/pritsep_bort_mzsa_817710_022_3.jpg",
+      "/images/trailers/mzsa_817710_022/pritsep_bort_mzsa_817710_022_4.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "1853x1231x290 мм",
+      "capacity": "565 кг",
+      "weight": "185 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817710_024",
+    "model": "МЗСА 817710.024",
+    "name": "Прицеп для дачи (с высоким бортом)",
+    "category": "general",
+    "price": 75600,
+    "capacity": 553,
+    "dimensions": "1853x1231x470 мм",
+    "gabarity": "3177х1712x1028 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817710_024/pritsep_bort_mzsa_817710_024.jpg",
+    "images": [
+      "/images/trailers/mzsa_817710_024/pritsep_bort_mzsa_817710_024.jpg",
+      "/images/trailers/mzsa_817710_024/pritsep_bort_mzsa_817710_024_1.jpg",
+      "/images/trailers/mzsa_817710_024/pritsep_bort_mzsa_817710_024_2.jpg",
+      "/images/trailers/mzsa_817710_024/pritsep_bort_mzsa_817710_024_3.jpg",
+      "/images/trailers/mzsa_817710_024/pritsep_bort_mzsa_817710_024_4.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nВысокие борта увеличивают объём кузова в 1,5 раза. Они выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР р\n\nазъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n● А\n\nнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "1853x1231x470 мм",
+      "capacity": "553 кг",
+      "weight": "197 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817710_026",
+    "model": "МЗСА 817710.026",
+    "name": "Прицеп \"OFF-ROAD\" для дачи и туризма (с высоким бортом)",
+    "category": "general",
+    "price": 114000,
+    "capacity": 500,
+    "dimensions": "1853x1231x470 мм",
+    "gabarity": "3177х1803х1102 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026.jpg",
+    "images": [
+      "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026.jpg",
+      "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026_1.jpg",
+      "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026_2.jpg",
+      "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026_3.jpg",
+      "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026_4.jpg",
+      "/images/trailers/mzsa_817710_026/pritsep_bort_mzsa_817710_026_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nВысокие борта увеличивают объём кузова в 1,5 раза. Они выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные.\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "1853x1231x470 мм",
+      "capacity": "500 кг",
+      "weight": "250 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817711_022",
+    "model": "МЗСА 817711.022",
+    "name": "Прицеп для транспортировки снегоходов и другой мототехники",
+    "category": "general",
+    "price": 92200,
+    "capacity": 510,
+    "dimensions": "3009x1371x290 мм",
+    "gabarity": "4351x1852x848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022.jpg",
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022_1.jpg",
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022_2.jpg",
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022_3.jpg",
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022_4.jpg",
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022_5.jpg",
+      "/images/trailers/mzsa_817711_022/pritsep_bort_mzsa_817711_022_6.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3009x1371x290 мм",
+      "capacity": "510 кг",
+      "weight": "240 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817711_025",
+    "model": "МЗСА 817711.025",
+    "name": "Прицеп \"OFF-ROAD\" для перевозки снегоходов и другой мототехники",
+    "category": "general",
+    "price": 127200,
+    "capacity": 456,
+    "dimensions": "3009x1371x290 мм",
+    "gabarity": "4351x1943x922 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025.jpg",
+    "images": [
+      "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025.jpg",
+      "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025_1.jpg",
+      "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025_2.jpg",
+      "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025_3.jpg",
+      "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025_4.jpg",
+      "/images/trailers/mzsa_817711_025/pritsep_bort_mzsa_817711_025_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБ\n\nорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные.\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3009x1371x290 мм",
+      "capacity": "456 кг",
+      "weight": "294 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817712_022",
+    "model": "МЗСА 817712.022",
+    "name": "Прицеп для мототехники и других грузов",
+    "category": "general",
+    "price": 92900,
+    "capacity": 501,
+    "dimensions": "3009x1511x290 мм",
+    "gabarity": "4351x1992x848 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022.jpg",
+      "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022_1.jpg",
+      "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022_2.jpg",
+      "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022_3.jpg",
+      "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022_4.jpg",
+      "/images/trailers/mzsa_817712_022/pritsep_bort_mzsa_817712_022_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа\n\nс дополнительной штамповкой рёбер жёсткости. Рёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа. На бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 4 листа) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3009x1511x290 мм",
+      "capacity": "501 кг",
+      "weight": "249 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817717_022",
+    "model": "МЗСА 817717.022",
+    "name": "Прицеп для перевозки мототехники и других грузов",
+    "category": "general",
+    "price": 102000,
+    "capacity": 490,
+    "dimensions": "3449x1511x290 мм",
+    "gabarity": "4791x1992x848 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022.jpg",
+      "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022_1.jpg",
+      "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022_2.jpg",
+      "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022_3.jpg",
+      "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022_4.jpg",
+      "/images/trailers/mzsa_817717_022/pritsep_bort_mzsa_817717_022_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР р\n\nазъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449x1511x290 мм",
+      "capacity": "490 кг",
+      "weight": "260 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817717_025",
+    "model": "МЗСА 817717.025",
+    "name": "Прицеп \"OFF-ROAD\" для мототехники и других грузов",
+    "category": "general",
+    "price": 138800,
+    "capacity": 428,
+    "dimensions": "3449x1511x290 мм",
+    "gabarity": "4791x2083x922 мм",
+    "features": [
+      "Дно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025.jpg",
+    "images": [
+      "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025.jpg",
+      "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025_1.jpg",
+      "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025_2.jpg",
+      "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025_3.jpg",
+      "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025_4.jpg",
+      "/images/trailers/mzsa_817717_025/pritsep_bort_mzsa_817717_025_5.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама\n\nсобрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа\n\nвыполнено из многослойной ламинированной фанеры с противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБ\n\nорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные.\n\n●\n\nОцинкованные стальные стойки бортов\n\nоборудованы петлями крепления груза (4 шт.). Благодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска\n\n(2 рессоры по 5 листов) с гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа\n\nкрепится к специальному силовому подрамнику, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449x1511x290 мм",
+      "capacity": "428 кг",
+      "weight": "322 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817718_022",
+    "model": "МЗСА 817718.022",
+    "name": "Прицеп для перевозки снегоходов, квадроциклов и вездеходов",
+    "category": "general",
+    "price": 146400,
+    "capacity": 376,
+    "dimensions": "3449x1951x290 мм",
+    "gabarity": "4848x2437x890 мм",
+    "features": [
+      "Откидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов.",
+      "Дно прицепа выполнено из многослойной ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817718_022/pritsep_bort_mzsa_817718_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817718_022/pritsep_bort_mzsa_817718_022.jpg",
+      "/images/trailers/mzsa_817718_022/pritsep_bort_mzsa_817718_022_1.jpg",
+      "/images/trailers/mzsa_817718_022/pritsep_bort_mzsa_817718_022_2.jpg",
+      "/images/trailers/mzsa_817718_022/pritsep_bort_mzsa_817718_022_3.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов.\n\n●\n\nУсиленное оцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nУсиленная оцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа.\n\n●\n\nО\n\nцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\"\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних (поверхностей), так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449x1951x290 мм",
+      "capacity": "376 кг",
+      "weight": "374 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817718_025",
+    "model": "МЗСА 817718.025",
+    "name": "Прицеп \"OFF-ROAD\" для мототехники и других грузов",
+    "category": "general",
+    "price": 174000,
+    "capacity": 344,
+    "dimensions": "3449х1951х290 мм",
+    "gabarity": "4848х2523х952 мм",
+    "features": [
+      "Откидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов.",
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Колёса 225/75 R16\n\nувеличивают дорожный просвет и угол свеса, повышая проходимость прицепа на бездорожье."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817718_025/pritsep_bort_mzsa_817718_025.jpg",
+    "images": [
+      "/images/trailers/mzsa_817718_025/pritsep_bort_mzsa_817718_025.jpg",
+      "/images/trailers/mzsa_817718_025/pritsep_bort_mzsa_817718_025_1.jpg",
+      "/images/trailers/mzsa_817718_025/pritsep_bort_mzsa_817718_025_2.jpg",
+      "/images/trailers/mzsa_817718_025/pritsep_bort_mzsa_817718_025_3.jpg",
+      "/images/trailers/mzsa_817718_025/pritsep_bort_mzsa_817718_025_4.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов.\n\n●\n\nУсиленное оцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nУсиленная оцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа.\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nКолёса 225/75 R16\n\nувеличивают дорожный просвет и угол свеса, повышая проходимость прицепа на бездорожье.\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами и герметичным байонетными разъемами. Штекер\n\n7-pin\n\n.\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних (поверхностей), так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД. *Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449х1951х290 мм",
+      "capacity": "344 кг",
+      "weight": "406 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817719_022",
+    "model": "МЗСА 817719.022",
+    "name": "Прицеп для крупногабаритных грузов и мототехники",
+    "category": "general",
+    "price": 141600,
+    "capacity": 391,
+    "dimensions": "3449x1811x290 мм",
+    "gabarity": "4848x2297x890 мм",
+    "features": [
+      "Дно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817719_022/pritsep_bort_mzsa_817719_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817719_022/pritsep_bort_mzsa_817719_022.jpg",
+      "/images/trailers/mzsa_817719_022/pritsep_bort_mzsa_817719_022_1.jpg",
+      "/images/trailers/mzsa_817719_022/pritsep_bort_mzsa_817719_022_2.jpg",
+      "/images/trailers/mzsa_817719_022/pritsep_bort_mzsa_817719_022_3.jpg"
+    ],
+    "description": "●\n\nОткидная платформа\n\nзначительно облегчает загрузку (выгрузку) техники и сыпучих материалов. В закрытом положении, платформа фиксируется с помощью замков с предохранительной защелкой, которая исключает самопроизвольное открытие.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nДно прицепа выполнено из многослойной ламинированной фанеры с противоскользящим покрытием.\n\nУстойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\"\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР р\n\nазъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449x1811x290 мм",
+      "capacity": "391 кг",
+      "weight": "359 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817730_022",
+    "model": "МЗСА 817730.022",
+    "name": "Прицеп для дачи",
+    "category": "general",
+    "price": 115000,
+    "capacity": 484,
+    "dimensions": "2453x1231x290 мм",
+    "gabarity": "3777x1712x848 мм",
+    "features": [
+      "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
+      "Д\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Жгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817730_022/pritsep_bort_mzsa_817730_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817730_022/pritsep_bort_mzsa_817730_022.jpg",
+      "/images/trailers/mzsa_817730_022/pritsep_bort_mzsa_817730_022_1.jpg",
+      "/images/trailers/mzsa_817730_022/pritsep_bort_mzsa_817730_022_2.jpg",
+      "/images/trailers/mzsa_817730_022/pritsep_bort_mzsa_817730_022_3.jpg"
+    ],
+    "description": "●\n\nДвухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nД\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам. Передний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая ось рассчитана на нагрузку 750 кг,\n\nступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входят в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2453x1231x290 мм",
+      "capacity": "484 кг",
+      "weight": "266 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817731_022",
+    "model": "МЗСА 817731.022",
+    "name": "Прицеп для стройматериалов и других грузов",
+    "category": "general",
+    "price": 124800,
+    "capacity": 439,
+    "dimensions": "3009x1511x290 мм",
+    "gabarity": "4351x1992x848 мм",
+    "features": [
+      "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
+      "Д\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Жгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817731_022/pritsep_bort_mzsa_817731_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817731_022/pritsep_bort_mzsa_817731_022.jpg",
+      "/images/trailers/mzsa_817731_022/pritsep_bort_mzsa_817731_022_1.jpg",
+      "/images/trailers/mzsa_817731_022/pritsep_bort_mzsa_817731_022_2.jpg",
+      "/images/trailers/mzsa_817731_022/pritsep_bort_mzsa_817731_022_3.jpg",
+      "/images/trailers/mzsa_817731_022/pritsep_bort_mzsa_817731_022_4.jpg"
+    ],
+    "description": "●\n\nДвухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nД\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входят в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3009x1511x290 мм",
+      "capacity": "439 кг",
+      "weight": "311 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817732_022",
+    "model": "МЗСА 817732.022",
+    "name": "Прицеп для стройматериалов и других грузов",
+    "category": "general",
+    "price": 130400,
+    "capacity": 422,
+    "dimensions": "3449x1511x290 мм",
+    "gabarity": "4791x1992x848 мм",
+    "features": [
+      "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
+      "Д\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Жгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817732_022/pritsep_bort_mzsa_817732_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817732_022/pritsep_bort_mzsa_817732_022.jpg",
+      "/images/trailers/mzsa_817732_022/pritsep_bort_mzsa_817732_022_1.jpg",
+      "/images/trailers/mzsa_817732_022/pritsep_bort_mzsa_817732_022_2.jpg",
+      "/images/trailers/mzsa_817732_022/pritsep_bort_mzsa_817732_022_3.jpg",
+      "/images/trailers/mzsa_817732_022/pritsep_bort_mzsa_817732_022_4.jpg"
+    ],
+    "description": "●\n\nДвухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nД\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входят в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449x1511x290 мм",
+      "capacity": "422 кг",
+      "weight": "328 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817733_022",
+    "model": "МЗСА 817733.022",
+    "name": "Прицеп для перевозки строительных материалов и других грузов",
+    "category": "general",
+    "price": 119600,
+    "capacity": 456,
+    "dimensions": "2735x1371x290 мм",
+    "gabarity": "4077x1852x848 мм",
+    "features": [
+      "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
+      "Д\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Жгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022.jpg",
+      "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022_1.jpg",
+      "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022_2.jpg",
+      "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022_3.jpg",
+      "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022_4.jpg",
+      "/images/trailers/mzsa_817733_022/pritsep_bort_mzsa_817733_022_5.jpg"
+    ],
+    "description": "●\n\nДвухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nД\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входят в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "2735x1371x290 мм",
+      "capacity": "456 кг",
+      "weight": "294 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817735_022",
+    "model": "МЗСА 817735.022",
+    "name": "Прицеп для стройматериалов и коммерческих перевозок",
+    "category": "general",
+    "price": 172800,
+    "capacity": 345,
+    "dimensions": "4587x1511x290 мм",
+    "gabarity": "5986x1992x908 мм",
+    "features": [
+      "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
+      "Д\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Жгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817735_022/pritsep_bort_mzsa_817735_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817735_022/pritsep_bort_mzsa_817735_022.jpg",
+      "/images/trailers/mzsa_817735_022/pritsep_bort_mzsa_817735_022_1.jpg",
+      "/images/trailers/mzsa_817735_022/pritsep_bort_mzsa_817735_022_2.jpg",
+      "/images/trailers/mzsa_817735_022/pritsep_bort_mzsa_817735_022_3.jpg"
+    ],
+    "description": "●\n\nДвухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nД\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входят в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "4587x1511x290 мм",
+      "capacity": "345 кг",
+      "weight": "405 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_817736_022",
+    "model": "МЗСА 817736.022",
+    "name": "Прицеп для перевозки квадроциклов и крупногабаритных грузов",
+    "category": "general",
+    "price": 163200,
+    "capacity": 340,
+    "dimensions": "3449x1951x290 мм",
+    "gabarity": "4848x2427x878 мм",
+    "features": [
+      "Двухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.",
+      "Д\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Жгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.",
+      "В базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_817736_022/pritsep_bort_mzsa_817736_022.jpg",
+    "images": [
+      "/images/trailers/mzsa_817736_022/pritsep_bort_mzsa_817736_022.jpg",
+      "/images/trailers/mzsa_817736_022/pritsep_bort_mzsa_817736_022_1.jpg",
+      "/images/trailers/mzsa_817736_022/pritsep_bort_mzsa_817736_022_2.jpg",
+      "/images/trailers/mzsa_817736_022/pritsep_bort_mzsa_817736_022_3.jpg"
+    ],
+    "description": "●\n\nДвухосная конструкция\n\nимеет повышенный запас прочности и менее требовательна к равномерному распределению груза.\n\n●\n\nОцинкованное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки. Оно выполнено из замкнутого стального профиля, что повышает его надёжность и позволяет уберечь жгут электропроводки от внешних повреждений.\n\n●\n\nОцинкованная стальная рама собрана на болтовых соединениях\n\n, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений.\n\n●\n\nД\n\nно прицепа выполнено из многолистовой ламинированной фанеры\n\nс противоскользящим покрытием. Устойчиво к износу и воздействию влаги.\n\n●\n\nБорта выполнены из оцинкованного стального листа с дополнительной штамповкой рёбер жёсткости.\n\nРёбра жёсткости позволяют повысить устойчивость бортов к динамическим и ударным нагрузкам.\n\nПередний и задний борта — откидные, с накладками из фанерного листа.\n\nНа бортах установлены усиленные бортовые замки производства «МЗСА».\n\n●\n\nОцинкованные стальные стойки бортов оборудованы петлями крепления груза (4 шт.).\n\nБлагодаря дополнительным разделительным стойкам повышается жёсткость бортов и их сопротивление излому.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nХодовая часть прицепа крепится к специальному силовому подрамнику\n\n, который принимает на себя основные ударные нагрузки во время езды и повышает надёжность конструкции.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми разъемами АМР  и герметичным байонетными разъемами.\n\n●\n\nВ базовую комплектацию входят:\n\nдержатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо и ограничительные тросы не входят в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "3449x1951x290 мм",
+      "capacity": "340 кг",
+      "weight": "410 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы"
+  },
+  {
+    "id": "mzsa_81771b_101",
+    "model": "МЗСА 81771B.101",
+    "name": "Прицеп для гидроциклов и лодок",
+    "category": "water",
+    "price": 86300,
+    "capacity": 583,
+    "dimensions": "",
+    "gabarity": "3976х1625х1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m.jpg",
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m_1.jpg",
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m_2.jpg",
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m_3.jpg",
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m_4.jpg",
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m_5.jpg",
+      "/images/trailers/mzsa_81771b_101/pritsep_lodka_mzsa_81771b_101_3_4m_6.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "583 кг",
+      "weight": "167 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "3400 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771b_103",
+    "model": "МЗСА 81771B.103",
+    "name": "Прицеп для гидроциклов и лодок",
+    "category": "water",
+    "price": 94400,
+    "capacity": 587,
+    "dimensions": "",
+    "gabarity": "3976х1625х1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m.jpg",
+      "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m_1.jpg",
+      "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m_2.jpg",
+      "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m_3.jpg",
+      "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m_4.jpg",
+      "/images/trailers/mzsa_81771b_103/pritsep_lodka_mzsa_81771b_103_3_4m_5.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля\n\nустановлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nДве передние опоры с двойными роликовыми модулями могут быть установлены в любой точке поперечины рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет настроить их в оптимальное положение под обводы корпуса перевозимого судна.\n\nДве задние опоры с четырьмя роликами могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "587 кг",
+      "weight": "163 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "3400 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771c_101",
+    "model": "МЗСА 81771C.101",
+    "name": "Прицеп для лодок и гидроциклов",
+    "category": "water",
+    "price": 87800,
+    "capacity": 574,
+    "dimensions": "",
+    "gabarity": "4476х1625х1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m.jpg",
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m_1.jpg",
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m_2.jpg",
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m_3.jpg",
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m_4.jpg",
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m_5.jpg",
+      "/images/trailers/mzsa_81771c_101/pritsep_lodka_mzsa_81771c_101_3_9m_6.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "574 кг",
+      "weight": "176 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "3900 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771c_103",
+    "model": "МЗСА 81771C.103",
+    "name": "Прицеп для лодок и гидроциклов",
+    "category": "water",
+    "price": 95800,
+    "capacity": 582,
+    "dimensions": "",
+    "gabarity": "4476х1625х1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m.jpg",
+      "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m_1.jpg",
+      "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m_2.jpg",
+      "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m_3.jpg",
+      "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m_4.jpg",
+      "/images/trailers/mzsa_81771c_103/pritsep_lodka_mzsa_81771c_103_3_9m_5.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nДве передние опоры с двойными роликовыми модулями могут быть установлены в любой точке поперечины рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет настроить их в оптимальное положение под обводы корпуса перевозимого судна.\n\nДве задние опоры с четырьмя роликами могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "582 кг",
+      "weight": "168 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "3900 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771d_101",
+    "model": "МЗСА 81771D.101",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 88700,
+    "capacity": 563,
+    "dimensions": "",
+    "gabarity": "4976x1965x1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m.jpg",
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m_1.jpg",
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m_2.jpg",
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m_3.jpg",
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m_4.jpg",
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m_5.jpg",
+      "/images/trailers/mzsa_81771d_101/pritsep_lodka_mzsa_81771d_101_4_3m_6.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "563 кг",
+      "weight": "187 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4300 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771d_103",
+    "model": "МЗСА 81771D.103",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 96600,
+    "capacity": 571,
+    "dimensions": "",
+    "gabarity": "4976x1965x1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m.jpg",
+      "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m_1.jpg",
+      "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m_2.jpg",
+      "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m_3.jpg",
+      "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m_4.jpg",
+      "/images/trailers/mzsa_81771d_103/pritsep_lodka_mzsa_81771d_103_4_3m_5.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nДве передние опоры с двойными роликовыми модулями могут быть установлены в любой точке поперечины рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет настроить их в оптимальное положение под обводы корпуса перевозимого судна.\n\nДве задние опоры с четырьмя роликами могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "571 кг",
+      "weight": "179 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4300 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771e_101",
+    "model": "МЗСА 81771E.101",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 90000,
+    "capacity": 554,
+    "dimensions": "",
+    "gabarity": "5476x1965x1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m.jpg",
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m_1.jpg",
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m_2.jpg",
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m_3.jpg",
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m_4.jpg",
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m_5.jpg",
+      "/images/trailers/mzsa_81771e_101/pritsep_lodka_mzsa_81771e_101_4_75m_6.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "554 кг",
+      "weight": "196 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4750 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771e_103",
+    "model": "МЗСА 81771E.103",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 98100,
+    "capacity": 550,
+    "dimensions": "",
+    "gabarity": "5476x1965x1163 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m.jpg",
+      "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m_1.jpg",
+      "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m_2.jpg",
+      "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m_3.jpg",
+      "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m_4.jpg",
+      "/images/trailers/mzsa_81771e_103/pritsep_lodka_mzsa_81771e_103_4_75m_5.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама\n\nвыполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло\n\nиз стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nЧетыре роликовых модуля, с четырьмя роликами на каждом, могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "550 кг",
+      "weight": "200 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4750 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771g_011",
+    "model": "МЗСА 81771G.011",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 131100,
+    "capacity": 490,
+    "dimensions": "",
+    "gabarity": "5474х2240х1199 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m.jpg",
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m_1.jpg",
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m_2.jpg",
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m_3.jpg",
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m_4.jpg",
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m_5.jpg",
+      "/images/trailers/mzsa_81771g_011/pritsep_lodka_mzsa_81771g_011_4_75m_6.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "490 кг",
+      "weight": "260 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4750 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771g_013",
+    "model": "МЗСА 81771G.013",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 143800,
+    "capacity": 488,
+    "dimensions": "",
+    "gabarity": "5474х2240х1199 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m.jpg",
+      "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m_1.jpg",
+      "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m_2.jpg",
+      "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m_3.jpg",
+      "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m_4.jpg",
+      "/images/trailers/mzsa_81771g_013/pritsep_lodka_mzsa_81771g_013_4_75m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по все длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nЧетыре роликовых модуля, с четырьмя роликами на каждом, могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\nВспомогательный килевой ролик\n\nна задней поперечине обеспечивает свободное скольжение киля при подъёме судна на прицеп.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), килевой ролик (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "488 кг",
+      "weight": "262 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4750 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771g_021",
+    "model": "МЗСА 81771G.021",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 134000,
+    "capacity": 480,
+    "dimensions": "",
+    "gabarity": "5974х2240х1199 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m.jpg",
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m_1.jpg",
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m_2.jpg",
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m_3.jpg",
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m_4.jpg",
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m_5.jpg",
+      "/images/trailers/mzsa_81771g_021/pritsep_lodka_mzsa_81771g_021_5_45m_6.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "480 кг",
+      "weight": "270 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "5450 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771g_023",
+    "model": "МЗСА 81771G.023",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 146800,
+    "capacity": 481,
+    "dimensions": "",
+    "gabarity": "5974х2240х1199 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m.jpg",
+      "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m_1.jpg",
+      "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m_2.jpg",
+      "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m_3.jpg",
+      "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m_4.jpg",
+      "/images/trailers/mzsa_81771g_023/pritsep_lodka_mzsa_81771g_023_5_45m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n● Оцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nЧетыре роликовых модуля, с четырьмя роликами на каждом, могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\nВспомогательный килевой ролик\n\nна задней поперечине обеспечивает свободное скольжение киля при подъёме судна на прицеп.\n\n●\n\nП\n\nередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), килевой ролик (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "481 кг",
+      "weight": "269 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "5450 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771_012",
+    "model": "МЗСА 81771.012",
+    "name": "Прицеп «КОМПАКТ» для плоскодонных лодок и лодок ПВХ",
+    "category": "water",
+    "price": 65300,
+    "capacity": 366,
+    "dimensions": "",
+    "gabarity": "4460х1550х1079 мм",
+    "features": [
+      "Рессорная подвеска (2 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m.jpg",
+      "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m_1.jpg",
+      "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m_2.jpg",
+      "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m_3.jpg",
+      "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m_4.jpg",
+      "/images/trailers/mzsa_81771_012/pritsep_lodka_mzsa_81771_012_4_3m_5.jpg"
+    ],
+    "description": "●\n\nМодульная конструкция позволяет полностью разобрать прицеп\n\n— отсоединить дышло, панель с габаритными фонарями, крылья и колёса. Это даёт возможность сэкономить место в гараже, в зимний период, когда нет необходимости хранить судно на прицепе.\n\n●\n\nОцинкованная стальная рама выполнена из замкнутого профиля,\n\nимеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\n●\n\nПередвижной носовой упор оборудован лебёдкой, имеет регулируемую высоту, угол наклона.\n\nОн может быть отрегулирован и установлен в наиболее удобном положении для модели перевозимого судна. Лебёдка облегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПродольные ложементы имеют регулируемый угол наклона и оборудованы передвижными кронштейнами.\n\nОни могут быть установлены на необходимую высоту, как по центру рамы, так и над крыльями прицепа.\n\n●\n\nПоперечный ложемент регулируется по высоте и имеет возможность свободного перемещения вдоль дышла прицепа.\n\nЭто позволяет установить его в оптимальной точке для поддержки днища судна.\n\n●\n\nРессорная подвеска (2 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят\n\n: сцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), петли крепления (3 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "366 кг",
+      "weight": "134 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4300 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771_014",
+    "model": "МЗСА 81771.014",
+    "name": "Прицеп «КОМПАКТ» для каяков, байдарок и каноэ",
+    "category": "water",
+    "price": 69800,
+    "capacity": 367,
+    "dimensions": "",
+    "gabarity": "4290х1550х1095 мм",
+    "features": [
+      "Рессорная подвеска (2 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m.jpg",
+      "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m_1.jpg",
+      "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m_2.jpg",
+      "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m_3.jpg",
+      "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m_4.jpg",
+      "/images/trailers/mzsa_81771_014/pritsep_lodka_mzsa_81771_014_4_1m_5.jpg"
+    ],
+    "description": "●\n\nМодульная конструкция позволяет полностью разобрать прицеп\n\n— отсоединить дышло, панель с габаритными фонарями, крылья и колёса. Это даёт возможность сэкономить место в гараже, в зимний период, когда нет необходимости хранить судно на прицепе.\n\n●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\n●\n\nПередвижной носовой упор оборудован лебёдкой, имеет регулируемую высоту, угол наклона.\n\nОн может быть отрегулирован и установлен в наиболее удобном положении для модели перевозимого судна. Лебёдка облегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные направляющие\n\nудерживают судно во время перевозки и облегчают его центрирование при подъёме на прицеп. Они могут быть установлены под габаритную ширину перевозимого судна.\n\n●\n\nПередвижные килевые ролики\n\nупрощают погрузку и выгрузку судна, предохраняя киль от возможных повреждений. Они могут быть установлены в любой точке дышла, для наиболее равномерного распределения нагрузки на корпус судна.\n\n●\n\nРессорная подвеска (2 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОсь рассчитана на нагрузку\n\n750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы. Производство \"МЗСА\".\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят\n\n: сцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), петли крепления (2 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "367 кг",
+      "weight": "133 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4100 мм мм судно"
+  },
+  {
+    "id": "mzsa_81771_101",
+    "model": "МЗСА 81771.101",
+    "name": "Прицеп для гидроциклов",
+    "category": "water",
+    "price": 85000,
+    "capacity": 590,
+    "dimensions": "",
+    "gabarity": "3476х1625х942 мм",
+    "features": [
+      "Передвижные петли крепления груза (2 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m.jpg",
+      "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m_1.jpg",
+      "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m_2.jpg",
+      "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m_3.jpg",
+      "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m_4.jpg",
+      "/images/trailers/mzsa_81771_101/pritsep_lodka_mzsa_81771_101_3m_5.jpg"
+    ],
+    "description": "●\n\nОцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (2 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nПередвижной кронштейн носового упора\n\nимеет регулируемую высоту и может быть установлен в любом месте дышла.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 4 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (750 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "590 кг",
+      "weight": "160 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "3000 мм мм судно"
+  },
+  {
+    "id": "mzsa_81772b_101",
+    "model": "МЗСА 81772B.101",
+    "name": "Прицеп для двух гидроциклов",
+    "category": "water",
+    "price": 179700,
+    "capacity": 438,
+    "dimensions": "",
+    "gabarity": "5024x2240x1139 мм",
+    "features": [
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m.jpg",
+      "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m_1.jpg",
+      "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m_2.jpg",
+      "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m_3.jpg",
+      "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m_4.jpg",
+      "/images/trailers/mzsa_81772b_101/pritsep_lodka_mzsa_81772b_101_4_5m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижные носовые упоры имеют регулируемую высоту и угол наклона.\n\nОни могут быть отрегулированы и установлены в наиболее удобное положение для моделей перевозимой техники.\n\nЛебёдки\n\nоблегчают погрузку техники на прицеп и страхуют её при спуске на воду.\n\n●\n\nП\n\nередвижные ложементы могут быть установлены в любой точке поперечен рамы,\n\nв т. ч.\n\nи над крыльями прицепа, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось рассчитана на нагрузку 1300 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "438 кг",
+      "weight": "312 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4500 мм мм судно"
+  },
+  {
+    "id": "mzsa_81773g_011",
+    "model": "МЗСА 81773G.011",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 142700,
+    "capacity": 450,
+    "dimensions": "",
+    "gabarity": "5474х2175х1187 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m.jpg",
+      "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m_1.jpg",
+      "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m_2.jpg",
+      "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m_3.jpg",
+      "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m_4.jpg",
+      "/images/trailers/mzsa_81773g_011/pritsep_lodka_mzsa_81773g_011_4_75m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по все длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nП\n\nередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая оцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "450 кг",
+      "weight": "300 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4750 мм мм судно"
+  },
+  {
+    "id": "mzsa_81773g_013",
+    "model": "МЗСА 81773G.013",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 155800,
+    "capacity": 449,
+    "dimensions": "",
+    "gabarity": "5474х2175х1187 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m.jpg",
+      "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m_1.jpg",
+      "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m_2.jpg",
+      "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m_3.jpg",
+      "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m_4.jpg",
+      "/images/trailers/mzsa_81773g_013/pritsep_lodka_mzsa_81773g_013_4_75m_5.jpg"
+    ],
+    "description": "●\n\nУ\n\nсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nЧетыре роликовых модуля, с четырьмя роликами на каждом, могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом.\n\nВспомогательный килевой ролик\n\nна задней поперечине обеспечивает свободное скольжение киля при подъёме судна на прицеп.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая оцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), килевой ролик (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "449 кг",
+      "weight": "301 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "4750 мм мм судно"
+  },
+  {
+    "id": "mzsa_81773g_021",
+    "model": "МЗСА 81773G.021",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 151000,
+    "capacity": 440,
+    "dimensions": "",
+    "gabarity": "5974х2175х1187 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m.jpg",
+      "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m_1.jpg",
+      "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m_2.jpg",
+      "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m_3.jpg",
+      "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m_4.jpg",
+      "/images/trailers/mzsa_81773g_021/pritsep_lodka_mzsa_81773g_021_5_45m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях,\n\nчто позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение под угол килеватости судна, избежать давления на продольные реданы, а также расположить судно максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая оцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n● В базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "440 кг",
+      "weight": "310 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "5450 мм мм судно"
+  },
+  {
+    "id": "mzsa_81773g_023",
+    "model": "МЗСА 81773G.023",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 159900,
+    "capacity": 442,
+    "dimensions": "",
+    "gabarity": "5974х2175х1187 мм",
+    "features": [
+      "Передвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.",
+      "Рессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "Съёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m.jpg",
+    "images": [
+      "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m.jpg",
+      "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m_1.jpg",
+      "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m_2.jpg",
+      "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m_3.jpg",
+      "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m_4.jpg",
+      "/images/trailers/mzsa_81773g_023/pritsep_lodka_mzsa_81773g_023_5_45m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная стальная рама выполнена из замкнутого профиля\n\n, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа.\n\nИзогнутая конструкция поперечин рамы\n\nобеспечивает максимально низкую посадку судна, что снижает центр тяжести и повышает устойчивость прицепа во время движения.\n\n●\n\nПередвижные петли крепления груза (4 шт.)\n\nмогут быть установлены в любом месте рамы для наиболее удобной фиксации судна, с учётом его модели.\n\n●\n\nОцинкованное съёмное дышло из стального замкнутого профиля установлено на болтовых соединениях\n\n, что позволяет при необходимости отсоединить его от рамы и тем самым уменьшить занимаемую площадь в гараже или на стоянке.\n\n●\n\nМультирегулируемый носовой упор с лебёдкой имеет три варианта настройки. Регулируемый передвижной кронштейн\n\nможет быть установлен в любом месте дышла под необходимым наклоном.\n\nДвойной поворотный носовой упор\n\nраспределяет горизонтальную нагрузку и снижает давление на носовую часть судна.\n\nЛебёдка\n\nоблегчает погрузку судна на прицеп и страхует его при спуске на воду.\n\n●\n\nРоликовые опоры\n\nобеспечивают удобный спуск судна на воду и его подъём на сложных, необорудованных участках берега, где нет возможности заезда прицепа на достаточную глубину.\n\nЧетыре роликовых модуля, с четырьмя роликами на каждом, могут быть установлены в любой точке поперечины рамы, их оцинкованный кронштейн имеет саморегулируемый угол наклона, а каждая пара роликов самостоятельно подстраивается под обводы судна.\n\nТакая конструкция облегчает центрирование и обеспечивает удобную поддержку судна и при его загрузке и выгрузке под большим углом. Вспомогательный килевой ролик на задней поперечине обеспечивает свободное скольжение киля при подъёме судна на прицеп.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (4 рессоры по 3 листа) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nКаждая оцинкованная ось рассчитана на нагрузку 750 кг, ступицы оборудованы защитными колпаками, подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями,\n\nисключают погружение светотехники в воду и обеспечивают её сохранность.\n\n●\n\nЖгут электропроводки\n\nвыполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами\n\nи герметичным байонетным\n\nи\n\nраз\n\nъ\n\nем\n\nами.\n\nШтекер\n\n7-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nсцепное устройство (1400 кг), страховочные цепи (2 шт.), съёмная подставка дышла (1 шт.), держатель штекера (1 шт.), килевой ролик (1 шт.), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних поверхностей, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.\n\n*Опорное колесо не входит в базовую комплектацию прицепа.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "442 кг",
+      "weight": "308 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "без тормозной системы",
+    "bodyDimensions": "5450 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_101",
+    "model": "МЗСА L.101",
+    "name": "Прицеп для катеров и яхт",
+    "category": "water",
+    "price": 690500,
+    "capacity": 2294,
+    "dimensions": "",
+    "gabarity": "10139x2410x1595 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m.jpg",
+      "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m_1.jpg",
+      "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m_2.jpg",
+      "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m_3.jpg",
+      "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m_4.jpg",
+      "/images/trailers/mzsa_l_101/pritsep_lodka_mzsa_l_101_9m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду при меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес  и уменьшить давление на корпус судна.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nОцинкованные оси рассчитаны на нагрузку 1500кг.,\n\nоси оборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 500 кг, динамическая нагрузка — до 300 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "2294 кг",
+      "weight": "1206 кг",
+      "axles": 1
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "9000 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_211",
+    "model": "МЗСА L.211",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 262000,
+    "capacity": 1224,
+    "dimensions": "",
+    "gabarity": "6490x2240x1322 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m.jpg",
+      "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m_1.jpg",
+      "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m_2.jpg",
+      "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m_3.jpg",
+      "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m_4.jpg",
+      "/images/trailers/mzsa_l_211/pritsep_lodka_mzsa_l_211_5_7m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось\n\nрассчитана на нагрузку 1600 кг, тормозные барабаны оборудованы защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями\n\n, с герметичными байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки убран в защитный гофрированный кожух. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "1224 кг",
+      "weight": "376 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "5700 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_221",
+    "model": "МЗСА L.221",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 254800,
+    "capacity": 966,
+    "dimensions": "",
+    "gabarity": "5980x2240x1321 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_221/pritsep_lodka_mzsa_l_221_5_2m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_221/pritsep_lodka_mzsa_l_221_5_2m.jpg",
+      "/images/trailers/mzsa_l_221/pritsep_lodka_mzsa_l_221_5_2m_1.jpg",
+      "/images/trailers/mzsa_l_221/pritsep_lodka_mzsa_l_221_5_2m_2.jpg",
+      "/images/trailers/mzsa_l_221/pritsep_lodka_mzsa_l_221_5_2m_3.jpg",
+      "/images/trailers/mzsa_l_221/pritsep_lodka_mzsa_l_221_5_2m_4.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось\n\nрассчитана на нагрузку 1300 кг, тормозные барабаны оборудованы защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями\n\n, с герметично залитыми АМР разъемами, и  байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "966 кг",
+      "weight": "334 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "5200 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_401",
+    "model": "МЗСА L.401",
+    "name": "Прицеп для катеров и яхт",
+    "category": "water",
+    "price": 531900,
+    "capacity": 2572,
+    "dimensions": "",
+    "gabarity": "9139x2410x1326 мм",
+    "features": [
+      "В базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m.jpg",
+      "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m_1.jpg",
+      "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m_2.jpg",
+      "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m_3.jpg",
+      "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m_4.jpg",
+      "/images/trailers/mzsa_l_401/pritsep_lodka_mzsa_l_401_8_2m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет произвести наиболее точную регулировку, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду при меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес  и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на ТСУ автомобиля, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорно-балансирная\n\nподвеска\n\nпозволяет равномерно распределить нагрузку между осями и колёсами на ямах, выбоинах и других неровных участках дороги.\n\n●\n\nКаждая ось рассчитана на нагрузку 1800кг.,\n\nоси оборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 500 кг, динамическая нагрузка — до 300 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "2572 кг",
+      "weight": "928 кг",
+      "axles": 2
+    },
+    "suspension": "рессорно-балансирная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "8200 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_411",
+    "model": "МЗСА L.411",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 337500,
+    "capacity": 1142,
+    "dimensions": "",
+    "gabarity": "6480x2240x1282 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m.jpg",
+      "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m_1.jpg",
+      "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m_2.jpg",
+      "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m_3.jpg",
+      "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m_4.jpg",
+      "/images/trailers/mzsa_l_411/pritsep_lodka_mzsa_l_411_5_7m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленные оцинкованные оси рассчитаны на нагрузку 1500кг.,\n\nоси оборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "1142 кг",
+      "weight": "458 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "5700 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_501",
+    "model": "МЗСА L.501",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 423400,
+    "capacity": 2314,
+    "dimensions": "",
+    "gabarity": "7974x2240x1294 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_501/pritsep_lodka_mzsa_l_501_7_2m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_501/pritsep_lodka_mzsa_l_501_7_2m.jpg",
+      "/images/trailers/mzsa_l_501/pritsep_lodka_mzsa_l_501_7_2m_1.jpg",
+      "/images/trailers/mzsa_l_501/pritsep_lodka_mzsa_l_501_7_2m_2.jpg",
+      "/images/trailers/mzsa_l_501/pritsep_lodka_mzsa_l_501_7_2m_3.jpg",
+      "/images/trailers/mzsa_l_501/pritsep_lodka_mzsa_l_501_7_2m_4.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленные оцинкованные оси\n\nоборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "2314 кг",
+      "weight": "686 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "7200 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_511",
+    "model": "МЗСА L.511",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 357300,
+    "capacity": 1486,
+    "dimensions": "",
+    "gabarity": "6978x2240x1476 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m.jpg",
+      "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m_1.jpg",
+      "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m_2.jpg",
+      "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m_3.jpg",
+      "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m_4.jpg",
+      "/images/trailers/mzsa_l_511/pritsep_lodka_mzsa_l_511_6_2m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленные оцинкованные оси\n\nоборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "1486 кг",
+      "weight": "514 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "6200 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_601",
+    "model": "МЗСА L.601",
+    "name": "Прицеп для катеров и яхт",
+    "category": "water",
+    "price": 516000,
+    "capacity": 2618,
+    "dimensions": "",
+    "gabarity": "8139x2410x1326 мм",
+    "features": [
+      "В базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m.jpg",
+      "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m_1.jpg",
+      "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m_2.jpg",
+      "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m_3.jpg",
+      "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m_4.jpg",
+      "/images/trailers/mzsa_l_601/pritsep_lodka_mzsa_l_601_7_2m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет произвести наиболее точную регулировку, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду при меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес  и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на ТСУ автомобиля, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорно-балансирная\n\nподвеска\n\nпозволяет равномерно распределить нагрузку между осями и колёсами на ямах, выбоинах и других неровных участках дороги.\n\n●\n\nКаждая ось рассчитана на нагрузку 1800кг.,\n\nоси оборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 500 кг, динамическая нагрузка — до 300 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (500 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "2618 кг",
+      "weight": "882 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "7200 мм мм судно"
+  },
+  {
+    "id": "mzsa_l_611",
+    "model": "МЗСА L.611",
+    "name": "Прицеп для лодок и катеров",
+    "category": "water",
+    "price": 397000,
+    "capacity": 1960,
+    "dimensions": "",
+    "gabarity": "6974x2240x1511 мм",
+    "features": [
+      "Рессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m.jpg",
+    "images": [
+      "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m.jpg",
+      "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m_1.jpg",
+      "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m_2.jpg",
+      "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m_3.jpg",
+      "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m_4.jpg",
+      "/images/trailers/mzsa_l_611/pritsep_lodka_mzsa_l_611_6_2m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижной носовой упор\n\nимеет регулируемую высоту и угол наклона. Он может быть отрегулирован и установлен в наиболее удобное положение для установки перевозимой техники. Лебёдка облегчает погрузку техники на прицеп и страхует её при спуске на воду.\n\n●\n\nЛожементы\n\nмогут быть установлены в любой точке поперечин рамы, имеют регулируемый угол наклона и регулируемую высоту. Это позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска\n\nс гидравлическими амортизаторами сохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленные оцинкованные оси\n\nоборудованы тормозными барабанами с защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\n●\n\nТри автономных тормозных системы\n\n:\n\nрабочая, стояночная и аварийная. Рабочая тормозная система — для торможения при движении в составе автопоезда. Стояночная тормозная система — для фиксации прицепа во время стоянки. Аварийная тормозная система — для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо\n\nс упорным подшипником рукоятки. Регулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними фонарями\n\n, с байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Жгут электропроводки выполнен из литого автомобильного кабеля с герметично залитыми АМР разъемами. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие\n\nгорячим цинкованием существенно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "1960 кг",
+      "weight": "540 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "6200 мм мм судно"
+  },
+  {
+    "id": "mzsa_v_102",
+    "model": "МЗСА V.102",
+    "name": "Прицеп для академических судов",
+    "category": "water",
+    "price": 0,
+    "capacity": 1100,
+    "dimensions": "",
+    "gabarity": "8150x2300x2650 мм",
+    "features": [],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_v_102/pritsep_lodka_mzsa_v_102_8m.jpg",
+    "images": [
+      "/images/trailers/mzsa_v_102/pritsep_lodka_mzsa_v_102_8m.jpg",
+      "/images/trailers/mzsa_v_102/pritsep_lodka_mzsa_v_102_8m_1.jpg",
+      "/images/trailers/mzsa_v_102/pritsep_lodka_mzsa_v_102_8m_2.jpg",
+      "/images/trailers/mzsa_v_102/pritsep_lodka_mzsa_v_102_8m_3.jpg"
+    ],
+    "description": "Надёжное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки и оснащено\n\nкронштейном крепления запасного колеса\n\n.\n\nПлатформа прицепа оборудована отсеком для перевозки оборудования и инвентаря.\n\nПередвижной колесный ход\n\nпозволяет правильно распределить центр тяжести перевозимого груза.\n\nЛожементы\n\nпозволяют равномерно распределить вес судна и уменьшить давление на его корпус.\n\nВыдвижной фартук с габаритными фонарями\n\nнеобходим при перевозке техники выступающей за пределы прицепа более чем на 1 метр.\n\nОпорное колесо\n\nобеспечивает горизонтальное положение прицепа и облегчает его перемещение без тягача.\n\nТри автономные тормозные системы: Рабочая тормозная система\n\n— для служебного и экстренного торможения в составе автопоезда.\n\nСтояночная тормозная система\n\n— для фиксации прицепа во время стоянки.\n\nАварийная тормозная система\n\n— для аварийного торможения прицепа при нарушении сцепки с тягачом.\n\nАнтикоррозийное покрытие методом горячего цинкования\n\n, создаёт надежную защиту от коррозии, обеспечивает долговечность прицепа и служит гарантией сохранности всех металлических элементов конструкции.\n\nВ базовую комплектацию входят\n\nпротивооткатные упоры (2 шт.) и запасное колесо R14C (1 шт.)\n\n.\n\nВсе модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "1100 кг",
+      "weight": "0 кг",
+      "axles": 2
+    },
+    "suspension": "резино-жгутовая",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "8000 мм мм судно"
+  },
+  {
+    "id": "mzsa_v_205",
+    "model": "МЗСА V.205",
+    "name": "Прицеп для гребных судов",
+    "category": "water",
+    "price": 0,
+    "capacity": 1340,
+    "dimensions": "",
+    "gabarity": "11567х2400х2780 мм",
+    "features": [],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m.jpg",
+    "images": [
+      "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m.jpg",
+      "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m_1.jpg",
+      "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m_2.jpg",
+      "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m_3.jpg",
+      "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m_4.jpg",
+      "/images/trailers/mzsa_v_205/pritsep_lodka_mzsa_v_205_12m_5.jpg"
+    ],
+    "description": "Надёжное\n\nV-образное\n\nдышло\n\nвыдерживает сильные динамические нагрузки и оснащено\n\nкронштейном крепления запасного колеса\n\n.\n\nПлатформа прицепа оборудована отсеком для перевозки оборудования и инвентаря.\n\nРегулируемые ложементы\n\nпозволяют равномерно распределить вес судна и уменьшить давление на его корпус.\n\nВыдвижной фартук с габаритными фонарями\n\nнеобходим при перевозке техники выступающей за пределы прицепа более чем на 1 метр.\n\nОпорное колесо\n\nобеспечивает горизонтальное положение прицепа и облегчает его перемещение без тягача.\n\nТри автономные тормозные системы: Рабочая тормозная система\n\n— для служебного и экстренного торможения в составе автопоезда.\n\nСтояночная тормозная система\n\n— для фиксации прицепа во время стоянки.\n\nАварийная тормозная система\n\n— для аварийного торможения прицепа при нарушении сцепки с тягачом.\n\nАнтикоррозийное покрытие методом горячего цинкования\n\n, создаёт надежную защиту от коррозии, обеспечивает долговечность прицепа и служит гарантией сохранности всех металлических элементов конструкции.\n\nВ базовую комплектацию входят\n\nпротивооткатные упоры (2 шт.) и запасное колесо R14C (1 шт.)\n\n.\n\nВсе модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "1340 кг",
+      "weight": "0 кг",
+      "axles": 2
+    },
+    "suspension": "резино-жгутовая",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "12000 мм мм судно"
+  },
+  {
+    "id": "mzsa_w_211",
+    "model": "МЗСА W.211",
+    "name": "Прицеп для двух гидроциклов",
+    "category": "water",
+    "price": 276600,
+    "capacity": 938,
+    "dimensions": "",
+    "gabarity": "5370х2410х1170 мм",
+    "features": [
+      "Рессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.",
+      "В базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.)."
+    ],
+    "availability": "in_stock",
+    "image": "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m.jpg",
+    "images": [
+      "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m.jpg",
+      "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m_1.jpg",
+      "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m_2.jpg",
+      "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m_3.jpg",
+      "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m_4.jpg",
+      "/images/trailers/mzsa_w_211/pritsep_lodka_mzsa_w_211_4_5m_5.jpg"
+    ],
+    "description": "●\n\nУсиленная оцинкованная рама\n\nприцепа выполнена из цельного замкнутого профиля, имеет большой запас прочности и позволяет уберечь жгут электропроводки от внешних повреждений по всей длине прицепа, собрана на болтовых соединениях, что существенно надёжней сварного исполнения и обеспечивает лёгкую замену деталей в случае их механических повреждений. Рама оборудована петлями для крепления груза.\n\n●\n\nПередвижные носовые упоры имеют регулируемую высоту и угол наклона.\n\nОни могут быть отрегулированы и установлены в наиболее удобное положение для моделей перевозимой техники. Лебёдки облегчают погрузку техники на прицеп и страхуют её при спуске на воду.\n\n●\n\nПередвижные ложементы могут быть установлены в любой точке поперечен рамы,\n\nв т. ч.\n\nи над крыльями прицепа, имеют регулируемый угол наклона и регулируемую высоту.\n\nЭто позволяет установить их в наиболее удобное положение, избежать давления на продольные реданы, а также расположить технику максимально низко, тем самым обеспечить устойчивость прицепа при движении и осуществлять спуск судна на воду меньшей глубине. При перевозках и хранении судна на прицепе ложементы позволяют равномерно распределить вес техники и уменьшить давление на корпус судна.\n\n●\n\nПередвижной колесный ход\n\nпозволяет отрегулировать расположение оси и установить её под центром тяжести перевозимого судна. Правильное распределение нагрузки на прицепе обеспечивает безопасность перевозок, позволяет избежать превышения допустимой нагрузки на шар фаркопа, а также запрокидывание прицепа назад при перевозке судна с мотором.\n\n●\n\nРессорная подвеска (2 рессоры по 7 листов) с гидравлическими амортизаторами\n\nсохраняет стабильную плавность хода при разной загруженности прицепа.\n\n●\n\nУсиленная оцинкованная ось рассчитана на нагрузку 1200 кг, тормозные барабаны оборудованы защитными колпаками, усиленные подшипники не требуют дополнительной смазки и регулировки на протяжении всего срока службы.\n\nПроизводство \"МЗСА\".\n\n●\n\nТри автономных тормозных системы: рабочая, стояночная и аварийная. Рабочая тормозная система\n\n— для торможения при движении в составе автопоезда.\n\nСтояночная тормозная система\n\n— для фиксации прицепа во время стоянки.\n\nАварийная тормозная система\n\n— для аварийного торможения при нарушении сцепки с тягачом.\n\n●\n\nОцинкованное опорное колесо с упорным подшипником рукоятки.\n\nРегулируется по высоте, обеспечивает горизонтальное положение прицепа и облегчает его передвижения без тягача. Статическая нагрузка — до 300 кг, динамическая нагрузка — до 180 кг.\n\n●\n\nСъёмные кронштейны с задними габаритными фонарями\n\n, с герметично залитыми АМР разъемами, и  байонетными разъёмами, исключают погружение светотехники воду и обеспечивают её сохранность. Штекер\n\n13-pin\n\n.\n\n●\n\nВ базовую комплектацию входят:\n\nопорное колесо (300 кг), противооткатные упоры (2 шт.).\n\n●\n\nАнтикоррозийное покрытие горячим цинкованием\n\nсущественно эффективнее цинкового напыления или краски. Оно создаёт надёжную защиту от коррозии как внешних, так и внутренних полостей конструкции, значительно продлевая срок службы прицепа.\n\nСрок службы — 5 лет со дня изготовления. Гарантийный срок эксплуатации — 12 месяцев со дня продажи. Все модели сертифицированы. Предоставляется полный комплект документов для постановки на учёт ГИБДД.",
+    "specs": {
+      "dimensions": "",
+      "capacity": "938 кг",
+      "weight": "362 кг",
+      "axles": 2
+    },
+    "suspension": "рессорная",
+    "brakes": "тормоз наката",
+    "bodyDimensions": "4500 мм мм судно"
+  }
 ];
-

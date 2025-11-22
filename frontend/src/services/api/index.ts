@@ -5,7 +5,7 @@ import { RestProvider } from './restProvider';
 // Переключатель провайдера данных
 // 'local' - LocalStorage (браузер)
 // 'rest' - JSON Server (http://localhost:3001)
-const DATA_SOURCE: 'local' | 'rest' = 'rest'; 
+const DATA_SOURCE: 'local' | 'rest' = 'local'; 
 
 class DatabaseFactory {
   private static instance: IDatabaseProvider;

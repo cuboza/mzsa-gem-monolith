@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Trailer, Accessory } from '../types';
-import { X, Info, Check, ShoppingCart, Truck, Ruler, Weight, Shield, Activity, CircleOff } from 'lucide-react';
+import { X, Info, Check, ShoppingCart, Truck, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight } from 'lucide-react';
 import { accessories } from '../data/accessories';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,24 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   const navigate = useNavigate();
   const [selectedAccessoryIds, setSelectedAccessoryIds] = useState<string[]>([]);
   const [showFullInfo, setShowFullInfo] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const allImages = useMemo(() => {
+    if (trailer.images && trailer.images.length > 0) {
+      return trailer.images;
+    }
+    return [trailer.image];
+  }, [trailer]);
+
+  const nextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  };
+
+  const prevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  };
 
   // Filter compatible accessories
   const compatibleAccessories = useMemo(() => {
@@ -63,11 +81,11 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
       >
         {/* Left Column: Image & Key Info */}
         <div className="w-full md:w-5/12 bg-gray-50 flex flex-col border-r border-gray-100 shrink-0">
-          <div className="relative h-64 md:h-80 bg-white shrink-0">
+          <div className="relative h-64 md:h-80 bg-white shrink-0 group">
             <img 
-              src={trailer.image} 
+              src={allImages[currentImageIndex]} 
               alt={trailer.model} 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain p-4"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 if (!target.src.includes('placehold.co')) {
@@ -75,15 +93,47 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                 }
               }}
             />
+            
+            {/* Navigation Arrows */}
+            {allImages.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-opacity opacity-0 group-hover:opacity-100 z-10"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button 
+                  onClick={nextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-opacity opacity-0 group-hover:opacity-100 z-10"
+                >
+                  <ChevronRight size={24} />
+                </button>
+                
+                {/* Dots indicator */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  {allImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
+                      className={`w-2 h-2 rounded-full transition-all shadow-sm ${
+                        idx === currentImageIndex ? 'bg-blue-600 w-4' : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
             <button 
               onClick={onClose}
-              className="absolute top-4 left-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-sm transition-colors md:hidden"
+              className="absolute top-4 left-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-sm transition-colors md:hidden z-20"
             >
               <X size={20} />
             </button>
             
             {trailer.badge && (
-              <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+              <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm z-10">
                 {trailer.badge}
               </div>
             )}

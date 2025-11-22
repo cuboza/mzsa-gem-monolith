@@ -5,22 +5,80 @@
 ## Основные сущности
 
 ### Trailer (Прицеп)
-Основной товар в каталоге.
+Основной товар в каталоге (все данные зеркалятся между scraper ➜ backend ➜ frontend).
 ```typescript
+type TrailerCategory = 'general' | 'water' | 'commercial' | 'moto' | 'wrecker';
+type Availability = 'in_stock' | 'days_1_3' | 'days_7_14';
+
+interface DimensionsMM {
+  length: number;
+  width: number;
+  height?: number;
+}
+
+interface WarehouseStock {
+  warehouse: 'SG-1' | 'SG-vitrina' | 'Service' | 'SG-3' | 'NB' | 'NV' | 'NU';
+  stock: number;            // Количество единиц на складе
+  reserved?: number;        // Бронирование под заказы
+}
+
 interface Trailer {
-  id: string;
-  model: string;       // Модель (напр. "МЗСА 817701")
-  name: string;        // Маркетинговое название
-  price: number;       // Цена в рублях
-  category: 'general' | 'water' | 'commercial' | ...;
-  capacity: number;    // Грузоподъемность (кг)
-  specs?: {            // Технические характеристики
-    dimensions: string;
-    weight: string;
-    axles: number;
-  };
-  availability: 'in_stock' | 'days_1_3' | ...;
-  image: string;       // URL изображения
+  id: string;               // Уникальный ключ (slug)
+  model: string;            // «МЗСА 817701»
+  version?: string;         // «012», если выделяется отдельно
+  name: string;             // Маркетинговое имя
+  category: TrailerCategory;
+  segment?: string;         // «bortovoy», «lodochniy», …
+  price: number;
+  currency: 'RUB';
+  description: string;
+  heroImage: string;        // Главное изображение
+  images: string[];         // Все локальные пути /images/... (из скрапера)
+
+  capacity?: number;             // кг
+  capacityUnit?: 'kg';
+  dimensions?: string;           // «2453×1231×470» для отображения
+  dimensionsMM?: DimensionsMM;   // нормализованные значения в мм
+  bodyDimensions?: string;       // спец. поле для лодочных
+  gabarity?: string;
+  suspension?: string;           // «рессорная», «рессорно-балансирная»
+  brakes?: 'Нет' | 'Есть' | string;
+  specs: Record<string, string | number>; // Полное зеркало сайта
+
+  features: string[];
+  compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle')[];
+  options: string[];             // Массив ID аксессуаров
+  warehouses: WarehouseStock[];  // Остатки по складам
+
+  availability: Availability;
+  badge?: string;
+  isPopular?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+```
+
+> **Источник данных:**
+> 1. Скрапер формирует описание, фотографии, полные specs.
+> 2. Импорт из 1С обновляет цену, availability и `warehouses`.
+> 3. Backend (`db.json`) хранит объединённый результат, фронт потребляет через REST.
+
+### Accessory (Опция/аксессуар)
+Единый справочник доп. оборудования, переиспользуемый в разных прицепах.
+```typescript
+type AccessoryCategory = 'loading' | 'support' | 'spare' | 'cover' | 'safety' | 'guides' | 'boat_support' | 'electrics';
+
+interface Accessory {
+  id: string;                // SKU или slug (уникален глобально)
+  name: string;
+  price: number;
+  currency: 'RUB';
+  description: string;
+  category: AccessoryCategory;
+  image: string;             // Локальный путь /images/accessories/...
+  compatibleWith: string[];  // ['all'] или конкретные категории/модели
+  required: boolean;
+  warehouses: WarehouseStock[]; // Остаток тот же, что и у прицепов
 }
 ```
 
@@ -61,7 +119,13 @@ type UserRole = 'user' | 'manager' | 'admin';
 ```typescript
 interface IDatabaseProvider {
   // Инициализация
-  initializeData(trailers: Trailer[], accessories: Accessory[], settings: Settings, orders?: Order[]): Promise<void>;
+  initializeData(
+    trailers: Trailer[],
+    accessories: Accessory[],
+    settings: Settings,
+    orders?: Order[],
+    warehouses?: WarehouseStock[]
+  ): Promise<void>;
 
   // Заказы
   getOrders(): Promise<Order[]>;

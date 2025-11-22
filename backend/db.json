@@ -1,1245 +1,192 @@
 {
   "trailers": [
     {
-      "id": "mzsa-817700-002",
-      "model": "МЗСА 817700.002",
-      "name": "Прицеп КОМПАКТ",
-      "category": "general",
-      "price": 50600,
-      "capacity": 616,
-      "dimensions": "2050×1100×300",
-      "gabarity": "2945×1550×775",
-      "features": [
-        "Компактный размер",
-        "Горячее цинкование",
-        "Рессорная подвеска"
-      ],
-      "badge": "Хит продаж",
-      "isPopular": true,
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/c610b58cca8b0c8aa965de673ec3e869.jpg",
-      "compatibility": [
-        "atv"
-      ],
-      "maxVehicleLength": 2000,
-      "maxVehicleWidth": 1000,
-      "maxVehicleWeight": 300,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817701-012",
-      "model": "МЗСА 817701.012",
-      "name": "Стандартный одноосный",
-      "category": "general",
-      "price": 69600,
-      "capacity": 565,
-      "dimensions": "1853×1231×290",
-      "gabarity": "3177×1712×848",
-      "features": [
-        "Стандартные борта 29 см",
-        "Горячее цинкование",
-        "Компактный"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0469%202web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817701-014",
-      "model": "МЗСА 817701.014",
-      "name": "С высоким бортом",
-      "category": "general",
-      "price": 75600,
-      "capacity": 553,
-      "dimensions": "1853×1231×470",
-      "gabarity": "3177×1712×1028",
-      "features": [
-        "Высокие борта 47 см",
-        "Увеличенный объем",
-        "Надежная конструкция"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0415%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817701-016",
-      "model": "МЗСА 817701.016",
-      "name": "Средний борт",
-      "category": "general",
-      "price": 74700,
-      "capacity": 556,
-      "dimensions": "1849×1231×440",
-      "gabarity": "3177×1712×998",
-      "features": [
-        "Средние борта 44 см",
-        "Оптимальный объем",
-        "Универсальный"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0469%202web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817701-022",
-      "model": "МЗСА 817701.022",
-      "name": "С тентом 110 см",
-      "category": "general",
-      "price": 78300,
-      "capacity": 500,
-      "dimensions": "1853×1231×470",
-      "gabarity": "3177×1803×1102",
-      "features": [
-        "Тент в комплекте",
-        "Защита от осадков",
-        "Высота тента 110 см"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0377%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817701-026",
-      "model": "МЗСА 817701.026",
-      "name": "OFF-ROAD высокий",
-      "category": "general",
-      "price": 116700,
-      "capacity": 481,
-      "dimensions": "2453×1231×470",
-      "gabarity": "3777×1803×1102",
-      "features": [
-        "Увеличенный клиренс",
-        "Усиленная подвеска",
-        "Для бездорожья"
-      ],
-      "badge": "OFF-ROAD",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0636%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817701-032",
-      "model": "МЗСА 817701.032",
-      "name": "С алюминиевыми бортами",
-      "category": "general",
-      "price": 78300,
-      "capacity": 550,
-      "dimensions": "1853×1231×470",
-      "gabarity": "3177×1712×1028",
-      "features": [
-        "Алюминиевые борта",
-        "Легкая конструкция",
-        "Не ржавеют"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0469%202web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817704-012",
-      "model": "МЗСА 817704.012",
-      "name": "Удлиненный 29 см",
-      "category": "general",
-      "price": 74700,
-      "capacity": 550,
-      "dimensions": "2453×1231×290",
-      "gabarity": "3777×1712×848",
-      "features": [
-        "Удлиненная платформа",
-        "Стандартный борт",
-        "Универсальный"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0303%20web_0.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817704-014",
-      "model": "МЗСА 817704.014",
-      "name": "Удлиненный 47 см",
-      "category": "general",
-      "price": 78300,
-      "capacity": 535,
-      "dimensions": "2453×1231×470",
-      "gabarity": "3777×1712×1028",
-      "features": [
-        "Удлиненная платформа",
-        "Высокий борт",
-        "Большой объем"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0440%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817704-022",
-      "model": "МЗСА 817704.022",
-      "name": "Удлиненный с тентом",
-      "category": "general",
-      "price": 81900,
-      "capacity": 484,
-      "dimensions": "2453×1231×290",
-      "gabarity": "3777×1712×848",
-      "features": [
-        "Удлиненный",
-        "Тент в комплекте",
-        "Защита груза"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0303%20web_0.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817704-034",
-      "model": "МЗСА 817704.034",
-      "name": "С низкой пластиковой крышкой",
-      "category": "general",
-      "price": 78300,
-      "capacity": 540,
-      "dimensions": "2453×1231×470",
-      "gabarity": "3777×1712×1028",
-      "features": [
-        "Пластиковая крышка 64 см",
-        "Защита от осадков",
-        "Легкий доступ"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0303%20web_0.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817705-012",
-      "model": "МЗСА 817705.012",
-      "name": "Широкий для дачи",
-      "category": "general",
-      "price": 81900,
-      "capacity": 537,
-      "dimensions": "2435×1371×290",
-      "gabarity": "3777×1852×848",
-      "features": [
-        "Увеличенная ширина",
-        "Для мототехники",
-        "Универсальный"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0475%20web_1.jpg.jpg",
-      "compatibility": [
-        "atv",
-        "motorcycle"
-      ],
-      "maxVehicleLength": 2500,
-      "maxVehicleWidth": 1400,
-      "maxVehicleWeight": 400,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817705-014",
-      "model": "МЗСА 817705.014",
-      "name": "Широкий высокий борт",
-      "category": "general",
-      "price": 86400,
-      "capacity": 518,
-      "dimensions": "2435×1371×470",
-      "gabarity": "3777×1852×1028",
-      "features": [
-        "Широкий",
-        "Высокий борт 47 см",
-        "Большой объем"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0475%20web_1.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817705-022",
-      "model": "МЗСА 817705.022",
-      "name": "Широкий с тентом АЭРО",
-      "category": "general",
-      "price": 87900,
-      "capacity": 530,
-      "dimensions": "2435×1371×290",
-      "gabarity": "3777×1852×848",
-      "features": [
-        "Тент АЭРО 150 см",
-        "Широкая платформа",
-        "Аэродинамичный"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0475%20web_1.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817706-012",
-      "model": "МЗСА 817706.012",
-      "name": "Сверхширокий",
-      "category": "general",
-      "price": 83400,
-      "capacity": 528,
-      "dimensions": "2435×1511×290",
-      "gabarity": "3777×1992×848",
-      "features": [
-        "Сверхширокая платформа",
-        "Для мотоциклов",
-        "Для ATV"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0303%20web.jpg.jpg",
-      "compatibility": [
-        "atv",
-        "motorcycle"
-      ],
-      "maxVehicleLength": 2500,
-      "maxVehicleWidth": 1500,
-      "maxVehicleWeight": 450,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817730-022",
-      "model": "МЗСА 817730.022",
-      "name": "Двухосный для дачи",
-      "category": "general",
-      "price": 115000,
-      "capacity": 484,
-      "dimensions": "2453×1231×290",
-      "gabarity": "3777×1712×848",
-      "features": [
-        "Две оси",
-        "Повышенная устойчивость",
-        "Плавный ход"
-      ],
-      "badge": "Двухосный",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0616%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817711-012",
-      "model": "МЗСА 817711.012",
-      "name": "Для снегоходов",
-      "category": "moto",
-      "price": 78900,
-      "capacity": 550,
-      "dimensions": "2453×1231×290",
-      "gabarity": "3777×1712×848",
-      "features": [
-        "Направляющие для снегохода",
-        "Лебедка в комплекте",
-        "Усиленная рама"
-      ],
-      "badge": "Для снегоходов",
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0475%20web.jpg.jpg",
-      "compatibility": [
-        "snowmobile"
-      ],
-      "maxVehicleLength": 3500,
-      "maxVehicleWidth": 1300,
-      "maxVehicleWeight": 350,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817711-022",
-      "model": "МЗСА 817711.022",
-      "name": "Снегоход с тентом",
-      "category": "moto",
-      "price": 85600,
-      "capacity": 540,
-      "dimensions": "2453×1231×290",
-      "gabarity": "3777×1712×848",
-      "features": [
-        "Направляющие",
-        "Лебедка",
-        "Тент в комплекте"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0475%20web.jpg.jpg",
-      "compatibility": [
-        "snowmobile"
-      ],
-      "maxVehicleLength": 3500,
-      "maxVehicleWidth": 1300,
-      "maxVehicleWeight": 350,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817712-012",
-      "model": "МЗСА 817712.012",
-      "name": "Для квадроциклов",
-      "category": "moto",
-      "price": 82400,
-      "capacity": 537,
-      "dimensions": "2453×1371×290",
-      "gabarity": "3777×1852×848",
-      "features": [
-        "Широкая платформа",
-        "Аппарель",
-        "Крепления ATV"
-      ],
-      "badge": "Для ATV",
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0354%20web.jpg.jpg",
-      "compatibility": [
-        "atv"
-      ],
-      "maxVehicleLength": 2500,
-      "maxVehicleWidth": 1400,
-      "maxVehicleWeight": 400,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817715-012",
-      "model": "МЗСА 817715.012",
-      "name": "Для мотоциклов",
-      "category": "moto",
-      "price": 85900,
-      "capacity": 530,
-      "dimensions": "2435×1511×290",
-      "gabarity": "3777×1992×848",
-      "features": [
-        "Сверхширокая база",
-        "Упоры для колес",
-        "Удобная погрузка"
-      ],
-      "badge": "Для мотоциклов",
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/IMGP0303%20web.jpg.jpg",
-      "compatibility": [
-        "motorcycle"
-      ],
-      "maxVehicleLength": 2300,
-      "maxVehicleWidth": 1000,
-      "maxVehicleWeight": 350,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817717-012",
-      "model": "МЗСА 817717.012",
-      "name": "Удлиненный для техники",
-      "category": "moto",
-      "price": 88700,
-      "capacity": 520,
-      "dimensions": "3083×1371×290",
-      "gabarity": "4633×1852×848",
-      "features": [
-        "Удлиненная платформа",
-        "Для крупной техники",
-        "Универсальный"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/817717022web.jpg.jpg",
-      "compatibility": [
-        "snowmobile",
-        "atv"
-      ],
-      "maxVehicleLength": 3500,
-      "maxVehicleWidth": 1400,
-      "maxVehicleWeight": 400,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817717-022",
-      "model": "МЗСА 817717.022",
-      "name": "Удлиненный с тентом АЭРО",
-      "category": "moto",
-      "price": 96200,
-      "capacity": 510,
-      "dimensions": "3083×1371×290",
-      "gabarity": "4633×1852×848",
-      "features": [
-        "Тент АЭРО 150 см",
-        "Удлиненный",
-        "Защита техники"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/817717022web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771a-101",
-      "model": "МЗСА 81771A.101",
-      "name": "Для плоскодонных лодок",
+      "id": "mzsa",
+      "model": "Прицеп для лодок и катеров",
+      "name": "Прицеп для лодок и катеров",
       "category": "water",
-      "price": 65300,
-      "capacity": 366,
-      "bodyDimensions": "4300 мм судно",
-      "gabarity": "4460×1550×1079",
-      "features": [
-        "Для плоскодонок",
-        "Ролики",
-        "Простая конструкция"
+      "segment": "lodochniy",
+      "price": 423400,
+      "currency": "RUB",
+      "description": "Оцинкованный держатель запасного колеса R13, R13C и R14С для установки на прицепы МЗСА общего назначения, для коммерческих перевозок и для перевозки водной техники.Исключения: 817700.012,81771C.012 (014) и прицепы серии МЗСА 8421.",
+      "heroImage": "/images/trailers/mzsa/00-i7005008452ad578566a47f3a60c5a7b22ca17e.jpg",
+      "images": [
+        "/images/trailers/mzsa/00-i7005008452ad578566a47f3a60c5a7b22ca17e.jpg",
+        "/images/trailers/mzsa/01-1.jpg",
+        "/images/trailers/mzsa/02-2.jpg",
+        "/images/trailers/mzsa/03-3.jpg",
+        "/images/trailers/mzsa/04-4.jpg",
+        "/images/trailers/mzsa/05-5.jpg",
+        "/images/trailers/mzsa/06-6.jpg"
       ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/ec741d88c1f479ddd455efb728a8595c.jpg",
+      "capacity": 1814,
+      "capacityUnit": "kg",
+      "dimensionsMM": {
+        "length": 7974,
+        "width": 2240,
+        "height": 1294
+      },
+      "bodyDimensions": "7200 мм",
+      "gabarity": "7974x2240x1294 мм",
+      "suspension": "рессорная",
+      "brakes": "Есть",
+      "specs": {
+        "Полная масса": 2500,
+        "Полная масса_unit": "кг",
+        "Грузоподъемность": 1814,
+        "Грузоподъемность_unit": "кг",
+        "Снаряжённая масса": 686,
+        "Снаряжённая масса_unit": "кг",
+        "Габаритные размеры": "7974x2240x1294 мм",
+        "Габаритные размеры_length": 7974,
+        "Габаритные размеры_width": 2240,
+        "Габаритные размеры_height": 1294,
+        "Длина судна": "7200 мм",
+        "Опоры для судна": "ложементы",
+        "Подвеска": "рессорная",
+        "Кол-во листов рессоры": "9",
+        "Кол-во осей/колёс": "2/4",
+        "Нагрузка на одну ось": 1190,
+        "Нагрузка на одну ось_unit": "кг",
+        "Дорожный просвет": "269 мм",
+        "Колея колес": "2040 мм",
+        "Размер колёс": "R14С",
+        "Тип ТСУ": "шар Ø50 мм",
+        "Фонари": "светодиодные",
+        "Тормоз": "тормоз наката",
+        "Штекер": "13-pin",
+        "Петли крепления груза": "4 шт.",
+        "Защитное покрытие": "цинк"
+      },
+      "features": [],
       "compatibility": [
         "boat"
       ],
-      "maxVehicleLength": 4300,
-      "maxVehicleWidth": 1500,
-      "maxVehicleWeight": 300,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771b-101",
-      "model": "МЗСА 81771B.101",
-      "name": "Для каяков и байдарок",
-      "category": "water",
-      "price": 67800,
-      "capacity": 367,
-      "bodyDimensions": "4100 мм судно",
-      "gabarity": "4290×1550×1095",
-      "features": [
-        "Для каяков",
-        "Для байдарок",
-        "Легкая конструкция"
+      "options": [
+        "acc-8586",
+        "acc-8741"
       ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/eadde69d4e731f5346db3043c2c8d.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 4100,
-      "maxVehicleWidth": 1000,
-      "maxVehicleWeight": 150,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771c-101",
-      "model": "МЗСА 81771C.101",
-      "name": "Для гидроциклов",
-      "category": "water",
-      "price": 85400,
-      "capacity": 590,
-      "bodyDimensions": "3000 мм судно",
-      "gabarity": "3476×1625×942",
-      "features": [
-        "Ролики",
-        "Лебедка",
-        "Передвижные петли"
-      ],
-      "badge": "Для гидроциклов",
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/ecd0cbf34dd7bde9809146ab8f4c.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 3000,
-      "maxVehicleWidth": 1300,
-      "maxVehicleWeight": 400,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771d-101",
-      "model": "МЗСА 81771D.101",
-      "name": "Универсальный лодочный",
-      "category": "water",
-      "price": 89600,
-      "capacity": 583,
-      "bodyDimensions": "3400 мм судно",
-      "gabarity": "3976×1625×1163",
-      "features": [
-        "Ложементы",
-        "Ролики",
-        "Киль-ролик"
-      ],
-      "badge": "Универсальный",
-      "isPopular": true,
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/dab55f0ab92db6144dbad8454fb62769.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 3400,
-      "maxVehicleWidth": 1800,
-      "maxVehicleWeight": 400,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771e-101",
-      "model": "МЗСА 81771E.101",
-      "name": "С роликами",
-      "category": "water",
-      "price": 90100,
-      "capacity": 587,
-      "bodyDimensions": "3400 мм судно",
-      "gabarity": "3976×1625×1163",
-      "features": [
-        "Усиленные ролики",
-        "Легкая загрузка",
-        "Защита киля"
+      "warehouses": [
+        {
+          "warehouse": "SG-1",
+          "stock": 0
+        },
+        {
+          "warehouse": "SG-vitrina",
+          "stock": 0
+        },
+        {
+          "warehouse": "Service",
+          "stock": 0
+        },
+        {
+          "warehouse": "SG-3",
+          "stock": 0
+        },
+        {
+          "warehouse": "NB",
+          "stock": 0
+        },
+        {
+          "warehouse": "NV",
+          "stock": 0
+        },
+        {
+          "warehouse": "NU",
+          "stock": 0
+        }
       ],
       "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/fb507597fe34465e5e26fcce8a9059a0.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 3400,
-      "maxVehicleWidth": 1800,
-      "maxVehicleWeight": 400,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771f-101",
-      "model": "МЗСА 81771F.101",
-      "name": "Для лодок до 3.9 м",
-      "category": "water",
-      "price": 92800,
-      "capacity": 574,
-      "bodyDimensions": "3900 мм судно",
-      "gabarity": "4476×1625×1163",
-      "features": [
-        "Удлиненная база",
-        "Ролики",
-        "Ложементы"
-      ],
-      "availability": "in_stock",
-      "image": "https://www.mzsa.ru/images/big/dab55f0ab92db6144dbad8454fb62769.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 3900,
-      "maxVehicleWidth": 1800,
-      "maxVehicleWeight": 450,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771g-011",
-      "model": "МЗСА 81771G.011",
-      "name": "Широкий для катеров",
-      "category": "water",
-      "price": 95400,
-      "capacity": 563,
-      "bodyDimensions": "4300 мм судно",
-      "gabarity": "4976×1965×1163",
-      "features": [
-        "Широкая база",
-        "Для катеров",
-        "Усиленная рама"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/ccf45b3a63e58e744bd550c9d204557.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 4300,
-      "maxVehicleWidth": 1900,
-      "maxVehicleWeight": 500,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81771g-021",
-      "model": "МЗСА 81771G.021",
-      "name": "Катерный с доп. роликами",
-      "category": "water",
-      "price": 96200,
-      "capacity": 571,
-      "bodyDimensions": "4300 мм судно",
-      "gabarity": "4976×1965×1163",
-      "features": [
-        "Дополнительные ролики",
-        "Широкий",
-        "Плавная загрузка"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/ccf45b3a63e58e744bd550c9d204557.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 4300,
-      "maxVehicleWidth": 1900,
-      "maxVehicleWeight": 500,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81773g-011",
-      "model": "МЗСА 81773G.011",
-      "name": "Для больших лодок",
-      "category": "water",
-      "price": 105600,
-      "capacity": 554,
-      "bodyDimensions": "4750 мм судно",
-      "gabarity": "5476×1965×1163",
-      "features": [
-        "Удлиненный",
-        "Широкий",
-        "Для крупных судов"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/b1dd53324ae5fe06ba1ed0dab9e40e.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 4750,
-      "maxVehicleWidth": 1900,
-      "maxVehicleWeight": 500,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81773g-013",
-      "model": "МЗСА 81773G.013",
-      "name": "С усиленной рамой",
-      "category": "water",
-      "price": 106400,
-      "capacity": 550,
-      "bodyDimensions": "4750 мм судно",
-      "gabarity": "5476×1965×1163",
-      "features": [
-        "Усиленная рама",
-        "Повышенная прочность",
-        "Для тяжелых судов"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/e579491e2ddda4ba0d162c8d81ee1a4.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81774g-021",
-      "model": "МЗСА 81774G.021",
-      "name": "Сверхширокий",
-      "category": "water",
-      "price": 115800,
-      "capacity": 490,
-      "bodyDimensions": "4750 мм судно",
-      "gabarity": "5474×2240×1199",
-      "features": [
-        "Сверхширокая база",
-        "Для широких катеров",
-        "Стабильность"
-      ],
-      "badge": "Сверхширокий",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/dc3ea222d2fbf78a7a71df79d32ff.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 4750,
-      "maxVehicleWidth": 2200,
-      "maxVehicleWeight": 450,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81774g-023",
-      "model": "МЗСА 81774G.023",
-      "name": "Сверхширокий с ложементами",
-      "category": "water",
-      "price": 116600,
-      "capacity": 488,
-      "bodyDimensions": "4750 мм судно",
-      "gabarity": "5474×2240×1199",
-      "features": [
-        "Ложементы",
-        "Сверхширокий",
-        "Защита корпуса"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/eff22a884460bcb94fb78273cfc85.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81775g-021",
-      "model": "МЗСА 81775G.021",
-      "name": "Для больших катеров",
-      "category": "water",
-      "price": 125200,
-      "capacity": 480,
-      "bodyDimensions": "5450 мм судно",
-      "gabarity": "5974×2240×1199",
-      "features": [
-        "Максимальная длина",
-        "Сверхширокий",
-        "Для яхт"
-      ],
-      "badge": "Премиум",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/e5659690dc3239847f335115d4ef7b60.jpg",
-      "compatibility": [
-        "boat"
-      ],
-      "maxVehicleLength": 5450,
-      "maxVehicleWidth": 2200,
-      "maxVehicleWeight": 450,
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-81773h-131",
-      "model": "МЗСА 81773H.131",
-      "name": "Повышенная грузоподъемность",
-      "category": "water",
-      "price": 180000,
-      "capacity": 938,
-      "bodyDimensions": "4500 мм судно",
-      "gabarity": "5370×2410×1170",
-      "features": [
-        "1300 кг полная масса",
-        "Усиленная конструкция",
-        "Для тяжелых судов"
-      ],
-      "badge": "1300 кг",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/b3cdddd998da52672bb28f8b55c77f5.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817732-022",
-      "model": "МЗСА 817732.022",
-      "name": "Двухосный с тентом",
-      "category": "water",
-      "price": 125000,
-      "capacity": 500,
-      "dimensions": "3083×1371×290",
-      "gabarity": "4633×1852×848",
-      "features": [
-        "Две оси",
-        "Тент АЭРО 150",
-        "Плавный ход"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0324%20web_0.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817735-022",
-      "model": "МЗСА 817735.022",
-      "name": "Двухосный большой",
-      "category": "water",
-      "price": 145000,
-      "capacity": 480,
-      "dimensions": "3644×1511×290",
-      "gabarity": "5194×1992×848",
-      "features": [
-        "Две оси",
-        "Тент АЭРО 150",
-        "Максимальный объем"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-822221-102",
-      "model": "МЗСА 822221.102",
-      "name": "Для академических судов",
-      "category": "water",
-      "price": 350000,
-      "capacity": 1100,
-      "bodyDimensions": "8000 мм судно",
-      "gabarity": "8150×2300×2650",
-      "features": [
-        "Для байдарок-восьмерок",
-        "Специальная конструкция",
-        "Профессиональный"
-      ],
-      "badge": "Спортивный",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/d2838c49783225ba4ffcb30b135c5.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817737-001",
-      "model": "МЗСА 817737.001",
-      "name": "Коммерческий компакт",
-      "category": "commercial",
-      "price": 136100,
-      "capacity": 448,
-      "dimensions": "2608×1650×300",
-      "gabarity": "3903×1784×985",
-      "features": [
-        "Компактный коммерческий",
-        "До 750 кг",
-        "Одна ось"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Нет"
-    },
-    {
-      "id": "mzsa-817738-001",
-      "model": "МЗСА 817738.001",
-      "name": "Удлиненный коммерческий",
-      "category": "commercial",
-      "price": 155600,
-      "capacity": 412,
-      "dimensions": "3083×1850×300",
-      "gabarity": "4633×1984×985",
-      "features": [
-        "Удлиненный",
-        "Увеличенная ширина",
-        "Большой объем"
-      ],
-      "availability": "days_1_3",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817739-001",
-      "model": "МЗСА 817739.001",
-      "name": "Максимальный объем",
-      "category": "commercial",
-      "price": 180000,
-      "capacity": 345,
-      "dimensions": "3644×2100×300",
-      "gabarity": "5194×2234×991",
-      "features": [
-        "Максимальные размеры",
-        "Сверхширокий",
-        "Для крупных грузов"
-      ],
-      "badge": "Макси",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817740-251",
-      "model": "МЗСА 817740.251",
-      "name": "Двухосный 2500 кг",
-      "category": "commercial",
-      "price": 320000,
-      "capacity": 1800,
-      "dimensions": "3646×2100×400",
-      "gabarity": "5126×2169×1169",
-      "features": [
-        "Две оси",
-        "2500 кг полная масса",
-        "Усиленная рама"
-      ],
-      "badge": "2500 кг",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817740-301",
-      "model": "МЗСА 817740.301",
-      "name": "Двухосный 3000 кг",
-      "category": "commercial",
-      "price": 350000,
-      "capacity": 2246,
-      "dimensions": "3646×2100×400",
-      "gabarity": "5041×2169×1176",
-      "features": [
-        "Две оси",
-        "3000 кг полная масса",
-        "Коммерческий класс"
-      ],
-      "badge": "3000 кг",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817741-251",
-      "model": "МЗСА 817741.251",
-      "name": "Удлиненный 2500 кг",
-      "category": "commercial",
-      "price": 340000,
-      "capacity": 1762,
-      "dimensions": "4126×2100×400",
-      "gabarity": "5608×2169×1169",
-      "features": [
-        "Удлиненный",
-        "Две оси",
-        "2500 кг"
-      ],
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-817741-301",
-      "model": "МЗСА 817741.301",
-      "name": "Удлиненный 3000 кг",
-      "category": "commercial",
-      "price": 370000,
-      "capacity": 2262,
-      "dimensions": "4126×2100×400",
-      "gabarity": "5608×2169×1169",
-      "features": [
-        "Удлиненный",
-        "Две оси",
-        "3000 кг",
-        "Максимальная загрузка"
-      ],
-      "badge": "Макси 3т",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/IMGP0449%20web.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-m4620-225-101",
-      "model": "МЗСА M 4620-2.25.101",
-      "name": "Эвакуатор 2500 кг",
-      "category": "wrecker",
-      "price": 396000,
-      "capacity": 1800,
-      "dimensions": "4600×1958×170",
-      "gabarity": "6464×2536×791",
-      "features": [
-        "Платформа-эвакуатор",
-        "2500 кг полная масса",
-        "Лебедка в комплекте"
-      ],
-      "badge": "Эвакуатор",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-m5220-270-101",
-      "model": "МЗСА M 5220-2.70.101",
-      "name": "Эвакуатор 3500 кг",
-      "category": "wrecker",
-      "price": 480000,
-      "capacity": 2680,
-      "dimensions": "5200×1953×167",
-      "gabarity": "7095×2535×784",
-      "features": [
-        "Удлиненная платформа",
-        "3500 кг полная масса",
-        "Для крупных авто"
-      ],
-      "badge": "3500 кг",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-834020-251",
-      "model": "МЗСА 834020.251",
-      "name": "Низкорамный 2500 кг",
-      "category": "wrecker",
-      "price": 420000,
-      "capacity": 1790,
-      "dimensions": "4607×2123×35",
-      "gabarity": "6408×2200×771",
-      "features": [
-        "Низкая рама 35 мм",
-        "Легкая загрузка",
-        "2500 кг"
-      ],
-      "badge": "Низкорамный",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
-    },
-    {
-      "id": "mzsa-835120-301",
-      "model": "МЗСА 835120.301",
-      "name": "Низкорамный 3500 кг",
-      "category": "wrecker",
-      "price": 520000,
-      "capacity": 2540,
-      "dimensions": "5100×2200×35",
-      "gabarity": "7003×2200×795",
-      "features": [
-        "Низкая рама",
-        "Удлиненный",
-        "3500 кг",
-        "Для тяжелой техники"
-      ],
-      "badge": "Низкорамный 3.5т",
-      "availability": "days_7_14",
-      "image": "https://www.mzsa.ru/images/big/pricep-mzsa832132-211-01.jpg.jpg",
-      "suspension": "Рессорная",
-      "brakes": "Есть"
+      "isPopular": false,
+      "createdAt": "2025-11-21T16:33:23.344Z",
+      "updatedAt": "2025-11-21T16:33:23.345Z"
     }
   ],
   "accessories": [
     {
-      "id": "acc-001",
-      "name": "Лебедка с кронштейном",
-      "price": 15000,
-      "category": "loading",
-      "required": false,
-      "image": "https://www.mzsa.ru/netcat_files/116/118/h_8b3aefb513c5a8a3431f57b1d4d767e3",
-      "description": "Для загрузки тяжелой техники",
-      "compatibleWith": [
-        "snowmobile",
-        "boat",
-        "atv"
-      ]
-    },
-    {
-      "id": "acc-002",
-      "name": "Опорное колесо",
-      "price": 3500,
+      "id": "acc-8586",
+      "name": "Держатель запасного колеса МЗСА 3105.0003",
+      "price": 3300,
+      "currency": "RUB",
+      "description": "",
       "category": "support",
-      "required": true,
-      "image": "https://www.mzsa.ru/netcat_files/116/118/h_3708c65658ed9d131c45a36657807c6d",
-      "description": "Стандартное опорное колесо Ø48",
+      "image": "/images/accessories/acc-8586/00-derzhatel_zapasnogo_kolesa_mzsa_3105_0003_8586.jpg",
       "compatibleWith": [
         "all"
-      ]
-    },
-    {
-      "id": "acc-003",
-      "name": "Держатель запасного колеса",
-      "price": 2800,
-      "category": "spare",
+      ],
       "required": false,
-      "image": "https://www.mzsa.ru/netcat_files/116/118/h_47058cedcb5e16ed415b7380d8eab6d8",
-      "description": "Для колес R13, R13C, R14C",
-      "compatibleWith": [
-        "all"
+      "warehouses": [
+        {
+          "warehouse": "SG-1",
+          "stock": 0
+        },
+        {
+          "warehouse": "SG-vitrina",
+          "stock": 0
+        },
+        {
+          "warehouse": "Service",
+          "stock": 0
+        },
+        {
+          "warehouse": "SG-3",
+          "stock": 0
+        },
+        {
+          "warehouse": "NB",
+          "stock": 0
+        },
+        {
+          "warehouse": "NV",
+          "stock": 0
+        },
+        {
+          "warehouse": "NU",
+          "stock": 0
+        }
       ]
     },
     {
-      "id": "acc-004",
-      "name": "Тент АЭРО 150 см",
-      "price": 8500,
-      "category": "cover",
-      "required": false,
-      "image": "https://www.mzsa.ru/netcat_files/116/118/h_c348d5ee650ef1ac0f3b95d7b55aadd6",
-      "description": "Водонепроницаемый тент",
-      "compatibleWith": [
-        "general",
-        "moto"
-      ]
-    },
-    {
-      "id": "acc-005",
-      "name": "Противооткатные упоры",
-      "price": 1200,
-      "category": "safety",
-      "required": true,
-      "image": "/api/placeholder/120/80",
-      "description": "2 шт. в комплекте",
-      "compatibleWith": [
-        "all"
-      ]
-    },
-    {
-      "id": "acc-006",
-      "name": "Направляющие для снегохода",
-      "price": 4500,
+      "id": "acc-8741",
+      "name": "Колесо с шиной 185/R14С в сборе",
+      "price": 14400,
+      "currency": "RUB",
+      "description": "",
       "category": "guides",
-      "required": false,
-      "image": "/api/placeholder/120/80",
-      "description": "Специальные полозья",
-      "compatibleWith": [
-        "snowmobile"
-      ]
-    },
-    {
-      "id": "acc-007",
-      "name": "Ложементы для лодки",
-      "price": 6000,
-      "category": "boat_support",
-      "required": false,
-      "image": "/api/placeholder/120/80",
-      "description": "Мягкие опоры для корпуса",
-      "compatibleWith": [
-        "boat"
-      ]
-    },
-    {
-      "id": "acc-008",
-      "name": "Килевой ролик",
-      "price": 2500,
-      "category": "boat_support",
-      "required": false,
-      "image": "/api/placeholder/120/80",
-      "description": "Защита киля при загрузке",
-      "compatibleWith": [
-        "boat"
-      ]
-    },
-    {
-      "id": "acc-009",
-      "name": "Аппарель для заезда",
-      "price": 12000,
-      "category": "loading",
-      "required": false,
-      "image": "https://www.mzsa.ru/netcat_files/116/118/h_922b310b478c33861971b862b92a8ab1",
-      "description": "Съемная рампа 500 кг",
-      "compatibleWith": [
-        "atv",
-        "snowmobile"
-      ]
-    },
-    {
-      "id": "acc-10",
-      "name": "Упор переднего колеса",
-      "price": 1800,
-      "category": "guides",
-      "required": false,
-      "image": "/api/placeholder/120/80",
-      "description": "Фиксатор для мотоциклов",
-      "compatibleWith": [
-        "atv",
-        "motorcycle"
-      ]
-    },
-    {
-      "id": "acc-11",
-      "name": "Держатель штекера",
-      "price": 800,
-      "category": "support",
-      "required": true,
-      "image": "/api/placeholder/120/80",
-      "description": "Для подключения электропроводки",
+      "image": "/images/accessories/acc-8741/00-koleso_s_shinoy_185_r14s_v_sbore_8741.jpg",
       "compatibleWith": [
         "all"
-      ]
-    },
-    {
-      "id": "acc-12",
-      "name": "Страховочные цепи",
-      "price": 1500,
-      "category": "safety",
-      "required": true,
-      "image": "/api/placeholder/120/80",
-      "description": "Для безопасности сцепки",
-      "compatibleWith": [
-        "all"
+      ],
+      "required": false,
+      "warehouses": [
+        {
+          "warehouse": "SG-1",
+          "stock": 0
+        },
+        {
+          "warehouse": "SG-vitrina",
+          "stock": 0
+        },
+        {
+          "warehouse": "Service",
+          "stock": 0
+        },
+        {
+          "warehouse": "SG-3",
+          "stock": 0
+        },
+        {
+          "warehouse": "NB",
+          "stock": 0
+        },
+        {
+          "warehouse": "NV",
+          "stock": 0
+        },
+        {
+          "warehouse": "NU",
+          "stock": 0
+        }
       ]
     }
   ],
@@ -1451,5 +398,35 @@
       ]
     }
   },
-  "customers": []
+  "customers": [],
+  "warehouses": [
+    {
+      "id": "SG-1",
+      "name": "SG-1"
+    },
+    {
+      "id": "SG-vitrina",
+      "name": "SG-vitrina"
+    },
+    {
+      "id": "Service",
+      "name": "Service"
+    },
+    {
+      "id": "SG-3",
+      "name": "SG-3"
+    },
+    {
+      "id": "NB",
+      "name": "NB"
+    },
+    {
+      "id": "NV",
+      "name": "NV"
+    },
+    {
+      "id": "NU",
+      "name": "NU"
+    }
+  ]
 }

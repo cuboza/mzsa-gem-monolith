@@ -15,6 +15,7 @@ export interface Trailer {
   isPopular?: boolean;
   availability: 'in_stock' | 'days_1_3' | 'days_7_14';
   image: string; // URL placeholder
+  images?: string[]; // Array of all trailer images
   description?: string;
   
   specs?: {
