@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Trailer, Accessory } from '../types';
 import { X, Info, Check, ShoppingCart, Truck, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight } from 'lucide-react';
 import { accessories } from '../data/accessories';
@@ -12,11 +12,33 @@ interface TrailerDetailsModalProps {
 export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalProps) => {
   const navigate = useNavigate();
   const [selectedAccessoryIds, setSelectedAccessoryIds] = useState<string[]>([]);
-  const [showFullSpecs, setShowFullSpecs] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullSpecs, setShowFullSpecs] = useState(true);
+  const [showFullDescription, setShowFullDescription] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [hoveredAccessoryImage, setHoveredAccessoryImage] = useState<{url: string, x: number, y: number} | null>(null);
+  const normalizeWhitespace = (text: string) => text.replace(/\s+/g, ' ').trim();
+  const fallbackDescription = "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы.";
+  const descriptionParagraphs = useMemo(() => {
+    const base = trailer.description && trailer.description.trim().length ? trailer.description : fallbackDescription;
+    return base
+      .split(/\n+/)
+      .map(part => normalizeWhitespace(part))
+      .filter(Boolean);
+  }, [trailer.description]);
+  const formattedFeatures = useMemo(() => {
+    return (trailer.features || [])
+      .map(feature => typeof feature === 'string' ? normalizeWhitespace(feature) : '')
+      .filter(Boolean);
+  }, [trailer.features]);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   const allImages = useMemo(() => {
     if (trailer.images && trailer.images.length > 0) {
@@ -106,7 +128,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           </button>
           <img 
             src={lightboxImage} 
-            alt="Full view" 
+            alt="Полный вид" 
             className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
@@ -126,7 +148,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
         >
           <img 
             src={hoveredAccessoryImage.url} 
-            alt="Preview" 
+            alt="Предпросмотр" 
             className="w-full h-full object-contain rounded-lg bg-gray-50"
           />
         </div>
@@ -196,7 +218,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             )}
           </div>
 
-          <div className="p-6 flex-grow flex flex-col">
+          <div className="p-6 flex-grow overflow-y-auto custom-scrollbar">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">{trailer.model}</h2>
             <p className="text-gray-500 mb-6">{trailer.name}</p>
 
@@ -263,11 +285,15 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
 
                   <div>
                     <h5 className="font-bold text-gray-900 mb-2">Особенности модели:</h5>
-                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                      {trailer.features.map((f, i) => (
-                        <li key={i}>{f}</li>
-                      ))}
-                    </ul>
+                    {formattedFeatures.length > 0 ? (
+                      <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        {formattedFeatures.map((feature, i) => (
+                          <li key={i}>{feature}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-sm text-gray-500">Характеристики уточняются.</p>
+                    )}
                   </div>
                 </div>
               )}
@@ -277,7 +303,11 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             <div className="mb-6 border-t border-gray-100 pt-6">
                <h3 className="font-bold text-gray-900 mb-2">Описание</h3>
                <div className={`text-sm text-gray-600 relative ${!showFullDescription ? 'max-h-24 overflow-hidden' : ''}`}>
-                 <p className="whitespace-pre-line">{trailer.description || "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы."}</p>
+                 {descriptionParagraphs.map((paragraph, idx) => (
+                   <p key={idx} className="mb-3 last:mb-0 leading-relaxed">
+                     {paragraph}
+                   </p>
+                 ))}
                  {!showFullDescription && (
                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
                  )}
@@ -289,8 +319,11 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                   {showFullDescription ? 'Свернуть' : 'Читать полностью'}
                </button>
             </div>
+          </div>
 
-            <div className="mt-auto bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+          {/* Sticky Footer for Price & Order */}
+          <div className="p-4 bg-white border-t border-gray-200 shrink-0 z-10">
+            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
               <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
                 <span>Прицеп:</span>
                 <span>{formatPrice(trailer.price || 0)} ₽</span>
@@ -301,7 +334,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                   <span>+ {formatPrice(optionsPrice)} ₽</span>
                 </div>
               )}
-              <div className="border-t border-gray-100 pt-2 mt-2 flex justify-between items-end">
+              <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between items-end">
                 <span className="font-bold text-gray-900">Итого:</span>
                 <span className="text-2xl font-bold text-blue-600">{formatPrice(totalPrice || 0)} ₽</span>
               </div>
@@ -329,15 +362,16 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             </button>
           </div>
 
-          <div className="overflow-y-auto p-6 flex-grow custom-scrollbar">
-            {/* Options List */}
-            <div>
-              <h4 className="font-bold text-gray-900 mb-4 flex items-center">
-                <Shield className="w-5 h-5 mr-2 text-green-600" />
+          <div className="flex flex-col flex-grow min-h-0">
+            <div className="px-6 pt-6 pb-4 shrink-0">
+              <h4 className="font-bold text-gray-900 flex items-center">
+                <Shield className="w-5 h-5 mr-2 text-blue-600" />
                 Дополнительные опции
               </h4>
-              
-              <div className="space-y-3">
+            </div>
+
+            <div className="overflow-y-auto flex-grow custom-scrollbar">
+              <div className="px-6 pb-6 space-y-3">
                 {compatibleAccessories.map(acc => (
                   <div 
                     key={acc.id}

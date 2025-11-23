@@ -17,16 +17,16 @@ export const TrailerCard = ({ trailer, onOrder, onClick }: TrailerCardProps) => 
 
   return (
     <div 
-      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full group cursor-pointer"
+      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col h-full group cursor-pointer"
       onClick={() => onClick?.(trailer)}
     >
       {/* Изображение */}
-      <div className="relative h-48 bg-gray-100 overflow-hidden group-hover:opacity-95 transition-opacity">
+      <div className="relative h-48 bg-white flex items-center justify-center overflow-hidden group-hover:opacity-95 transition-opacity">
         {trailer.image ? (
           <img 
             src={trailer.image} 
             alt={trailer.model} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain p-4"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               // Try a placeholder if the main image fails (e.g. hotlinking protection)

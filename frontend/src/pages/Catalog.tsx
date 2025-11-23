@@ -23,7 +23,8 @@ export const Catalog = () => {
   
   // State for filters
   const [onlyInStock, setOnlyInStock] = useState(searchParams.get('stock') === 'true');
-  const [priceRange, setPriceRange] = useState<'all' | 'low' | 'mid' | 'high'>((searchParams.get('price') as any) || 'all');
+  const [minPrice, setMinPrice] = useState(searchParams.get('min_price') || '');
+  const [maxPrice, setMaxPrice] = useState(searchParams.get('max_price') || '');
   const [axles, setAxles] = useState(searchParams.get('axles') || 'all');
   const [brakes, setBrakes] = useState(searchParams.get('brakes') || 'all');
   const [sortOption, setSortOption] = useState(searchParams.get('sort') || 'price_asc');
@@ -89,9 +90,8 @@ export const Catalog = () => {
       if (onlyInStock && trailer.availability !== 'in_stock') return false;
 
       // 2. Цена
-      if (priceRange === 'low' && trailer.price > 80000) return false;
-      if (priceRange === 'mid' && (trailer.price <= 80000 || trailer.price > 150000)) return false;
-      if (priceRange === 'high' && trailer.price <= 150000) return false;
+      if (minPrice && trailer.price < parseInt(minPrice)) return false;
+      if (maxPrice && trailer.price > parseInt(maxPrice)) return false;
 
       // 3. Оси
       if (axles !== 'all') {
@@ -150,7 +150,7 @@ export const Catalog = () => {
     });
 
     return result;
-  }, [trailers, onlyInStock, priceRange, axles, brakes, sortOption]);
+  }, [trailers, onlyInStock, minPrice, maxPrice, axles, brakes, sortOption]);
 
   const handleCategoryChange = (id: string) => {
     setSearchParams(prev => {
@@ -182,8 +182,10 @@ export const Catalog = () => {
               showFilters={showFilters}
               onToggleFilters={() => setShowFilters(!showFilters)}
               
-              priceRange={priceRange}
-              onPriceRangeChange={(val) => { setPriceRange(val); updateFilters('price', val); }}
+              minPrice={minPrice}
+              onMinPriceChange={(val) => { setMinPrice(val); updateFilters('min_price', val); }}
+              maxPrice={maxPrice}
+              onMaxPriceChange={(val) => { setMaxPrice(val); updateFilters('max_price', val); }}
               
               onlyInStock={onlyInStock}
               onStockChange={(val) => { setOnlyInStock(val); updateFilters('stock', String(val)); }}
@@ -234,7 +236,8 @@ export const Catalog = () => {
                 setSearchQuery('');
                 setSearchParams({});
                 setOnlyInStock(false);
-                setPriceRange('all');
+                setMinPrice('');
+                setMaxPrice('');
               }}
               className="mt-4 text-blue-600 hover:underline"
             >

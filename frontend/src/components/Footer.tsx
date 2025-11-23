@@ -22,9 +22,8 @@ export const Footer = () => {
           <div>
             <h4 className="font-bold mb-4 text-lg">Каталог</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><Link to="/catalog?cat=general" className="hover:text-white transition-colors">Дачные прицепы</Link></li>
+              <li><Link to="/catalog?cat=general" className="hover:text-white transition-colors">Универсальные прицепы</Link></li>
               <li><Link to="/catalog?cat=water" className="hover:text-white transition-colors">Лодочные прицепы</Link></li>
-              <li><Link to="/catalog?cat=moto" className="hover:text-white transition-colors">Для мототехники</Link></li>
               <li><Link to="/catalog?cat=commercial" className="hover:text-white transition-colors">Коммерческие</Link></li>
               <li><Link to="/catalog?cat=wrecker" className="hover:text-white transition-colors">Эвакуаторы</Link></li>
             </ul>

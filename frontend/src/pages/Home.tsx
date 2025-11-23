@@ -93,7 +93,7 @@ export const Home = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-10 text-gray-900">Популярные категории</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <div 
               onClick={() => navigate('/catalog?cat=general')}
               className="group cursor-pointer relative h-64 rounded-2xl overflow-hidden shadow-md"
@@ -102,7 +102,7 @@ export const Home = () => {
               <div className="absolute inset-0 bg-blue-900 group-hover:scale-110 transition-transform duration-700"></div>
               {/* Тут должно быть изображение */}
               <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
-                <h3 className="text-2xl font-bold mb-1">Дачные прицепы</h3>
+                <h3 className="text-2xl font-bold mb-1">Универсальные прицепы</h3>
                 <p className="text-sm opacity-80">Самые популярные модели</p>
               </div>
             </div>
@@ -116,18 +116,6 @@ export const Home = () => {
               <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
                 <h3 className="text-2xl font-bold mb-1">Лодочные</h3>
                 <p className="text-sm opacity-80">Для катеров и гидроциклов</p>
-              </div>
-            </div>
-
-            <div 
-              onClick={() => navigate('/catalog?cat=moto')}
-              className="group cursor-pointer relative h-64 rounded-2xl overflow-hidden shadow-md"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-              <div className="absolute inset-0 bg-blue-700 group-hover:scale-110 transition-transform duration-700"></div>
-              <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
-                <h3 className="text-2xl font-bold mb-1">Для мототехники</h3>
-                <p className="text-sm opacity-80">Снегоходы и квадроциклы</p>
               </div>
             </div>
           </div>

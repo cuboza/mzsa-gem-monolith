@@ -5,8 +5,10 @@ interface CatalogFiltersProps {
   onCategoryChange: (id: string) => void;
   showFilters: boolean;
   onToggleFilters: () => void;
-  priceRange: 'all' | 'low' | 'mid' | 'high';
-  onPriceRangeChange: (range: 'all' | 'low' | 'mid' | 'high') => void;
+  minPrice: string;
+  onMinPriceChange: (val: string) => void;
+  maxPrice: string;
+  onMaxPriceChange: (val: string) => void;
   onlyInStock: boolean;
   onStockChange: (inStock: boolean) => void;
   axles: string;
@@ -23,8 +25,10 @@ export const CatalogFilters = ({
   onCategoryChange,
   showFilters,
   onToggleFilters,
-  priceRange,
-  onPriceRangeChange,
+  minPrice,
+  onMinPriceChange,
+  maxPrice,
+  onMaxPriceChange,
   onlyInStock,
   onStockChange,
   axles,
@@ -37,8 +41,7 @@ export const CatalogFilters = ({
 }: CatalogFiltersProps) => {
   const categories = [
     { id: 'all', name: 'Все' },
-    { id: 'general', name: 'Дачные' },
-    { id: 'moto', name: 'Мототехника' },
+    { id: 'general', name: 'Универсальные' },
     { id: 'water', name: 'Лодочные' },
     { id: 'commercial', name: 'Коммерческие' },
     { id: 'wrecker', name: 'Эвакуаторы' }
@@ -118,16 +121,23 @@ export const CatalogFilters = ({
           {/* Цена */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-gray-700">Цена:</span>
-            <select 
-              value={priceRange}
-              onChange={(e) => onPriceRangeChange(e.target.value as any)}
-              className="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-            >
-              <option value="all">Любая</option>
-              <option value="low">До 80 000 ₽</option>
-              <option value="mid">80 - 150 000 ₽</option>
-              <option value="high">От 150 000 ₽</option>
-            </select>
+            <div className="flex items-center gap-1">
+              <input
+                type="number"
+                placeholder="От"
+                value={minPrice}
+                onChange={(e) => onMinPriceChange(e.target.value)}
+                className="w-24 border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+              />
+              <span className="text-gray-400">-</span>
+              <input
+                type="number"
+                placeholder="До"
+                value={maxPrice}
+                onChange={(e) => onMaxPriceChange(e.target.value)}
+                className="w-24 border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+              />
+            </div>
           </div>
 
           {/* Оси */}

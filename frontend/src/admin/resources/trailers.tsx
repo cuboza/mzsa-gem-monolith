@@ -8,8 +8,7 @@ const TrailerFilter = (props: any) => (
   <Filter {...props}>
     <SearchInput source="q" alwaysOn placeholder="Поиск модели..." />
     <SelectInput source="category" choices={[
-      { id: 'general', name: 'Дачные' },
-      { id: 'moto', name: 'Мототехника' },
+      { id: 'general', name: 'Универсальные' },
       { id: 'water', name: 'Лодочные' },
       { id: 'commercial', name: 'Коммерческие' },
       { id: 'wrecker', name: 'Эвакуаторы' }
@@ -37,8 +36,7 @@ export const TrailerEdit = () => (
       <TextInput source="name" label="Название" fullWidth />
       
       <SelectInput source="category" choices={[
-        { id: 'general', name: 'Дачные' },
-        { id: 'moto', name: 'Мототехника' },
+        { id: 'general', name: 'Универсальные' },
         { id: 'water', name: 'Лодочные' },
         { id: 'commercial', name: 'Коммерческие' },
         { id: 'wrecker', name: 'Эвакуаторы' }
@@ -66,8 +64,7 @@ export const TrailerCreate = () => (
       <TextInput source="name" label="Название" fullWidth />
       
       <SelectInput source="category" choices={[
-        { id: 'general', name: 'Дачные' },
-        { id: 'moto', name: 'Мототехника' },
+        { id: 'general', name: 'Универсальные' },
         { id: 'water', name: 'Лодочные' },
         { id: 'commercial', name: 'Коммерческие' },
         { id: 'wrecker', name: 'Эвакуаторы' }
