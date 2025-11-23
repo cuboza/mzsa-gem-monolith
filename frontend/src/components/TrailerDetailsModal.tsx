@@ -12,7 +12,8 @@ interface TrailerDetailsModalProps {
 export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalProps) => {
   const navigate = useNavigate();
   const [selectedAccessoryIds, setSelectedAccessoryIds] = useState<string[]>([]);
-  const [showFullInfo, setShowFullInfo] = useState(false);
+  const [showFullSpecs, setShowFullSpecs] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [hoveredAccessoryImage, setHoveredAccessoryImage] = useState<{url: string, x: number, y: number} | null>(null);
@@ -199,27 +200,94 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             <h2 className="text-2xl font-bold text-gray-900 mb-2">{trailer.model}</h2>
             <p className="text-gray-500 mb-6">{trailer.name}</p>
 
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center text-sm text-gray-600">
-                <Truck className="w-5 h-5 mr-3 text-blue-500" />
-                <span>Размеры кузова: <strong>{trailer.dimensions || trailer.specs?.dimensions || '-'}</strong></span>
+            <div className="mb-6">
+              <div className="space-y-4">
+                <div className="flex items-center text-sm text-gray-600">
+                  <Truck className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
+                  <span>Размеры кузова: <strong>{trailer.dimensions || trailer.specs?.dimensions || '-'}</strong></span>
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <Weight className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
+                  <span>Грузоподъемность: <strong>{trailer.capacity || trailer.specs?.capacity || '-'} кг</strong></span>
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <Ruler className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
+                  <span>Габариты: <strong>{trailer.gabarity || trailer.specs?.dimensions || '-'}</strong></span>
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <Activity className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
+                  <span>Подвеска: <strong>{suspensionType}</strong></span>
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <CircleOff className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
+                  <span>Тормоза: <strong>{brakesType}</strong></span>
+                </div>
               </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <Weight className="w-5 h-5 mr-3 text-blue-500" />
-                <span>Грузоподъемность: <strong>{trailer.capacity || trailer.specs?.capacity || '-'} кг</strong></span>
-              </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <Ruler className="w-5 h-5 mr-3 text-blue-500" />
-                <span>Габариты: <strong>{trailer.gabarity || trailer.specs?.dimensions || '-'}</strong></span>
-              </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <Activity className="w-5 h-5 mr-3 text-blue-500" />
-                <span>Подвеска: <strong>{suspensionType}</strong></span>
-              </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <CircleOff className="w-5 h-5 mr-3 text-blue-500" />
-                <span>Тормоза: <strong>{brakesType}</strong></span>
-              </div>
+
+              <button 
+                onClick={() => setShowFullSpecs(!showFullSpecs)}
+                className="text-blue-600 text-sm font-semibold hover:underline flex items-center mt-4 mb-2"
+              >
+                {showFullSpecs ? 'Скрыть характеристики' : 'Все характеристики'}
+                <ChevronRight size={16} className={`ml-1 transition-transform ${showFullSpecs ? '-rotate-90' : 'rotate-90'}`} />
+              </button>
+
+              {showFullSpecs && (
+                <div className="mt-2 space-y-4 animate-in slide-in-from-top-2">
+                  <div className="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
+                    <div className="flex justify-between border-b border-gray-200 pb-1">
+                      <span className="text-gray-500">Полная масса</span>
+                      <span className="font-semibold">750 кг</span>
+                    </div>
+                    <div className="flex justify-between border-b border-gray-200 pb-1">
+                      <span className="text-gray-500">Колеса</span>
+                      <span className="font-semibold">R13</span>
+                    </div>
+                    <div className="flex justify-between border-b border-gray-200 pb-1">
+                      <span className="text-gray-500">Покрытие</span>
+                      <span className="font-semibold">Горячее цинкование</span>
+                    </div>
+                    {trailer.boardHeight && (
+                      <div className="flex justify-between border-b border-gray-200 pb-1">
+                        <span className="text-gray-500">Высота борта</span>
+                        <span className="font-semibold">{trailer.boardHeight} мм</span>
+                      </div>
+                    )}
+                    {trailer.specs?.axles && (
+                      <div className="flex justify-between border-b border-gray-200 pb-1">
+                        <span className="text-gray-500">Количество осей</span>
+                        <span className="font-semibold">{trailer.specs.axles}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <h5 className="font-bold text-gray-900 mb-2">Особенности модели:</h5>
+                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                      {trailer.features.map((f, i) => (
+                        <li key={i}>{f}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Description Section */}
+            <div className="mb-6 border-t border-gray-100 pt-6">
+               <h3 className="font-bold text-gray-900 mb-2">Описание</h3>
+               <div className={`text-sm text-gray-600 relative ${!showFullDescription ? 'max-h-24 overflow-hidden' : ''}`}>
+                 <p className="whitespace-pre-line">{trailer.description || "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы."}</p>
+                 {!showFullDescription && (
+                   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+                 )}
+               </div>
+               <button 
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                  className="text-blue-600 text-sm font-semibold hover:underline mt-2"
+                >
+                  {showFullDescription ? 'Свернуть' : 'Читать полностью'}
+               </button>
             </div>
 
             <div className="mt-auto bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
@@ -262,72 +330,6 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           </div>
 
           <div className="overflow-y-auto p-6 flex-grow custom-scrollbar">
-            {/* Full Info (Always Visible) */}
-            <div className="mb-8">
-              <div className="flex items-center text-blue-600 font-semibold mb-4">
-                <Info className="w-5 h-5 mr-2" />
-                Полное описание и характеристики
-              </div>
-              
-              <div className="bg-blue-50 p-4 rounded-xl text-sm text-gray-700">
-                <p className="mb-4">{trailer.description || "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы."}</p>
-                
-                <h4 className="font-bold mb-2 text-gray-900">Особенности модели:</h4>
-                <ul className="list-disc list-inside space-y-1 mb-4">
-                  {trailer.features.map((feature, idx) => (
-                    <li key={idx}>{feature}</li>
-                  ))}
-                </ul>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Полная масса</span>
-                    <span className="font-semibold">750 кг</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Грузоподъемность</span>
-                    <span className="font-semibold">{trailer.capacity || trailer.specs?.capacity || '-'} кг</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Тип подвески</span>
-                    <span className="font-semibold">{suspensionType}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Тормозная система</span>
-                    <span className="font-semibold">{brakesType}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Размеры кузова</span>
-                    <span className="font-semibold">{trailer.dimensions || trailer.specs?.dimensions || '-'}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Габаритные размеры</span>
-                    <span className="font-semibold">{trailer.gabarity || trailer.specs?.dimensions || '-'}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Колеса</span>
-                    <span className="font-semibold">R13</span>
-                  </div>
-                  <div className="flex justify-between border-b border-blue-100 pb-1">
-                    <span className="text-gray-500">Покрытие рамы</span>
-                    <span className="font-semibold">Горячее цинкование</span>
-                  </div>
-                  {trailer.boardHeight && (
-                    <div className="flex justify-between border-b border-blue-100 pb-1">
-                      <span className="text-gray-500">Высота борта</span>
-                      <span className="font-semibold">{trailer.boardHeight} мм</span>
-                    </div>
-                  )}
-                  {trailer.specs?.axles && (
-                    <div className="flex justify-between border-b border-blue-100 pb-1">
-                      <span className="text-gray-500">Количество осей</span>
-                      <span className="font-semibold">{trailer.specs.axles}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
             {/* Options List */}
             <div>
               <h4 className="font-bold text-gray-900 mb-4 flex items-center">
