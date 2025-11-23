@@ -1,4 +1,5 @@
 import { Filter } from 'lucide-react';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 interface CatalogFiltersProps {
   activeCategory: string;
@@ -39,6 +40,8 @@ export const CatalogFilters = ({
   onSortChange,
   totalCount
 }: CatalogFiltersProps) => {
+  const { isAtLeast } = useBreakpoint();
+  const isDesktop = isAtLeast('md');
   const categories = [
     { id: 'all', name: 'Все' },
     { id: 'general', name: 'Универсальные' },
@@ -95,7 +98,7 @@ export const CatalogFilters = ({
       </div>
 
       {/* Расширенные фильтры */}
-      {(showFilters || window.innerWidth >= 768) && (
+      {(showFilters || isDesktop) && (
         <div className={`md:flex gap-6 items-center pt-4 border-t ${showFilters ? 'block' : 'hidden md:flex'}`}>
           {/* Сортировка */}
           <div className="flex items-center gap-2">

@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 import { X, Check, ShoppingCart, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight, Maximize2, ArrowUpDown, Gauge, CircleDot, Anchor, MoveRight, MoveHorizontal } from 'lucide-react';
 import { accessories } from '../data/accessories';
 import { useNavigate } from 'react-router-dom';
+import { ResponsiveSticky } from './layout/ResponsiveSticky';
 
 const formatNumberValue = (value: number) => new Intl.NumberFormat('ru-RU').format(value);
 
@@ -250,11 +251,16 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
       )}
 
       <div 
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row animate-in zoom-in-95 duration-200" 
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row animate-in zoom-in-95 duration-200" 
         onClick={e => e.stopPropagation()}
       >
         {/* Left Column: Image & Key Info */}
-        <div className="w-full md:w-5/12 bg-gray-50 flex flex-col border-r border-gray-100 shrink-0">
+        <ResponsiveSticky 
+          stickyAt="md" 
+          offsetClass="top-0" 
+          maxHeight="calc(90vh - 32px)" 
+          className="w-full md:w-5/12 bg-gray-50 flex flex-col border-r border-gray-100 shrink-0"
+        >
           <div className="relative h-64 md:h-80 bg-white shrink-0 group cursor-zoom-in" onClick={() => setLightboxImage(allImages[currentImageIndex])}>
             <img 
               src={allImages[currentImageIndex]} 
@@ -313,7 +319,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             )}
           </div>
 
-          <div className="p-6 flex-grow overflow-y-auto custom-scrollbar">
+          <div className="p-6 flex-grow md:overflow-y-auto md:custom-scrollbar">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">{trailer.model}</h2>
             <p className="text-gray-500 mb-6">{trailer.name}</p>
 
@@ -430,7 +436,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
               </button>
             </div>
           </div>
-        </div>
+        </ResponsiveSticky>
 
         {/* Right Column: Details & Options */}
         <div className="w-full md:w-7/12 flex flex-col h-full max-h-[50vh] md:max-h-none">

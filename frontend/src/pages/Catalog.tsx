@@ -7,6 +7,7 @@ import { CatalogFilters } from '../components/CatalogFilters';
 import { CatalogSearch } from '../components/CatalogSearch';
 import { TrailerDetailsModal } from '../components/TrailerDetailsModal';
 import { useSearchParams } from 'react-router-dom';
+import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
 
 export const Catalog = () => {
   const [trailers, setTrailers] = useState<Trailer[]>([]);
@@ -174,7 +175,7 @@ export const Catalog = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-6 text-gray-900">Каталог прицепов МЗСА</h1>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8 sticky top-20 z-30">
+        <ResponsiveSticky className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8 z-30" stickyAt="md" maxHeight="auto" offsetClass="top-20">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
             <CatalogFilters 
               activeCategory={activeCategory}
@@ -208,7 +209,7 @@ export const Catalog = () => {
               onSubmit={handleSearchSubmit}
             />
           </div>
-        </div>
+        </ResponsiveSticky>
 
         {/* Сетка товаров */}
         {loading ? (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, Package, LogOut, Settings, ChevronRight, Clock, CheckCircle, Truck, XCircle } from 'lucide-react';
+import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
 import { db } from '../services/api';
 import { Order } from '../types';
 
@@ -184,7 +185,7 @@ export const Profile = () => {
                   <Settings className="text-blue-600" />
                   <h2>Настройки профиля</h2>
                 </div>
-                <div className="bg-white border rounded-lg p-6 space-y-4 sticky top-24">
+                <ResponsiveSticky stickyAt="lg" className="bg-white border rounded-lg p-6 space-y-4" offsetClass="top-24">
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Email</span>
                     <span className="font-medium">{user.email}</span>
@@ -200,7 +201,7 @@ export const Profile = () => {
                   <button className="w-full mt-4 border border-blue-600 text-blue-600 hover:bg-blue-50 py-2 rounded-lg transition-colors">
                     Редактировать данные
                   </button>
-                </div>
+                </ResponsiveSticky>
               </div>
             </div>
           </div>

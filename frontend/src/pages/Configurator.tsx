@@ -4,6 +4,15 @@ import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { vehicleDatabase } from '../data/vehicles';
 import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package } from 'lucide-react';
+import { Stepper } from '../components/layout/Stepper';
+
+const CONFIG_STEPS = [
+  { label: 'Техника' },
+  { label: 'Прицеп' },
+  { label: 'Аксессуары' },
+  { label: 'Детали' },
+  { label: 'Оформление' },
+];
 
 export const Configurator = () => {
   const location = useLocation();
@@ -177,25 +186,7 @@ export const Configurator = () => {
       <div className="container mx-auto px-4">
         {/* Прогресс бар */}
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-2 max-w-3xl mx-auto">
-            {['Техника', 'Прицеп', 'Аксессуары', 'Детали', 'Оформление'].map((label, idx) => (
-              <div key={idx} className={`flex flex-col items-center w-1/5 ${idx + 1 === step ? 'text-blue-600 font-bold' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-1 text-sm border-2 transition-colors
-                  ${idx + 1 < step ? 'bg-green-500 border-green-500 text-white' : 
-                    idx + 1 === step ? 'bg-white border-blue-600 text-blue-600' : 
-                    'bg-white border-gray-300 text-gray-400'}`}>
-                  {idx + 1 < step ? <CheckCircle size={16} /> : idx + 1}
-                </div>
-                <span className="text-xs hidden sm:block">{label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="h-2 bg-gray-200 rounded-full max-w-3xl mx-auto overflow-hidden">
-            <div 
-              className="h-full bg-blue-600 transition-all duration-500"
-              style={{ width: `${((step - 1) / 5) * 100}%` }}
-            ></div>
-          </div>
+          <Stepper steps={CONFIG_STEPS} currentStep={step} />
         </div>
 
         <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden min-h-[500px] flex flex-col">

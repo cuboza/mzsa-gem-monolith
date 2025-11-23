@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { db } from '../services/api';
 import { Order } from '../types';
-import { Search, CheckCircle, AlertCircle, Truck, Package, User, MapPin } from 'lucide-react';
+import { Search, AlertCircle, Truck, Package, User, MapPin } from 'lucide-react';
+import { Timeline } from '../components/layout/Timeline';
 
 export const TrackOrder = () => {
   const [searchParams] = useSearchParams();
@@ -123,21 +124,13 @@ export const TrackOrder = () => {
               {/* Таймлайн */}
               <div className="p-6">
                 <h3 className="text-lg font-bold mb-6">История статусов</h3>
-                <div className="relative pl-4 border-l-2 border-gray-200 space-y-8">
-                  {order.timeline.map((event, idx) => (
-                    <div key={event.id} className="relative pl-6">
-                      <div className={`absolute -left-[21px] top-0 w-10 h-10 rounded-full border-4 border-white flex items-center justify-center
-                        ${idx === 0 ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 text-gray-500'}`}>
-                        {idx === 0 ? <CheckCircle size={16} /> : <div className="w-2 h-2 bg-gray-400 rounded-full" />}
-                      </div>
-                      <div>
-                        <div className="font-bold text-gray-900">{event.title}</div>
-                        <div className="text-sm text-gray-600 mb-1">{event.description}</div>
-                        <div className="text-xs text-gray-400">{formatDate(event.timestamp)}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <Timeline 
+                  items={order.timeline.map(event => ({
+                    title: event.title,
+                    description: event.description,
+                    timestamp: formatDate(event.timestamp),
+                  }))}
+                />
               </div>
             </div>
 

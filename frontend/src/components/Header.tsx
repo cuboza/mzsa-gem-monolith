@@ -31,7 +31,7 @@ export const Header = () => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex flex-wrap items-center gap-4 h-auto py-4 md:h-20 md:py-0 md:justify-between">
           {/* Логотип */}
           <Link to="/" className="flex flex-col mr-8">
             <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
