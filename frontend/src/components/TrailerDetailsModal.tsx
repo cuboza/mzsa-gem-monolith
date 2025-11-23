@@ -439,7 +439,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
         </ResponsiveSticky>
 
         {/* Right Column: Details & Options */}
-        <div className="w-full md:w-7/12 flex flex-col h-full max-h-[50vh] md:max-h-none">
+        <div className="w-full md:w-7/12 flex flex-col h-full md:max-h-none">
           <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
               <Shield className="w-5 h-5 text-blue-600" />

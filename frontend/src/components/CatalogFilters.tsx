@@ -99,7 +99,7 @@ export const CatalogFilters = ({
 
       {/* Расширенные фильтры */}
       {(showFilters || isDesktop) && (
-        <div className={`md:flex gap-6 items-center pt-4 border-t ${showFilters ? 'block' : 'hidden md:flex'}`}>
+        <div className={`md:flex flex-wrap gap-6 items-center pt-4 border-t ${showFilters ? 'block space-y-4 md:space-y-0' : 'hidden md:flex'}`}>
           {/* Сортировка */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-gray-700">Сортировка:</span>

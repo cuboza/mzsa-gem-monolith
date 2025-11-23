@@ -38,7 +38,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 300
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 616,
+    "maxVehicleLength": 2050,
+    "maxVehicleWidth": 1100
   },
   {
     "id": "mzsa_817701_022",
@@ -74,7 +78,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 550,
+    "maxVehicleLength": 2453,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817701_024",
@@ -110,7 +118,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 470
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 535,
+    "maxVehicleLength": 2453,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817701_026",
@@ -145,7 +157,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 470
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 481,
+    "maxVehicleLength": 2453,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817702_022",
@@ -181,7 +197,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 528,
+    "maxVehicleLength": 2435,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817703_022",
@@ -218,7 +241,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 507,
+    "maxVehicleLength": 2735,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817704_022",
@@ -254,7 +284,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 537,
+    "maxVehicleLength": 2435,
+    "maxVehicleWidth": 1371
   },
   {
     "id": "mzsa_817704_024",
@@ -288,7 +325,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 518,
+    "maxVehicleLength": 2435,
+    "maxVehicleWidth": 1371
   },
   {
     "id": "mzsa_817705_022",
@@ -324,7 +368,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 516,
+    "maxVehicleLength": 2735,
+    "maxVehicleWidth": 1371
   },
   {
     "id": "mzsa_817710_022",
@@ -359,7 +410,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 565,
+    "maxVehicleLength": 1853,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817710_024",
@@ -393,7 +448,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 470
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 553,
+    "maxVehicleLength": 1853,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817710_026",
@@ -429,7 +488,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 470
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 500,
+    "maxVehicleLength": 1853,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817711_022",
@@ -466,7 +529,15 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv",
+      "snowmobile"
+    ],
+    "maxVehicleWeight": 510,
+    "maxVehicleLength": 3009,
+    "maxVehicleWidth": 1371
   },
   {
     "id": "mzsa_817711_025",
@@ -502,7 +573,15 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv",
+      "snowmobile"
+    ],
+    "maxVehicleWeight": 456,
+    "maxVehicleLength": 3009,
+    "maxVehicleWidth": 1371
   },
   {
     "id": "mzsa_817712_022",
@@ -538,7 +617,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 501,
+    "maxVehicleLength": 3009,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817717_022",
@@ -574,7 +660,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 490,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817717_025",
@@ -610,7 +703,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 428,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817718_022",
@@ -644,7 +744,15 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv",
+      "snowmobile"
+    ],
+    "maxVehicleWeight": 376,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1951
   },
   {
     "id": "mzsa_817718_025",
@@ -680,7 +788,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 344,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1951
   },
   {
     "id": "mzsa_817719_022",
@@ -714,7 +829,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 391,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1811
   },
   {
     "id": "mzsa_817730_022",
@@ -750,7 +872,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 484,
+    "maxVehicleLength": 2453,
+    "maxVehicleWidth": 1231
   },
   {
     "id": "mzsa_817731_022",
@@ -787,7 +913,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 439,
+    "maxVehicleLength": 3009,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817732_022",
@@ -824,7 +954,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 422,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817733_022",
@@ -862,7 +996,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 456,
+    "maxVehicleLength": 2735,
+    "maxVehicleWidth": 1371
   },
   {
     "id": "mzsa_817735_022",
@@ -898,7 +1036,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 345,
+    "maxVehicleLength": 4587,
+    "maxVehicleWidth": 1511
   },
   {
     "id": "mzsa_817736_022",
@@ -934,7 +1076,14 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 290
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [
+      "motorcycle",
+      "atv"
+    ],
+    "maxVehicleWeight": 340,
+    "maxVehicleLength": 3449,
+    "maxVehicleWidth": 1951
   },
   {
     "id": "mzsa_817772_001",
@@ -973,7 +1122,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 428,
+    "maxVehicleLength": 2445,
+    "maxVehicleWidth": 1348
   },
   {
     "id": "mzsa_817773_001",
@@ -1012,7 +1165,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 371,
+    "maxVehicleLength": 3005,
+    "maxVehicleWidth": 1488
   },
   {
     "id": "mzsa_817774_001",
@@ -1051,7 +1208,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 346,
+    "maxVehicleLength": 3500,
+    "maxVehicleWidth": 1488
   },
   {
     "id": "mzsa_817774_003",
@@ -1090,7 +1251,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 318,
+    "maxVehicleLength": 3500,
+    "maxVehicleWidth": 1488
   },
   {
     "id": "mzsa_817783_001",
@@ -1130,7 +1295,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 303,
+    "maxVehicleLength": 3005,
+    "maxVehicleWidth": 1488
   },
   {
     "id": "mzsa_817784_001",
@@ -1170,7 +1339,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 282,
+    "maxVehicleLength": 3500,
+    "maxVehicleWidth": 1488
   },
   {
     "id": "mzsa_817784_003",
@@ -1209,7 +1382,11 @@ export const allTrailers: Trailer[] = [
       "boardHeight": 0
     },
     "suspension": "рессорная",
-    "brakes": "без тормозной системы"
+    "brakes": "без тормозной системы",
+    "compatibility": [],
+    "maxVehicleWeight": 274,
+    "maxVehicleLength": 3500,
+    "maxVehicleWidth": 1488
   },
   {
     "id": "mzsa_81771b_101",
@@ -1247,6 +1424,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 583,
     "bodyDimensions": "3400 мм мм судно"
   },
   {
@@ -1284,6 +1465,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 587,
     "bodyDimensions": "3400 мм мм судно"
   },
   {
@@ -1322,6 +1507,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 574,
     "bodyDimensions": "3900 мм мм судно"
   },
   {
@@ -1359,6 +1548,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 582,
     "bodyDimensions": "3900 мм мм судно"
   },
   {
@@ -1397,6 +1590,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 563,
     "bodyDimensions": "4300 мм мм судно"
   },
   {
@@ -1434,6 +1631,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 571,
     "bodyDimensions": "4300 мм мм судно"
   },
   {
@@ -1472,6 +1673,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 554,
     "bodyDimensions": "4750 мм мм судно"
   },
   {
@@ -1509,6 +1714,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 550,
     "bodyDimensions": "4750 мм мм судно"
   },
   {
@@ -1547,6 +1756,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 490,
     "bodyDimensions": "4750 мм мм судно"
   },
   {
@@ -1584,6 +1797,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 488,
     "bodyDimensions": "4750 мм мм судно"
   },
   {
@@ -1622,6 +1839,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 480,
     "bodyDimensions": "5450 мм мм судно"
   },
   {
@@ -1659,6 +1880,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 481,
     "bodyDimensions": "5450 мм мм судно"
   },
   {
@@ -1694,6 +1919,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 366,
     "bodyDimensions": "4300 мм мм судно"
   },
   {
@@ -1729,6 +1958,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 367,
     "bodyDimensions": "4100 мм мм судно"
   },
   {
@@ -1766,6 +1999,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 590,
     "bodyDimensions": "3000 мм мм судно"
   },
   {
@@ -1802,6 +2039,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 438,
     "bodyDimensions": "4500 мм мм судно"
   },
   {
@@ -1839,6 +2080,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 450,
     "bodyDimensions": "4750 мм мм судно"
   },
   {
@@ -1876,6 +2121,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 449,
     "bodyDimensions": "4750 мм мм судно"
   },
   {
@@ -1913,6 +2162,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 440,
     "bodyDimensions": "5450 мм мм судно"
   },
   {
@@ -1950,6 +2203,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "без тормозной системы",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 442,
     "bodyDimensions": "5450 мм мм судно"
   },
   {
@@ -1986,6 +2243,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 2294,
     "bodyDimensions": "9000 мм мм судно"
   },
   {
@@ -2022,6 +2283,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 1224,
     "bodyDimensions": "5700 мм мм судно"
   },
   {
@@ -2057,6 +2322,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 966,
     "bodyDimensions": "5200 мм мм судно"
   },
   {
@@ -2092,6 +2361,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорно-балансирная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 2572,
     "bodyDimensions": "8200 мм мм судно"
   },
   {
@@ -2128,6 +2401,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 1142,
     "bodyDimensions": "5700 мм мм судно"
   },
   {
@@ -2163,6 +2440,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 2314,
     "bodyDimensions": "7200 мм мм судно"
   },
   {
@@ -2199,6 +2480,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 1486,
     "bodyDimensions": "6200 мм мм судно"
   },
   {
@@ -2234,6 +2519,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 2618,
     "bodyDimensions": "7200 мм мм судно"
   },
   {
@@ -2270,6 +2559,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 1960,
     "bodyDimensions": "6200 мм мм судно"
   },
   {
@@ -2301,6 +2594,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "резино-жгутовая",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 1100,
     "bodyDimensions": "8000 мм мм судно"
   },
   {
@@ -2334,6 +2631,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "резино-жгутовая",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 1340,
     "bodyDimensions": "12000 мм мм судно"
   },
   {
@@ -2370,6 +2671,10 @@ export const allTrailers: Trailer[] = [
     },
     "suspension": "рессорная",
     "brakes": "тормоз наката",
+    "compatibility": [
+      "boat"
+    ],
+    "maxVehicleWeight": 938,
     "bodyDimensions": "4500 мм мм судно"
   }
 ];

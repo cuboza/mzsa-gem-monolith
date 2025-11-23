@@ -55,6 +55,40 @@ def determine_accessory_category(name):
         return "loading"
     return "safety"
 
+def parse_dimensions(dim_str):
+    if not dim_str:
+        return None
+    # Remove non-digits and 'x' (and 'х' cyrillic)
+    clean = re.sub(r"[^0-9xх]", "", dim_str.lower())
+    parts = re.split(r"[xх]", clean)
+    parts = [p for p in parts if p]
+    if len(parts) >= 2:
+        try:
+            return {
+                "length": int(parts[0]),
+                "width": int(parts[1]),
+                "height": int(parts[2]) if len(parts) > 2 else 0
+            }
+        except ValueError:
+            return None
+    return None
+
+def infer_compatibility(category, title):
+    comps = []
+    title_lower = title.lower()
+    
+    if category == "water" or "лод" in title_lower or "катер" in title_lower:
+        comps.append("boat")
+    
+    if "снегоход" in title_lower:
+        comps.append("snowmobile")
+        
+    if "мото" in title_lower or "atv" in title_lower or "квадро" in title_lower:
+        comps.append("atv")
+        comps.append("motorcycle")
+        
+    return list(set(comps))
+
 print("Starting catalog generation...")
 
 for category in os.listdir(OUTPUT_DIR):
@@ -97,6 +131,11 @@ for category in os.listdir(OUTPUT_DIR):
 
         specs = data.get("specs", {})
         
+        # --- Calculate Derived Fields ---
+        dims = parse_dimensions(specs.get("razmery_kuzova", ""))
+        compatibility = infer_compatibility(mapped_cat, data.get("title", ""))
+        capacity = specs.get("gruzopodemnost", 0)
+
         # --- Process Trailer ---
         trailer_id = data["slug"]
         trailer = {
@@ -105,7 +144,7 @@ for category in os.listdir(OUTPUT_DIR):
             "name": data.get("title", ""),
             "category": mapped_cat,
             "price": data.get("price", 0),
-            "capacity": specs.get("gruzopodemnost", 0),
+            "capacity": capacity,
             "dimensions": specs.get("razmery_kuzova", ""),
             "boardHeight": specs.get("razmery_kuzova_height", 0),
             "gabarity": specs.get("gabaritnye_razmery", ""),
@@ -116,14 +155,20 @@ for category in os.listdir(OUTPUT_DIR):
             "description": data.get("description", ""),
             "specs": {
                 "dimensions": specs.get("razmery_kuzova", ""),
-                "capacity": f"{specs.get('gruzopodemnost', 0)} кг",
+                "capacity": f"{capacity} кг",
                 "weight": f"{specs.get('snaryazhyonnaya_massa', 0)} кг",
                 "axles": parse_axles(specs),
                 "boardHeight": specs.get("razmery_kuzova_height", 0)
             },
             "suspension": specs.get("podveska", "Рессорная"),
-            "brakes": specs.get("tormoz", "Нет")
+            "brakes": specs.get("tormoz", "Нет"),
+            "compatibility": compatibility,
+            "maxVehicleWeight": capacity
         }
+
+        if dims:
+             trailer["maxVehicleLength"] = dims["length"]
+             trailer["maxVehicleWidth"] = dims["width"]
         
         if mapped_cat == "water":
              for key in ["dlina_sudna_mm", "maksimalnaya_dlina_sudna", "dlina_sudna"]:

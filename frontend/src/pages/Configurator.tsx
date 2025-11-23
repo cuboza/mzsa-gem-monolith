@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { vehicleDatabase } from '../data/vehicles';
-import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package } from 'lucide-react';
+import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search } from 'lucide-react';
 import { Stepper } from '../components/layout/Stepper';
 
 const CONFIG_STEPS = [
@@ -29,6 +29,7 @@ export const Configurator = () => {
   const [selectedTrailer, setSelectedTrailer] = useState<Trailer | null>(location.state?.trailer || null);
   const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
   const [orderNumber, setOrderNumber] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
   // Форма клиента
   const [customerForm, setCustomerForm] = useState({
@@ -63,14 +64,14 @@ export const Configurator = () => {
 
     return trailers.filter(t => {
       // 1. Проверка по категории совместимости
-      if (t.compatibility && !t.compatibility.includes(selectedCategory as any)) {
+      if (t.compatibility && t.compatibility.length > 0 && !t.compatibility.includes(selectedCategory as any)) {
         return false;
       }
 
       // 2. Проверка размеров и веса
-      if (t.maxVehicleLength && selectedVehicle.length > t.maxVehicleLength) return false;
-      if (t.maxVehicleWidth && selectedVehicle.width > t.maxVehicleWidth) return false;
-      if (t.maxVehicleWeight && selectedVehicle.weight > t.maxVehicleWeight) return false;
+      if (t.maxVehicleLength && selectedVehicle.length > 0 && selectedVehicle.length > t.maxVehicleLength) return false;
+      if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
+      if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
 
       return true;
     });
@@ -83,6 +84,58 @@ export const Configurator = () => {
   const formatPrice = (p: number) => new Intl.NumberFormat('ru-RU').format(p);
 
   // Обработчики
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchInput.trim()) return;
+
+    const lower = searchInput.toLowerCase();
+    let category: string | undefined;
+    let length: number | undefined;
+
+    // Определение категории
+    if (lower.match(/лодк|катер|boat/)) category = 'boat';
+    else if (lower.match(/снегоход|snowmobile/)) category = 'snowmobile';
+    else if (lower.match(/квадро|atv/)) category = 'atv';
+    else if (lower.match(/мото|motorcycle|bike/)) category = 'motorcycle';
+
+    // Определение длины (3.5, 3,5, 350, 3500, 3.5м, 350см, 3500мм)
+    const numberMatch = lower.match(/(\d+[.,]?\d*)\s*(м|см|мм|m|cm|mm)?/);
+    if (numberMatch) {
+      let val = parseFloat(numberMatch[1].replace(',', '.'));
+      const unit = numberMatch[2];
+
+      if (unit === 'м' || unit === 'm') {
+        val *= 1000;
+      } else if (unit === 'см' || unit === 'cm') {
+        val *= 10;
+      } else if (unit === 'мм' || unit === 'mm') {
+        // уже мм
+      } else {
+        // Эвристика без единиц измерения
+        if (val < 20) val *= 1000; // метры
+        else if (val < 1000) val *= 10; // см
+      }
+      length = Math.round(val);
+    }
+
+    if (category) {
+      setSelectedCategory(category);
+    }
+
+    if (length) {
+      const customVehicle: Vehicle = {
+        brand: 'Поиск',
+        model: searchInput,
+        length: length,
+        width: 0, // Не учитываем
+        height: 0,
+        weight: 0 // Не учитываем
+      };
+      setSelectedVehicle(customVehicle);
+      setStep(2);
+    }
+  };
+
   const handleVehicleSelect = (vehicle: Vehicle) => {
     setSelectedVehicle(vehicle);
     setSelectedTrailer(null); // Сброс прицепа при смене техники
@@ -196,6 +249,34 @@ export const Configurator = () => {
             <div className="p-6 md:p-8 animate-fadeIn">
               <h2 className="text-2xl font-bold mb-6 text-center">Что будем перевозить?</h2>
               
+              {/* Умный поиск */}
+              <div className="max-w-2xl mx-auto mb-10">
+                <form onSubmit={handleSearch} className="relative">
+                  <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Например: лодка 3.5 или снегоход 3200"
+                    className="w-full pl-5 pr-14 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 text-lg shadow-sm transition-all"
+                  />
+                  <button 
+                    type="submit"
+                    className="absolute right-2 top-2 bottom-2 bg-blue-600 text-white px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Search size={24} />
+                  </button>
+                </form>
+                <p className="text-center text-sm text-gray-500 mt-2">
+                  Введите тип техники и длину (в метрах, см или мм)
+                </p>
+              </div>
+
+              <div className="relative flex py-5 items-center mb-8">
+                  <div className="flex-grow border-t border-gray-200"></div>
+                  <span className="flex-shrink-0 mx-4 text-gray-400">или выберите из списка</span>
+                  <div className="flex-grow border-t border-gray-200"></div>
+              </div>
+
               {/* Категории техники */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 {[

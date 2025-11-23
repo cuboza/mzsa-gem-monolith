@@ -1,42 +1,44 @@
-# MZSA GEM – Copilot Instructions
+# MZSA GEM – Инструкции для Copilot
 
-## Architecture Snapshot
-- Monorepo hosts three active surfaces: `frontend/` (React + Vite), `backend/` (Express + Sequelize + SQLite), and `scraper/` (Python) with shared docs under `docs/`—changes usually touch multiple layers.
-- Frontend bootstraps through `src/main.tsx`, where `db.initializeData` hydrates LocalStorage before React renders; this guarantees catalog parity with `src/data/**/*`.
-- Admin UI (`src/admin`) is embedded but routed under `/admin` and relies on the same data provider as the public app, so mutations instantly reflect across both experiences.
-- Backend exposes REST resources at `http://localhost:3001/{trailers,accessories,orders,customers,settings}` and persists to `backend/database.sqlite` populated via `db.json` seeds.
+**ВАЖНО: ВСЕГДА ОТВЕЧАЙ НА РУССКОМ ЯЗЫКЕ.**
 
-## Run & Verify Workflows
-- Frontend: `cd frontend && npm install && npm run dev` (Vite on :5173). Build with `npm run build`; it type-checks via `tsc -b` first.
-- Backend: `cd backend && npm install && npm run seed && npm start` to recreate SQLite then serve Express on :3001.
-- Scraper: `cd scraper && pip install -r requirements.txt && python scraper.py`; results land in `output/` per trailer slug.
-- Quick sanity checks: `node check_db.js` to inspect SQLite counts, and use browser DevTools to confirm `localStorage` keys (`onr_*`) mirror data edits.
+## Обзор архитектуры
+- Монорепозиторий содержит три активных компонента: `frontend/` (React + Vite), `backend/` (Express + Sequelize + SQLite) и `scraper/` (Python) с общей документацией в `docs/` — изменения обычно затрагивают несколько слоев.
+- Фронтенд инициализируется через `src/main.tsx`, где `db.initializeData` заполняет LocalStorage перед рендерингом React; это гарантирует соответствие каталога данным из `src/data/**/*`.
+- Админ-панель (`src/admin`) встроена, но маршрутизируется через `/admin` и использует тот же провайдер данных, что и публичное приложение, поэтому изменения мгновенно отражаются в обоих интерфейсах.
+- Бэкенд предоставляет REST-ресурсы по адресу `http://localhost:3001/{trailers,accessories,orders,customers,settings}` и сохраняет данные в `backend/database.sqlite`, заполняемую через сиды из `db.json`.
 
-## Data Lifecycle & Sync
-- Golden source for catalog/accessory mocks lives in `frontend/src/data/{trailers,accessories,defaultSettings,orders}.ts`; `db.initializeData` overwrites LocalStorage each reload, so edit these files instead of poking storage directly.
-- To propagate scraped data end-to-end: run `scripts/transform_scraper_to_db.cjs` → refresh `backend/db.json` + copy images into `frontend/public/images/**` → `npm run seed` in backend to rebuild SQLite → switch `DATA_SOURCE` in `src/services/api/index.ts` to `'rest'` when you want the app to hit Express.
-- `generate_catalog.py` is an alternate exporter that rewrites the same TypeScript data files directly from `output/`; it also cleans public image folders, so commit regenerated assets deliberately.
-- Warehouse metadata, compatibility tags, and specs flattening rules are encoded in the transformer script—extend those helpers (e.g., `parseDimensionsMM`, `inferAccessoryCategory`) instead of sprinkling ad-hoc conversions elsewhere.
+## Рабочие процессы запуска и проверки
+- Фронтенд: `cd frontend && npm install && npm run dev` (Vite на :5173). Сборка через `npm run build`; сначала выполняется проверка типов через `tsc -b`.
+- Бэкенд: `cd backend && npm install && npm run seed && npm start` для пересоздания SQLite и запуска Express на :3001.
+- Скрапер: `cd scraper && pip install -r requirements.txt && python scraper.py`; результаты сохраняются в `output/` по слагам прицепов.
+- Быстрые проверки: `node check_db.js` для проверки количества записей в SQLite и использование DevTools браузера для подтверждения соответствия ключей `localStorage` (`onr_*`) изменениям данных.
 
-## Frontend Conventions
-- Shared types live in `src/types/index.ts`; keep them authoritative—React components, mock data, and admin forms all import from here, so schema drift shows up immediately during `tsc -b`.
-- Data access goes exclusively through `db` (either `LocalStorageProvider` or `RestProvider`); if you add a new entity, extend `IDatabaseProvider`, both providers, and `src/admin/dataProvider.ts` before wiring UI.
-- Catalog filters (`pages/Catalog.tsx`) mirror URL search params—preserve the parse/update helpers when adding criteria to keep deep-linking functional.
-- Configurator (`pages/Configurator.tsx`) drives a multi-step wizard; it derives compatible trailers via memoized predicates on `trailer.compatibility` and `maxVehicle*` fields, so add new fit rules there instead of scattering logic.
+## Жизненный цикл данных и синхронизация
+- "Золотой источник" для моков каталога/аксессуаров находится в `frontend/src/data/{trailers,accessories,defaultSettings,orders}.ts`; `db.initializeData` перезаписывает LocalStorage при каждой перезагрузке, поэтому редактируйте эти файлы, а не хранилище напрямую.
+- Для сквозного распространения данных скрапера: запустите `scripts/transform_scraper_to_db.cjs` → обновите `backend/db.json` + скопируйте изображения в `frontend/public/images/**` → `npm run seed` в бэкенде для пересборки SQLite → переключите `DATA_SOURCE` в `src/services/api/index.ts` на `'rest'`, если хотите, чтобы приложение обращалось к Express.
+- `generate_catalog.py` — альтернативный экспортер, который перезаписывает те же файлы данных TypeScript напрямую из `output/`; он также очищает папки публичных изображений, поэтому коммитьте регенерированные ассеты осознанно.
+- Метаданные складов, теги совместимости и правила выравнивания спецификаций закодированы в скрипте-трансформере — расширяйте эти хелперы (например, `parseDimensionsMM`, `inferAccessoryCategory`) вместо добавления ad-hoc конверсий в других местах.
 
-## Admin & Auth specifics
-- React Admin resources live under `src/admin/resources/**`; list/edit/create screens are thin wrappers around `db` calls, so server-side validations must be mirrored client-side.
-- `authProvider` is LocalStorage-based with fixed credentials (`admin/admin123`, `manager/manager123`); adjust this before enforcing real backend auth to avoid locking yourself out.
-- Settings are treated as a singleton: `dataProvider` wraps them in an array with `id: 'default'`; keep that shape if you introduce multi-tenant configs to avoid breaking React Admin expectations.
+## Соглашения фронтенда
+- Общие типы находятся в `src/types/index.ts`; держите их авторитетными — React-компоненты, мок-данные и формы админки импортируют всё отсюда, поэтому расхождения схемы сразу видны при `tsc -b`.
+- Доступ к данным осуществляется исключительно через `db` (либо `LocalStorageProvider`, либо `RestProvider`); если добавляете новую сущность, расширьте `IDatabaseProvider`, оба провайдера и `src/admin/dataProvider.ts` перед подключением UI.
+- Фильтры каталога (`pages/Catalog.tsx`) зеркалируют параметры URL — сохраняйте хелперы парсинга/обновления при добавлении критериев, чтобы сохранить функциональность deep-linking.
+- Конфигуратор (`pages/Configurator.tsx`) управляет многошаговым мастером; он определяет совместимые прицепы через мемоизированные предикаты по полям `trailer.compatibility` и `maxVehicle*`, поэтому добавляйте новые правила подбора там, а не разбрасывайте логику.
 
-## Backend Patterns
-- `backend/server.js` uses `createCrud` to register REST endpoints; augmenting models (e.g., adding `/settings`) usually means tweaking this helper rather than duplicating handlers.
-- Trailer search implements natural-language heuristics (category keywords, length parsing) using Sequelize `Op` and custom `where` clauses—extend that block for smarter filters while keeping fallback `{ name/model LIKE %q% }` logic.
-- Sequelize models in `backend/models/*.js` intentionally denormalize JSON fields (`features`, `gallery`, `compatibility`); prefer JSON columns for flexible specs rather than creating auxiliary tables.
-- When seeding, `backend/seed.js` flattens legacy `specs` fields; update the mapping there whenever you introduce new scalar columns to keep `db.json` compatible.
+## Специфика админки и авторизации
+- Ресурсы React Admin находятся в `src/admin/resources/**`; экраны списков/редактирования/создания — это тонкие обертки вокруг вызовов `db`, поэтому серверные валидации должны дублироваться на клиенте.
+- `authProvider` основан на LocalStorage с фиксированными учетными данными (`admin/admin123`, `manager/manager123`); настройте это перед внедрением реальной бэкенд-авторизации, чтобы не заблокировать себе доступ.
+- Настройки рассматриваются как синглтон: `dataProvider` оборачивает их в массив с `id: 'default'`; сохраняйте эту структуру, если вводите мульти-тенантные конфиги, чтобы не сломать ожидания React Admin.
 
-## Tooling & References
-- Domain reference docs live in `docs/ARCHITECTURE.md`, `DATA_MODELS.md`, and `USER_GUIDE.md`; link to them in PR descriptions whenever you change cross-cutting flows.
-- `scripts/import_from_1c_stub.ts` is the placeholder for 1C CSV ingestion—respect its CLI contract (`npm run import:1c -- --file=... --output=...`) if you start the real implementation.
-- Image assets reside in `frontend/public/images/{trailers,accessories}`; generator scripts wipe these folders, so keep originals under version control or stash backups before regenerating.
-- When debugging data mismatches, compare `scraper/output/<segment>/<slug>/<slug>.json`, `backend/db.json`, and the LocalStorage payloads in that order to pinpoint which stage diverged.
+## Паттерны бэкенда
+- `backend/server.js` использует `createCrud` для регистрации REST-эндпоинтов; расширение моделей (например, добавление `/settings`) обычно означает настройку этого хелпера, а не дублирование обработчиков.
+- Поиск прицепов реализует эвристику на естественном языке (ключевые слова категорий, парсинг длины) с использованием `Op` из Sequelize и кастомных `where` условий — расширяйте этот блок для более умных фильтров, сохраняя фоллбэк логику `{ name/model LIKE %q% }`.
+- Модели Sequelize в `backend/models/*.js` намеренно денормализуют JSON-поля (`features`, `gallery`, `compatibility`); предпочитайте JSON-колонки для гибких спецификаций созданию вспомогательных таблиц.
+- При сидинге `backend/seed.js` выравнивает устаревшие поля `specs`; обновляйте маппинг там, когда вводите новые скалярные колонки, чтобы сохранить совместимость с `db.json`.
+
+## Инструментарий и ссылки
+- Справочная документация домена находится в `docs/ARCHITECTURE.md`, `DATA_MODELS.md` и `USER_GUIDE.md`; ссылайтесь на них в описаниях PR при изменении сквозных потоков.
+- `scripts/import_from_1c_stub.ts` — заглушка для импорта CSV из 1С — соблюдайте её CLI-контракт (`npm run import:1c -- --file=... --output=...`), если начнете реальную реализацию.
+- Ассеты изображений находятся в `frontend/public/images/{trailers,accessories}`; скрипты-генераторы очищают эти папки, поэтому держите оригиналы под контролем версий или делайте бэкапы перед регенерацией.
+- При отладке несоответствий данных сравнивайте `scraper/output/<segment>/<slug>/<slug>.json`, `backend/db.json` и пейлоады LocalStorage в этом порядке, чтобы определить, на каком этапе произошло расхождение.
