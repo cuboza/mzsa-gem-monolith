@@ -14,6 +14,8 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   const [selectedAccessoryIds, setSelectedAccessoryIds] = useState<string[]>([]);
   const [showFullInfo, setShowFullInfo] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [hoveredAccessoryImage, setHoveredAccessoryImage] = useState<{url: string, x: number, y: number} | null>(null);
 
   const allImages = useMemo(() => {
     if (trailer.images && trailer.images.length > 0) {
@@ -74,15 +76,68 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     });
   };
 
+  const handleAccessoryMouseEnter = (e: React.MouseEvent, imageUrl: string) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHoveredAccessoryImage({
+      url: imageUrl,
+      x: rect.right + 10,
+      y: rect.top
+    });
+  };
+
+  const handleAccessoryMouseLeave = () => {
+    setHoveredAccessoryImage(null);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
+      {/* Lightbox */}
+      {lightboxImage && (
+        <div 
+          className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={(e) => { e.stopPropagation(); setLightboxImage(null); }}
+        >
+          <button 
+            onClick={() => setLightboxImage(null)}
+            className="absolute top-4 right-4 text-white/70 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+          >
+            <X size={32} />
+          </button>
+          <img 
+            src={lightboxImage} 
+            alt="Full view" 
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
+      {/* Accessory Hover Preview */}
+      {hoveredAccessoryImage && (
+        <div 
+          className="fixed z-[70] pointer-events-none bg-white p-2 rounded-xl shadow-2xl border border-gray-200 animate-in fade-in zoom-in-95 duration-150"
+          style={{ 
+            left: Math.min(hoveredAccessoryImage.x, window.innerWidth - 320), 
+            top: Math.min(hoveredAccessoryImage.y, window.innerHeight - 320),
+            width: '300px',
+            height: '300px'
+          }}
+        >
+          <img 
+            src={hoveredAccessoryImage.url} 
+            alt="Preview" 
+            className="w-full h-full object-contain rounded-lg bg-gray-50"
+          />
+        </div>
+      )}
+
       <div 
         className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row animate-in zoom-in-95 duration-200" 
         onClick={e => e.stopPropagation()}
       >
         {/* Left Column: Image & Key Info */}
         <div className="w-full md:w-5/12 bg-gray-50 flex flex-col border-r border-gray-100 shrink-0">
-          <div className="relative h-64 md:h-80 bg-white shrink-0 group">
+          <div className="relative h-64 md:h-80 bg-white shrink-0 group cursor-zoom-in" onClick={() => setLightboxImage(allImages[currentImageIndex])}>
             <img 
               src={allImages[currentImageIndex]} 
               alt={trailer.model} 
@@ -207,47 +262,70 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           </div>
 
           <div className="overflow-y-auto p-6 flex-grow custom-scrollbar">
-            {/* Description Toggle */}
+            {/* Full Info (Always Visible) */}
             <div className="mb-8">
-              <button 
-                onClick={() => setShowFullInfo(!showFullInfo)}
-                className="flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors mb-2"
-              >
+              <div className="flex items-center text-blue-600 font-semibold mb-4">
                 <Info className="w-5 h-5 mr-2" />
-                {showFullInfo ? 'Скрыть описание' : 'Полное описание и характеристики'}
-              </button>
+                Полное описание и характеристики
+              </div>
               
-              {showFullInfo && (
-                <div className="mt-4 bg-blue-50 p-4 rounded-xl text-sm text-gray-700 animate-in slide-in-from-top-2 duration-200">
-                  <p className="mb-4">{trailer.description || "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы."}</p>
-                  
-                  <h4 className="font-bold mb-2 text-gray-900">Особенности модели:</h4>
-                  <ul className="list-disc list-inside space-y-1 mb-4">
-                    {trailer.features.map((feature, idx) => (
-                      <li key={idx}>{feature}</li>
-                    ))}
-                  </ul>
+              <div className="bg-blue-50 p-4 rounded-xl text-sm text-gray-700">
+                <p className="mb-4">{trailer.description || "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы."}</p>
+                
+                <h4 className="font-bold mb-2 text-gray-900">Особенности модели:</h4>
+                <ul className="list-disc list-inside space-y-1 mb-4">
+                  {trailer.features.map((feature, idx) => (
+                    <li key={idx}>{feature}</li>
+                  ))}
+                </ul>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <span className="block text-xs text-gray-500">Полная масса</span>
-                      <span className="font-semibold">750 кг</span>
-                    </div>
-                    <div>
-                      <span className="block text-xs text-gray-500">Тип подвески</span>
-                      <span className="font-semibold">{suspensionType}</span>
-                    </div>
-                    <div>
-                      <span className="block text-xs text-gray-500">Колеса</span>
-                      <span className="font-semibold">R13</span>
-                    </div>
-                    <div>
-                      <span className="block text-xs text-gray-500">Покрытие</span>
-                      <span className="font-semibold">Горячее цинкование</span>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Полная масса</span>
+                    <span className="font-semibold">750 кг</span>
                   </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Грузоподъемность</span>
+                    <span className="font-semibold">{trailer.capacity || trailer.specs?.capacity || '-'} кг</span>
+                  </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Тип подвески</span>
+                    <span className="font-semibold">{suspensionType}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Тормозная система</span>
+                    <span className="font-semibold">{brakesType}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Размеры кузова</span>
+                    <span className="font-semibold">{trailer.dimensions || trailer.specs?.dimensions || '-'}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Габаритные размеры</span>
+                    <span className="font-semibold">{trailer.gabarity || trailer.specs?.dimensions || '-'}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Колеса</span>
+                    <span className="font-semibold">R13</span>
+                  </div>
+                  <div className="flex justify-between border-b border-blue-100 pb-1">
+                    <span className="text-gray-500">Покрытие рамы</span>
+                    <span className="font-semibold">Горячее цинкование</span>
+                  </div>
+                  {trailer.boardHeight && (
+                    <div className="flex justify-between border-b border-blue-100 pb-1">
+                      <span className="text-gray-500">Высота борта</span>
+                      <span className="font-semibold">{trailer.boardHeight} мм</span>
+                    </div>
+                  )}
+                  {trailer.specs?.axles && (
+                    <div className="flex justify-between border-b border-blue-100 pb-1">
+                      <span className="text-gray-500">Количество осей</span>
+                      <span className="font-semibold">{trailer.specs.axles}</span>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Options List */}
@@ -279,7 +357,15 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                     </div>
 
                     {acc.image && (
-                      <div className="w-16 h-16 mr-4 rounded-lg overflow-hidden bg-white border border-gray-200 flex-shrink-0">
+                      <div 
+                        className="w-16 h-16 mr-4 rounded-lg overflow-hidden bg-white border border-gray-200 flex-shrink-0 relative group/img cursor-zoom-in"
+                        onMouseEnter={(e) => handleAccessoryMouseEnter(e, acc.image!)}
+                        onMouseLeave={handleAccessoryMouseLeave}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setLightboxImage(acc.image!);
+                        }}
+                      >
                         <img 
                           src={acc.image} 
                           alt={acc.name} 
