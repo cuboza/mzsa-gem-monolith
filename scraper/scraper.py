@@ -548,7 +548,7 @@ if __name__ == "__main__":
     categories = [
         ("bortovoy", "https://www.mzsa.ru/goods/common/zincs/"),
         ("lodochniy", "https://www.mzsa.ru/goods/water/"),
-        # ("furgon", "https://www.mzsa.ru/goods/van/"),
+        ("furgon", "https://www.mzsa.ru/goods/van/"),
         # ("kommercheskiy", "https://www.mzsa.ru/goods/commerce/"),
     ]
 

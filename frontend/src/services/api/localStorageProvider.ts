@@ -187,12 +187,14 @@ export class LocalStorageProvider implements IDatabaseProvider {
   // --- Init ---
 
   async initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings, orders: Order[] = []): Promise<void> {
+    // Always update catalog data from source code to reflect changes
+    this.set(STORAGE_KEYS.TRAILERS, trailers);
+    this.set(STORAGE_KEYS.ACCESSORIES, accessories);
+
     if (localStorage.getItem(STORAGE_KEYS.INITIALIZED)) {
       return;
     }
     
-    this.set(STORAGE_KEYS.TRAILERS, trailers);
-    this.set(STORAGE_KEYS.ACCESSORIES, accessories);
     this.saveSettings(defaultSettings);
     
     // Пустые массивы для заказов и клиентов, если не переданы

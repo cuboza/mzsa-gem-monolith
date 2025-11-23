@@ -372,7 +372,11 @@ export const Configurator = () => {
                    const isSelected = selectedAccessories.some(a => a.id === acc.id);
                    // Простая фильтрация аксессуаров (можно усложнить)
                    const isRelevant = acc.compatibleWith.includes('all') || 
-                                      (selectedTrailer && acc.compatibleWith.some(cat => selectedTrailer.category === cat || selectedTrailer.compatibility?.includes(cat as any)));
+                                      (selectedTrailer && (
+                                        acc.compatibleWith.includes(selectedTrailer.id) ||
+                                        acc.compatibleWith.includes(selectedTrailer.category) || 
+                                        (selectedTrailer.compatibility && selectedTrailer.compatibility.some(c => acc.compatibleWith.includes(c)))
+                                      ));
 
                    if (!isRelevant) return null;
 
