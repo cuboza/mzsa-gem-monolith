@@ -10,6 +10,65 @@ const STORAGE_KEYS = {
   INITIALIZED: 'onr_initialized'
 };
 
+// --- Search Helpers ---
+
+function parseTrailerDimensions(dimStr?: string): { length: number, width: number } | null {
+  if (!dimStr) return null;
+  // Matches "2050×1100" or "2050x1100"
+  const parts = dimStr.split(/[xх×*]/).map(s => parseInt(s.trim(), 10));
+  if (parts.length >= 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+    return { length: parts[0], width: parts[1] };
+  }
+  return null;
+}
+
+function parseSearchQuery(query: string) {
+  const q = query.toLowerCase();
+  
+  // 1. Dimensions: "3x2", "3*2", "3000x2000"
+  const dimRegex = /(\d+(?:[.,]\d+)?)\s*[xх×*]\s*(\d+(?:[.,]\d+)?)/;
+  const dimMatch = q.match(dimRegex);
+  
+  let targetDims = null;
+  if (dimMatch) {
+    let l = parseFloat(dimMatch[1].replace(',', '.'));
+    let w = parseFloat(dimMatch[2].replace(',', '.'));
+    // Convert meters to mm if small
+    if (l < 10) l *= 1000;
+    if (w < 10) w *= 1000;
+    targetDims = { length: l, width: w };
+  }
+
+  // 2. Vehicle Type & Length
+  const vehicleTypes = [
+    { keys: ['лодка', 'катер', 'лодки', 'катера'], type: 'boat' },
+    { keys: ['снегоход', 'снегохода'], type: 'snowmobile' },
+    { keys: ['квадроцикл', 'atv'], type: 'atv' },
+    { keys: ['мотоцикл', 'мото'], type: 'motorcycle' }
+  ];
+
+  const foundType = vehicleTypes.find(vt => vt.keys.some(k => q.includes(k)));
+  
+  let targetLength = null;
+  if (foundType) {
+    // Look for length like "3.5м", "3.5 м"
+    const lenRegex = /(\d+(?:[.,]\d+)?)\s*м/;
+    const lenMatch = q.match(lenRegex);
+    if (lenMatch) {
+      let l = parseFloat(lenMatch[1].replace(',', '.'));
+      if (l < 20) l *= 1000; // meters to mm
+      targetLength = l;
+    }
+  }
+
+  return {
+    raw: q,
+    targetDims,
+    vehicleType: foundType?.type,
+    targetLength
+  };
+}
+
 export class LocalStorageProvider implements IDatabaseProvider {
   
   private get<T>(key: string): T[] {
@@ -31,11 +90,61 @@ export class LocalStorageProvider implements IDatabaseProvider {
     }
     
     if (params?.q) {
-      const q = params.q.toLowerCase();
-      trailers = trailers.filter(t => 
-        t.model.toLowerCase().includes(q) || 
-        t.name.toLowerCase().includes(q)
-      );
+      const parsed = parseSearchQuery(params.q);
+      
+      trailers = trailers.filter(t => {
+        // 1. Standard text search (Model or Name)
+        if (t.model.toLowerCase().includes(parsed.raw) || 
+            t.name.toLowerCase().includes(parsed.raw)) {
+          return true;
+        }
+
+        // 2. Dimensions Search (Body size)
+        if (parsed.targetDims) {
+          const tDims = parseTrailerDimensions(t.dimensions);
+          if (tDims) {
+            // Check if trailer body is at least the requested size
+            if (tDims.length >= parsed.targetDims.length && 
+                tDims.width >= parsed.targetDims.width) {
+              return true;
+            }
+          }
+        }
+
+        // 3. Vehicle Type Search
+        if (parsed.vehicleType) {
+          // Check compatibility
+          const isCompatible = t.compatibility?.includes(parsed.vehicleType as any) || 
+                               (parsed.vehicleType === 'boat' && t.category === 'water');
+          
+          if (isCompatible) {
+            if (parsed.targetLength) {
+              // Check max vehicle length
+              let maxLen = t.maxVehicleLength;
+              
+              // Fallback for boat trailers that might store length in bodyDimensions
+              if (!maxLen && t.category === 'water' && t.bodyDimensions) {
+                 // Try to parse "5000" or "5.0" from bodyDimensions if it's just a number
+                 const bd = parseFloat(t.bodyDimensions);
+                 if (!isNaN(bd)) {
+                    maxLen = bd < 20 ? bd * 1000 : bd;
+                 }
+              }
+
+              if (maxLen) {
+                // Trailer must be able to fit the boat (maxLen >= targetLength)
+                return maxLen >= parsed.targetLength;
+              }
+              
+              // If we can't determine max length, include it to be safe
+              return true;
+            }
+            return true;
+          }
+        }
+
+        return false;
+      });
     }
     
     return trailers;

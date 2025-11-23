@@ -52,22 +52,35 @@ const createCrud = (app, path, Model) => {
            });
         }
 
-        // 2. Detect Dimensions (Length)
-        // Matches: "3.5м", "350см", "3500мм", "3.5 m", "350 cm"
-        const lengthMatch = q.match(/(\d+[.,]?\d*)\s*(м|m|см|cm|мм|mm)/);
-        if (lengthMatch) {
-          let val = parseFloat(lengthMatch[1].replace(',', '.'));
-          const unit = lengthMatch[2];
-          
-          if (unit.startsWith('м') || unit === 'm') val *= 1000;
-          if (unit.startsWith('с') || unit === 'cm') val *= 10;
-          
-          // Logic: Find trailers that can fit this length
-          // For boat trailers: innerLength >= val
-          // For general trailers: innerLength >= val
-          conditions.push({
-            innerLength: { [Op.gte]: val }
-          });
+        // 2. Detect Dimensions
+        // Case A: Length x Width (e.g. "3x2", "3000x1500")
+        const dimMatch = q.match(/(\d+(?:[.,]\d+)?)\s*[xх×*]\s*(\d+(?:[.,]\d+)?)/);
+        if (dimMatch) {
+             let l = parseFloat(dimMatch[1].replace(',', '.'));
+             let w = parseFloat(dimMatch[2].replace(',', '.'));
+             
+             if (l < 10) l *= 1000;
+             if (w < 10) w *= 1000;
+             
+             conditions.push({
+                 innerLength: { [Op.gte]: l },
+                 innerWidth: { [Op.gte]: w }
+             });
+        } 
+        // Case B: Length only (e.g. "3.5м", "3500мм")
+        else {
+            const lengthMatch = q.match(/(\d+[.,]?\d*)\s*(м|m|см|cm|мм|mm)/);
+            if (lengthMatch) {
+              let val = parseFloat(lengthMatch[1].replace(',', '.'));
+              const unit = lengthMatch[2];
+              
+              if (unit.startsWith('м') || unit === 'm') val *= 1000;
+              if (unit.startsWith('с') || unit === 'cm') val *= 10;
+              
+              conditions.push({
+                innerLength: { [Op.gte]: val }
+              });
+            }
         }
 
         // 3. General Text Search if no specific filters found or in addition
