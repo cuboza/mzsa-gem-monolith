@@ -124,6 +124,7 @@ export const CatalogFilters = ({
             <div className="flex items-center gap-1">
               <input
                 type="number"
+                inputMode="numeric"
                 placeholder="От"
                 value={minPrice}
                 onChange={(e) => onMinPriceChange(e.target.value)}
@@ -132,6 +133,7 @@ export const CatalogFilters = ({
               <span className="text-gray-400">-</span>
               <input
                 type="number"
+                inputMode="numeric"
                 placeholder="До"
                 value={maxPrice}
                 onChange={(e) => onMaxPriceChange(e.target.value)}

@@ -1,8 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Trailer, Accessory } from '../types';
-import { X, Info, Check, ShoppingCart, Truck, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { X, Check, ShoppingCart, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight, Maximize2, ArrowUpDown, Gauge, CircleDot, Anchor, MoveRight, MoveHorizontal } from 'lucide-react';
 import { accessories } from '../data/accessories';
 import { useNavigate } from 'react-router-dom';
+
+const formatNumberValue = (value: number) => new Intl.NumberFormat('ru-RU').format(value);
 
 interface TrailerDetailsModalProps {
   trailer: Trailer;
@@ -12,25 +15,121 @@ interface TrailerDetailsModalProps {
 export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalProps) => {
   const navigate = useNavigate();
   const [selectedAccessoryIds, setSelectedAccessoryIds] = useState<string[]>([]);
-  const [showFullSpecs, setShowFullSpecs] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [hoveredAccessoryImage, setHoveredAccessoryImage] = useState<{url: string, x: number, y: number} | null>(null);
   const normalizeWhitespace = (text: string) => text.replace(/\s+/g, ' ').trim();
   const fallbackDescription = "Надежный и универсальный прицеп для различных задач. Полностью оцинкованная рама методом горячего цинкования обеспечивает защиту от коррозии на долгие годы.";
-  const descriptionParagraphs = useMemo(() => {
-    const base = trailer.description && trailer.description.trim().length ? trailer.description : fallbackDescription;
-    return base
-      .split(/\n+/)
-      .map(part => normalizeWhitespace(part))
+  type SpecConfig = {
+    label: string;
+    icon: LucideIcon;
+    section?: 'summary' | 'detailed';
+    suffix?: string;
+    format?: (value: unknown) => string;
+    order?: number;
+  };
+  type SpecEntry = {
+    key: string;
+    label: string;
+    icon: LucideIcon;
+    value: string;
+    section: 'summary' | 'detailed';
+    order: number;
+  };
+
+  const specDefinitions: Record<string, SpecConfig> = {
+    bodyDimensions: {
+      label: 'Длина судна',
+      icon: Anchor,
+      section: 'summary',
+      order: 0,
+      format: (value) => {
+        const normalized = normalizeWhitespace(String(value));
+        return normalized.replace(/мм\s*мм/g, 'мм');
+      }
+    },
+    dimensions: { label: 'Размеры кузова', icon: Ruler, section: 'summary', order: 10 },
+    capacity: { label: 'Грузоподъемность', icon: Weight, section: 'summary', order: 20 },
+    gabarity: { label: 'Габариты', icon: Maximize2, section: 'summary', order: 30 },
+    suspension: { label: 'Подвеска', icon: Activity, section: 'summary', order: 40 },
+    brakes: { label: 'Тормоза', icon: CircleOff, section: 'summary', order: 50 },
+    boardHeight: { label: 'Высота борта', icon: ArrowUpDown, suffix: ' мм', order: 60 },
+    weight: { label: 'Собственный вес', icon: Gauge, order: 70 },
+    axles: { label: 'Количество осей', icon: CircleDot, order: 80 },
+    maxVehicleLength: { label: 'Макс. длина техники', icon: MoveRight, suffix: ' мм', order: 90 },
+    maxVehicleWidth: { label: 'Макс. ширина техники', icon: MoveHorizontal, suffix: ' мм', order: 100 },
+    maxVehicleWeight: { label: 'Макс. вес техники', icon: Gauge, suffix: ' кг', order: 110 }
+  };
+
+  const { descriptionBullets, descriptionParagraphs } = useMemo(() => {
+    const raw = trailer.description && trailer.description.trim().length ? trailer.description : fallbackDescription;
+    const normalized = raw.replace(/\r\n/g, '\n').trim();
+
+    const bulletParts = normalized
+      .split(/●/)
+      .map(part => normalizeWhitespace(part.replace(/\n+/g, ' ')))
       .filter(Boolean);
+
+    if (bulletParts.length > 1) {
+      return { descriptionBullets: bulletParts, descriptionParagraphs: [] as string[] };
+    }
+
+    const paragraphs = normalized
+      .split(/\n{2,}/)
+      .map(block => normalizeWhitespace(block.replace(/\n/g, ' ')))
+      .filter(Boolean);
+
+    return { descriptionBullets: [] as string[], descriptionParagraphs: paragraphs };
   }, [trailer.description]);
+
+  const suspensionType = trailer.suspension || 'Рессорная';
+  const brakesType = trailer.brakes || 'Нет';
   const formattedFeatures = useMemo(() => {
     return (trailer.features || [])
       .map(feature => typeof feature === 'string' ? normalizeWhitespace(feature) : '')
       .filter(Boolean);
   }, [trailer.features]);
+  const specEntries = useMemo<SpecEntry[]>(() => {
+    const entries: SpecEntry[] = [];
+    const addSpec = (key: keyof typeof specDefinitions, rawValue: unknown) => {
+      if (rawValue === null || rawValue === undefined || rawValue === '') return;
+      const definition = specDefinitions[key];
+      if (!definition) return;
+      let valueText: string;
+      if (definition.format) {
+        valueText = definition.format(rawValue);
+      } else if (typeof rawValue === 'number') {
+        valueText = `${formatNumberValue(rawValue)}${definition.suffix ?? ''}`;
+      } else {
+        valueText = String(rawValue);
+      }
+      entries.push({
+        key,
+        label: definition.label,
+        icon: definition.icon,
+        value: valueText,
+        section: definition.section ?? 'detailed',
+        order: definition.order ?? 100,
+      });
+    };
+
+    addSpec('dimensions', trailer.dimensions || trailer.specs?.dimensions);
+    addSpec('capacity', trailer.specs?.capacity || (trailer.capacity ? `${formatNumberValue(trailer.capacity)} кг` : undefined));
+    addSpec('gabarity', trailer.gabarity);
+    addSpec('suspension', suspensionType);
+    addSpec('brakes', brakesType);
+    addSpec('boardHeight', trailer.boardHeight ?? trailer.specs?.boardHeight);
+    addSpec('weight', trailer.specs?.weight);
+    addSpec('axles', trailer.specs?.axles);
+    addSpec('bodyDimensions', trailer.bodyDimensions);
+    addSpec('maxVehicleLength', trailer.maxVehicleLength);
+    addSpec('maxVehicleWidth', trailer.maxVehicleWidth);
+    addSpec('maxVehicleWeight', trailer.maxVehicleWeight);
+    return entries.sort((a, b) => a.order - b.order);
+  }, [trailer, suspensionType, brakesType]);
+  const summarySpecs = specEntries.filter(entry => entry.section === 'summary');
+  const detailedSpecs = specEntries.filter(entry => entry.section !== 'summary');
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -83,10 +182,6 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('ru-RU').format(price);
   };
-
-  // Determine suspension and brakes
-  const suspensionType = trailer.suspension || 'Рессорная';
-  const brakesType = trailer.brakes || 'Нет';
 
   const handleOrder = () => {
     // Navigate to configurator with pre-selected options or just handle order
@@ -223,67 +318,44 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             <p className="text-gray-500 mb-6">{trailer.name}</p>
 
             <div className="mb-6">
-              <div className="space-y-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Truck className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
-                  <span>Размеры кузова: <strong>{trailer.dimensions || trailer.specs?.dimensions || '-'}</strong></span>
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Weight className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
-                  <span>Грузоподъемность: <strong>{trailer.capacity || trailer.specs?.capacity || '-'} кг</strong></span>
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Ruler className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
-                  <span>Габариты: <strong>{trailer.gabarity || trailer.specs?.dimensions || '-'}</strong></span>
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Activity className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
-                  <span>Подвеска: <strong>{suspensionType}</strong></span>
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <CircleOff className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
-                  <span>Тормоза: <strong>{brakesType}</strong></span>
-                </div>
+              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                {summarySpecs.length ? summarySpecs.map(spec => {
+                  const Icon = spec.icon;
+                  return (
+                    <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 border-b border-gray-200 pb-2 last:border-b-0 last:pb-0">
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Icon className="w-4 h-4 text-blue-500" />
+                        <span>{spec.label}</span>
+                      </div>
+                      <span className="font-semibold text-gray-900">{spec.value}</span>
+                    </div>
+                  );
+                }) : (
+                  <p className="text-sm text-gray-500">Характеристики не указаны.</p>
+                )}
               </div>
 
-              <button 
-                onClick={() => setShowFullSpecs(!showFullSpecs)}
-                className="text-blue-600 text-sm font-semibold hover:underline flex items-center mt-4 mb-2"
-              >
-                {showFullSpecs ? 'Скрыть характеристики' : 'Все характеристики'}
-                <ChevronRight size={16} className={`ml-1 transition-transform ${showFullSpecs ? '-rotate-90' : 'rotate-90'}`} />
-              </button>
+              <div className="mt-2 space-y-4">
+                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  {detailedSpecs.length ? (
+                    detailedSpecs.map(spec => {
+                      const Icon = spec.icon;
+                      return (
+                        <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 border-b border-gray-200 pb-2 last:border-b-0 last:pb-0">
+                          <div className="flex items-center gap-2 text-gray-500">
+                            <Icon className="w-4 h-4 text-blue-500" />
+                            <span>{spec.label}</span>
+                          </div>
+                          <span className="font-semibold text-gray-900">{spec.value}</span>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="text-sm text-gray-500">Характеристики уточняются.</p>
+                  )}
+                </div>
 
-              {showFullSpecs && (
-                <div className="mt-2 space-y-4 animate-in slide-in-from-top-2">
-                  <div className="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
-                    <div className="flex justify-between border-b border-gray-200 pb-1">
-                      <span className="text-gray-500">Полная масса</span>
-                      <span className="font-semibold">750 кг</span>
-                    </div>
-                    <div className="flex justify-between border-b border-gray-200 pb-1">
-                      <span className="text-gray-500">Колеса</span>
-                      <span className="font-semibold">R13</span>
-                    </div>
-                    <div className="flex justify-between border-b border-gray-200 pb-1">
-                      <span className="text-gray-500">Покрытие</span>
-                      <span className="font-semibold">Горячее цинкование</span>
-                    </div>
-                    {trailer.boardHeight && (
-                      <div className="flex justify-between border-b border-gray-200 pb-1">
-                        <span className="text-gray-500">Высота борта</span>
-                        <span className="font-semibold">{trailer.boardHeight} мм</span>
-                      </div>
-                    )}
-                    {trailer.specs?.axles && (
-                      <div className="flex justify-between border-b border-gray-200 pb-1">
-                        <span className="text-gray-500">Количество осей</span>
-                        <span className="font-semibold">{trailer.specs.axles}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
+                <div>
                     <h5 className="font-bold text-gray-900 mb-2">Особенности модели:</h5>
                     {formattedFeatures.length > 0 ? (
                       <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
@@ -294,20 +366,30 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                     ) : (
                       <p className="text-sm text-gray-500">Характеристики уточняются.</p>
                     )}
-                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Description Section */}
             <div className="mb-6 border-t border-gray-100 pt-6">
                <h3 className="font-bold text-gray-900 mb-2">Описание</h3>
-               <div className={`text-sm text-gray-600 relative ${!showFullDescription ? 'max-h-24 overflow-hidden' : ''}`}>
-                 {descriptionParagraphs.map((paragraph, idx) => (
-                   <p key={idx} className="mb-3 last:mb-0 leading-relaxed">
-                     {paragraph}
-                   </p>
-                 ))}
+               <div className={`text-sm text-gray-600 relative ${!showFullDescription ? 'max-h-36 overflow-hidden' : ''}`}>
+                 {descriptionBullets.length > 0 ? (
+                   <ul className="space-y-3 pl-1">
+                     {descriptionBullets.map((item, idx) => (
+                       <li key={idx} className="flex gap-2">
+                         <span className="text-blue-500 mt-1">•</span>
+                         <p className="leading-relaxed text-gray-700">{item}</p>
+                       </li>
+                     ))}
+                   </ul>
+                 ) : (
+                   descriptionParagraphs.map((paragraph, idx) => (
+                     <p key={idx} className="mb-3 last:mb-0 leading-relaxed">
+                       {paragraph}
+                     </p>
+                   ))
+                 )}
                  {!showFullDescription && (
                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
                  )}
@@ -353,7 +435,10 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
         {/* Right Column: Details & Options */}
         <div className="w-full md:w-7/12 flex flex-col h-full max-h-[50vh] md:max-h-none">
           <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
-            <h3 className="text-lg font-bold text-gray-900">Конфигурация и опции</h3>
+            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+              <Shield className="w-5 h-5 text-blue-600" />
+              Опции
+            </h3>
             <button 
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 rounded-full transition-colors hidden md:block"
@@ -363,13 +448,6 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           </div>
 
           <div className="flex flex-col flex-grow min-h-0">
-            <div className="px-6 pt-6 pb-4 shrink-0">
-              <h4 className="font-bold text-gray-900 flex items-center">
-                <Shield className="w-5 h-5 mr-2 text-blue-600" />
-                Дополнительные опции
-              </h4>
-            </div>
-
             <div className="overflow-y-auto flex-grow custom-scrollbar">
               <div className="px-6 pb-6 space-y-3">
                 {compatibleAccessories.map(acc => (
