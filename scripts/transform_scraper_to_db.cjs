@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SCRAPER_OUTPUT_DIR = path.join(ROOT, 'scraper', 'output');
+const SCRAPER_OUTPUT_DIR = path.join(ROOT, 'output');
 const DB_PATH = path.join(ROOT, 'backend', 'db.json');
 const FRONTEND_PUBLIC = path.join(ROOT, 'frontend', 'public');
 const TRAILER_IMAGES_DIR = path.join(FRONTEND_PUBLIC, 'images', 'trailers');
@@ -60,7 +60,7 @@ function normalizeProduct(productFile, accessoryMap) {
   const category = SEGMENT_CATEGORY_MAP[segment] || 'general';
   const model = raw.model || raw.title || 'Без названия';
   const version = raw.version || extractVersionFromModel(model);
-  const trailerId = slugify(`mzsa ${model}`);
+  const trailerId = raw.slug || slugify(`mzsa ${model}`);
 
   const specMap = raw.specs && typeof raw.specs === 'object' ? raw.specs : {};
 
@@ -305,8 +305,12 @@ function findProductJsonFiles(dir) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       result.push(...findProductJsonFiles(fullPath));
-    } else if (entry.isFile() && entry.name === 'product.json') {
-      result.push(fullPath);
+    } else if (entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'options_schema.json' && entry.name !== 'product_schema.json') {
+       const parentDir = path.basename(path.dirname(fullPath));
+       // Match if filename is product.json OR matches the parent folder name (slug)
+       if (entry.name === 'product.json' || entry.name === `${parentDir}.json`) {
+         result.push(fullPath);
+       }
     }
   }
   return result;

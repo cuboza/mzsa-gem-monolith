@@ -56,11 +56,27 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     suspension: { label: 'Подвеска', icon: Activity, section: 'summary', order: 40 },
     brakes: { label: 'Тормоза', icon: CircleOff, section: 'summary', order: 50 },
     boardHeight: { label: 'Высота борта', icon: ArrowUpDown, suffix: ' мм', order: 60 },
-    weight: { label: 'Собственный вес', icon: Gauge, order: 70 },
-    axles: { label: 'Количество осей', icon: CircleDot, order: 80 },
+    weight: { label: 'Собственный вес', icon: Gauge, section: 'summary', order: 70 },
+    axles: { label: 'Количество осей', icon: CircleDot, section: 'summary', order: 80 },
     maxVehicleLength: { label: 'Макс. длина техники', icon: MoveRight, suffix: ' мм', order: 90 },
     maxVehicleWidth: { label: 'Макс. ширина техники', icon: MoveHorizontal, suffix: ' мм', order: 100 },
-    maxVehicleWeight: { label: 'Макс. вес техники', icon: Gauge, suffix: ' кг', order: 110 }
+    maxVehicleWeight: { label: 'Макс. вес техники', icon: Gauge, suffix: ' кг', order: 110 },
+    
+    // Extended specs from scraper
+    polnaya_massa: { label: 'Полная масса', icon: Weight, suffix: ' кг', order: 21 },
+    snaryazhyonnaya_massa: { label: 'Снаряжённая масса', icon: Gauge, suffix: ' кг', order: 70 }, // Override weight
+    pogruzochnaya_vysota: { label: 'Погрузочная высота', icon: ArrowUpDown, suffix: ' мм', order: 61 },
+    kol_vo_listov_ressory: { label: 'Количество листов рессоры', icon: Activity, order: 41 },
+    nagruzka_na_odnu_os: { label: 'Нагрузка на одну ось', icon: Weight, suffix: ' кг', order: 81 },
+    dorozhnyy_prosvet: { label: 'Дорожный просвет', icon: ArrowUpDown, suffix: ' мм', order: 62 },
+    koleya_koles: { label: 'Колея колёс', icon: MoveHorizontal, suffix: ' мм', order: 31 },
+    razmer_kolyos: { label: 'Размер колёс', icon: CircleDot, order: 82 },
+    stsepnoe_ustroystvo: { label: 'Сцепное устройство', icon: Anchor, order: 120 },
+    tip_tsu: { label: 'Тип ТСУ', icon: Anchor, order: 121 },
+    fonari: { label: 'Фонари', icon: Activity, order: 130 },
+    shteker: { label: 'Штекер', icon: Activity, order: 131 },
+    petli_krepleniya_gruza: { label: 'Петли крепления груза', icon: Anchor, order: 140 },
+    zashchitnoe_pokrytie: { label: 'Защитное покрытие', icon: Shield, order: 150 }
   };
 
   const { descriptionBullets, descriptionParagraphs } = useMemo(() => {
@@ -124,9 +140,24 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     addSpec('weight', trailer.specs?.weight);
     addSpec('axles', trailer.specs?.axles);
     addSpec('bodyDimensions', trailer.bodyDimensions);
-    addSpec('maxVehicleLength', trailer.maxVehicleLength);
-    addSpec('maxVehicleWidth', trailer.maxVehicleWidth);
-    addSpec('maxVehicleWeight', trailer.maxVehicleWeight);
+    
+    if (['water', 'moto', 'wrecker'].includes(trailer.category)) {
+      addSpec('maxVehicleLength', trailer.maxVehicleLength);
+      addSpec('maxVehicleWidth', trailer.maxVehicleWidth);
+      addSpec('maxVehicleWeight', trailer.maxVehicleWeight);
+    }
+
+    // Add dynamic specs from scraper
+    if (trailer.specs) {
+      Object.keys(trailer.specs).forEach(key => {
+        // Skip keys that are already handled or not in definitions
+        if (['dimensions', 'capacity', 'weight', 'axles', 'boardHeight'].includes(key)) return;
+        if (key in specDefinitions) {
+          addSpec(key, trailer.specs![key]);
+        }
+      });
+    }
+
     return entries.sort((a, b) => a.order - b.order);
   }, [trailer, suspensionType, brakesType]);
   const summarySpecs = specEntries.filter(entry => entry.section === 'summary');
@@ -342,9 +373,9 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
               </div>
 
               <div className="mt-2 space-y-4">
-                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                  {detailedSpecs.length ? (
-                    detailedSpecs.map(spec => {
+                {detailedSpecs.length > 0 && (
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                    {detailedSpecs.map(spec => {
                       const Icon = spec.icon;
                       return (
                         <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 border-b border-gray-200 pb-2 last:border-b-0 last:pb-0">
@@ -355,11 +386,9 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                           <span className="font-semibold text-gray-900">{spec.value}</span>
                         </div>
                       );
-                    })
-                  ) : (
-                    <p className="text-sm text-gray-500">Характеристики уточняются.</p>
-                  )}
-                </div>
+                    })}
+                  </div>
+                )}
 
                 <div>
                     <h5 className="font-bold text-gray-900 mb-2">Особенности модели:</h5>

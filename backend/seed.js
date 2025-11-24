@@ -51,6 +51,7 @@ async function seed() {
         await Trailer.create({
           ...rest,
           ...flatSpecs,
+          specs: specs || {}, // Save the full specs object
           // If old data has 'dimensions' string, we can't easily put it into innerLength/Width/Height
           // unless we parse it. For now, let's just save the record.
           // The new model has 'features' as JSON, which matches.

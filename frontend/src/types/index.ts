@@ -25,6 +25,8 @@ export interface Trailer {
     weight: string;
     axles: number;
     boardHeight?: number;
+    // Dynamic fields from scraper
+    [key: string]: any;
   };
 
   suspension?: string;

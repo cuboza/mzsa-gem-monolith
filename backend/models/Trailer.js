@@ -119,6 +119,31 @@ const Trailer = sequelize.define('Trailer', {
   compatibility: {
     type: DataTypes.JSON, // ['atv', 'snowmobile']
     defaultValue: []
+  },
+
+  // Полные характеристики (JSON)
+  specs: {
+    type: DataTypes.JSON,
+    defaultValue: {},
+    comment: 'Полный объект характеристик из скрейпера'
+  },
+  
+  // --- Legacy Fields (from trailers.ts) ---
+  dimensions: {
+    type: DataTypes.STRING,
+    comment: 'Размеры кузова (строка)'
+  },
+  gabarity: {
+    type: DataTypes.STRING,
+    comment: 'Габаритные размеры (строка)'
+  },
+  boardHeight: {
+    type: DataTypes.INTEGER,
+    comment: 'Высота борта'
+  },
+  capacity: {
+    type: DataTypes.INTEGER,
+    comment: 'Грузоподъемность (legacy)'
   }
 }, {
   timestamps: true
