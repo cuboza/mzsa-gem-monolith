@@ -34,7 +34,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2050x1100x300 мм",
       "capacity": "616 кг",
       "weight": "134 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 300
     },
     "suspension": "рессорная",
@@ -74,7 +74,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x290 мм",
       "capacity": "550 кг",
       "weight": "200 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -114,7 +114,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x470 мм",
       "capacity": "535 кг",
       "weight": "215 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 470
     },
     "suspension": "рессорная",
@@ -153,7 +153,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2453x1231x470 мм",
       "capacity": "481 кг",
       "weight": "269 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 470
     },
     "suspension": "рессорная",
@@ -193,7 +193,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2435x1511x290 мм",
       "capacity": "528 кг",
       "weight": "222 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -237,7 +237,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2735x1511x290 мм",
       "capacity": "507 кг",
       "weight": "243 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -280,7 +280,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2435x1371x290 мм",
       "capacity": "537 кг",
       "weight": "213 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -321,7 +321,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2435х1371х470 мм",
       "capacity": "518 кг",
       "weight": "232 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -364,7 +364,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "2735x1371x290 мм",
       "capacity": "516 кг",
       "weight": "234 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -406,7 +406,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "1853x1231x290 мм",
       "capacity": "565 кг",
       "weight": "185 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -444,7 +444,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "1853x1231x470 мм",
       "capacity": "553 кг",
       "weight": "197 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 470
     },
     "suspension": "рессорная",
@@ -484,7 +484,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "1853x1231x470 мм",
       "capacity": "500 кг",
       "weight": "250 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 470
     },
     "suspension": "рессорная",
@@ -525,7 +525,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1371x290 мм",
       "capacity": "510 кг",
       "weight": "240 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -569,7 +569,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1371x290 мм",
       "capacity": "456 кг",
       "weight": "294 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -613,7 +613,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3009x1511x290 мм",
       "capacity": "501 кг",
       "weight": "249 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -656,7 +656,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1511x290 мм",
       "capacity": "490 кг",
       "weight": "260 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -699,7 +699,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1511x290 мм",
       "capacity": "428 кг",
       "weight": "322 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -740,7 +740,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1951x290 мм",
       "capacity": "376 кг",
       "weight": "374 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -784,7 +784,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449х1951х290 мм",
       "capacity": "344 кг",
       "weight": "406 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -825,7 +825,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "3449x1811x290 мм",
       "capacity": "391 кг",
       "weight": "359 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 290
     },
     "suspension": "рессорная",
@@ -1419,7 +1419,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "583 кг",
       "weight": "167 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1460,7 +1460,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "587 кг",
       "weight": "163 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1502,7 +1502,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "574 кг",
       "weight": "176 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1543,7 +1543,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "582 кг",
       "weight": "168 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1585,7 +1585,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "563 кг",
       "weight": "187 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1626,7 +1626,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "571 кг",
       "weight": "179 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1668,7 +1668,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "554 кг",
       "weight": "196 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1709,7 +1709,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "550 кг",
       "weight": "200 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1751,7 +1751,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "490 кг",
       "weight": "260 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1792,7 +1792,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "488 кг",
       "weight": "262 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1834,7 +1834,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "480 кг",
       "weight": "270 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1875,7 +1875,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "481 кг",
       "weight": "269 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1914,7 +1914,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "366 кг",
       "weight": "134 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1953,7 +1953,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "367 кг",
       "weight": "133 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -1994,7 +1994,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "590 кг",
       "weight": "160 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -2034,7 +2034,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "438 кг",
       "weight": "312 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -2238,7 +2238,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "2294 кг",
       "weight": "1206 кг",
-      "axles": 1,
+      "axles": 2,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -2278,7 +2278,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1224 кг",
       "weight": "376 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -2317,7 +2317,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "966 кг",
       "weight": "334 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -2396,7 +2396,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1142 кг",
       "weight": "458 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",
@@ -2589,7 +2589,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1100 кг",
       "weight": "0 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "резино-жгутовая",
@@ -2626,7 +2626,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "1340 кг",
       "weight": "0 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "резино-жгутовая",
@@ -2666,7 +2666,7 @@ export const allTrailers: Trailer[] = [
       "dimensions": "",
       "capacity": "938 кг",
       "weight": "362 кг",
-      "axles": 2,
+      "axles": 1,
       "boardHeight": 0
     },
     "suspension": "рессорная",

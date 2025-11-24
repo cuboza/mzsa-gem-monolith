@@ -6,9 +6,11 @@ interface TrailerCardProps {
   trailer: Trailer;
   onOrder?: (trailer: Trailer) => void;
   onClick?: (trailer: Trailer) => void;
+  selected?: boolean;
+  hideActions?: boolean;
 }
 
-export const TrailerCard = ({ trailer, onOrder, onClick }: TrailerCardProps) => {
+export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }: TrailerCardProps) => {
   const navigate = useNavigate();
 
   const formatPrice = (price: number) => {
@@ -17,9 +19,19 @@ export const TrailerCard = ({ trailer, onOrder, onClick }: TrailerCardProps) => 
 
   return (
     <div 
-      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col h-full group cursor-pointer"
+      className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border flex flex-col h-full group cursor-pointer relative ${
+        selected 
+          ? 'border-blue-600 ring-2 ring-blue-200' 
+          : 'border-gray-100'
+      }`}
       onClick={() => onClick?.(trailer)}
     >
+      {selected && (
+        <div className="absolute top-2 right-2 z-20 bg-blue-600 text-white p-1 rounded-full shadow-md">
+          <Check size={20} />
+        </div>
+      )}
+
       {/* Изображение */}
       <div className="relative h-48 bg-white flex items-center justify-center overflow-hidden group-hover:opacity-95 transition-opacity">
         {trailer.image ? (
@@ -137,31 +149,35 @@ export const TrailerCard = ({ trailer, onOrder, onClick }: TrailerCardProps) => 
               </p>
               <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Цена дилера</p>
             </div>
-            <button className="p-2 text-gray-400 hover:text-red-500 transition-colors">
-              <Heart className="w-6 h-6" />
-            </button>
+            {!hideActions && (
+              <button className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                <Heart className="w-6 h-6" />
+              </button>
+            )}
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate('/configurator', { state: { trailer } });
-              }}
-              className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg font-semibold text-sm transition-colors"
-            >
-              Конфигуратор
-            </button>
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } });
-              }}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
-            >
-              Заказать
-            </button>
-          </div>
+          {!hideActions && (
+            <div className="grid grid-cols-2 gap-2">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('/configurator', { state: { trailer } });
+                }}
+                className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg font-semibold text-sm transition-colors"
+              >
+                Конфигуратор
+              </button>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } });
+                }}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
+              >
+                Заказать
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

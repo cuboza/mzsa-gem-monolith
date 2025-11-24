@@ -3,8 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { vehicleDatabase } from '../data/vehicles';
-import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search } from 'lucide-react';
+import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check } from 'lucide-react';
 import { Stepper } from '../components/layout/Stepper';
+import { TrailerCard } from '../components/TrailerCard';
+import { CatalogFilters } from '../components/CatalogFilters';
 
 const CONFIG_STEPS = [
   { label: 'Техника' },
@@ -30,6 +32,15 @@ export const Configurator = () => {
   const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
   const [orderNumber, setOrderNumber] = useState('');
   const [searchInput, setSearchInput] = useState('');
+
+  // Фильтры
+  const [showFilters, setShowFilters] = useState(false);
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [onlyInStock, setOnlyInStock] = useState(false);
+  const [axles, setAxles] = useState<string>('all');
+  const [brakes, setBrakes] = useState<string>('all');
+  const [sortOption, setSortOption] = useState<string>('price_asc');
 
   // Форма клиента
   const [customerForm, setCustomerForm] = useState({
@@ -58,24 +69,57 @@ export const Configurator = () => {
     loadData();
   }, [location.state]);
 
-  // Логика совместимости
+  // Логика совместимости и фильтрации
   const compatibleTrailers = useMemo(() => {
-    if (!selectedVehicle) return trailers;
+    let result = trailers;
 
-    return trailers.filter(t => {
-      // 1. Проверка по категории совместимости
-      if (t.compatibility && t.compatibility.length > 0 && !t.compatibility.includes(selectedCategory as any)) {
-        return false;
+    // 0. Фильтрация по совместимости с техникой (если выбрана)
+    if (selectedVehicle) {
+      result = result.filter(t => {
+        // 1. Проверка по категории совместимости
+        if (t.compatibility && t.compatibility.length > 0 && !t.compatibility.includes(selectedCategory as any)) {
+          return false;
+        }
+
+        // 2. Проверка размеров и веса
+        if (t.maxVehicleLength && selectedVehicle.length > 0 && selectedVehicle.length > t.maxVehicleLength) return false;
+        if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
+        if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
+
+        return true;
+      });
+    } else if (selectedCategory) {
+       // Если техника не выбрана, фильтруем по категории
+       result = result.filter(t => !t.compatibility || t.compatibility.includes(selectedCategory as any));
+    }
+
+    // 3. Применение пользовательских фильтров
+    result = result.filter(t => {
+      const min = minPrice ? parseInt(minPrice) : 0;
+      const max = maxPrice ? parseInt(maxPrice) : 10000000;
+      if (t.price < min || t.price > max) return false;
+      
+      if (onlyInStock && t.availability !== 'in_stock') return false;
+      if (axles !== 'all' && t.specs?.axles !== parseInt(axles)) return false;
+      if (brakes !== 'all') {
+        const hasBrakes = t.brakes && t.brakes.toLowerCase() !== 'нет';
+        if (brakes === 'yes' && !hasBrakes) return false;
+        if (brakes === 'no' && hasBrakes) return false;
       }
-
-      // 2. Проверка размеров и веса
-      if (t.maxVehicleLength && selectedVehicle.length > 0 && selectedVehicle.length > t.maxVehicleLength) return false;
-      if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
-      if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
-
       return true;
     });
-  }, [trailers, selectedVehicle, selectedCategory]);
+
+    // 4. Сортировка
+    return result.sort((a, b) => {
+      switch (sortOption) {
+        case 'price_asc': return a.price - b.price;
+        case 'price_desc': return b.price - a.price;
+        case 'name_asc': return a.model.localeCompare(b.model);
+        case 'name_desc': return b.model.localeCompare(a.model);
+        default: return 0;
+      }
+    });
+  }, [trailers, selectedVehicle, selectedCategory, minPrice, maxPrice, onlyInStock, axles, brakes, sortOption]);
 
   // Итоговая сумма
   const totalPrice = (selectedTrailer?.price || 0) + 
@@ -355,60 +399,37 @@ export const Configurator = () => {
                 </p>
               )}
 
+              <CatalogFilters
+                activeCategory={selectedCategory}
+                onCategoryChange={() => {}}
+                showFilters={showFilters}
+                onToggleFilters={() => setShowFilters(!showFilters)}
+                minPrice={minPrice}
+                onMinPriceChange={setMinPrice}
+                maxPrice={maxPrice}
+                onMaxPriceChange={setMaxPrice}
+                onlyInStock={onlyInStock}
+                onStockChange={setOnlyInStock}
+                axles={axles}
+                onAxlesChange={setAxles}
+                brakes={brakes}
+                onBrakesChange={setBrakes}
+                sortOption={sortOption}
+                onSortChange={setSortOption}
+                totalCount={compatibleTrailers.length}
+                hideCategories={true}
+              />
+
               {compatibleTrailers.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 max-h-[60vh] overflow-y-auto p-2">
                   {compatibleTrailers.map(trailer => (
-                    <div 
+                    <TrailerCard
                       key={trailer.id}
-                      onClick={() => setSelectedTrailer(trailer)}
-                      className={`border-2 rounded-xl p-4 cursor-pointer transition-all relative ${
-                        selectedTrailer?.id === trailer.id
-                          ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-200'
-                          : 'border-gray-100 hover:border-blue-300'
-                      }`}
-                    >
-                      {selectedTrailer?.id === trailer.id && (
-                        <div className="absolute -top-3 -right-3 bg-blue-600 text-white p-1 rounded-full z-10">
-                          <CheckCircle size={20} />
-                        </div>
-                      )}
-                      
-                      <div className="aspect-video bg-gray-100 rounded-lg mb-3 overflow-hidden border border-gray-200">
-                        <img 
-                          src={trailer.image} 
-                          alt={trailer.model}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
-                          }}
-                        />
-                      </div>
-
-                      <h3 className="font-bold mb-1">{trailer.model}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{trailer.name}</p>
-                      
-                      {trailer.description ? (
-                        <p className="text-xs text-gray-500 mb-3 italic border-l-2 border-blue-200 pl-2">
-                          {trailer.description}
-                        </p>
-                      ) : (
-                        <p className="text-xs text-gray-500 mb-3 italic border-l-2 border-gray-200 pl-2">
-                           {trailer.category === 'general' && 'Универсальный прицеп для различных грузов'}
-                           {trailer.category === 'moto' && 'Для перевозки мототехники (снегоходы, квадроциклы, мотоциклы)'}
-                           {trailer.category === 'water' && 'Для перевозки водной техники'}
-                           {trailer.category === 'commercial' && 'Для коммерческих перевозок и тяжелых грузов'}
-                           {trailer.category === 'wrecker' && 'Для эвакуации автомобилей и спецтехники'}
-                        </p>
-                      )}
-
-                      <div className="text-xs space-y-1 text-gray-500 mb-4">
-                        <p>Кузов: {trailer.dimensions}</p>
-                        <p>Г/п: {trailer.capacity} кг</p>
-                      </div>
-                      <p className="text-xl font-bold text-blue-700 text-right">
-                        {formatPrice(trailer.price)} ₽
-                      </p>
-                    </div>
+                      trailer={trailer}
+                      onClick={setSelectedTrailer}
+                      selected={selectedTrailer?.id === trailer.id}
+                      hideActions={true}
+                    />
                   ))}
                 </div>
               ) : (
@@ -729,21 +750,5 @@ export const Configurator = () => {
   );
 };
 
-// Вспомогательный компонент иконки галочки
-const Check = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="3" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <polyline points="20 6 9 17 4 12"></polyline>
-  </svg>
-);
+
 

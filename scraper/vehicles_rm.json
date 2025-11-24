@@ -1,0 +1,152 @@
+[
+  {
+    "brand": "Русская механика",
+    "model": "Фронтьер 1000 /",
+    "length": 3275,
+    "width": 1270,
+    "height": 1440,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/vector/frontier1000_2025/frontier1000_2025_details_sideA.jpg",
+    "url": "https://go-rm.ru/frontier_1000_2025.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "Фронтьер",
+    "length": 3275,
+    "width": 1270,
+    "height": 1440,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/vector/frontier1000/frontier1000_details_sideA.jpg",
+    "url": "https://go-rm.ru/frontier1000.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "ТАЙГА Патруль 800 SWT",
+    "length": 2970,
+    "width": 1135,
+    "height": 1460,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/tayga/tayga_patrul800swt/details/details_patrul800swt_sideA.jpg",
+    "url": "https://go-rm.ru/tayga_patrul_800_swt.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "ТАЙГА Патруль 550 SWT",
+    "length": 3000,
+    "width": 1125,
+    "height": 1440,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/tayga/tayga_patrul550swt/details/details_patrul550_sideA.jpg",
+    "url": "https://go-rm.ru/tayga_patrul_550_swt.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "ТАЙГА ВАРЯГ 550 V",
+    "length": 2990,
+    "width": 1050,
+    "height": 1420,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/tayga/tayga_varyag_550v_2019/details/details_varyag550_sideA.jpg",
+    "url": "https://go-rm.ru/tayga-varyag550v.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "ТАЙГА ВАРЯГ 550 V SE",
+    "length": 2990,
+    "width": 1050,
+    "height": 1420,
+    "weight": 0,
+    "image": "https://go-rm.ru/upload/iblock/f70/f708d7e0f39417da1e8a70b56e2d1d62.png",
+    "url": "https://go-rm.ru/tayga-varyag.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "ТАЙГА ВАРЯГ",
+    "length": 2905,
+    "width": 1050,
+    "height": 1380,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/tayga/tayga_varyag_500/details/details_varyag500_sideA.jpg",
+    "url": "https://go-rm.ru/tayga-varyag500.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "БУРАН ЛИДЕР АЕ / АДЕ430 000 /",
+    "length": 2760,
+    "width": 910,
+    "height": 1385,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/buran/buran_leader/details/details_buran-leader_sideA.jpg",
+    "url": "https://go-rm.ru/buran_leader.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "БУРАН А",
+    "length": 2700,
+    "width": 910,
+    "height": 1335,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/buran/buran_ae/details/details_buran-a_sideA.jpg",
+    "url": "https://go-rm.ru/buran_ae.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "Тикси 500 4Т",
+    "length": 2820,
+    "width": 1060,
+    "height": 1340,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/tiksy/tiksy500_4t/details/details_tiksy500_sideA.jpg",
+    "url": "https://go-rm.ru/tiksy500_4t.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "ТАЙГА РМ РЫСЬ",
+    "length": 2045,
+    "width": 880,
+    "height": 830,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/tayga/tayga_rm_rys/details/details_tayga-rm-rys_sideA.jpg",
+    "url": "https://go-rm.ru/tayga_rm_rys.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "РМ 800 Т",
+    "length": 2438,
+    "width": 1234,
+    "height": 1558,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/rmq/rm800t/details/rm800t_sideA.jpg",
+    "url": "https://go-rm.ru/rm_800_t.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "РМ 800 Т серии «Шёлковый путь»",
+    "length": 2438,
+    "width": 1234,
+    "height": 1558,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/rmq/rm800t_sw/details/rm800t_silkway_sideA3.jpg",
+    "url": "https://go-rm.ru/rm_800_t_sw.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "РМ 650-",
+    "length": 2350,
+    "width": 1240,
+    "height": 1470,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/rmq/rm650-2/details/details_rm650-2_sideA.jpg",
+    "url": "https://go-rm.ru/rm650-2.html"
+  },
+  {
+    "brand": "Русская механика",
+    "model": "РМ 500-",
+    "length": 2350,
+    "width": 1240,
+    "height": 1470,
+    "weight": 0,
+    "image": "https://go-rm.ru/assets/images/catalog/rmq/rm500-2/details/rm500-2_details_sideA.jpg",
+    "url": "https://go-rm.ru/rm500-2.html"
+  }
+]

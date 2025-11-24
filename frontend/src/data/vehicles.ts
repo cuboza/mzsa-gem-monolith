@@ -1,4 +1,31 @@
 import { Vehicle } from '../types';
+import rmVehiclesRaw from './vehicles_rm.json';
+
+const rmSnowmobiles = rmVehiclesRaw
+  .filter(v => ['Фронтьер', 'Тайга', 'Буран', 'Тикси'].some(k => v.model.includes(k)))
+  .map(v => ({
+    brand: v.brand,
+    model: v.model,
+    length: v.length,
+    width: v.width,
+    height: v.height,
+    weight: v.weight || 300, // Default if 0
+    loadingAngle: 20,
+    tiePoints: "standard"
+  }));
+
+const rmAtvs = rmVehiclesRaw
+  .filter(v => ['РМ 800', 'РМ 650', 'РМ 500'].some(k => v.model.includes(k)))
+  .map(v => ({
+    brand: v.brand,
+    model: v.model,
+    length: v.length,
+    width: v.width,
+    height: v.height,
+    weight: v.weight || 400, // Default if 0
+    loadingAngle: 25,
+    tiePoints: "front_rear"
+  }));
 
 export const vehicleDatabase: Record<string, Vehicle[]> = {
   snowmobile: [
@@ -12,26 +39,7 @@ export const vehicleDatabase: Record<string, Vehicle[]> = {
       loadingAngle: 18,
       tiePoints: "standard"
     },
-    {
-      brand: "Русская механика",
-      model: "Буран А",
-      length: 3100,
-      width: 1200,
-      height: 1400,
-      weight: 310,
-      loadingAngle: 20,
-      tiePoints: "dual_track"
-    },
-    {
-      brand: "Русская механика",
-      model: "Тайга Варяг 550",
-      length: 3200,
-      width: 1150,
-      height: 1350,
-      weight: 260,
-      loadingAngle: 18,
-      tiePoints: "standard"
-    },
+    ...rmSnowmobiles,
     {
       brand: "Arctic Cat",
       model: "ZR 8000",
@@ -106,16 +114,7 @@ export const vehicleDatabase: Record<string, Vehicle[]> = {
     }
   ],
   atv: [
-    {
-      brand: "Русская механика",
-      model: "РМ 650-2",
-      length: 2200,
-      width: 1210,
-      height: 1380,
-      weight: 380,
-      loadingAngle: 25,
-      tiePoints: "front_rear"
-    },
+    ...rmAtvs,
     {
       brand: "Polaris",
       model: "Sportsman 570",

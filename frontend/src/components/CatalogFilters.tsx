@@ -19,6 +19,7 @@ interface CatalogFiltersProps {
   sortOption: string;
   onSortChange: (val: string) => void;
   totalCount: number;
+  hideCategories?: boolean;
 }
 
 export const CatalogFilters = ({
@@ -38,7 +39,8 @@ export const CatalogFilters = ({
   onBrakesChange,
   sortOption,
   onSortChange,
-  totalCount
+  totalCount,
+  hideCategories = false
 }: CatalogFiltersProps) => {
   const { isAtLeast } = useBreakpoint();
   const isDesktop = isAtLeast('md');
@@ -52,54 +54,71 @@ export const CatalogFilters = ({
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8 sticky top-20 z-30">
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
-        {/* Категории (Desktop) */}
-        <div className="hidden md:flex gap-2 overflow-x-auto pb-2 w-full">
+      {!hideCategories && (
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
+          {/* Категории (Desktop) */}
+          <div className="hidden md:flex gap-2 overflow-x-auto pb-2 w-full">
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => onCategoryChange(cat.id)}
+                className={`px-4 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors ${
+                  activeCategory === cat.id 
+                    ? 'bg-blue-600 text-white shadow-md' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Кнопка фильтров (Mobile) */}
+          <button
+            onClick={onToggleFilters}
+            className="md:hidden w-full px-4 py-2 border rounded-lg flex items-center justify-center space-x-2 bg-gray-50"
+          >
+            <Filter className="w-4 h-4" />
+            <span>Фильтры</span>
+          </button>
+        </div>
+      )}
+
+      {!hideCategories && (
+        /* Категории (Mobile Scroll) */
+        <div className="md:hidden flex gap-2 overflow-x-auto pb-2 mb-2 scrollbar-hide">
           {categories.map(cat => (
             <button
               key={cat.id}
               onClick={() => onCategoryChange(cat.id)}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors ${
+              className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 activeCategory === cat.id 
-                  ? 'bg-blue-600 text-white shadow-md' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700'
               }`}
             >
               {cat.name}
             </button>
           ))}
         </div>
+      )}
 
-        {/* Кнопка фильтров (Mobile) */}
-        <button
-          onClick={onToggleFilters}
-          className="md:hidden w-full px-4 py-2 border rounded-lg flex items-center justify-center space-x-2 bg-gray-50"
-        >
-          <Filter className="w-4 h-4" />
-          <span>Фильтры</span>
-        </button>
-      </div>
-
-      {/* Категории (Mobile Scroll) */}
-      <div className="md:hidden flex gap-2 overflow-x-auto pb-2 mb-2 scrollbar-hide">
-        {categories.map(cat => (
+      {/* Кнопка фильтров (Mobile) - если категории скрыты */}
+      {hideCategories && (
+        <div className="md:hidden mb-4">
           <button
-            key={cat.id}
-            onClick={() => onCategoryChange(cat.id)}
-            className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              activeCategory === cat.id 
-                ? 'bg-blue-600 text-white' 
-                : 'bg-gray-100 text-gray-700'
-            }`}
+            onClick={onToggleFilters}
+            className="w-full px-4 py-2 border rounded-lg flex items-center justify-center space-x-2 bg-gray-50"
           >
-            {cat.name}
+            <Filter className="w-4 h-4" />
+            <span>{showFilters ? 'Скрыть фильтры' : 'Показать фильтры'}</span>
           </button>
-        ))}
-      </div>
+        </div>
+      )}
 
       {/* Расширенные фильтры */}
       {(showFilters || isDesktop) && (
-        <div className={`md:flex flex-wrap gap-6 items-center pt-4 border-t ${showFilters ? 'block space-y-4 md:space-y-0' : 'hidden md:flex'}`}>
+        <div className={`md:flex flex-wrap gap-6 items-center pt-4 ${!hideCategories ? 'border-t' : ''} ${showFilters ? 'block space-y-4 md:space-y-0' : 'hidden md:flex'}`}>
           {/* Сортировка */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-gray-700">Сортировка:</span>
