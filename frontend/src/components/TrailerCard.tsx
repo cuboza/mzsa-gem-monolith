@@ -3,6 +3,56 @@ import { Star, Heart, Truck, Check, Percent, Flame, Sparkles } from 'lucide-reac
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+// Хелперы для извлечения данных из specs или legacy полей
+const getAxlesCount = (trailer: Trailer): number => {
+  // Сначала из specs.kol_vo_osey_kolyos (например "1/2" или "2/4")
+  const kolVo = trailer.specs?.kol_vo_osey_kolyos;
+  if (kolVo && typeof kolVo === 'string') {
+    const match = kolVo.match(/^(\d+)/);
+    if (match) return parseInt(match[1]);
+  }
+  // Потом из specs.axles
+  if (trailer.specs?.axles) return trailer.specs.axles;
+  // Потом из legacy поля axles
+  return 1;
+};
+
+const getCapacity = (trailer: Trailer): number | null => {
+  // Сначала из specs.gruzopodemnost
+  if (trailer.specs?.gruzopodemnost) return trailer.specs.gruzopodemnost;
+  // Потом из legacy поля capacity
+  if (trailer.capacity) return trailer.capacity;
+  return null;
+};
+
+const getBodyDimensions = (trailer: Trailer): string | null => {
+  // Для лодочных - длина судна
+  if (trailer.specs?.dlina_sudna) return trailer.specs.dlina_sudna;
+  // Размеры кузова из specs
+  if (trailer.specs?.razmery_kuzova) return trailer.specs.razmery_kuzova;
+  // Legacy поля
+  if (trailer.bodyDimensions) return trailer.bodyDimensions;
+  if (trailer.dimensions) return trailer.dimensions;
+  return null;
+};
+
+const hasBrakes = (trailer: Trailer): boolean => {
+  // Проверяем specs.tormoz
+  const tormoz = trailer.specs?.tormoz;
+  if (tormoz && typeof tormoz === 'string') {
+    const lowerTormoz = tormoz.toLowerCase();
+    if (lowerTormoz.includes('без тормоз') || lowerTormoz.includes('нет')) {
+      return false;
+    }
+    if (lowerTormoz.includes('тормоз наката') || lowerTormoz.includes('есть')) {
+      return true;
+    }
+  }
+  // Legacy поле brakes
+  if (trailer.brakes && trailer.brakes !== 'Нет') return true;
+  return false;
+};
+
 interface TrailerCardProps {
   trailer: Trailer;
   onOrder?: (trailer: Trailer) => void;
@@ -127,37 +177,43 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
           {/* Ключевые характеристики (сокращённый вид) */}
           <div className="space-y-2 mb-4 text-sm bg-gray-50 p-3 rounded-lg">
             {/* Размеры кузова или длина судна для лодочных */}
-            {trailer.dimensions ? (
-              <div className="flex justify-between">
-                <span className="text-gray-500">Кузов:</span>
-                <span className="font-semibold text-gray-900">{trailer.dimensions}</span>
-              </div>
-            ) : trailer.bodyDimensions ? (
-              <div className="flex justify-between">
-                <span className="text-gray-500">Длина судна:</span>
-                <span className="font-semibold text-gray-900">{trailer.bodyDimensions}</span>
-              </div>
-            ) : null}
+            {(() => {
+              const dims = getBodyDimensions(trailer);
+              if (!dims) return null;
+              const isBoat = trailer.category === 'water' || trailer.specs?.dlina_sudna;
+              return (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">{isBoat ? 'Длина судна:' : 'Кузов:'}</span>
+                  <span className="font-semibold text-gray-900">{dims}</span>
+                </div>
+              );
+            })()}
             
             {/* Количество осей */}
             <div className="flex justify-between">
               <span className="text-gray-500">Осей:</span>
-              <span className="font-semibold text-gray-900">{trailer.specs?.axles || 1}</span>
+              <span className="font-semibold text-gray-900">{getAxlesCount(trailer)}</span>
             </div>
             
             {/* Тормоза */}
             <div className="flex justify-between">
               <span className="text-gray-500">Тормоз:</span>
-              <span className={`font-semibold ${trailer.brakes && trailer.brakes !== 'Нет' ? 'text-green-600' : 'text-gray-500'}`}>
-                {trailer.brakes && trailer.brakes !== 'Нет' ? 'Есть' : 'Нет'}
+              <span className={`font-semibold ${hasBrakes(trailer) ? 'text-green-600' : 'text-gray-500'}`}>
+                {hasBrakes(trailer) ? 'Есть' : 'Нет'}
               </span>
             </div>
             
             {/* Грузоподъёмность */}
-            <div className="flex justify-between">
-              <span className="text-gray-500">Г/п:</span>
-              <span className="font-semibold text-gray-900">{trailer.capacity} кг</span>
-            </div>
+            {(() => {
+              const cap = getCapacity(trailer);
+              if (!cap) return null;
+              return (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Г/п:</span>
+                  <span className="font-semibold text-gray-900">{cap} кг</span>
+                </div>
+              );
+            })()}
           </div>
         </div>
 

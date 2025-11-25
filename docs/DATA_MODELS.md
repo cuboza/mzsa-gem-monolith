@@ -8,7 +8,7 @@
 Основной товар в каталоге (все данные зеркалятся между scraper ➜ backend ➜ frontend).
 ```typescript
 type TrailerCategory = 'general' | 'water' | 'commercial' | 'moto' | 'wrecker';
-type Availability = 'in_stock' | 'days_1_3' | 'days_7_14';
+type Availability = 'in_stock' | 'days_1_3' | 'days_7_14' | 'on_order';
 
 interface DimensionsMM {
   length: number;
@@ -30,38 +30,72 @@ interface Trailer {
   category: TrailerCategory;
   segment?: string;         // «bortovoy», «lodochniy», …
   price: number;
+  oldPrice?: number;        // Старая цена (для скидки)
   currency: 'RUB';
   description: string;
-  heroImage: string;        // Главное изображение
-  images: string[];         // Все локальные пути /images/... (из скрапера)
+  
+  // --- Медиа ---
+  image: string;            // Главное изображение
+  images: string[];         // Все локальные пути /images/... (галерея)
 
-  capacity?: number;             // кг
-  capacityUnit?: 'kg';
-  dimensions?: string;           // «2453×1231×470» для отображения
-  dimensionsMM?: DimensionsMM;   // нормализованные значения в мм
-  bodyDimensions?: string;       // спец. поле для лодочных
-  gabarity?: string;
-  suspension?: string;           // «рессорная», «рессорно-балансирная»
-  brakes?: 'Нет' | 'Есть' | string;
-  specs: Record<string, string | number>; // Полное зеркало сайта
+  // --- Физические характеристики ---
+  capacity?: number;             // Грузоподъёмность, кг
+  dimensions?: string;           // «2453×1231×470» — размеры кузова
+  bodyDimensions?: string;       // Для лодочных: длина судна
+  gabarity?: string;             // Габаритные размеры
+  boardHeight?: number;          // Высота борта, мм
+  
+  // --- Технические характеристики ---
+  suspension?: string;           // «Рессорная», «Резино-жгутовая»
+  brakes?: string;               // «Нет», «Тормоз наката»
+  axles?: number;                // Количество осей (1 или 2)
+  
+  // Полный объект характеристик из скрапера
+  specs?: Record<string, string | number>;
 
-  features: string[];
+  features: string[];            // Особенности модели
   compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle')[];
-  options: string[];             // Массив ID аксессуаров
-  warehouses: WarehouseStock[];  // Остатки по складам
-
+  
+  // --- Маркетинговые флаги ---
   availability: Availability;
-  badge?: string;
-  isPopular?: boolean;
+  badge?: string;                // Кастомный бейдж
+  isPopular?: boolean;           // Хит продаж
+  isNew?: boolean;               // Новинка
+  isOnSale?: boolean;            // Акция
+  isPriceReduced?: boolean;      // Снижена цена
+  
+  // --- Метаданные ---
   createdAt?: string;
   updatedAt?: string;
 }
 ```
 
+> **Именование полей (консистентность):**
+> - `image` — главное изображение (единственное)
+> - `images` — массив всех изображений (галерея)
+> - В db.json используется `heroImage` → seed.js маппит на `image`
+> - В db.json используется `images` → seed.js сохраняет как `images`
+
 > **Источник данных:**
 > 1. Скрапер формирует описание, фотографии, полные specs.
 > 2. Импорт из 1С обновляет цену, availability и `warehouses`.
 > 3. Backend (`db.json`) хранит объединённый результат, фронт потребляет через REST.
+
+### Краткая vs. полная карточка
+| Поле | TrailerCard (краткая) | TrailerDetailsModal (полная) |
+|------|----------------------|------------------------------|
+| Размеры кузова / Длина судна | ✅ | ✅ |
+| Количество осей | ✅ | ✅ |
+| Тормоз (Есть/Нет) | ✅ | ✅ (полная информация) |
+| Грузоподъёмность | ✅ | ✅ |
+| Подвеска | ❌ | ✅ |
+| Габариты | ❌ | ✅ |
+| Высота борта | ❌ | ✅ |
+| Полная/снаряжённая масса | ❌ | ✅ |
+| Все specs из скрапера | ❌ | ✅ |
+| Особенности модели | ❌ | ✅ |
+| Описание | ❌ | ✅ |
+| Галерея изображений | ❌ | ✅ |
 
 ### Accessory (Опция/аксессуар)
 Единый справочник доп. оборудования, переиспользуемый в разных прицепах.
@@ -78,7 +112,7 @@ interface Accessory {
   image: string;             // Локальный путь /images/accessories/...
   compatibleWith: string[];  // ['all'] или конкретные категории/модели
   required: boolean;
-  warehouses: WarehouseStock[]; // Остаток тот же, что и у прицепов
+  warehouses?: WarehouseStock[]; // Остаток (опционально)
 }
 ```
 
@@ -94,13 +128,23 @@ interface Order {
   customer: {          // Данные покупателя (snapshot)
     name: string;
     phone: string;
-    email: string;
+    email?: string;
+    region: 'ХМАО' | 'ЯНАО';
+    city: string;
   };
   
   configuration: {     // Состав заказа
     trailer: Trailer;
     accessories: Accessory[];
     totalPrice: number;
+  };
+  
+  delivery: {
+    method: 'pickup' | 'delivery';
+    region: 'ХМАО' | 'ЯНАО';
+    city: string;
+    address?: string;
+    cost?: number;
   };
   
   timeline: OrderEvent[]; // История изменений статуса
