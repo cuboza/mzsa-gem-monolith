@@ -220,12 +220,13 @@ export const Catalog = () => {
           </div>
         ) : filteredTrailers.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredTrailers.map(trailer => (
-              <TrailerCard 
-                key={trailer.id} 
-                trailer={trailer} 
-                onClick={setSelectedTrailer}
-              />
+            {filteredTrailers.map((trailer, index) => (
+              <div key={trailer.id} className="stagger-item" style={{ animationDelay: `${Math.min(index * 50, 400)}ms` }}>
+                <TrailerCard 
+                  trailer={trailer} 
+                  onClick={setSelectedTrailer}
+                />
+              </div>
             ))}
           </div>
         ) : (

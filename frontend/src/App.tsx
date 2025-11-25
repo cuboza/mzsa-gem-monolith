@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { MobileBottomNav } from './components/layout/MobileBottomNav';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Catalog';
 import { Configurator } from './pages/Configurator';
@@ -24,7 +25,7 @@ function App() {
           <Route path="*" element={
             <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-900">
               <Header />
-              <main className="flex-grow">
+              <main className="flex-grow pb-16 md:pb-0">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/catalog" element={<Catalog />} />
@@ -37,6 +38,7 @@ function App() {
                 </Routes>
               </main>
               <Footer />
+              <MobileBottomNav />
             </div>
           } />
         </Routes>

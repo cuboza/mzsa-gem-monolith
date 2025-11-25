@@ -26,7 +26,7 @@ async function seed() {
         // Map fields from old structure to new structure if needed
         // Old structure had 'specs' object, new has flat fields for specs
         // We need to flatten 'specs' if it exists
-        const { specs, ...rest } = t;
+        const { specs, heroImage, images, ...rest } = t;
         
         let flatSpecs = {};
         if (specs) {
@@ -51,6 +51,8 @@ async function seed() {
         await Trailer.create({
           ...rest,
           ...flatSpecs,
+          image: heroImage || rest.image,
+          images: images || rest.images || [],
           specs: specs || {}, // Save the full specs object
           // If old data has 'dimensions' string, we can't easily put it into innerLength/Width/Height
           // unless we parse it. For now, let's just save the record.

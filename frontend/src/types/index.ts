@@ -14,6 +14,10 @@ export interface Trailer {
   features: string[]; // особенности
   badge?: string; // "Хит продаж", "Новинка", "OFF-ROAD"
   isPopular?: boolean;
+  isOnSale?: boolean; // Акция
+  isPriceReduced?: boolean; // Снижена цена
+  isNew?: boolean; // Новинка
+  oldPrice?: number; // Старая цена (для скидки)
   availability: 'in_stock' | 'days_1_3' | 'days_7_14';
   image: string; // URL placeholder
   images?: string[]; // Array of all trailer images

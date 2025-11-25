@@ -1,6 +1,7 @@
 import { Trailer } from '../types';
-import { Star, Heart, Truck, Check } from 'lucide-react';
+import { Star, Heart, Truck, Check, Percent, Flame, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 interface TrailerCardProps {
   trailer: Trailer;
@@ -12,6 +13,14 @@ interface TrailerCardProps {
 
 export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }: TrailerCardProps) => {
   const navigate = useNavigate();
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // Сброс состояния при изменении изображения
+  useEffect(() => {
+    setImageLoaded(false);
+    setImageError(false);
+  }, [trailer.image]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('ru-RU').format(price);
@@ -19,10 +28,10 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
 
   return (
     <div 
-      className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border flex flex-col h-full group cursor-pointer relative ${
+      className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border flex flex-col h-full group cursor-pointer relative transform hover:-translate-y-1 ${
         selected 
           ? 'border-blue-600 ring-2 ring-blue-200' 
-          : 'border-gray-100'
+          : 'border-gray-100 hover:border-gray-200'
       }`}
       onClick={() => onClick?.(trailer)}
     >
@@ -33,41 +42,61 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       )}
 
       {/* Изображение */}
-      <div className="relative h-48 bg-white flex items-center justify-center overflow-hidden group-hover:opacity-95 transition-opacity">
-        {trailer.image ? (
-          <img 
-            src={trailer.image} 
-            alt={trailer.model} 
-            className="w-full h-full object-contain p-4"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              // Try a placeholder if the main image fails (e.g. hotlinking protection)
-              if (!target.src.includes('placehold.co')) {
-                target.src = `https://placehold.co/600x400?text=${encodeURIComponent(trailer.model)}`;
-              } else {
-                // If placeholder also fails, hide image and show icon
-                target.style.display = 'none';
-                target.nextElementSibling?.classList.remove('hidden');
-              }
-            }}
-          />
-        ) : null}
-        
-        <div className={`absolute inset-0 flex items-center justify-center text-gray-400 bg-gray-200 ${trailer.image ? 'hidden' : ''}`}>
-          <Truck size={48} className="opacity-50" />
-        </div>
+      <div className="relative h-48 bg-gray-50 flex items-center justify-center overflow-hidden">
+        {trailer.image && !imageError ? (
+          <>
+            {/* Skeleton loader */}
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
+                <Truck size={32} className="text-gray-300" />
+              </div>
+            )}
+            <img 
+              src={trailer.image} 
+              alt={trailer.model} 
+              className={`w-full h-full object-contain p-4 transition-all duration-300 ${
+                imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+              }`}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageError(true)}
+            />
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center text-gray-400">
+            <Truck size={48} className="opacity-50" />
+            <span className="text-xs mt-2 text-gray-300">Нет фото</span>
+          </div>
+        )}
         
         {/* Бейджи */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {trailer.badge && (
-            <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-              {trailer.badge}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          {trailer.isNew && (
+            <span className="bg-purple-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
+              <Sparkles size={12} className="mr-1" />
+              Новинка
             </span>
           )}
-          {trailer.isPopular && (
-            <span className="bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
+          {trailer.isOnSale && (
+            <span className="bg-red-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
+              <Flame size={12} className="mr-1" />
+              Акция
+            </span>
+          )}
+          {trailer.isPriceReduced && (
+            <span className="bg-green-600 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
+              <Percent size={12} className="mr-1" />
+              Скидка
+            </span>
+          )}
+          {trailer.isPopular && !trailer.isNew && !trailer.isOnSale && (
+            <span className="bg-yellow-400 text-gray-900 px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
               <Star size={12} className="mr-1 fill-current" />
               Хит
+            </span>
+          )}
+          {trailer.badge && !trailer.isNew && !trailer.isOnSale && !trailer.isPriceReduced && (
+            <span className="bg-orange-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
+              {trailer.badge}
             </span>
           )}
         </div>
@@ -95,48 +124,40 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
             {trailer.name}
           </p>
 
-          {/* Характеристики */}
+          {/* Ключевые характеристики (сокращённый вид) */}
           <div className="space-y-2 mb-4 text-sm bg-gray-50 p-3 rounded-lg">
-            <div className="flex justify-between">
-              <span className="text-gray-500">Г/п:</span>
-              <span className="font-semibold text-gray-900">{trailer.capacity} кг</span>
-            </div>
-            {trailer.dimensions && (
+            {/* Размеры кузова или длина судна для лодочных */}
+            {trailer.dimensions ? (
               <div className="flex justify-between">
-                <span className="text-gray-500">Размеры кузова:</span>
+                <span className="text-gray-500">Кузов:</span>
                 <span className="font-semibold text-gray-900">{trailer.dimensions}</span>
               </div>
-            )}
-            {trailer.boardHeight && (
-              <div className="flex justify-between">
-                <span className="text-gray-500">Высота борта:</span>
-                <span className="font-semibold text-gray-900">{trailer.boardHeight} мм</span>
-              </div>
-            )}
-            {trailer.gabarity && (
-              <div className="flex justify-between">
-                <span className="text-gray-500">Габариты:</span>
-                <span className="font-semibold text-gray-900">{trailer.gabarity}</span>
-              </div>
-            )}
-            {trailer.bodyDimensions && (
+            ) : trailer.bodyDimensions ? (
               <div className="flex justify-between">
                 <span className="text-gray-500">Длина судна:</span>
                 <span className="font-semibold text-gray-900">{trailer.bodyDimensions}</span>
               </div>
-            )}
-            {trailer.suspension && (
-              <div className="flex justify-between">
-                <span className="text-gray-500">Подвеска:</span>
-                <span className="font-semibold text-gray-900">{trailer.suspension}</span>
-              </div>
-            )}
-            {trailer.brakes && (
-              <div className="flex justify-between">
-                <span className="text-gray-500">Тормоза:</span>
-                <span className="font-semibold text-gray-900">{trailer.brakes}</span>
-              </div>
-            )}
+            ) : null}
+            
+            {/* Количество осей */}
+            <div className="flex justify-between">
+              <span className="text-gray-500">Осей:</span>
+              <span className="font-semibold text-gray-900">{trailer.specs?.axles || 1}</span>
+            </div>
+            
+            {/* Тормоза */}
+            <div className="flex justify-between">
+              <span className="text-gray-500">Тормоз:</span>
+              <span className={`font-semibold ${trailer.brakes && trailer.brakes !== 'Нет' ? 'text-green-600' : 'text-gray-500'}`}>
+                {trailer.brakes && trailer.brakes !== 'Нет' ? 'Есть' : 'Нет'}
+              </span>
+            </div>
+            
+            {/* Грузоподъёмность */}
+            <div className="flex justify-between">
+              <span className="text-gray-500">Г/п:</span>
+              <span className="font-semibold text-gray-900">{trailer.capacity} кг</span>
+            </div>
           </div>
         </div>
 
@@ -144,7 +165,12 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         <div className="pt-4 border-t border-gray-100 mt-auto">
           <div className="flex items-end justify-between mb-4">
             <div>
-              <p className="text-2xl font-bold text-blue-700">
+              {trailer.oldPrice && trailer.oldPrice > trailer.price && (
+                <p className="text-sm text-gray-400 line-through">
+                  {formatPrice(trailer.oldPrice)} ₽
+                </p>
+              )}
+              <p className={`text-2xl font-bold ${trailer.oldPrice && trailer.oldPrice > trailer.price ? 'text-green-600' : 'text-blue-700'}`}>
                 {formatPrice(trailer.price)} ₽
               </p>
               <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Цена дилера</p>

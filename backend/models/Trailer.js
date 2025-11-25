@@ -39,7 +39,23 @@ const Trailer = sequelize.define('Trailer', {
   },
   isPopular: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+    comment: 'Популярный товар'
+  },
+  isOnSale: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    comment: 'Акция'
+  },
+  isPriceReduced: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    comment: 'Снижена цена'
+  },
+  isNew: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    comment: 'Новинка'
   },
   
   // --- Медиа (Media) ---
@@ -47,8 +63,8 @@ const Trailer = sequelize.define('Trailer', {
     type: DataTypes.STRING,
     comment: 'Главное изображение'
   },
-  gallery: {
-    type: DataTypes.JSON, // Массив URL
+  images: {
+    type: DataTypes.JSON, // Массив URL галереи
     defaultValue: []
   },
   
