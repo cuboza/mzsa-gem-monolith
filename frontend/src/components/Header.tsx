@@ -96,11 +96,11 @@ export const Header = () => {
           {/* Контакты и кнопки (Desktop) */}
           <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
             <div className="flex flex-col items-end hidden xl:flex">
-              <a href="tel:+73467123456" className="font-bold text-gray-800 hover:text-blue-600 flex items-center">
+              <a href="tel:+73462223355" className="font-bold text-gray-800 hover:text-blue-600 flex items-center">
                 <Phone className="w-4 h-4 mr-2" />
-                +7 (3467) 123-45-67
+                +7 (3462) 22-33-55
               </a>
-              <span className="text-xs text-gray-500">Сургут, ул. Промышленная</span>
+              <span className="text-xs text-gray-500">Сургут, пр-т Мира, 55</span>
             </div>
             <Link 
               to="/configurator"
@@ -169,8 +169,8 @@ export const Header = () => {
                 <User size={20} />
                 <span>{user ? 'Личный кабинет' : 'Войти'}</span>
               </Link>
-              <a href="tel:+73467123456" className="block py-2 font-bold text-gray-800">
-                +7 (3467) 123-45-67
+              <a href="tel:+73462223355" className="block py-2 font-bold text-gray-800">
+                +7 (3462) 22-33-55
               </a>
               <Link 
                 to="/configurator"

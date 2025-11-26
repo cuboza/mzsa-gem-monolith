@@ -1,7 +1,8 @@
 import { IDatabaseProvider } from './interface';
 import { Trailer, Order, Customer, Accessory, Settings } from '../../types';
 
-const API_URL = 'http://localhost:3001';
+// API URL конфигурируется через переменную окружения или fallback на localhost
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 export class RestProvider implements IDatabaseProvider {
   async initializeData(trailers: Trailer[], accessories: Accessory[], settings: Settings, orders: Order[] = []): Promise<void> {

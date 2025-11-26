@@ -35,11 +35,11 @@ export const Footer = () => {
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 mr-2 flex-shrink-0 text-blue-500" />
-                <span>г. Сургут, ул. Промышленная, 10</span>
+                <span>г. Сургут, пр-т Мира, 55</span>
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 flex-shrink-0 text-blue-500" />
-                <a href="tel:+73467123456" className="hover:text-white">+7 (3467) 123-45-67</a>
+                <a href="tel:+73462223355" className="hover:text-white">+7 (3462) 22-33-55</a>
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 flex-shrink-0 text-blue-500" />
@@ -47,7 +47,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-start">
                 <Clock className="w-5 h-5 mr-2 flex-shrink-0 text-blue-500" />
-                <span>Пн-Пт: 9:00 - 18:00<br/>Сб: 10:00 - 16:00</span>
+                <span>9:00 - 20:00<br/>Без выходных</span>
               </li>
             </ul>
           </div>
