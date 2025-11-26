@@ -53,7 +53,7 @@ export const CatalogFilters = ({
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8 sticky top-20 z-30">
+    <div>
       {!hideCategories && (
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
           {/* Категории (Desktop) */}

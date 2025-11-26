@@ -256,7 +256,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
                 }}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
               >
-                Заказать
+                {trailer.availability === 'in_stock' ? 'Купить' : 'Заказать'}
               </button>
             </div>
           )}

@@ -176,39 +176,40 @@ export const Catalog = () => {
         <h1 className="text-3xl font-bold mb-6 text-gray-900">Каталог прицепов МЗСА</h1>
 
         <ResponsiveSticky className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8 z-30" stickyAt="md" maxHeight="auto" offsetClass="top-20">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
-            <CatalogFilters 
-              activeCategory={activeCategory}
-              onCategoryChange={handleCategoryChange}
-              showFilters={showFilters}
-              onToggleFilters={() => setShowFilters(!showFilters)}
-              
-              minPrice={minPrice}
-              onMinPriceChange={(val) => { setMinPrice(val); updateFilters('min_price', val); }}
-              maxPrice={maxPrice}
-              onMaxPriceChange={(val) => { setMaxPrice(val); updateFilters('max_price', val); }}
-              
-              onlyInStock={onlyInStock}
-              onStockChange={(val) => { setOnlyInStock(val); updateFilters('stock', String(val)); }}
-              
-              axles={axles}
-              onAxlesChange={(val) => { setAxles(val); updateFilters('axles', val); }}
-              
-              brakes={brakes}
-              onBrakesChange={(val) => { setBrakes(val); updateFilters('brakes', val); }}
-              
-              sortOption={sortOption}
-              onSortChange={(val) => { setSortOption(val); updateFilters('sort', val); }}
-
-              totalCount={filteredTrailers.length}
-            />
-            
+          {/* Поиск — над всеми фильтрами */}
+          <div className="mb-4">
             <CatalogSearch 
               value={searchQuery}
               onChange={setSearchQuery}
               onSubmit={handleSearchSubmit}
             />
           </div>
+          
+          <CatalogFilters 
+            activeCategory={activeCategory}
+            onCategoryChange={handleCategoryChange}
+            showFilters={showFilters}
+            onToggleFilters={() => setShowFilters(!showFilters)}
+            
+            minPrice={minPrice}
+            onMinPriceChange={(val) => { setMinPrice(val); updateFilters('min_price', val); }}
+            maxPrice={maxPrice}
+            onMaxPriceChange={(val) => { setMaxPrice(val); updateFilters('max_price', val); }}
+            
+            onlyInStock={onlyInStock}
+            onStockChange={(val) => { setOnlyInStock(val); updateFilters('stock', String(val)); }}
+            
+            axles={axles}
+            onAxlesChange={(val) => { setAxles(val); updateFilters('axles', val); }}
+            
+            brakes={brakes}
+            onBrakesChange={(val) => { setBrakes(val); updateFilters('brakes', val); }}
+            
+            sortOption={sortOption}
+            onSortChange={(val) => { setSortOption(val); updateFilters('sort', val); }}
+
+            totalCount={filteredTrailers.length}
+          />
         </ResponsiveSticky>
 
         {/* Сетка товаров */}
