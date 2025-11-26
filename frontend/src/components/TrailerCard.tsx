@@ -2,6 +2,7 @@ import { Trailer } from '../types';
 import { Star, Heart, Truck, Check, Percent, Flame, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { formatPrice } from '../utils';
 
 // Хелперы для извлечения данных из specs или legacy полей
 const getAxlesCount = (trailer: Trailer): number => {
@@ -72,9 +73,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
     setImageError(false);
   }, [trailer.image]);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('ru-RU').format(price);
-  };
+  // Используем formatPrice из utils/
 
   return (
     <div 

@@ -5,6 +5,8 @@ import { User, Package, LogOut, Settings, ChevronRight, Clock, CheckCircle, Truc
 import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
 import { db } from '../services/api';
 import { Order } from '../types';
+import { StatusBadge } from '../components/ui';
+import { formatPrice, formatDateShort } from '../utils';
 
 export const Profile = () => {
   const { user, logout } = useAuth();
@@ -38,29 +40,7 @@ export const Profile = () => {
     navigate('/');
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new': return 'bg-blue-100 text-blue-800';
-      case 'processing': return 'bg-yellow-100 text-yellow-800';
-      case 'shipping': return 'bg-purple-100 text-purple-800';
-      case 'ready': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-gray-100 text-gray-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    const map: Record<string, string> = {
-      new: 'Новый',
-      processing: 'В работе',
-      shipping: 'В пути',
-      ready: 'Готов к выдаче',
-      completed: 'Завершен',
-      cancelled: 'Отменен'
-    };
-    return map[status] || status;
-  };
+  // Используем утилиты из utils/
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -122,17 +102,15 @@ export const Profile = () => {
                           <div>
                             <div className="flex items-center space-x-2">
                               <span className="font-bold text-lg">{order.orderNumber}</span>
-                              <span className={`px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(order.status)}`}>
-                                {getStatusText(order.status)}
-                              </span>
+                              <StatusBadge status={order.status} size="sm" />
                             </div>
                             <p className="text-sm text-gray-500">
-                              от {new Date(order.date).toLocaleDateString('ru-RU')}
+                              от {formatDateShort(order.date)}
                             </p>
                           </div>
                           <div className="text-right">
                             <p className="font-bold text-lg">
-                              {order.configuration.totalPrice.toLocaleString('ru-RU')} ₽
+                              {formatPrice(order.configuration.totalPrice)} ₽
                             </p>
                           </div>
                         </div>

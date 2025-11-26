@@ -4,6 +4,8 @@ import { db } from '../services/api';
 import { Order } from '../types';
 import { Search, AlertCircle, Truck, Package, User, MapPin } from 'lucide-react';
 import { Timeline } from '../components/layout/Timeline';
+import { StatusBadge } from '../components/ui';
+import { formatPrice, formatDateTime } from '../utils';
 
 export const TrackOrder = () => {
   const [searchParams] = useSearchParams();
@@ -41,34 +43,7 @@ export const TrackOrder = () => {
     }
   }, []);
 
-  const formatPrice = (p: number) => new Intl.NumberFormat('ru-RU').format(p);
-  const formatDate = (d: string) => new Date(d).toLocaleString('ru-RU', {
-    day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-  });
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new': return 'bg-blue-100 text-blue-700';
-      case 'processing': return 'bg-yellow-100 text-yellow-700';
-      case 'shipping': return 'bg-purple-100 text-purple-700';
-      case 'ready': return 'bg-green-100 text-green-700';
-      case 'completed': return 'bg-gray-100 text-gray-700';
-      case 'cancelled': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-600';
-    }
-  };
-
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'new': return 'Новый';
-      case 'processing': return 'В работе';
-      case 'shipping': return 'В пути';
-      case 'ready': return 'Готов к выдаче';
-      case 'completed': return 'Выдан';
-      case 'cancelled': return 'Отменен';
-      default: return status;
-    }
-  };
+  // Используем утилиты из utils/
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -116,9 +91,7 @@ export const TrackOrder = () => {
                   <div className="text-sm text-gray-500 uppercase tracking-wider font-semibold">Заказ №</div>
                   <h2 className="text-2xl font-bold font-mono text-gray-900">{order.orderNumber}</h2>
                 </div>
-                <div className={`px-4 py-2 rounded-full font-bold text-sm ${getStatusColor(order.status)}`}>
-                  {getStatusLabel(order.status)}
-                </div>
+                <StatusBadge status={order.status} size="lg" />
               </div>
 
               {/* Таймлайн */}
@@ -128,7 +101,7 @@ export const TrackOrder = () => {
                   items={order.timeline.map(event => ({
                     title: event.title,
                     description: event.description,
-                    timestamp: formatDate(event.timestamp),
+                    timestamp: formatDateTime(event.timestamp),
                   }))}
                 />
               </div>

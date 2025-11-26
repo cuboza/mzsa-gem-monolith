@@ -5,6 +5,7 @@ import { X, Check, ShoppingCart, Ruler, Weight, Shield, Activity, CircleOff, Che
 import { accessories } from '../data/accessories';
 import { useNavigate } from 'react-router-dom';
 import { ResponsiveSticky } from './layout/ResponsiveSticky';
+import { formatPrice } from '../utils';
 
 const formatNumberValue = (value: number) => new Intl.NumberFormat('ru-RU').format(value);
 
@@ -211,9 +212,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   const optionsPrice = selectedAccessories.reduce((sum, acc) => sum + acc.price, 0);
   const totalPrice = trailer.price + optionsPrice;
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('ru-RU').format(price);
-  };
+  // Используем formatPrice из utils/
 
   const handleOrder = () => {
     // Navigate to configurator with pre-selected options or just handle order

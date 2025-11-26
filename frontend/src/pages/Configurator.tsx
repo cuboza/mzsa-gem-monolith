@@ -7,6 +7,7 @@ import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Searc
 import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
+import { formatPrice } from '../utils';
 
 const CONFIG_STEPS = [
   { label: 'Техника' },
@@ -125,7 +126,7 @@ export const Configurator = () => {
   const totalPrice = (selectedTrailer?.price || 0) + 
     selectedAccessories.reduce((sum, acc) => sum + acc.price, 0);
 
-  const formatPrice = (p: number) => new Intl.NumberFormat('ru-RU').format(p);
+  // Используем formatPrice из utils/
 
   // Обработчики
   const handleSearch = (e: React.FormEvent) => {
