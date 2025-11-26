@@ -8,7 +8,13 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* О компании */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-blue-400">O-N-R.RU</h3>
+            <Link to="/" className="inline-block mb-4">
+              <img 
+                src="/images/onr-logo.png" 
+                alt="Охота на рыбалку" 
+                className="h-12 w-auto brightness-0 invert"
+              />
+            </Link>
             <p className="text-gray-400 text-sm mb-4">
               Официальный дилер заводов МЗСА в регионах ХМАО и ЯНАО. 
               Продажа, обслуживание и тюнинг прицепов любого назначения.

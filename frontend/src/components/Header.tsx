@@ -50,13 +50,12 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center gap-4 h-auto py-4 md:h-20 md:py-0 md:justify-between">
           {/* Логотип */}
-          <Link to="/" className="flex flex-col mr-8">
-            <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
-              O-N-R.RU
-            </span>
-            <span className="text-xs text-gray-500 tracking-wider">
-              МЗСА В ХМАО И ЯНАО
-            </span>
+          <Link to="/" className="flex items-center mr-8">
+            <img 
+              src="/images/onr-logo.png" 
+              alt="Охота на рыбалку - официальный дилер МЗСА" 
+              className="h-10 md:h-12 w-auto"
+            />
           </Link>
 
           {/* Search Bar (Desktop) */}

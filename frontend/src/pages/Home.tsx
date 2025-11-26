@@ -124,29 +124,52 @@ export const Home = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Популярные категории</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             <div 
               onClick={() => navigate('/catalog?cat=general')}
-              className="group cursor-pointer relative h-64 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+              className="group cursor-pointer relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-              <div className="absolute inset-0 bg-blue-900 group-hover:scale-110 transition-transform duration-700"></div>
-              {/* Тут должно быть изображение */}
-              <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
-                <h3 className="text-2xl font-bold mb-1">Универсальные прицепы</h3>
-                <p className="text-sm opacity-80">Самые популярные модели</p>
+              <img 
+                src="/images/categories/general.png" 
+                alt="Универсальные прицепы" 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 lg:p-8 z-20 text-white">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1" style={{textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.8)'}}>Универсальные</h3>
+                <p className="text-base md:text-lg" style={{textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.8)'}}>Для мототехники и грузов</p>
               </div>
             </div>
 
             <div 
               onClick={() => navigate('/catalog?cat=water')}
-              className="group cursor-pointer relative h-64 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+              className="group cursor-pointer relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-              <div className="absolute inset-0 bg-blue-800 group-hover:scale-110 transition-transform duration-700"></div>
-              <div className="absolute bottom-0 left-0 p-6 z-20 text-white">
-                <h3 className="text-2xl font-bold mb-1">Лодочные</h3>
-                <p className="text-sm opacity-80">Для катеров и гидроциклов</p>
+              <img 
+                src="/images/categories/water.png" 
+                alt="Лодочные прицепы" 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 lg:p-8 z-20 text-white">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1" style={{textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.8)'}}>Лодочные</h3>
+                <p className="text-base md:text-lg" style={{textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.8)'}}>Для лодок, катеров, гидроциклов</p>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => navigate('/catalog?cat=commercial')}
+              className="group cursor-pointer relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+            >
+              <img 
+                src="/images/categories/commercial.png" 
+                alt="Коммерческие прицепы" 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 lg:p-8 z-20 text-white">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1" style={{textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.8)'}}>Коммерческие</h3>
+                <p className="text-base md:text-lg" style={{textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.8)'}}>Фургоны и эвакуаторы</p>
               </div>
             </div>
           </div>
@@ -156,22 +179,22 @@ export const Home = () => {
       {/* Статистика/Счётчики */}
       <section className="py-16 bg-blue-900 text-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="stagger-item" style={{ animationDelay: '0ms' }}>
-              <div className="text-3xl md:text-4xl font-bold text-orange-400">65+</div>
-              <div className="text-sm text-blue-200 mt-1">Моделей прицепов</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-4xl mx-auto">
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">65+</div>
+              <div className="text-sm text-blue-200">Моделей прицепов</div>
             </div>
-            <div className="stagger-item" style={{ animationDelay: '100ms' }}>
-              <div className="text-3xl md:text-4xl font-bold text-orange-400">136</div>
-              <div className="text-sm text-blue-200 mt-1">Аксессуаров</div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">136</div>
+              <div className="text-sm text-blue-200">Аксессуаров</div>
             </div>
-            <div className="stagger-item" style={{ animationDelay: '200ms' }}>
-              <div className="text-3xl md:text-4xl font-bold text-orange-400">15</div>
-              <div className="text-sm text-blue-200 mt-1">Лет на рынке</div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">15</div>
+              <div className="text-sm text-blue-200">Лет на рынке</div>
             </div>
-            <div className="stagger-item" style={{ animationDelay: '300ms' }}>
-              <div className="text-3xl md:text-4xl font-bold text-orange-400">4</div>
-              <div className="text-sm text-blue-200 mt-1">Города присутствия</div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">4</div>
+              <div className="text-sm text-blue-200">Города присутствия</div>
             </div>
           </div>
         </div>
@@ -188,16 +211,15 @@ export const Home = () => {
             <p className="text-gray-600">Сеть магазинов «Охота на рыбалку» — официальный дилер МЗСА в ХМАО и ЯНАО</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {stores.map((store, idx) => (
               <div 
                 key={idx} 
-                className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow border border-gray-100 stagger-item"
-                style={{ animationDelay: `${idx * 100}ms` }}
+                className="bg-gray-50 rounded-xl p-5 hover:shadow-lg transition-shadow border border-gray-100"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{store.city}</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200">{store.city}</h3>
                 
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2.5 text-sm">
                   <div className="flex items-start gap-2">
                     <MapPin className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
                     <span className="text-gray-700">{store.address}</span>
@@ -229,7 +251,7 @@ export const Home = () => {
             ))}
           </div>
 
-          <div className="text-center mt-8">
+          <div className="text-center mt-10">
             <a 
               href="https://o-n-r.ru/contacts/stores/" 
               target="_blank" 
