@@ -14,6 +14,10 @@ dist
 dist-ssr
 *.local
 
+# Root package files (for scripts only)
+/package.json
+/package-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
