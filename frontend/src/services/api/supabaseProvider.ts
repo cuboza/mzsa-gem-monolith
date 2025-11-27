@@ -20,7 +20,12 @@ function mapSupabaseTrailer(row: any): Trailer {
     image: row.main_image_url || '/images/placeholder.jpg',
     images: [], // загрузим отдельно
     features: [], // загрузим отдельно
-    specs: {}, // загрузим отдельно
+    specs: {
+      dimensions: '',
+      capacity: '',
+      weight: '',
+      axles: 1,
+    }, // загрузим отдельно
     suspension: '',
     brakes: '',
     availability: mapAvailability(row.availability),
@@ -192,7 +197,7 @@ export const SupabaseProvider: IDatabaseProvider = {
       // Добавляем specifications
       const specs = specsMap.get(row.id) || [];
       if (specs.length > 0) {
-        trailer.specs = {};
+        trailer.specs = { dimensions: '', capacity: '', weight: '', axles: 1 };
         specs.forEach((spec: any) => {
           trailer.specs![spec.key] = spec.value_numeric || spec.value_text;
           if (spec.key === 'gruzopodemnost') {
@@ -224,7 +229,7 @@ export const SupabaseProvider: IDatabaseProvider = {
     });
   },
 
-  async getTrailerById(id: string): Promise<Trailer | null> {
+  async getTrailer(id: string): Promise<Trailer | null> {
     const { data, error } = await supabase
       .from('trailers')
       .select('*')
@@ -246,7 +251,7 @@ export const SupabaseProvider: IDatabaseProvider = {
     ]);
     
     if (specificationsRes.data) {
-      trailer.specs = {};
+      trailer.specs = { dimensions: '', capacity: '', weight: '', axles: 1 };
       specificationsRes.data.forEach((spec: any) => {
         trailer.specs![spec.key] = spec.value_numeric || spec.value_text;
         if (spec.key === 'gruzopodemnost') {
@@ -273,47 +278,52 @@ export const SupabaseProvider: IDatabaseProvider = {
     return trailer;
   },
 
-  async createTrailer(trailer: Partial<Trailer>): Promise<Trailer> {
-    const { data, error } = await supabase
-      .from('trailers')
-      .insert({
-        slug: trailer.id,
-        model: trailer.model,
-        name: trailer.name,
-        description: trailer.description,
-        base_price: trailer.price,
-        retail_price: trailer.price,
-        main_image_url: trailer.image,
-        availability: trailer.availability === 'in_stock' ? 'in_stock' : 'on_order',
-        status: 'active',
-        visible_on_site: true,
-      })
-      .select()
-      .single();
+  async saveTrailer(trailer: Trailer): Promise<Trailer> {
+    // Проверяем существует ли уже прицеп
+    const existing = await this.getTrailer(trailer.id);
+    
+    if (existing) {
+      // Обновляем
+      const { data, error } = await supabase
+        .from('trailers')
+        .update({
+          model: trailer.model,
+          name: trailer.name,
+          description: trailer.description,
+          base_price: trailer.price,
+          retail_price: trailer.price,
+          main_image_url: trailer.image,
+          availability: trailer.availability === 'in_stock' ? 'in_stock' : 'on_order',
+          updated_at: new Date().toISOString(),
+        })
+        .or(`slug.eq.${trailer.id},id.eq.${trailer.id}`)
+        .select()
+        .single();
 
-    if (error) throw new Error(error.message);
-    return mapSupabaseTrailer(data);
-  },
+      if (error) throw new Error(error.message);
+      return mapSupabaseTrailer(data);
+    } else {
+      // Создаём новый
+      const { data, error } = await supabase
+        .from('trailers')
+        .insert({
+          slug: trailer.id,
+          model: trailer.model,
+          name: trailer.name,
+          description: trailer.description,
+          base_price: trailer.price,
+          retail_price: trailer.price,
+          main_image_url: trailer.image,
+          availability: trailer.availability === 'in_stock' ? 'in_stock' : 'on_order',
+          status: 'active',
+          visible_on_site: true,
+        })
+        .select()
+        .single();
 
-  async updateTrailer(id: string, trailer: Partial<Trailer>): Promise<Trailer> {
-    const { data, error } = await supabase
-      .from('trailers')
-      .update({
-        model: trailer.model,
-        name: trailer.name,
-        description: trailer.description,
-        base_price: trailer.price,
-        retail_price: trailer.price,
-        main_image_url: trailer.image,
-        availability: trailer.availability === 'in_stock' ? 'in_stock' : 'on_order',
-        updated_at: new Date().toISOString(),
-      })
-      .or(`slug.eq.${id},id.eq.${id}`)
-      .select()
-      .single();
-
-    if (error) throw new Error(error.message);
-    return mapSupabaseTrailer(data);
+      if (error) throw new Error(error.message);
+      return mapSupabaseTrailer(data);
+    }
   },
 
   async deleteTrailer(id: string): Promise<void> {
@@ -361,7 +371,7 @@ export const SupabaseProvider: IDatabaseProvider = {
     });
   },
 
-  async getAccessoryById(id: string): Promise<Accessory | null> {
+  async getAccessory(id: string): Promise<Accessory | null> {
     const { data, error } = await supabase
       .from('options')
       .select('*')
@@ -372,44 +382,49 @@ export const SupabaseProvider: IDatabaseProvider = {
     return mapSupabaseOption(data);
   },
 
-  async createAccessory(accessory: Partial<Accessory>): Promise<Accessory> {
-    const { data, error } = await supabase
-      .from('options')
-      .insert({
-        name: accessory.name,
-        description: accessory.description,
-        base_price: accessory.price,
-        retail_price: accessory.price,
-        option_category: accessory.category,
-        main_image_url: accessory.image,
-        status: 'active',
-        visible_on_site: true,
-      })
-      .select()
-      .single();
+  async saveAccessory(accessory: Accessory): Promise<Accessory> {
+    // Проверяем существует ли уже аксессуар
+    const existing = await this.getAccessory(accessory.id);
+    
+    if (existing) {
+      // Обновляем
+      const { data, error } = await supabase
+        .from('options')
+        .update({
+          name: accessory.name,
+          description: accessory.description,
+          base_price: accessory.price,
+          retail_price: accessory.price,
+          option_category: accessory.category,
+          main_image_url: accessory.image,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', accessory.id)
+        .select()
+        .single();
 
-    if (error) throw new Error(error.message);
-    return mapSupabaseOption(data);
-  },
+      if (error) throw new Error(error.message);
+      return mapSupabaseOption(data);
+    } else {
+      // Создаём новый
+      const { data, error } = await supabase
+        .from('options')
+        .insert({
+          name: accessory.name,
+          description: accessory.description,
+          base_price: accessory.price,
+          retail_price: accessory.price,
+          option_category: accessory.category,
+          main_image_url: accessory.image,
+          status: 'active',
+          visible_on_site: true,
+        })
+        .select()
+        .single();
 
-  async updateAccessory(id: string, accessory: Partial<Accessory>): Promise<Accessory> {
-    const { data, error } = await supabase
-      .from('options')
-      .update({
-        name: accessory.name,
-        description: accessory.description,
-        base_price: accessory.price,
-        retail_price: accessory.price,
-        option_category: accessory.category,
-        main_image_url: accessory.image,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) throw new Error(error.message);
-    return mapSupabaseOption(data);
+      if (error) throw new Error(error.message);
+      return mapSupabaseOption(data);
+    }
   },
 
   async deleteAccessory(id: string): Promise<void> {
@@ -439,7 +454,7 @@ export const SupabaseProvider: IDatabaseProvider = {
     return (data || []).map(mapSupabaseLead);
   },
 
-  async getOrderById(id: string): Promise<Order | null> {
+  async getOrder(id: string): Promise<Order | null> {
     const { data, error } = await supabase
       .from('leads')
       .select(`
@@ -571,7 +586,7 @@ export const SupabaseProvider: IDatabaseProvider = {
     return (data || []).map(mapSupabaseCustomer);
   },
 
-  async getCustomerById(id: string): Promise<Customer | null> {
+  async getCustomer(id: string): Promise<Customer | null> {
     const { data, error } = await supabase
       .from('customers')
       .select('*')
@@ -582,45 +597,48 @@ export const SupabaseProvider: IDatabaseProvider = {
     return mapSupabaseCustomer(data);
   },
 
-  async createCustomer(customer: Partial<Customer>): Promise<Customer> {
+  async saveCustomer(customer: Customer): Promise<Customer> {
     const nameParts = (customer.name || '').split(' ');
     
-    const { data, error } = await supabase
-      .from('customers')
-      .insert({
-        first_name: nameParts[0] || '',
-        last_name: nameParts.slice(1).join(' ') || '',
-        phone: customer.phone,
-        email: customer.email,
-        city: customer.city,
-        status: 'active',
-      })
-      .select()
-      .single();
-
-    if (error) throw new Error(error.message);
-    return mapSupabaseCustomer(data);
-  },
-
-  async updateCustomer(id: string, customer: Partial<Customer>): Promise<Customer> {
-    const nameParts = (customer.name || '').split(' ');
+    // Проверяем существует ли уже клиент
+    const existing = await this.getCustomer(customer.id);
     
-    const { data, error } = await supabase
-      .from('customers')
-      .update({
-        first_name: nameParts[0] || '',
-        last_name: nameParts.slice(1).join(' ') || '',
-        phone: customer.phone,
-        email: customer.email,
-        city: customer.city,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', id)
-      .select()
-      .single();
+    if (existing) {
+      // Обновляем
+      const { data, error } = await supabase
+        .from('customers')
+        .update({
+          first_name: nameParts[0] || '',
+          last_name: nameParts.slice(1).join(' ') || '',
+          phone: customer.phone,
+          email: customer.email,
+          city: customer.city,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', customer.id)
+        .select()
+        .single();
 
-    if (error) throw new Error(error.message);
-    return mapSupabaseCustomer(data);
+      if (error) throw new Error(error.message);
+      return mapSupabaseCustomer(data);
+    } else {
+      // Создаём нового
+      const { data, error } = await supabase
+        .from('customers')
+        .insert({
+          first_name: nameParts[0] || '',
+          last_name: nameParts.slice(1).join(' ') || '',
+          phone: customer.phone,
+          email: customer.email,
+          city: customer.city,
+          status: 'active',
+        })
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      return mapSupabaseCustomer(data);
+    }
   },
 
   async deleteCustomer(id: string): Promise<void> {
@@ -671,11 +689,11 @@ export const SupabaseProvider: IDatabaseProvider = {
     return defaultSettings;
   },
 
-  async updateSettings(settings: Partial<Settings>): Promise<Settings> {
+  async saveSettings(settings: Settings): Promise<Settings> {
     // Для обновления настроек нужна отдельная таблица settings
     // Пока возвращаем то что есть
     console.warn('Settings update not implemented for Supabase');
-    return this.getSettings();
+    return settings;
   },
 
   // ========== INIT ==========
