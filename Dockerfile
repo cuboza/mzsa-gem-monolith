@@ -22,7 +22,10 @@ WORKDIR /app
 RUN npm install -g serve
 COPY --from=build /app/dist ./dist
 
-# Railway sets PORT dynamically, default to 3000
-ENV PORT=3000
+# Create start script that uses PORT
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'exec serve dist -s -l ${PORT:-3000}' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
 EXPOSE 3000
-CMD ["sh", "-c", "serve dist -s -l $PORT"]
+CMD ["/app/start.sh"]
