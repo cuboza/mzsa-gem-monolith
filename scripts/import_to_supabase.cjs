@@ -9,7 +9,8 @@ const path = require('path');
 
 // Supabase credentials
 const SUPABASE_URL = 'https://pulqvocnuvpwnsnyvlpt.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1bHF2b2NudXZwd25zbnl2bHB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1ODEyMzcsImV4cCI6MjA3NTE1NzIzN30.yKf_FMnfGp3I1D5KbxaPzFKZHBNsFONWqNvK_LJjr1w';
+// Используйте service_role key для импорта (установите в переменной окружения SUPABASE_SERVICE_KEY)
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'YOUR_SERVICE_KEY_HERE';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 

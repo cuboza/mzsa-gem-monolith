@@ -137,30 +137,63 @@ function mapLeadStatus(status: string): Order['status'] {
 export const SupabaseProvider: IDatabaseProvider = {
   // ========== TRAILERS ==========
   async getTrailers(): Promise<Trailer[]> {
-    const { data, error } = await supabase
+    // Загружаем прицепы без join (images связаны через item_id)
+    const { data: trailersData, error: trailersError } = await supabase
       .from('trailers')
-      .select(`
-        *,
-        specifications (*),
-        features (*),
-        images (*)
-      `)
+      .select('*')
       .eq('visible_on_site', true)
       .eq('status', 'active')
       .order('sort_order', { ascending: true });
 
-    if (error) {
-      console.error('Error fetching trailers:', error);
+    if (trailersError) {
+      console.error('Error fetching trailers:', trailersError);
       return [];
     }
 
-    return (data || []).map((row: any) => {
+    if (!trailersData || trailersData.length === 0) {
+      return [];
+    }
+
+    // Получаем ID всех прицепов
+    const trailerIds = trailersData.map((t: any) => t.id);
+
+    // Загружаем связанные данные параллельно
+    const [specificationsRes, featuresRes, imagesRes] = await Promise.all([
+      supabase.from('specifications').select('*').in('trailer_id', trailerIds),
+      supabase.from('features').select('*').in('trailer_id', trailerIds),
+      supabase.from('images').select('*').eq('item_type', 'trailer').in('item_id', trailerIds),
+    ]);
+
+    // Группируем по trailer_id
+    const specsMap = new Map<string, any[]>();
+    (specificationsRes.data || []).forEach((spec: any) => {
+      const arr = specsMap.get(spec.trailer_id) || [];
+      arr.push(spec);
+      specsMap.set(spec.trailer_id, arr);
+    });
+
+    const featuresMap = new Map<string, any[]>();
+    (featuresRes.data || []).forEach((feat: any) => {
+      const arr = featuresMap.get(feat.trailer_id) || [];
+      arr.push(feat);
+      featuresMap.set(feat.trailer_id, arr);
+    });
+
+    const imagesMap = new Map<string, any[]>();
+    (imagesRes.data || []).forEach((img: any) => {
+      const arr = imagesMap.get(img.item_id) || [];
+      arr.push(img);
+      imagesMap.set(img.item_id, arr);
+    });
+
+    return trailersData.map((row: any) => {
       const trailer = mapSupabaseTrailer(row);
       
       // Добавляем specifications
-      if (row.specifications) {
+      const specs = specsMap.get(row.id) || [];
+      if (specs.length > 0) {
         trailer.specs = {};
-        row.specifications.forEach((spec: any) => {
+        specs.forEach((spec: any) => {
           trailer.specs![spec.key] = spec.value_numeric || spec.value_text;
           if (spec.key === 'gruzopodemnost') {
             trailer.capacity = spec.value_numeric || 0;
@@ -169,15 +202,17 @@ export const SupabaseProvider: IDatabaseProvider = {
       }
       
       // Добавляем features
-      if (row.features) {
-        trailer.features = row.features
+      const features = featuresMap.get(row.id) || [];
+      if (features.length > 0) {
+        trailer.features = features
           .sort((a: any, b: any) => a.display_order - b.display_order)
           .map((f: any) => f.text);
       }
       
       // Добавляем images
-      if (row.images) {
-        trailer.images = row.images
+      const images = imagesMap.get(row.id) || [];
+      if (images.length > 0) {
+        trailer.images = images
           .sort((a: any, b: any) => a.display_order - b.display_order)
           .map((img: any) => img.url);
         if (trailer.images.length > 0) {
@@ -192,12 +227,7 @@ export const SupabaseProvider: IDatabaseProvider = {
   async getTrailerById(id: string): Promise<Trailer | null> {
     const { data, error } = await supabase
       .from('trailers')
-      .select(`
-        *,
-        specifications (*),
-        features (*),
-        images (*)
-      `)
+      .select('*')
       .or(`slug.eq.${id},id.eq.${id}`)
       .single();
 
@@ -208,9 +238,16 @@ export const SupabaseProvider: IDatabaseProvider = {
 
     const trailer = mapSupabaseTrailer(data);
     
-    if (data.specifications) {
+    // Загружаем связанные данные параллельно
+    const [specificationsRes, featuresRes, imagesRes] = await Promise.all([
+      supabase.from('specifications').select('*').eq('trailer_id', data.id),
+      supabase.from('features').select('*').eq('trailer_id', data.id),
+      supabase.from('images').select('*').eq('item_type', 'trailer').eq('item_id', data.id),
+    ]);
+    
+    if (specificationsRes.data) {
       trailer.specs = {};
-      data.specifications.forEach((spec: any) => {
+      specificationsRes.data.forEach((spec: any) => {
         trailer.specs![spec.key] = spec.value_numeric || spec.value_text;
         if (spec.key === 'gruzopodemnost') {
           trailer.capacity = spec.value_numeric || 0;
@@ -218,14 +255,14 @@ export const SupabaseProvider: IDatabaseProvider = {
       });
     }
     
-    if (data.features) {
-      trailer.features = data.features
+    if (featuresRes.data) {
+      trailer.features = featuresRes.data
         .sort((a: any, b: any) => a.display_order - b.display_order)
         .map((f: any) => f.text);
     }
     
-    if (data.images) {
-      trailer.images = data.images
+    if (imagesRes.data) {
+      trailer.images = imagesRes.data
         .sort((a: any, b: any) => a.display_order - b.display_order)
         .map((img: any) => img.url);
       if (trailer.images.length > 0) {
