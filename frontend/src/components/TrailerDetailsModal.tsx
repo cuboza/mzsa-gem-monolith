@@ -192,15 +192,18 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   // Filter compatible accessories
   const compatibleAccessories = useMemo(() => {
     return accessories.filter(acc => {
-      if (acc.compatibleWith.includes('all')) return true;
-      if (acc.compatibleWith.includes(trailer.id)) return true;
-      if (acc.compatibleWith.includes(trailer.category)) return true;
+      // Используем compatibility (массив) вместо compatibleWith
+      const accCompat = acc.compatibility || [];
+      // Если нет ограничений совместимости - показываем всем
+      if (accCompat.length === 0 || accCompat.includes('all')) return true;
+      if (accCompat.includes(trailer.id)) return true;
+      if (accCompat.includes(trailer.category)) return true;
       if (trailer.compatibility) {
-        return trailer.compatibility.some(c => acc.compatibleWith.includes(c));
+        return trailer.compatibility.some(c => accCompat.includes(c));
       }
       return false;
     });
-  }, [trailer]);
+  }, [trailer, accessories]);
 
   const toggleAccessory = (id: string) => {
     setSelectedAccessoryIds(prev => 

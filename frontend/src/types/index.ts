@@ -51,11 +51,18 @@ export interface Accessory {
   id: string;
   name: string;
   price: number;
+  oldPrice?: number | null;
   category: 'loading' | 'support' | 'spare' | 'cover' | 'safety' | 'guides' | 'boat_support';
-  required: boolean; // обязательный
+  required?: boolean; // обязательный
   image: string;
+  images?: string[];
   description: string;
-  compatibleWith: string[]; // ID прицепов или категории техники ("all", "general", "moto", "boat" etc)
+  features?: string[];
+  specs?: Record<string, unknown>;
+  compatibility?: string[]; // ID прицепов или категории техники ("all", "general", "moto", "boat" etc) - API возвращает это поле
+  compatibleWith?: string[]; // устаревшее название - для обратной совместимости
+  stock?: string;
+  isPopular?: boolean | null;
 }
 
 export interface Vehicle {

@@ -465,11 +465,13 @@ export const Configurator = () => {
                 {accessories.map(acc => {
                    const isSelected = selectedAccessories.some(a => a.id === acc.id);
                    // Простая фильтрация аксессуаров (можно усложнить)
-                   const isRelevant = acc.compatibleWith.includes('all') || 
+                   // Используем compatibility (массив) вместо compatibleWith
+                   const accCompat = acc.compatibility || [];
+                   const isRelevant = accCompat.length === 0 || accCompat.includes('all') || 
                                       (selectedTrailer && (
-                                        acc.compatibleWith.includes(selectedTrailer.id) ||
-                                        acc.compatibleWith.includes(selectedTrailer.category) || 
-                                        (selectedTrailer.compatibility && selectedTrailer.compatibility.some(c => acc.compatibleWith.includes(c)))
+                                        accCompat.includes(selectedTrailer.id) ||
+                                        accCompat.includes(selectedTrailer.category) || 
+                                        (selectedTrailer.compatibility && selectedTrailer.compatibility.some(c => accCompat.includes(c)))
                                       ));
 
                    if (!isRelevant) return null;
