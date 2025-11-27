@@ -22,7 +22,7 @@ WORKDIR /app
 RUN npm install -g serve
 COPY --from=build /app/dist ./dist
 
-# Railway sets PORT dynamically
+# Railway sets PORT dynamically, default to 3000
 ENV PORT=3000
-EXPOSE $PORT
-CMD serve dist -s -l ${PORT}
+EXPOSE 3000
+CMD ["sh", "-c", "serve dist -s -l $PORT"]
