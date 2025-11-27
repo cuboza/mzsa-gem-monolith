@@ -443,20 +443,29 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           {/* Sticky Footer for Price & Order */}
           <div className="p-4 bg-white border-t border-gray-200 shrink-0 z-10">
             <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
-                <span>Прицеп:</span>
-                <span>{formatPrice(trailer.price || 0)} ₽</span>
-              </div>
-              {optionsPrice > 0 && (
-                <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
-                  <span>Опции:</span>
-                  <span>+ {formatPrice(optionsPrice)} ₽</span>
+              {trailer.price > 0 ? (
+                <>
+                  <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
+                    <span>Прицеп:</span>
+                    <span>{formatPrice(trailer.price || 0)} ₽</span>
+                  </div>
+                  {optionsPrice > 0 && (
+                    <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
+                      <span>Опции:</span>
+                      <span>+ {formatPrice(optionsPrice)} ₽</span>
+                    </div>
+                  )}
+                  <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between items-end">
+                    <span className="font-bold text-gray-900">Итого:</span>
+                    <span className="text-2xl font-bold text-blue-600">{formatPrice(totalPrice || 0)} ₽</span>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-2">
+                  <span className="text-xl font-bold text-gray-700">Цена по запросу</span>
+                  <p className="text-sm text-gray-500 mt-1">Позвоните нам для уточнения</p>
                 </div>
               )}
-              <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between items-end">
-                <span className="font-bold text-gray-900">Итого:</span>
-                <span className="text-2xl font-bold text-blue-600">{formatPrice(totalPrice || 0)} ₽</span>
-              </div>
               
               <button 
                 onClick={handleOrder}

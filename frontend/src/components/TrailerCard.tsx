@@ -223,15 +223,26 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         <div className="pt-4 border-t border-gray-100 mt-auto">
           <div className="flex items-end justify-between mb-4">
             <div>
-              {trailer.oldPrice && trailer.oldPrice > trailer.price && (
-                <p className="text-sm text-gray-400 line-through">
-                  {formatPrice(trailer.oldPrice)} ₽
-                </p>
+              {trailer.price > 0 ? (
+                <>
+                  {trailer.oldPrice && trailer.oldPrice > trailer.price && (
+                    <p className="text-sm text-gray-400 line-through">
+                      {formatPrice(trailer.oldPrice)} ₽
+                    </p>
+                  )}
+                  <p className={`text-2xl font-bold ${trailer.oldPrice && trailer.oldPrice > trailer.price ? 'text-green-600' : 'text-blue-700'}`}>
+                    {formatPrice(trailer.price)} ₽
+                  </p>
+                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Цена дилера</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-xl font-bold text-gray-700">
+                    Цена по запросу
+                  </p>
+                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Позвоните нам</p>
+                </>
               )}
-              <p className={`text-2xl font-bold ${trailer.oldPrice && trailer.oldPrice > trailer.price ? 'text-green-600' : 'text-blue-700'}`}>
-                {formatPrice(trailer.price)} ₽
-              </p>
-              <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Цена дилера</p>
             </div>
             {!hideActions && (
               <button className="p-2 text-gray-400 hover:text-red-500 transition-colors">
