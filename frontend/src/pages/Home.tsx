@@ -130,7 +130,7 @@ export const Home = () => {
               className="group cursor-pointer relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
             >
               <img 
-                src="/images/categories/general.png" 
+                src="/images/categories/general.jpg" 
                 alt="Универсальные прицепы" 
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
@@ -146,7 +146,7 @@ export const Home = () => {
               className="group cursor-pointer relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
             >
               <img 
-                src="/images/categories/water.png" 
+                src="/images/categories/water.jpg" 
                 alt="Лодочные прицепы" 
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
@@ -162,7 +162,7 @@ export const Home = () => {
               className="group cursor-pointer relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
             >
               <img 
-                src="/images/categories/commercial.png" 
+                src="/images/categories/commercial.jpg" 
                 alt="Коммерческие прицепы" 
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />

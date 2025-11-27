@@ -1,8 +1,10 @@
 import { IDatabaseProvider } from './interface';
 import { Trailer, Order, Customer, Accessory, Settings } from '../../types';
 
-// API URL конфигурируется через переменную окружения или fallback на localhost
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// API URL: 
+// - В режиме разработки с отдельным бэкендом: VITE_API_URL=http://localhost:3001
+// - В монолитном режиме (один сервер): используем /api (относительный путь)
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export class RestProvider implements IDatabaseProvider {
   async initializeData(trailers: Trailer[], accessories: Accessory[], settings: Settings, orders: Order[] = []): Promise<void> {
@@ -55,11 +57,13 @@ export class RestProvider implements IDatabaseProvider {
 
   // --- Trailers ---
   async getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
-    const url = new URL(`${API_URL}/trailers`);
-    if (params?.q) url.searchParams.append('q', params.q);
-    if (params?.category && params.category !== 'all') url.searchParams.append('category', params.category);
+    // Строим query string вручную, так как new URL() не работает с относительными путями
+    const queryParams: string[] = [];
+    if (params?.q) queryParams.push(`q=${encodeURIComponent(params.q)}`);
+    if (params?.category && params.category !== 'all') queryParams.push(`category=${encodeURIComponent(params.category)}`);
     
-    const res = await fetch(url.toString());
+    const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const res = await fetch(`${API_URL}/trailers${queryString}`);
     return res.json();
   }
 

@@ -67,11 +67,14 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  // Получаем URL изображения - сначала пробуем images[0], затем image
+  const imageUrl = trailer.images?.[0] || trailer.image;
+
   // Сброс состояния при изменении изображения
   useEffect(() => {
     setImageLoaded(false);
     setImageError(false);
-  }, [trailer.image]);
+  }, [imageUrl]);
 
   // Используем formatPrice из utils/
 
@@ -92,7 +95,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
 
       {/* Изображение */}
       <div className="relative h-48 bg-gray-50 flex items-center justify-center overflow-hidden">
-        {trailer.image && !imageError ? (
+        {imageUrl && !imageError ? (
           <>
             {/* Skeleton loader */}
             {!imageLoaded && (
@@ -101,7 +104,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
               </div>
             )}
             <img 
-              src={trailer.image} 
+              src={imageUrl} 
               alt={trailer.model} 
               className={`w-full h-full object-contain p-4 transition-all duration-300 ${
                 imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
