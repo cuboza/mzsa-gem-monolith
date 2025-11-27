@@ -192,18 +192,23 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   // Filter compatible accessories
   const compatibleAccessories = useMemo(() => {
     return accessories.filter(acc => {
-      // Используем compatibility (массив) вместо compatibleWith
-      const accCompat = acc.compatibility || [];
-      // Если нет ограничений совместимости - показываем всем
-      if (accCompat.length === 0 || accCompat.includes('all')) return true;
+      // Объединяем compatibleWith (из данных) и compatibility (из API) 
+      const accCompat = acc.compatibleWith || acc.compatibility || [];
+      // Если пустой массив - значит специфичная опция, не показываем всем
+      if (accCompat.length === 0) return false;
+      // 'all' = универсальная опция
+      if (accCompat.includes('all')) return true;
+      // Прямое совпадение по ID прицепа
       if (accCompat.includes(trailer.id)) return true;
+      // Совпадение по категории прицепа
       if (accCompat.includes(trailer.category)) return true;
+      // Совпадение по тегам совместимости прицепа
       if (trailer.compatibility) {
         return trailer.compatibility.some(c => accCompat.includes(c));
       }
       return false;
     });
-  }, [trailer, accessories]);
+  }, [trailer]);
 
   const toggleAccessory = (id: string) => {
     setSelectedAccessoryIds(prev => 
