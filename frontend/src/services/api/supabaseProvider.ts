@@ -8,12 +8,21 @@ import type { IDatabaseProvider } from './interface';
 import type { Trailer, Accessory, Order, Customer, Settings } from '../../types';
 
 // Маппинг из Supabase в наши типы
-function mapSupabaseTrailer(row: any): Trailer {
+function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer {
+  // Определяем категорию по category_id
+  let category: Trailer['category'] = 'general';
+  if (categories && row.category_id) {
+    const slug = categories.get(row.category_id);
+    if (slug === 'water') category = 'water';
+    else if (slug === 'commercial') category = 'commercial';
+    else category = 'general';
+  }
+  
   return {
     id: row.slug || row.id,
     model: row.model,
     name: row.name,
-    category: mapCategory(row.category_id),
+    category,
     price: row.retail_price || row.base_price || 0,
     capacity: 0, // будет из specifications
     description: row.description,
@@ -98,11 +107,6 @@ function mapSupabaseCustomer(row: any): Customer {
 }
 
 // Хелперы для маппинга
-function mapCategory(categoryId: string | null): Trailer['category'] {
-  // TODO: загрузить категории и маппить по ID
-  return 'general';
-}
-
 function mapAvailability(availability: string): Trailer['availability'] {
   switch (availability) {
     case 'in_stock': return 'in_stock';
@@ -138,16 +142,61 @@ function mapLeadStatus(status: string): Order['status'] {
   return statusMap[status] || 'new';
 }
 
+// Кэш категорий
+let categoriesCache: Map<string, string> | null = null;
+
+async function loadCategories(): Promise<Map<string, string>> {
+  if (categoriesCache) return categoriesCache;
+  
+  const { data, error } = await supabase
+    .from('categories')
+    .select('id, slug');
+  
+  if (error || !data) {
+    console.error('Error loading categories:', error);
+    return new Map();
+  }
+  
+  categoriesCache = new Map(data.map((c: any) => [c.id, c.slug]));
+  return categoriesCache;
+}
+
 // Supabase Provider
 export const SupabaseProvider: IDatabaseProvider = {
   // ========== TRAILERS ==========
-  async getTrailers(): Promise<Trailer[]> {
-    // Загружаем прицепы без join (images связаны через item_id)
-    const { data: trailersData, error: trailersError } = await supabase
+  async getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
+    // Загружаем категории для маппинга
+    const categories = await loadCategories();
+    
+    // Находим category_id по slug если передана категория
+    let categoryId: string | null = null;
+    if (params?.category && params.category !== 'all') {
+      for (const [id, slug] of categories) {
+        if (slug === params.category) {
+          categoryId = id;
+          break;
+        }
+      }
+    }
+    
+    // Базовый запрос
+    let query = supabase
       .from('trailers')
       .select('*')
       .eq('visible_on_site', true)
-      .eq('status', 'active')
+      .eq('status', 'active');
+    
+    // Фильтр по категории
+    if (categoryId) {
+      query = query.eq('category_id', categoryId);
+    }
+    
+    // Поиск по тексту
+    if (params?.q) {
+      query = query.or(`name.ilike.%${params.q}%,model.ilike.%${params.q}%`);
+    }
+    
+    const { data: trailersData, error: trailersError } = await query
       .order('sort_order', { ascending: true });
 
     if (trailersError) {
@@ -192,7 +241,7 @@ export const SupabaseProvider: IDatabaseProvider = {
     });
 
     return trailersData.map((row: any) => {
-      const trailer = mapSupabaseTrailer(row);
+      const trailer = mapSupabaseTrailer(row, categories);
       
       // Добавляем specifications
       const specs = specsMap.get(row.id) || [];
@@ -230,6 +279,9 @@ export const SupabaseProvider: IDatabaseProvider = {
   },
 
   async getTrailer(id: string): Promise<Trailer | null> {
+    // Загружаем категории для маппинга
+    const categories = await loadCategories();
+    
     const { data, error } = await supabase
       .from('trailers')
       .select('*')
@@ -241,7 +293,7 @@ export const SupabaseProvider: IDatabaseProvider = {
       return null;
     }
 
-    const trailer = mapSupabaseTrailer(data);
+    const trailer = mapSupabaseTrailer(data, categories);
     
     // Загружаем связанные данные параллельно
     const [specificationsRes, featuresRes, imagesRes] = await Promise.all([
@@ -279,6 +331,9 @@ export const SupabaseProvider: IDatabaseProvider = {
   },
 
   async saveTrailer(trailer: Trailer): Promise<Trailer> {
+    // Загружаем категории для маппинга
+    const categories = await loadCategories();
+    
     // Проверяем существует ли уже прицеп
     const existing = await this.getTrailer(trailer.id);
     
@@ -301,7 +356,7 @@ export const SupabaseProvider: IDatabaseProvider = {
         .single();
 
       if (error) throw new Error(error.message);
-      return mapSupabaseTrailer(data);
+      return mapSupabaseTrailer(data, categories);
     } else {
       // Создаём новый
       const { data, error } = await supabase
@@ -322,7 +377,7 @@ export const SupabaseProvider: IDatabaseProvider = {
         .single();
 
       if (error) throw new Error(error.message);
-      return mapSupabaseTrailer(data);
+      return mapSupabaseTrailer(data, categories);
     }
   },
 
