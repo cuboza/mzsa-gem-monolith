@@ -275,6 +275,20 @@ export const SupabaseProvider: IDatabaseProvider = {
           if (spec.key === 'gruzopodemnost') {
             trailer.capacity = spec.value_numeric || 0;
           }
+          // Парсим длину судна/техники для фильтрации
+          if (spec.key === 'dlina_sudna' || spec.key === 'dlina_tehniki') {
+            const lengthValue = spec.value_numeric || parseInt(String(spec.value_text || '').replace(/\D/g, ''));
+            if (lengthValue) {
+              trailer.maxVehicleLength = lengthValue;
+            }
+          }
+          // Парсим объём кузова для грузовых
+          if (spec.key === 'objem_kuzova' || spec.key === 'volume') {
+            const volumeValue = spec.value_numeric || parseFloat(String(spec.value_text || '').replace(',', '.').replace(/[^\d.]/g, ''));
+            if (volumeValue) {
+              trailer.maxVehicleVolume = volumeValue;
+            }
+          }
         });
       }
       
