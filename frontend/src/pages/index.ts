@@ -2,3 +2,8 @@ export { Home } from './Home';
 export { Catalog } from './Catalog';
 export { Configurator } from './Configurator';
 export { TrackOrder } from './TrackOrder';
+export { About } from './About';
+export { Contacts } from './Contacts';
+export { Delivery } from './Delivery';
+export { Warranty } from './Warranty';
+export { Policy } from './Policy';

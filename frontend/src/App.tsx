@@ -11,6 +11,11 @@ import { TrackOrder } from './pages/TrackOrder';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
+import { About } from './pages/About';
+import { Contacts } from './pages/Contacts';
+import { Delivery } from './pages/Delivery';
+import { Warranty } from './pages/Warranty';
+import { Policy } from './pages/Policy';
 import { AdminPanel } from './admin/AdminPanel';
 
 function App() {
@@ -34,6 +39,11 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contacts" element={<Contacts />} />
+                  <Route path="/delivery" element={<Delivery />} />
+                  <Route path="/warranty" element={<Warranty />} />
+                  <Route path="/policy" element={<Policy />} />
                   <Route path="*" element={<div className="p-20 text-center text-2xl">404 - Страница не найдена</div>} />
                 </Routes>
               </main>
