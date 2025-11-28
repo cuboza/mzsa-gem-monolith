@@ -22,10 +22,5 @@ WORKDIR /app
 RUN npm install -g serve
 COPY --from=build /app/dist ./dist
 
-# Create start script that uses PORT
-RUN echo '#!/bin/sh' > /app/start.sh && \
-    echo 'exec serve dist -s -l ${PORT:-3000}' >> /app/start.sh && \
-    chmod +x /app/start.sh
-
 EXPOSE 3000
-CMD ["/app/start.sh"]
+CMD ["sh", "-c", "serve dist -s -l ${PORT:-3000}"]
