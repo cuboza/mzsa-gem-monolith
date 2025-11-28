@@ -11,7 +11,7 @@ import type { Trailer, Accessory, Order, Customer, Settings } from '../../types'
 function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer {
   // Определяем категорию по category_id
   let category: Trailer['category'] = 'general';
-  let compatibility: Trailer['compatibility'] = [];
+  let compatibility: Trailer['compatibility'] | undefined = undefined;
   
   if (categories && row.category_id) {
     const slug = categories.get(row.category_id);
@@ -20,7 +20,7 @@ function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer
       compatibility = ['boat']; // Лодочные прицепы совместимы с лодками
     } else if (slug === 'commercial') {
       category = 'commercial';
-      compatibility = []; // Коммерческие - без ограничений совместимости
+      compatibility = undefined; // Коммерческие - показываются всем (без ограничений)
     } else {
       category = 'general';
       compatibility = ['snowmobile', 'atv', 'motorcycle']; // Универсальные - для мототехники
