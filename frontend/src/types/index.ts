@@ -4,7 +4,7 @@ export interface Trailer {
   id: string;
   model: string; // "МЗСА 817700.002"
   name: string; // "Прицеп КОМПАКТ"
-  category: 'general' | 'water' | 'commercial' | 'wrecker' | 'moto';
+  category: 'general' | 'water' | 'commercial';
   price: number;
   capacity: number; // грузоподъемность, кг
   dimensions?: string; // "2050×1100×300" (ДxШxВ кузова)

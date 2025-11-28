@@ -48,8 +48,7 @@ export const CatalogFilters = ({
     { id: 'all', name: 'Все' },
     { id: 'general', name: 'Универсальные' },
     { id: 'water', name: 'Лодочные' },
-    { id: 'commercial', name: 'Коммерческие' },
-    { id: 'wrecker', name: 'Эвакуаторы' }
+    { id: 'commercial', name: 'Коммерческие' }
   ];
 
   return (

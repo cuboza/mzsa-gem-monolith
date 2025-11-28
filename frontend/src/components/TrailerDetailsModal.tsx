@@ -142,7 +142,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     addSpec('axles', trailer.specs?.axles);
     addSpec('bodyDimensions', trailer.bodyDimensions);
     
-    if (['water', 'moto', 'wrecker'].includes(trailer.category)) {
+    if (['water'].includes(trailer.category)) {
       addSpec('maxVehicleLength', trailer.maxVehicleLength);
       addSpec('maxVehicleWidth', trailer.maxVehicleWidth);
       addSpec('maxVehicleWeight', trailer.maxVehicleWeight);

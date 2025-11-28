@@ -7,7 +7,7 @@
 ### Trailer (Прицеп)
 Основной товар в каталоге (все данные зеркалятся между scraper ➜ backend ➜ frontend).
 ```typescript
-type TrailerCategory = 'general' | 'water' | 'commercial' | 'moto' | 'wrecker';
+type TrailerCategory = 'general' | 'water' | 'commercial';
 type Availability = 'in_stock' | 'days_1_3' | 'days_7_14' | 'on_order';
 
 interface DimensionsMM {

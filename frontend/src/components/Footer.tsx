@@ -31,7 +31,6 @@ export const Footer = () => {
               <li><Link to="/catalog?cat=general" className="hover:text-white transition-colors">Универсальные прицепы</Link></li>
               <li><Link to="/catalog?cat=water" className="hover:text-white transition-colors">Лодочные прицепы</Link></li>
               <li><Link to="/catalog?cat=commercial" className="hover:text-white transition-colors">Коммерческие</Link></li>
-              <li><Link to="/catalog?cat=wrecker" className="hover:text-white transition-colors">Эвакуаторы</Link></li>
             </ul>
           </div>
 

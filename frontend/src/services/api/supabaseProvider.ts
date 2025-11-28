@@ -21,10 +21,10 @@ function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer
       compatibility = ['boat']; // Лодочные прицепы совместимы с лодками
     } else if (slug === 'commercial') {
       category = 'commercial';
-      compatibility = ['car', 'cargo']; // Коммерческие - для автомобилей и грузов
+      compatibility = ['car', 'cargo', 'snowmobile', 'atv']; // Коммерческие - для авто, грузов, вездеходов, снегоболотоходов, квадроциклов
     } else {
       category = 'general';
-      compatibility = ['snowmobile', 'atv', 'motorcycle']; // Универсальные - для мототехники
+      compatibility = ['snowmobile', 'atv', 'motorcycle']; // Универсальные - для мототехники, вездеходов, квадроциклов
     }
   }
   

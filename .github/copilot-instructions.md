@@ -3,10 +3,10 @@
 **ВАЖНО: ВСЕГДА ОТВЕЧАЙ НА РУССКОМ ЯЗЫКЕ.**
 
 ## Обзор архитектуры
-- Монорепозиторий содержит три активных компонента: `frontend/` (React + Vite), `backend/` (Express + Sequelize + SQLite) и `scraper/` (Python) с общей документацией в `docs/` — изменения обычно затрагивают несколько слоев.
-- Фронтенд инициализируется через `src/main.tsx`, где `db.initializeData` заполняет LocalStorage перед рендерингом React; это гарантирует соответствие каталога данным из `src/data/**/*`.
-- Админ-панель (`src/admin`) встроена, но маршрутизируется через `/admin` и использует тот же провайдер данных, что и публичное приложение, поэтому изменения мгновенно отражаются в обоих интерфейсах.
-- Бэкенд предоставляет REST-ресурсы по адресу `http://localhost:3001/{trailers,accessories,orders,customers,settings}` и сохраняет данные в `backend/database.sqlite`, заполняемую через сиды из `db.json`.
+- Монорепозиторий содержит: `frontend/` (React + Vite + TypeScript), `backend/` (Express + Sequelize + SQLite, устаревший), `scraper/` (Python) с документацией в `docs/`.
+- **Основной источник данных: Supabase** (облачная PostgreSQL база). Переключение провайдера в `frontend/src/services/api/index.ts` через `DATA_SOURCE`.
+- Фронтенд деплоится на **Railway** (https://mzsa-gem-monolith-production.up.railway.app).
+- Админ-панель (`src/admin`) встроена, маршрутизируется через `/admin` и использует тот же провайдер данных.
 
 ## Контактные данные компании (актуальные)
 Сеть магазинов «Охота на рыбалку» (o-n-r.ru) — официальный дилер МЗСА:
@@ -21,76 +21,73 @@
 
 ## Рабочие процессы запуска и проверки
 - Фронтенд: `cd frontend && npm install && npm run dev` (Vite на :5173). Сборка через `npm run build`; сначала выполняется проверка типов через `tsc -b`.
-- Бэкенд: `cd backend && npm install && npm run seed && npm start` (или `node server.js`) для пересоздания SQLite и запуска Express на :3001.
+- Бэкенд (устаревший, для локальной разработки): `cd backend && npm install && npm run seed && npm start` (Express на :3001).
 - Скрапер: `cd scraper && pip install -r requirements.txt && python scraper.py`; результаты сохраняются в `output/` по слагам прицепов.
-- Быстрые проверки: `node check_db.js` для проверки количества записей в SQLite и использование DevTools браузера для подтверждения соответствия ключей `localStorage` (`onr_*`) изменениям данных.
 
-## Жизненный цикл данных и синхронизация
-- Основным источником данных является **REST API** (`backend/db.json` -> SQLite). Файлы в `frontend/src/data/` используются для инициализации, но при работе в режиме `DATA_SOURCE='rest'` данные берутся с бэкенда.
-- Для сквозного распространения данных скрапера: запустите `scripts/transform_scraper_to_db.cjs` → обновите `backend/db.json` + скопируйте изображения в `frontend/public/images/**` → `npm run seed` в бэкенде для пересборки SQLite.
-- При изменении данных (например, характеристик прицепов) убедитесь, что они обновлены и в `frontend/src/data/trailers.ts` (для консистентности), и в `backend/db.json`.
-- `generate_catalog.py` — альтернативный экспортер, который перезаписывает те же файлы данных TypeScript напрямую из `output/`; он также очищает папки публичных изображений, поэтому коммитьте регенерированные ассеты осознанно.
-- Метаданные складов, теги совместимости и правила выравнивания спецификаций закодированы в скрипте-трансформере — расширяйте эти хелперы (например, `parseDimensionsMM`, `inferAccessoryCategory`) вместо добавления ad-hoc конверсий в других местах.
+## Источники данных и провайдеры
+- **Supabase** (по умолчанию): `SupabaseProvider` в `frontend/src/services/api/supabaseProvider.ts`
+  - URL: `https://pulqvocnuvpwnsnyvlpt.supabase.co`
+  - Таблицы: `trailers`, `categories`, `specifications`, `features`, `images`, `options`, `trailer_options`
+- **REST API** (устаревший): `RestProvider` для работы с локальным бэкендом на :3001
+- **LocalStorage** (автономный): `LocalStorageProvider` для работы без сервера
+- Переключение: константа `DATA_SOURCE` в `frontend/src/services/api/index.ts`
+
+## Категории прицепов (Supabase)
+В базе данных три категории (таблица `categories`):
+- `general` — Универсальные (бортовые) прицепы
+- `water` — Лодочные прицепы  
+- `commercial` — Коммерческие (фургоны)
+
+## Совместимость с техникой (Trailer.compatibility)
+Маппинг категорий прицепов на типы техники:
+- `water` → `['boat']` (лодки, катеры, ПВХ, надувные)
+- `general` → `['snowmobile', 'atv', 'motorcycle']` (снегоходы, вездеходы, снегоболотоходы, квадроциклы, мотоциклы)
+- `commercial` → `['car', 'cargo', 'snowmobile', 'atv']` (автомобили, грузы, вездеходы, снегоболотоходы, квадроциклы)
+
+## Умный поиск (`utils/searchParser.ts`)
+Парсер умного поиска поддерживает:
+- **Категории техники**: лодка/катер/пвх → boat, снегоход/atv/utv/квадр/вездеход/снегоболотоход → snowmobile, авто → car, груз → cargo
+- **Объём**: `10 куб м`, `5 кубов`, `3 м³`
+- **Вес**: `3 тонны`, `1500 кг`
+- **Длина**: `4м`, `350см`, `3500мм`
 
 ## Структура фронтенда
 ### Страницы (`src/pages/`)
 - `Home.tsx` — главная страница с hero-секцией, популярными прицепами, преимуществами и картой магазинов
 - `Catalog.tsx` — каталог с фильтрами, поиском и категориями
-- `Configurator.tsx` — многошаговый мастер подбора прицепа
+- `Configurator.tsx` — многошаговый мастер подбора прицепа (6 категорий техники: снегоход, лодка, квадроцикл, мотоцикл, авто, грузы)
 - `TrackOrder.tsx` — отслеживание статуса заказа
 - `Profile.tsx` — личный кабинет пользователя
-- `Login.tsx` / `Register.tsx` — авторизация
 
 ### Компоненты (`src/components/`)
-- `Header.tsx` — шапка с навигацией и мобильным бургер-меню (slide-in слева с blur-эффектами)
-- `Footer.tsx` — подвал с контактами и навигацией
-- `TrailerCard.tsx` — карточка прицепа (кнопка "Купить" для in_stock, "Заказать" для остальных)
-- `TrailerDetailsModal.tsx` — модальное окно с полной информацией о прицепе
-- `CatalogFilters.tsx` — фильтры каталога (категории, цена, оси, тормоза)
-- `CatalogSearch.tsx` — строка поиска (расположена над фильтрами)
-
-### UI-компоненты (`src/components/ui/`)
-- `Button.tsx` — переиспользуемая кнопка с вариантами (primary, secondary, outline, ghost, danger, success)
-- `Input.tsx` — поле ввода с поддержкой иконок и валидации
-- `Card.tsx` — карточка с header, content, footer
-- `StatusBadge.tsx` — бейдж статуса заказа (использует `utils/orderStatus.ts`)
+- `Header.tsx` — шапка с навигацией и умным поиском
+- `Footer.tsx` — подвал с контактами
+- `TrailerCard.tsx` — карточка прицепа
+- `TrailerDetailsModal.tsx` — модальное окно с деталями прицепа
+- `CatalogFilters.tsx` — фильтры каталога
+- `CatalogSearch.tsx` — строка поиска
 
 ### Утилиты (`src/utils/`)
-- `format.ts` — форматирование данных: `formatPrice()`, `formatDateTime()`, `formatDate()`, `formatDateShort()`, `formatPhone()`
-- `orderStatus.ts` — работа со статусами заказов: `getStatusLabel()`, `getStatusClasses()`, `getStatusConfig()`
-
-### API и провайдеры (`src/services/api/`)
-- `interface.ts` — интерфейс `IDatabaseProvider`
-- `restProvider.ts` — провайдер для работы с REST API (использует `VITE_API_URL` из env)
-- `localStorageProvider.ts` — автономный провайдер для работы без бэкенда
-- `index.ts` — экспорт текущего провайдера `db`
-
-## Соглашения фронтенда
-- Общие типы находятся в `src/types/index.ts`; держите их авторитетными — React-компоненты, мок-данные и формы админки импортируют всё отсюда, поэтому расхождения схемы сразу видны при `tsc -b`.
-- Доступ к данным осуществляется исключительно через `db` (либо `LocalStorageProvider`, либо `RestProvider`); если добавляете новую сущность, расширьте `IDatabaseProvider`, оба провайдера и `src/admin/dataProvider.ts` перед подключением UI.
-- Фильтры каталога (`pages/Catalog.tsx`) зеркалируют параметры URL — сохраняйте хелперы парсинга/обновления при добавлении критериев, чтобы сохранить функциональность deep-linking.
-- Конфигуратор (`pages/Configurator.tsx`) управляет многошаговым мастером; он определяет совместимые прицепы через мемоизированные предикаты по полям `trailer.compatibility` и `maxVehicle*`, поэтому добавляйте новые правила подбора там, а не разбрасывайте логику.
-
-## Специфика админки и авторизации
-- Ресурсы React Admin находятся в `src/admin/resources/**`; экраны списков/редактирования/создания — это тонкие обертки вокруг вызовов `db`, поэтому серверные валидации должны дублироваться на клиенте.
-- `authProvider` основан на LocalStorage с фиксированными учетными данными (`admin/admin123`, `manager/manager123`); **настройте это перед внедрением реальной бэкенд-авторизации**.
-- Настройки рассматриваются как синглтон: `dataProvider` оборачивает их в массив с `id: 'default'`; сохраняйте эту структуру, если вводите мульти-тенантные конфиги, чтобы не сломать ожидания React Admin.
-
-## Паттерны бэкенда
-- `backend/server.js` использует `createCrud` для регистрации REST-эндпоинтов; расширение моделей (например, добавление `/settings`) обычно означает настройку этого хелпера, а не дублирование обработчиков.
-- Поиск прицепов реализует эвристику на естественном языке (ключевые слова категорий, парсинг длины) с использованием `Op` из Sequelize и кастомных `where` условий — расширяйте этот блок для более умных фильтров, сохраняя фоллбэк логику `{ name/model LIKE %q% }`.
-- Модели Sequelize в `backend/models/*.js` (`Trailer`, `Order`, `Accessory`, `Customer`, `Settings`) намеренно денормализуют JSON-поля (`features`, `images`, `compatibility`, `specs`); предпочитайте JSON-колонки для гибких спецификаций созданию вспомогательных таблиц.
-- При сидинге `backend/seed.js` выравнивает устаревшие поля `specs`; обновляйте маппинг там, когда вводите новые скалярные колонки, чтобы сохранить совместимость с `db.json`.
+- `format.ts` — форматирование: `formatPrice()`, `formatDateTime()`, `formatDate()`, `formatPhone()`
+- `orderStatus.ts` — статусы заказов: `getStatusLabel()`, `getStatusClasses()`
+- `searchParser.ts` — парсер умного поиска: `parseSearchQuery()`, `mapVehicleCategoryToTrailerCategory()`
 
 ## Переменные окружения
-- `VITE_API_URL` — URL бэкенда (по умолчанию `http://localhost:3001`). Смотри `.env.example`.
+```env
+# Supabase (основной источник)
+VITE_SUPABASE_URL=https://pulqvocnuvpwnsnyvlpt.supabase.co
+VITE_SUPABASE_ANON_KEY=<anon_key>
 
-## Инструментарий и ссылки
-- Справочная документация домена находится в `docs/ARCHITECTURE.md`, `DATA_MODELS.md` и `USER_GUIDE.md`; ссылайтесь на них в описаниях PR при изменении сквозных потоков.
-- `scripts/import_from_1c_stub.ts` — заглушка для импорта CSV из 1С — соблюдайте её CLI-контракт (`npm run import:1c -- --file=... --output=...`), если начнете реальную реализацию.
-- Ассеты изображений находятся в `frontend/public/images/{trailers,accessories}`; скрипты-генераторы очищают эти папки, поэтому держите оригиналы под контролем версий или делайте бэкапы перед регенерацией.
-- При отладке несоответствий данных сравнивайте `scraper/output/<segment>/<slug>/<slug>.json`, `backend/db.json` и пейлоады LocalStorage в этом порядке, чтобы определить, на каком этапе произошло расхождение.
+# REST API (устаревший, для локальной разработки)
+VITE_API_URL=http://localhost:3001
+```
+
+## Соглашения фронтенда
+- Типы в `src/types/index.ts` — авторитетные, изменения видны при `tsc -b`
+- Доступ к данным через `db` из `services/api/index.ts`
+- Фильтры каталога зеркалируют параметры URL для deep-linking
+- Конфигуратор определяет совместимые прицепы через `trailer.compatibility` и `maxVehicle*`
 
 ## Логотип и брендинг
-- Логотип компании: `frontend/public/images/onr-logo.png` (охотник и рыбак в круглой рамке)
-- Используется на главной странице в секции "Наши магазины"
+- Логотип компании: `frontend/public/images/onr-logo.png`
+- Используется в Header и на главной странице

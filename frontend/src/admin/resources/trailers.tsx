@@ -10,8 +10,7 @@ const TrailerFilter = (props: any) => (
     <SelectInput source="category" choices={[
       { id: 'general', name: 'Универсальные' },
       { id: 'water', name: 'Лодочные' },
-      { id: 'commercial', name: 'Коммерческие' },
-      { id: 'wrecker', name: 'Эвакуаторы' }
+      { id: 'commercial', name: 'Коммерческие' }
     ]} />
   </Filter>
 );
@@ -38,8 +37,7 @@ export const TrailerEdit = () => (
       <SelectInput source="category" choices={[
         { id: 'general', name: 'Универсальные' },
         { id: 'water', name: 'Лодочные' },
-        { id: 'commercial', name: 'Коммерческие' },
-        { id: 'wrecker', name: 'Эвакуаторы' }
+        { id: 'commercial', name: 'Коммерческие' }
       ]} />
       
       <NumberInput source="price" label="Цена" />
@@ -66,8 +64,7 @@ export const TrailerCreate = () => (
       <SelectInput source="category" choices={[
         { id: 'general', name: 'Универсальные' },
         { id: 'water', name: 'Лодочные' },
-        { id: 'commercial', name: 'Коммерческие' },
-        { id: 'wrecker', name: 'Эвакуаторы' }
+        { id: 'commercial', name: 'Коммерческие' }
       ]} />
       
       <NumberInput source="price" label="Цена" />

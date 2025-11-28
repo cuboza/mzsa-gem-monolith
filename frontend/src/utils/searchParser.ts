@@ -37,8 +37,8 @@ export function parseSearchQuery(query: string): ParsedSearch {
   if (lower.match(/лодк|катер|boat|яхт|гидро|пвх|надувн/)) {
     result.category = 'boat';
   } 
-  // Универсальные прицепы: снегоход, ATV, UTV, вездеход, квадроцикл
-  else if (lower.match(/снегоход|snowmobile|буран|тайга|atv|utv|вездеход|квадр/)) {
+  // Универсальные прицепы: снегоход, ATV, UTV, вездеход, квадроцикл, снегоболотоход
+  else if (lower.match(/снегоход|snowmobile|буран|тайга|atv|utv|вездеход|квадр|снегоболот|болотоход/)) {
     result.category = 'snowmobile'; // snowmobile как общая категория для универсальных
   } else if (lower.match(/мото|motorcycle|bike|байк/)) {
     result.category = 'motorcycle';
