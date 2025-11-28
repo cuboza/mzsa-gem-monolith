@@ -93,13 +93,15 @@ export const Configurator = () => {
           return false;
         }
 
-        // 2. Проверка размеров и веса
-        if (t.maxVehicleLength && selectedVehicle.length > 0 && selectedVehicle.length > t.maxVehicleLength) return false;
-        if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
-        if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
+        // 2. Проверка размеров и веса (не для cargo - там размеры условные)
+        if (selectedCategory !== 'cargo') {
+          if (t.maxVehicleLength && selectedVehicle.length > 0 && selectedVehicle.length > t.maxVehicleLength) return false;
+          if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
+          if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
+        }
 
-        // 3. Проверка грузоподъёмности для car и cargo категорий
-        if ((selectedCategory === 'car' || selectedCategory === 'cargo') && selectedVehicle.weight > 0) {
+        // 3. Проверка грузоподъёмности только для car (не для cargo - у фургонов иные параметры)
+        if (selectedCategory === 'car' && selectedVehicle.weight > 0) {
           if (t.capacity && selectedVehicle.weight > t.capacity) return false;
         }
 
