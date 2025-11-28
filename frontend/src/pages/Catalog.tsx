@@ -145,11 +145,17 @@ export const Catalog = () => {
       }
       
       // 0b. Умный поиск по размерам - прицеп должен ВМЕЩАТЬ указанную технику
+      // но показываем только "следующий размер", не слишком большие
       if (parsed?.length) {
-        // Фильтр по длине: maxVehicleLength >= запрошенная_длина
         const trailerMaxLength = trailer.maxVehicleLength || 
           parseInt(String(trailer.specs?.dlina_sudna || '').replace(/\D/g, '')) || 0;
-        if (trailerMaxLength < parsed.length) return false;
+        
+        // Порог: показываем прицепы на 1500мм больше запрошенного размера
+        // Для лодки 5м (5000) покажем прицепы 5000-6500мм (5.2, 5.45, 5.7, 6.2)
+        const NEXT_SIZE_THRESHOLD = 1500; // мм
+        const maxAllowed = parsed.length + NEXT_SIZE_THRESHOLD;
+        
+        if (trailerMaxLength < parsed.length || trailerMaxLength > maxAllowed) return false;
       }
       
       if (parsed?.volume) {

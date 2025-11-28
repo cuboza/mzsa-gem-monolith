@@ -148,9 +148,9 @@ export function parseSearchQuery(query: string): ParsedSearch {
   cleanQuery = cleanQuery.replace(/бортов\w*|универсал\w*|общ\w*/g, '');
   
   // Удаляем числа с единицами
-  cleanQuery = cleanQuery.replace(/\d+[.,]?\d*\s*(куб\.?\s*м|м³|м3|кубометр\w*|куб[аов]?\s)/g, '');
-  cleanQuery = cleanQuery.replace(/\d+[.,]?\d*\s*(тонн[аы]?|т\s|кг|kg)/g, '');
-  cleanQuery = cleanQuery.replace(/\d+[.,]?\d*\s*(метр\w*|м\s|см|сантиметр\w*|мм|миллиметр\w*)/g, '');
+  cleanQuery = cleanQuery.replace(/\d+[.,]?\d*\s*(куб\.?\s*м|м³|м3|кубометр\w*|куб[аов]?)(?:\s|$)/gi, '');
+  cleanQuery = cleanQuery.replace(/\d+[.,]?\d*\s*(тонн[аы]?|т(?:\s|$)|кг|kg)/gi, '');
+  cleanQuery = cleanQuery.replace(/\d+[.,]?\d*\s*(метр\w*|м(?:\s|$)|см|сантиметр\w*|мм|миллиметр\w*)/gi, '');
   cleanQuery = cleanQuery.replace(/\d+[.,]\d+/g, ''); // дробные числа
   
   result.cleanQuery = cleanQuery.trim().replace(/\s+/g, ' ');
