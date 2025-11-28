@@ -188,6 +188,131 @@ export const vehicleDatabase: Record<string, Vehicle[]> = {
       loadingAngle: 18,
       tiePoints: "front_rear"
     }
+  ],
+  car: [
+    {
+      brand: "ВАЗ",
+      model: "Lada Vesta",
+      length: 4410,
+      width: 1764,
+      height: 1497,
+      weight: 1200,
+      loadingAngle: 10,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Hyundai",
+      model: "Solaris",
+      length: 4375,
+      width: 1729,
+      height: 1460,
+      weight: 1100,
+      loadingAngle: 10,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Kia",
+      model: "Rio",
+      length: 4240,
+      width: 1750,
+      height: 1470,
+      weight: 1150,
+      loadingAngle: 10,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Toyota",
+      model: "Camry",
+      length: 4885,
+      width: 1840,
+      height: 1455,
+      weight: 1500,
+      loadingAngle: 8,
+      tiePoints: "standard"
+    },
+    {
+      brand: "Volkswagen",
+      model: "Polo",
+      length: 4053,
+      width: 1751,
+      height: 1461,
+      weight: 1080,
+      loadingAngle: 10,
+      tiePoints: "standard"
+    }
+  ],
+  cargo: [
+    {
+      brand: "Груз",
+      model: "Строительные материалы (1 м³)",
+      length: 1000,
+      width: 1000,
+      height: 1000,
+      weight: 500,
+      volume: 1
+    },
+    {
+      brand: "Груз",
+      model: "Строительные материалы (3 м³)",
+      length: 1500,
+      width: 1000,
+      height: 2000,
+      weight: 1500,
+      volume: 3
+    },
+    {
+      brand: "Груз",
+      model: "Строительные материалы (5 м³)",
+      length: 2000,
+      width: 1250,
+      height: 2000,
+      weight: 2500,
+      volume: 5
+    },
+    {
+      brand: "Груз",
+      model: "Строительные материалы (10 м³)",
+      length: 2500,
+      width: 2000,
+      height: 2000,
+      weight: 5000,
+      volume: 10
+    },
+    {
+      brand: "Груз",
+      model: "Бытовая техника (1 т)",
+      length: 1200,
+      width: 800,
+      height: 1000,
+      weight: 1000,
+      volume: 1
+    },
+    {
+      brand: "Груз",
+      model: "Бытовая техника (2 т)",
+      length: 1500,
+      width: 1000,
+      height: 1500,
+      weight: 2000,
+      volume: 2.25
+    },
+    {
+      brand: "Груз",
+      model: "Оборудование (3 т)",
+      length: 2000,
+      width: 1200,
+      height: 1500,
+      weight: 3000,
+      volume: 3.6
+    },
+    {
+      brand: "Груз",
+      model: "Оборудование (5 т)",
+      length: 2500,
+      width: 1500,
+      height: 2000,
+      weight: 5000,
+      volume: 7.5
+    }
   ]
 };
-

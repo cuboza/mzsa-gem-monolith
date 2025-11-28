@@ -37,10 +37,11 @@ export interface Trailer {
   brakes?: string;
 
   // Для конфигуратора
-  compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle')[];
+  compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle' | 'car' | 'cargo')[];
   maxVehicleLength?: number; // мм
   maxVehicleWidth?: number; // мм
   maxVehicleWeight?: number; // кг
+  maxVehicleVolume?: number; // м³ - для грузовых прицепов
   
   // Метаданные
   createdAt?: string;
@@ -72,6 +73,7 @@ export interface Vehicle {
   width: number; // мм
   height: number; // мм
   weight: number; // кг
+  volume?: number; // м³ - для грузов
   loadingAngle?: number; // угол погрузки
   tiePoints?: string; // тип точек крепления
 }

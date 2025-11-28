@@ -63,7 +63,7 @@ export const Header = () => {
             <form onSubmit={handleSearch} className="w-full relative">
               <input
                 type="text"
-                placeholder="Поиск: лодка 3.5м, снегоход..."
+                placeholder="Поиск: лодка 4м, 5 кубов, 2 тонны..."
                 className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -137,7 +137,7 @@ export const Header = () => {
             <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
-                placeholder="Поиск: лодка 3.5м..."
+                placeholder="Поиск: лодка 4м, груз 5 кубов..."
                 className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

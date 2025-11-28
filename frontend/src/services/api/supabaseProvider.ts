@@ -6,6 +6,7 @@
 import { supabase } from './supabaseClient';
 import type { IDatabaseProvider } from './interface';
 import type { Trailer, Accessory, Order, Customer, Settings } from '../../types';
+import { parseSearchQuery, mapVehicleCategoryToTrailerCategory } from '../../utils/searchParser';
 
 // Маппинг из Supabase в наши типы
 function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer {
@@ -20,7 +21,7 @@ function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer
       compatibility = ['boat']; // Лодочные прицепы совместимы с лодками
     } else if (slug === 'commercial') {
       category = 'commercial';
-      compatibility = undefined; // Коммерческие - показываются всем (без ограничений)
+      compatibility = ['car', 'cargo']; // Коммерческие - для автомобилей и грузов
     } else {
       category = 'general';
       compatibility = ['snowmobile', 'atv', 'motorcycle']; // Универсальные - для мототехники
@@ -178,11 +179,22 @@ export const SupabaseProvider: IDatabaseProvider = {
     // Загружаем категории для маппинга
     const categories = await loadCategories();
     
+    // Парсим умный поиск
+    let parsedSearch = params?.q ? parseSearchQuery(params.q) : null;
+    
     // Находим category_id по slug если передана категория
     let categoryId: string | null = null;
-    if (params?.category && params.category !== 'all') {
+    let targetCategorySlug = params?.category;
+    
+    // Если категория не указана явно, пробуем определить по поисковому запросу
+    if (!targetCategorySlug && parsedSearch?.category) {
+      // Мапим категорию техники на категорию прицепа
+      targetCategorySlug = mapVehicleCategoryToTrailerCategory(parsedSearch.category) || parsedSearch.category;
+    }
+    
+    if (targetCategorySlug && targetCategorySlug !== 'all') {
       for (const [id, slug] of categories) {
-        if (slug === params.category) {
+        if (slug === targetCategorySlug) {
           categoryId = id;
           break;
         }
@@ -201,9 +213,10 @@ export const SupabaseProvider: IDatabaseProvider = {
       query = query.eq('category_id', categoryId);
     }
     
-    // Поиск по тексту
-    if (params?.q) {
-      query = query.or(`name.ilike.%${params.q}%,model.ilike.%${params.q}%`);
+    // Поиск по тексту (используем очищенный запрос или исходный)
+    const searchText = parsedSearch?.cleanQuery || params?.q;
+    if (searchText && searchText.trim()) {
+      query = query.or(`name.ilike.%${searchText}%,model.ilike.%${searchText}%`);
     }
     
     const { data: trailersData, error: trailersError } = await query

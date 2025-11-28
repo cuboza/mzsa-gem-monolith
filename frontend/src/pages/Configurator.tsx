@@ -8,6 +8,7 @@ import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
 import { formatPrice } from '../utils';
+import { parseSearchQuery } from '../utils/searchParser';
 
 const CONFIG_STEPS = [
   { label: 'Техника' },
@@ -97,6 +98,11 @@ export const Configurator = () => {
         if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
         if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
 
+        // 3. Проверка грузоподъёмности для car и cargo категорий
+        if ((selectedCategory === 'car' || selectedCategory === 'cargo') && selectedVehicle.weight > 0) {
+          if (t.capacity && selectedVehicle.weight > t.capacity) return false;
+        }
+
         return true;
       });
     } else if (selectedCategory) {
@@ -143,49 +149,24 @@ export const Configurator = () => {
     e.preventDefault();
     if (!searchInput.trim()) return;
 
-    const lower = searchInput.toLowerCase();
-    let category: string | undefined;
-    let length: number | undefined;
+    const parsed = parseSearchQuery(searchInput);
 
-    // Определение категории
-    if (lower.match(/лодк|катер|boat/)) category = 'boat';
-    else if (lower.match(/снегоход|snowmobile/)) category = 'snowmobile';
-    else if (lower.match(/квадро|atv/)) category = 'atv';
-    else if (lower.match(/мото|motorcycle|bike/)) category = 'motorcycle';
-
-    // Определение длины (3.5, 3,5, 350, 3500, 3.5м, 350см, 3500мм)
-    const numberMatch = lower.match(/(\d+[.,]?\d*)\s*(м|см|мм|m|cm|mm)?/);
-    if (numberMatch) {
-      let val = parseFloat(numberMatch[1].replace(',', '.'));
-      const unit = numberMatch[2];
-
-      if (unit === 'м' || unit === 'm') {
-        val *= 1000;
-      } else if (unit === 'см' || unit === 'cm') {
-        val *= 10;
-      } else if (unit === 'мм' || unit === 'mm') {
-        // уже мм
-      } else {
-        // Эвристика без единиц измерения
-        if (val < 20) val *= 1000; // метры
-        else if (val < 1000) val *= 10; // см
-      }
-      length = Math.round(val);
+    if (parsed.category) {
+      setSelectedCategory(parsed.category);
     }
 
-    if (category) {
-      setSelectedCategory(category);
-    }
+    // Создаём кастомный "vehicle" из поиска
+    const customVehicle: Vehicle = {
+      brand: 'Поиск',
+      model: searchInput,
+      length: parsed.length || 0,
+      width: 0,
+      height: 0,
+      weight: parsed.weight || 0,
+      volume: parsed.volume
+    };
 
-    if (length) {
-      const customVehicle: Vehicle = {
-        brand: 'Поиск',
-        model: searchInput,
-        length: length,
-        width: 0, // Не учитываем
-        height: 0,
-        weight: 0 // Не учитываем
-      };
+    if (parsed.length || parsed.volume || parsed.weight) {
       setSelectedVehicle(customVehicle);
       setStep(2);
     }
@@ -322,7 +303,7 @@ export const Configurator = () => {
                   </button>
                 </form>
                 <p className="text-center text-sm text-gray-500 mt-2">
-                  Введите тип техники и длину (в метрах, см или мм)
+                  Примеры: «лодка 4м», «снегоход 3.5м», «груз 10 куб м», «авто 3 тонны»
                 </p>
               </div>
 
@@ -333,12 +314,14 @@ export const Configurator = () => {
               </div>
 
               {/* Категории техники */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                 {[
                   { id: 'snowmobile', name: 'Снегоход', icon: '❄️' },
                   { id: 'boat', name: 'Лодка / Катер', icon: '🚤' },
                   { id: 'atv', name: 'Квадроцикл', icon: '🚜' },
-                  { id: 'motorcycle', name: 'Мотоцикл', icon: '🏍️' }
+                  { id: 'motorcycle', name: 'Мотоцикл', icon: '🏍️' },
+                  { id: 'car', name: 'Автомобиль', icon: '🚗' },
+                  { id: 'cargo', name: 'Грузы', icon: '📦' }
                 ].map(cat => (
                   <button
                     key={cat.id}
@@ -350,7 +333,7 @@ export const Configurator = () => {
                     }`}
                   >
                     <div className="text-3xl mb-2">{cat.icon}</div>
-                    <div className="font-semibold">{cat.name}</div>
+                    <div className="font-semibold text-sm">{cat.name}</div>
                   </button>
                 ))}
               </div>
