@@ -34,10 +34,19 @@
 5. **Адаптивность**: Использовать mobile-first подход. Breakpoints: `sm:`, `md:`, `lg:`, `xl:`.
 6. **UI-эффекты**: Для модальных окон и меню использовать `backdrop-blur`, полупрозрачные фоны (`bg-white/80`), тени.
 
-## Backend
+## Backend (УСТАРЕВШИЙ)
+> ⚠️ Основной источник данных — **Supabase**. Backend используется только для локальной разработки.
+
 1. **API**: RESTful принципы.
-2. **Данные**: Основной источник данных — SQLite через Sequelize. Seed данные в `db.json`.
+2. **Данные**: Устаревший SQLite через Sequelize. Seed данные в `db.json`.
 3. **Порт**: Express на порту 3001.
+
+## Supabase (ОСНОВНОЙ)
+1. **Поля статуса**: Используй `status = 'active'` и `visible_on_site = true` (не `is_active`!)
+2. **Связь с Auth**: Поле `auth_user_id` в `customers` (не `user_id`!)
+3. **Цены**: `retail_price` — розничная, `base_price` — базовая, `wholesale_price` — оптовая
+4. **Изображения**: `main_image_url` в trailers, таблица `images` для галереи
+5. **Заявки**: Таблица `leads` (не `orders`!), связанные `lead_items`
 
 ## Работа с файлами
 1. При редактировании файлов всегда использовать `replace_string_in_file` для точности.

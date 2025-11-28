@@ -27,7 +27,13 @@
 ## Источники данных и провайдеры
 - **Supabase** (по умолчанию): `SupabaseProvider` в `frontend/src/services/api/supabaseProvider.ts`
   - URL: `https://pulqvocnuvpwnsnyvlpt.supabase.co`
-  - Таблицы: `trailers`, `categories`, `specifications`, `features`, `images`, `options`, `trailer_options`
+  - Таблицы: `trailers`, `categories`, `specifications`, `features`, `images`, `options`, `trailer_options`, `leads`, `lead_items`, `customers`, `warehouses`
+  - **ВАЖНО**: Поля в Supabase отличаются от типов TypeScript:
+    - `auth_user_id` (не `user_id`) — связь с Supabase Auth
+    - `status = 'active'` + `visible_on_site = true` (не `is_active`)
+    - `retail_price` — основная цена (не `price`)
+    - `main_image_url` — главное изображение (не `image`)
+    - Заявки хранятся в `leads` (не `orders`)
 - **REST API** (устаревший): `RestProvider` для работы с локальным бэкендом на :3001
 - **LocalStorage** (автономный): `LocalStorageProvider` для работы без сервера
 - Переключение: константа `DATA_SOURCE` в `frontend/src/services/api/index.ts`

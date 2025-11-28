@@ -2,71 +2,78 @@
 
 Описание основных сущностей и типов данных, используемых в проекте.
 
+> ⚠️ **ВАЖНО**: Основной источник данных — **Supabase**. Поля в базе отличаются от типов TypeScript!
+> Маппинг происходит в `supabaseProvider.ts`.
+
+## Supabase vs TypeScript
+
+| Supabase (БД) | TypeScript (фронт) | Описание |
+|---------------|-------------------|----------|
+| `auth_user_id` | `userId` | Связь с Auth |
+| `status = 'active'` | `isActive` | Статус записи |
+| `visible_on_site` | — | Видимость на сайте |
+| `retail_price` | `price` | Розничная цена |
+| `main_image_url` | `image` | Главное изображение |
+| `leads` | `orders` | Заявки/заказы |
+
 ## Основные сущности
 
 ### Trailer (Прицеп)
-Основной товар в каталоге (все данные зеркалятся между scraper ➜ backend ➜ frontend).
+Основной товар в каталоге.
+
+**Supabase таблица `trailers`:**
+```sql
+id UUID PRIMARY KEY
+guid_1c UUID                    -- ID в 1С
+model VARCHAR(100)              -- "МЗСА 817701"
+name VARCHAR(255)               -- Маркетинговое имя
+category_id UUID                -- FK → categories
+retail_price DECIMAL(10,2)      -- Розничная цена
+base_price DECIMAL(10,2)        -- Базовая цена
+main_image_url TEXT             -- Главное изображение
+status VARCHAR(20)              -- 'active' | 'inactive' | 'archived'
+visible_on_site BOOLEAN         -- Показывать на сайте
+is_published BOOLEAN            -- Опубликован
+availability VARCHAR(20)        -- 'in_stock' | 'on_order' | 'out_of_stock'
+badges TEXT[]                   -- ['popular', 'new', 'sale']
+slug VARCHAR(255)               -- URL-friendly ID
+```
+
+**TypeScript тип (фронтенд):**
 ```typescript
 type TrailerCategory = 'general' | 'water' | 'commercial';
-type Availability = 'in_stock' | 'days_1_3' | 'days_7_14' | 'on_order';
-
-interface DimensionsMM {
-  length: number;
-  width: number;
-  height?: number;
-}
-
-interface WarehouseStock {
-  warehouse: 'SG-1' | 'SG-vitrina' | 'Service' | 'SG-3' | 'NB' | 'NV' | 'NU';
-  stock: number;            // Количество единиц на складе
-  reserved?: number;        // Бронирование под заказы
-}
+type Availability = 'in_stock' | 'days_1_3' | 'days_7_14';
 
 interface Trailer {
-  id: string;               // Уникальный ключ (slug)
+  id: string;               // slug из Supabase
   model: string;            // «МЗСА 817701»
-  version?: string;         // «012», если выделяется отдельно
   name: string;             // Маркетинговое имя
   category: TrailerCategory;
-  segment?: string;         // «bortovoy», «lodochniy», …
-  price: number;
+  price: number;            // retail_price из Supabase
   oldPrice?: number;        // Старая цена (для скидки)
-  currency: 'RUB';
-  description: string;
+  description?: string;
   
   // --- Медиа ---
-  image: string;            // Главное изображение
-  images: string[];         // Все локальные пути /images/... (галерея)
+  image: string;            // main_image_url из Supabase
+  images?: string[];        // Из таблицы images
 
-  // --- Физические характеристики ---
+  // --- Характеристики (из таблицы specifications) ---
   capacity?: number;             // Грузоподъёмность, кг
-  dimensions?: string;           // «2453×1231×470» — размеры кузова
-  bodyDimensions?: string;       // Для лодочных: длина судна
-  gabarity?: string;             // Габаритные размеры
-  boardHeight?: number;          // Высота борта, мм
+  dimensions?: string;           // Размеры кузова
+  maxVehicleLength?: number;     // Макс. длина техники, мм
+  maxVehicleVolume?: number;     // Объём кузова, м³
   
-  // --- Технические характеристики ---
-  suspension?: string;           // «Рессорная», «Резино-жгутовая»
-  brakes?: string;               // «Нет», «Тормоз наката»
-  axles?: number;                // Количество осей (1 или 2)
-  
-  // Полный объект характеристик из скрапера
-  specs?: Record<string, string | number>;
+  // --- Особенности (из таблицы features) ---
+  features: string[];
 
-  features: string[];            // Особенности модели
-  compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle')[];
+  // --- Совместимость (вычисляется по category) ---
+  compatibility?: ('snowmobile' | 'boat' | 'atv' | 'motorcycle' | 'car' | 'cargo')[];
   
-  // --- Маркетинговые флаги ---
+  // --- Флаги (из badges[]) ---
   availability: Availability;
-  badge?: string;                // Кастомный бейдж
-  isPopular?: boolean;           // Хит продаж
-  isNew?: boolean;               // Новинка
-  isOnSale?: boolean;            // Акция
-  isPriceReduced?: boolean;      // Снижена цена
-  
-  // --- Метаданные ---
-  createdAt?: string;
-  updatedAt?: string;
+  isPopular?: boolean;
+  isNew?: boolean;
+  isOnSale?: boolean;
 }
 ```
 
@@ -97,35 +104,72 @@ interface Trailer {
 | Описание | ❌ | ✅ |
 | Галерея изображений | ❌ | ✅ |
 
-### Accessory (Опция/аксессуар)
-Единый справочник доп. оборудования, переиспользуемый в разных прицепах.
+### Accessory / Option (Опция/аксессуар)
+
+**Supabase таблица `options`:**
+```sql
+id UUID PRIMARY KEY
+guid_1c UUID
+name VARCHAR(255)
+description TEXT
+option_category VARCHAR(50)     -- 'loading', 'support', 'spare', ...
+retail_price DECIMAL(10,2)
+base_price DECIMAL(10,2)
+main_image_url TEXT
+status VARCHAR(20)              -- 'active' | 'inactive'
+visible_on_site BOOLEAN
+```
+
+**TypeScript тип:**
 ```typescript
-type AccessoryCategory = 'loading' | 'support' | 'spare' | 'cover' | 'safety' | 'guides' | 'boat_support' | 'electrics';
+type AccessoryCategory = 'loading' | 'support' | 'spare' | 'cover' | 'safety' | 'guides' | 'boat_support';
 
 interface Accessory {
-  id: string;                // SKU или slug (уникален глобально)
+  id: string;
   name: string;
-  price: number;
-  currency: 'RUB';
+  price: number;               // retail_price
   description: string;
   category: AccessoryCategory;
-  image: string;             // Локальный путь /images/accessories/...
-  compatibleWith: string[];  // ['all'] или конкретные категории/модели
-  required: boolean;
-  warehouses?: WarehouseStock[]; // Остаток (опционально)
+  image: string;               // main_image_url
+  compatibility?: string[];    // Через таблицу trailer_options
+  required?: boolean;
 }
 ```
 
-### Order (Заказ)
-Сущность заказа, связывающая клиента и конфигурацию товара.
+### Lead / Order (Заявка/Заказ)
+
+> ⚠️ В Supabase используется термин **Lead** (заявка), на фронтенде — **Order** (заказ).
+
+**Supabase таблица `leads`:**
+```sql
+id UUID PRIMARY KEY
+lead_number VARCHAR(50)         -- "ONR-20250128-0001"
+customer_id UUID                -- FK → customers
+customer_name VARCHAR(255)      -- Snapshot
+customer_phone VARCHAR(20)
+customer_email VARCHAR(255)
+customer_city VARCHAR(100)
+source VARCHAR(50)              -- 'site', 'phone', 'configurator'
+status VARCHAR(20)              -- 'new', 'processing', 'contacted', ...
+total_amount DECIMAL(12,2)
+comment TEXT
+created_at TIMESTAMP
+updated_at TIMESTAMP
+```
+
+**Связанные таблицы:**
+- `lead_items` — состав заявки (trailer_id, option_id, quantity, price)
+- `lead_status_history` — история изменений статуса
+
+**TypeScript тип:**
 ```typescript
 interface Order {
   id: string;
-  orderNumber: string; // Читаемый номер (ONR-2025...)
-  date: string;        // ISO дата создания
+  orderNumber: string;         // lead_number
+  date: string;
   status: 'new' | 'processing' | 'shipping' | 'ready' | 'completed' | 'cancelled';
   
-  customer: {          // Данные покупателя (snapshot)
+  customer: {
     name: string;
     phone: string;
     email?: string;
@@ -133,7 +177,7 @@ interface Order {
     city: string;
   };
   
-  configuration: {     // Состав заказа
+  configuration: {
     trailer: Trailer;
     accessories: Accessory[];
     totalPrice: number;
@@ -147,7 +191,7 @@ interface Order {
     cost?: number;
   };
   
-  timeline: OrderEvent[]; // История изменений статуса
+  timeline: OrderEvent[];
 }
 ```
 

@@ -30,3 +30,8 @@ dist-ssr
 *.sw?
 mzsa_gem_mono.zip
 mzsa_gem_site.zip
+
+# Supabase
+supabase/.temp/
+supabase/temp_schema.sql
+supabase/backup_*.sql
