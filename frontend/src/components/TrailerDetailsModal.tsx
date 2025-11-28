@@ -223,12 +223,12 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   // Используем formatPrice из utils/
 
   const handleOrder = () => {
-    // Navigate to configurator with pre-selected options or just handle order
-    // For now, let's go to configurator with state
+    // Navigate to configurator step 4 (Details) with pre-selected trailer and accessories
     navigate('/configurator', { 
       state: { 
         trailer, 
-        initialAccessories: selectedAccessoryIds 
+        initialAccessories: selectedAccessoryIds,
+        skipToStep: 4 // Сразу на этап "Детали"
       } 
     });
   };

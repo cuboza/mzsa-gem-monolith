@@ -62,9 +62,19 @@ export const Configurator = () => {
       setTrailers(t);
       setAccessories(a);
       
-      // Если пришли из каталога с выбранным прицепом, сразу идем к аксессуарам
+      // Если пришли из каталога с выбранным прицепом
       if (location.state?.trailer) {
-        setStep(3);
+        // Загружаем выбранные аксессуары по их ID
+        if (location.state?.initialAccessories?.length > 0) {
+          const selectedAccs = a.filter(acc => 
+            location.state.initialAccessories.includes(acc.id)
+          );
+          setSelectedAccessories(selectedAccs);
+        }
+        
+        // Переходим на указанный шаг (по умолчанию 4 - "Детали")
+        const targetStep = location.state?.skipToStep || 4;
+        setStep(targetStep);
       }
     };
     loadData();
