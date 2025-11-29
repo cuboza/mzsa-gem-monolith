@@ -32,7 +32,7 @@ function App() {
           <Route path="*" element={
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col font-sans text-gray-900 dark:text-gray-100 transition-colors duration-200">
               <Header />
-              <main className="flex-grow pb-16 md:pb-0">
+              <main className="flex-grow">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/catalog" element={<Catalog />} />

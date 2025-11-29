@@ -64,7 +64,7 @@ export const CatalogFilters = ({
                 className={`px-4 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors ${
                   activeCategory === cat.id 
                     ? 'bg-blue-600 text-white shadow-md' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 {cat.name}
@@ -75,7 +75,7 @@ export const CatalogFilters = ({
           {/* Кнопка фильтров (Mobile) */}
           <button
             onClick={onToggleFilters}
-            className="md:hidden w-full px-4 py-2 border rounded-lg flex items-center justify-center space-x-2 bg-gray-50"
+            className="md:hidden w-full px-4 py-2 border dark:border-gray-600 rounded-lg flex items-center justify-center space-x-2 bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
           >
             <Filter className="w-4 h-4" />
             <span>Фильтры</span>
@@ -93,7 +93,7 @@ export const CatalogFilters = ({
               className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 activeCategory === cat.id 
                   ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-100 text-gray-700'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             >
               {cat.name}
@@ -107,7 +107,7 @@ export const CatalogFilters = ({
         <div className="md:hidden mb-4">
           <button
             onClick={onToggleFilters}
-            className="w-full px-4 py-2 border rounded-lg flex items-center justify-center space-x-2 bg-gray-50"
+            className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg flex items-center justify-center space-x-2 bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
           >
             <Filter className="w-4 h-4" />
             <span>{showFilters ? 'Скрыть фильтры' : 'Показать фильтры'}</span>
@@ -117,14 +117,14 @@ export const CatalogFilters = ({
 
       {/* Расширенные фильтры */}
       {(showFilters || isDesktop) && (
-        <div className={`md:flex flex-wrap gap-6 items-center pt-4 ${!hideCategories ? 'border-t' : ''} ${showFilters ? 'block space-y-4 md:space-y-0' : 'hidden md:flex'}`}>
+        <div className={`md:flex flex-wrap gap-6 items-center pt-4 ${!hideCategories ? 'border-t dark:border-gray-700' : ''} ${showFilters ? 'block space-y-4 md:space-y-0' : 'hidden md:flex'}`}>
           {/* Сортировка */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700">Сортировка:</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-100">Сортировка:</span>
             <select 
               value={sortOption}
               onChange={(e) => onSortChange(e.target.value)}
-              className="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+              className="border dark:border-gray-600 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-700 dark:text-gray-200"
             >
               <option value="price_asc">Цена (возрастание)</option>
               <option value="price_desc">Цена (убывание)</option>
@@ -141,7 +141,7 @@ export const CatalogFilters = ({
 
           {/* Цена */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700">Цена:</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-100">Цена:</span>
             <div className="flex items-center gap-1">
               <input
                 type="number"
@@ -149,7 +149,7 @@ export const CatalogFilters = ({
                 placeholder="От"
                 value={minPrice}
                 onChange={(e) => onMinPriceChange(e.target.value)}
-                className="w-24 border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+                className="w-24 border dark:border-gray-600 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
               />
               <span className="text-gray-400">-</span>
               <input
@@ -158,18 +158,18 @@ export const CatalogFilters = ({
                 placeholder="До"
                 value={maxPrice}
                 onChange={(e) => onMaxPriceChange(e.target.value)}
-                className="w-24 border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+                className="w-24 border dark:border-gray-600 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
               />
             </div>
           </div>
 
           {/* Оси */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700">Оси:</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-100">Оси:</span>
             <select 
               value={axles}
               onChange={(e) => onAxlesChange(e.target.value)}
-              className="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+              className="border dark:border-gray-600 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-700 dark:text-gray-200"
             >
               <option value="all">Все</option>
               <option value="1">1 ось</option>
@@ -179,11 +179,11 @@ export const CatalogFilters = ({
 
           {/* Тормоза (вместо прав, так понятнее) */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700">Тормоза:</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-100">Тормоза:</span>
             <select 
               value={brakes}
               onChange={(e) => onBrakesChange(e.target.value)}
-              className="border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+              className="border dark:border-gray-600 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-700 dark:text-gray-200"
             >
               <option value="all">Все</option>
               <option value="no">Без тормозов (до 750кг)</option>
@@ -199,16 +199,17 @@ export const CatalogFilters = ({
               onChange={(e) => onStockChange(e.target.checked)}
               className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
             />
-            <span className="ml-2 text-sm text-gray-700">В наличии</span>
+            <span className="ml-2 text-sm text-gray-700 dark:text-gray-100">В наличии</span>
           </label>
 
           <div className="flex-grow"></div>
           
-          <div className="text-sm text-gray-500">
-            Найдено: <span className="font-bold text-gray-900">{totalCount}</span>
+          <div className="text-sm text-gray-500 dark:text-gray-200">
+            Найдено: <span className="font-bold text-gray-900 dark:text-white">{totalCount}</span>
           </div>
         </div>
       )}
     </div>
   );
 };
+

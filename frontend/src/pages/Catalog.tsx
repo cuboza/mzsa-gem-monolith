@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+﻿import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Trailer } from '../types';
 import { db } from '../services/api';
 import { TrailerCard } from '../components/TrailerCard';
@@ -256,11 +256,11 @@ export const Catalog = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pt-4 pb-12">
+    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen pt-4 pb-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900">Каталог прицепов МЗСА</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Каталог прицепов МЗСА</h1>
 
-        <ResponsiveSticky className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8 z-30" stickyAt="md" maxHeight="auto" offsetClass="top-20">
+        <ResponsiveSticky className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-8 z-30" stickyAt="md" maxHeight="auto" offsetClass="top-20">
           {/* Поиск — над всеми фильтрами */}
           <div className="mb-4">
             <CatalogSearch 

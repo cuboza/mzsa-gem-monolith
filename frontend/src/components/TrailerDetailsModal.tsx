@@ -287,7 +287,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
       {/* Accessory Hover Preview */}
       {hoveredAccessoryImage && (
         <div 
-          className="fixed z-[70] pointer-events-none bg-white p-2 rounded-xl shadow-2xl border border-gray-200 animate-in fade-in zoom-in-95 duration-150"
+          className="fixed z-[70] pointer-events-none bg-white dark:bg-gray-800 p-2 rounded-xl shadow-2xl border border-gray-200 animate-in fade-in zoom-in-95 duration-150"
           style={{ 
             left: Math.min(hoveredAccessoryImage.x, window.innerWidth - 320), 
             top: Math.min(hoveredAccessoryImage.y, window.innerHeight - 320),
@@ -298,13 +298,13 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           <img 
             src={hoveredAccessoryImage.url} 
             alt="Предпросмотр" 
-            className="w-full h-full object-contain rounded-lg bg-gray-50"
+            className="w-full h-full object-contain rounded-lg bg-gray-50 dark:bg-gray-900"
           />
         </div>
       )}
 
       <div 
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row animate-in zoom-in-95 duration-200" 
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row animate-in zoom-in-95 duration-200" 
         onClick={e => e.stopPropagation()}
       >
         {/* Left Column: Image & Key Info */}
@@ -312,9 +312,9 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           stickyAt="md" 
           offsetClass="top-0" 
           maxHeight="calc(90vh - 32px)" 
-          className="w-full md:w-5/12 bg-gray-50 flex flex-col border-r border-gray-100 shrink-0"
+          className="w-full md:w-5/12 bg-gray-50 dark:bg-gray-900 flex flex-col border-r border-gray-100 dark:border-gray-700 shrink-0"
         >
-          <div className="relative h-64 md:h-80 bg-white shrink-0 group cursor-zoom-in" onClick={() => setLightboxImage(allImages[currentImageIndex])}>
+          <div className="relative h-64 md:h-80 bg-white dark:bg-gray-800 shrink-0 group cursor-zoom-in" onClick={() => setLightboxImage(allImages[currentImageIndex])}>
             <img 
               src={allImages[currentImageIndex]} 
               alt={trailer.model} 
@@ -373,20 +373,20 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           </div>
 
           <div className="p-6 flex-grow md:overflow-y-auto md:custom-scrollbar">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{trailer.model}</h2>
-            <p className="text-gray-500 mb-6">{trailer.name}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{trailer.model}</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">{trailer.name}</p>
 
             <div className="mb-6">
-              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
                 {summarySpecs.length ? summarySpecs.map(spec => {
                   const Icon = spec.icon;
                   return (
-                    <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 border-b border-gray-200 pb-2 last:border-b-0 last:pb-0">
-                      <div className="flex items-center gap-2 text-gray-500">
+                    <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0 last:pb-0">
+                      <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                         <Icon className="w-4 h-4 text-blue-500" />
                         <span>{spec.label}</span>
                       </div>
-                      <span className="font-semibold text-gray-900">{spec.value}</span>
+                      <span className="font-semibold text-gray-900 dark:text-white">{spec.value}</span>
                     </div>
                   );
                 }) : (
@@ -396,16 +396,16 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
 
               <div className="mt-2 space-y-4">
                 {detailedSpecs.length > 0 && (
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
                     {detailedSpecs.map(spec => {
                       const Icon = spec.icon;
                       return (
-                        <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 border-b border-gray-200 pb-2 last:border-b-0 last:pb-0">
-                          <div className="flex items-center gap-2 text-gray-500">
+                        <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0 last:pb-0">
+                          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                             <Icon className="w-4 h-4 text-blue-500" />
                             <span>{spec.label}</span>
                           </div>
-                          <span className="font-semibold text-gray-900">{spec.value}</span>
+                          <span className="font-semibold text-gray-900 dark:text-white">{spec.value}</span>
                         </div>
                       );
                     })}
@@ -413,9 +413,9 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                 )}
 
                 <div>
-                    <h5 className="font-bold text-gray-900 mb-2">Особенности модели:</h5>
+                    <h5 className="font-bold text-gray-900 dark:text-white mb-2">Особенности модели:</h5>
                     {formattedFeatures.length > 0 ? (
-                      <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                      <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-1">
                         {formattedFeatures.map((feature, i) => (
                           <li key={i}>{feature}</li>
                         ))}
@@ -428,15 +428,15 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             </div>
 
             {/* Description Section */}
-            <div className="mb-6 border-t border-gray-100 pt-6">
-               <h3 className="font-bold text-gray-900 mb-2">Описание</h3>
-               <div className={`text-sm text-gray-600 relative ${!showFullDescription ? 'max-h-36 overflow-hidden' : ''}`}>
+            <div className="mb-6 border-t border-gray-100 dark:border-gray-700 pt-6">
+               <h3 className="font-bold text-gray-900 dark:text-white mb-2">Описание</h3>
+               <div className={`text-sm text-gray-600 dark:text-gray-300 relative ${!showFullDescription ? 'max-h-36 overflow-hidden' : ''}`}>
                  {descriptionBullets.length > 0 ? (
                    <ul className="space-y-3 pl-1">
                      {descriptionBullets.map((item, idx) => (
                        <li key={idx} className="flex gap-2">
                          <span className="text-blue-500 mt-1">•</span>
-                         <p className="leading-relaxed text-gray-700">{item}</p>
+                         <p className="leading-relaxed text-gray-700 dark:text-gray-300">{item}</p>
                        </li>
                      ))}
                    </ul>
@@ -448,7 +448,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                    ))
                  )}
                  {!showFullDescription && (
-                   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+                   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"></div>
                  )}
                </div>
                <button 
@@ -461,29 +461,29 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           </div>
 
           {/* Sticky Footer for Price & Order */}
-          <div className="p-4 bg-white border-t border-gray-200 shrink-0 z-10">
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
+          <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shrink-0 z-10">
+            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
               {trailer.price > 0 ? (
                 <>
-                  <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
+                  <div className="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
                     <span>Прицеп:</span>
                     <span>{formatPrice(trailer.price || 0)} ₽</span>
                   </div>
                   {optionsPrice > 0 && (
-                    <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
+                    <div className="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
                       <span>Опции:</span>
                       <span>+ {formatPrice(optionsPrice)} ₽</span>
                     </div>
                   )}
-                  <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between items-end">
-                    <span className="font-bold text-gray-900">Итого:</span>
+                  <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2 flex justify-between items-end">
+                    <span className="font-bold text-gray-900 dark:text-white">Итого:</span>
                     <span className="text-2xl font-bold text-blue-600">{formatPrice(totalPrice || 0)} ₽</span>
                   </div>
                 </>
               ) : (
                 <div className="text-center py-2">
-                  <span className="text-xl font-bold text-gray-700">Цена по запросу</span>
-                  <p className="text-sm text-gray-500 mt-1">Позвоните нам для уточнения</p>
+                  <span className="text-xl font-bold text-gray-700 dark:text-gray-300">Цена по запросу</span>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Позвоните нам для уточнения</p>
                 </div>
               )}
               
@@ -500,14 +500,14 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
 
         {/* Right Column: Details & Options */}
         <div className="w-full md:w-7/12 flex flex-col h-full md:max-h-none">
-          <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
-            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+          <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 bg-white dark:bg-gray-800 z-10">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <Shield className="w-5 h-5 text-blue-600" />
               Опции
             </h3>
             <button 
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 rounded-full transition-colors hidden md:block"
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors hidden md:block"
             >
               <X size={24} />
             </button>
@@ -523,22 +523,22 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                     className={`
                       relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-start
                       ${selectedAccessoryIds.includes(acc.id) 
-                        ? 'border-blue-500 bg-blue-50/50' 
-                        : 'border-gray-100 hover:border-blue-200 hover:bg-gray-50'}
+                        ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/30' 
+                        : 'border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-gray-50 dark:hover:bg-gray-700/50'}
                     `}
                   >
                     <div className={`
                       w-5 h-5 rounded border flex items-center justify-center mr-4 mt-1 transition-colors
                       ${selectedAccessoryIds.includes(acc.id)
                         ? 'bg-blue-500 border-blue-500 text-white'
-                        : 'border-gray-300 bg-white'}
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700'}
                     `}>
                       {selectedAccessoryIds.includes(acc.id) && <Check size={12} strokeWidth={3} />}
                     </div>
 
                     {acc.image && (
                       <div 
-                        className="w-16 h-16 mr-4 rounded-lg overflow-hidden bg-white border border-gray-200 flex-shrink-0 relative group/img cursor-zoom-in"
+                        className="w-16 h-16 mr-4 rounded-lg overflow-hidden bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 flex-shrink-0 relative group/img cursor-zoom-in"
                         onMouseEnter={(e) => handleAccessoryMouseEnter(e, acc.image!)}
                         onMouseLeave={handleAccessoryMouseLeave}
                         onClick={(e) => {
@@ -559,18 +559,18 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                     
                     <div className="flex-grow">
                       <div className="flex justify-between items-start mb-1">
-                        <span className="font-semibold text-gray-900">{acc.name}</span>
+                        <span className="font-semibold text-gray-900 dark:text-white">{acc.name}</span>
                         <span className="font-bold text-blue-600 whitespace-nowrap ml-2">
                           {formatPrice(acc.price)} ₽
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">{acc.description}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{acc.description}</p>
                     </div>
                   </div>
                 ))}
 
                 {compatibleAccessories.length === 0 && (
-                  <div className="text-center py-8 text-gray-400 bg-gray-50 rounded-xl border border-dashed">
+                  <div className="text-center py-8 text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed dark:border-gray-700">
                     Нет доступных опций для этой модели
                   </div>
                 )}
