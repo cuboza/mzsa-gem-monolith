@@ -578,18 +578,27 @@ export const SupabaseProvider: IDatabaseProvider = {
     // Генерируем номер заказа
     const orderNumber = `ONR-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`;
 
+    // Получаем текущего пользователя
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const insertPayload: any = {
+      lead_number: orderNumber,
+      customer_name: order.customer?.name,
+      customer_phone: order.customer?.phone,
+      customer_email: order.customer?.email,
+      customer_city: order.customer?.city,
+      status: 'new',
+      type: 'order',
+      source: 'website_form',
+    };
+
+    if (user) {
+      insertPayload.auth_user_id = user.id;
+    }
+
     const { data, error } = await supabase
       .from('leads')
-      .insert({
-        lead_number: orderNumber,
-        customer_name: order.customer?.name,
-        customer_phone: order.customer?.phone,
-        customer_email: order.customer?.email,
-        customer_city: order.customer?.city,
-        status: 'new',
-        type: 'order',
-        source: 'website_form',
-      })
+      .insert(insertPayload)
       .select()
       .single();
 

@@ -80,10 +80,10 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
 
   return (
     <div 
-      className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border flex flex-col h-full group cursor-pointer relative transform hover:-translate-y-1 ${
+      className={`bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border flex flex-col h-full group cursor-pointer relative transform hover:-translate-y-1 ${
         selected 
           ? 'border-blue-600 ring-2 ring-blue-200' 
-          : 'border-gray-100 hover:border-gray-200'
+          : 'border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600'
       }`}
       onClick={() => onClick?.(trailer)}
     >
@@ -94,13 +94,13 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       )}
 
       {/* Изображение */}
-      <div className="relative h-48 bg-gray-50 flex items-center justify-center overflow-hidden">
+      <div className="relative h-48 bg-gray-50 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
         {imageUrl && !imageError ? (
           <>
             {/* Skeleton loader */}
             {!imageLoaded && (
-              <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
-                <Truck size={32} className="text-gray-300" />
+              <div className="absolute inset-0 bg-gray-100 dark:bg-gray-600 animate-pulse flex items-center justify-center">
+                <Truck size={32} className="text-gray-300 dark:text-gray-500" />
               </div>
             )}
             <img 
@@ -114,9 +114,9 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
             />
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center text-gray-400">
+          <div className="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
             <Truck size={48} className="opacity-50" />
-            <span className="text-xs mt-2 text-gray-300">Нет фото</span>
+            <span className="text-xs mt-2 text-gray-300 dark:text-gray-500">Нет фото</span>
           </div>
         )}
         
@@ -159,7 +159,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
             ? 'bg-green-500 text-white' 
             : trailer.availability === 'days_1_3'
             ? 'bg-blue-500 text-white'
-            : 'bg-gray-200 text-gray-700'
+            : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300'
         }`}>
           {trailer.availability === 'in_stock' ? 'В наличии' : 
            trailer.availability === 'days_1_3' ? '1-3 дня' : '7-14 дней'}
@@ -169,15 +169,15 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       {/* Контент */}
       <div className="p-5 flex-grow flex flex-col">
         <div className="flex-grow">
-          <h3 className="font-bold text-lg mb-1 group-hover:text-blue-600 transition-colors line-clamp-1">
+          <h3 className="font-bold text-lg mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 dark:text-white">
             {trailer.model}
           </h3>
-          <p className="text-sm text-gray-500 mb-4 line-clamp-2 min-h-[2.5rem]">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2 min-h-[2.5rem]">
             {trailer.name}
           </p>
 
           {/* Ключевые характеристики (сокращённый вид) */}
-          <div className="space-y-2 mb-4 text-sm bg-gray-50 p-3 rounded-lg">
+          <div className="space-y-2 mb-4 text-sm bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
             {/* Размеры кузова или длина судна для лодочных */}
             {(() => {
               const dims = getBodyDimensions(trailer);
@@ -185,22 +185,22 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
               const isBoat = trailer.category === 'water' || trailer.specs?.dlina_sudna;
               return (
                 <div className="flex justify-between">
-                  <span className="text-gray-500">{isBoat ? 'Длина судна:' : 'Кузов:'}</span>
-                  <span className="font-semibold text-gray-900">{dims}</span>
+                  <span className="text-gray-500 dark:text-gray-400">{isBoat ? 'Длина судна:' : 'Кузов:'}</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{dims}</span>
                 </div>
               );
             })()}
             
             {/* Количество осей */}
             <div className="flex justify-between">
-              <span className="text-gray-500">Осей:</span>
-              <span className="font-semibold text-gray-900">{getAxlesCount(trailer)}</span>
+              <span className="text-gray-500 dark:text-gray-400">Осей:</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{getAxlesCount(trailer)}</span>
             </div>
             
             {/* Тормоза */}
             <div className="flex justify-between">
-              <span className="text-gray-500">Тормоз:</span>
-              <span className={`font-semibold ${hasBrakes(trailer) ? 'text-green-600' : 'text-gray-500'}`}>
+              <span className="text-gray-500 dark:text-gray-400">Тормоз:</span>
+              <span className={`font-semibold ${hasBrakes(trailer) ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                 {hasBrakes(trailer) ? 'Есть' : 'Нет'}
               </span>
             </div>
@@ -211,8 +211,8 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
               if (!cap) return null;
               return (
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Г/п:</span>
-                  <span className="font-semibold text-gray-900">{cap} кг</span>
+                  <span className="text-gray-500 dark:text-gray-400">Г/п:</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{cap} кг</span>
                 </div>
               );
             })()}
@@ -220,7 +220,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         </div>
 
         {/* Низ карточки */}
-        <div className="pt-4 border-t border-gray-100 mt-auto">
+        <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
           <div className="flex items-end justify-between mb-4">
             <div>
               {trailer.price > 0 ? (
@@ -230,14 +230,14 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
                       {formatPrice(trailer.oldPrice)} ₽
                     </p>
                   )}
-                  <p className={`text-2xl font-bold ${trailer.oldPrice && trailer.oldPrice > trailer.price ? 'text-green-600' : 'text-blue-700'}`}>
+                  <p className={`text-2xl font-bold ${trailer.oldPrice && trailer.oldPrice > trailer.price ? 'text-green-600 dark:text-green-400' : 'text-blue-700 dark:text-blue-400'}`}>
                     {formatPrice(trailer.price)} ₽
                   </p>
                   <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Цена дилера</p>
                 </>
               ) : (
                 <>
-                  <p className="text-xl font-bold text-gray-700">
+                  <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
                     Цена по запросу
                   </p>
                   <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Позвоните нам</p>

@@ -7,7 +7,7 @@ import { SupabaseProvider } from './supabaseProvider';
 // 'local' - LocalStorage (браузер)
 // 'rest' - JSON Server (http://localhost:3001)
 // 'supabase' - Supabase (облако)
-const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'supabase'; 
+const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local'; 
 
 class DatabaseFactory {
   private static instance: IDatabaseProvider;
