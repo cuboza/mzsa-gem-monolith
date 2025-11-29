@@ -61,33 +61,27 @@ export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-900 text-white pt-24 pb-16 overflow-hidden">
-        {/* Декоративный фон */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
-        </div>
-
+      <section className="relative bg-gradient-to-br from-blue-600 to-blue-900 text-white pt-20 pb-12 overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-1 mb-6 border border-white/20">
+            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-1 mb-4 border border-white/20">
               <MapPin className="w-4 h-4 mr-2 text-orange-400" />
               <span className="text-sm font-medium">Официальный дилер МЗСА в ХМАО и ЯНАО</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+            <h1 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">
               Надежные прицепы <br/>
               <span className="text-orange-400">
                 для любых задач
               </span>
             </h1>
             
-            <p className="text-lg md:text-xl mb-10 text-blue-100 max-w-2xl mx-auto">
-              Более 40 моделей в наличии. От простых дачных до профессиональных эвакуаторов и лодочных прицепов.
+            <p className="text-lg md:text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+              Более 40 моделей в наличии и под заказ. От простых дачных до профессиональных эвакуаторов и лодочных прицепов.
             </p>
 
             {/* Кнопки */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
               <button 
                 onClick={() => navigate('/configurator')}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all transform hover:scale-105"
@@ -120,9 +114,9 @@ export const Home = () => {
       </section>
 
       {/* Категории (быстрый доступ) */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">Популярные категории</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">Популярные категории</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             <div 
@@ -201,40 +195,40 @@ export const Home = () => {
       </section>
 
       {/* Наши магазины */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-900 transition-colors">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <a href="https://o-n-r.ru" target="_blank" rel="noopener noreferrer" className="inline-block mb-4">
-              <img src="/images/onr-logo.png" alt="Охота на рыбалку" className="h-16 mx-auto hover:opacity-80 transition-opacity" />
+              <img src="/images/onr-logo.png" alt="Охота на рыбалку" className="h-16 mx-auto hover:opacity-80 transition-opacity dark:brightness-110" />
             </a>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Наши магазины</h2>
-            <p className="text-gray-600">Сеть магазинов «Охота на рыбалку» — официальный дилер МЗСА в ХМАО и ЯНАО</p>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Наши магазины</h2>
+            <p className="text-gray-600 dark:text-gray-400">Сеть магазинов «Охота на рыбалку» — официальный дилер МЗСА в ХМАО и ЯНАО</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {stores.map((store, idx) => (
               <div 
                 key={idx} 
-                className="bg-gray-50 rounded-xl p-5 hover:shadow-lg transition-shadow border border-gray-100"
+                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700"
               >
-                <h3 className="text-lg font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200">{store.city}</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">{store.city}</h3>
                 
                 <div className="space-y-2.5 text-sm">
                   <div className="flex items-start gap-2">
                     <MapPin className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">{store.address}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{store.address}</span>
                   </div>
                   
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <a href={`tel:${store.phone.replace(/[^\d+]/g, '')}`} className="text-gray-700 hover:text-blue-600">
+                    <a href={`tel:${store.phone.replace(/[^\d+]/g, '')}`} className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
                       {store.phone}
                     </a>
                   </div>
                   
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-orange-500 flex-shrink-0" />
-                    <span className="text-gray-700">{store.hours}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{store.hours}</span>
                   </div>
                 </div>
 
@@ -242,7 +236,7 @@ export const Home = () => {
                   href={store.mapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="mt-4 inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Показать на карте
@@ -256,7 +250,7 @@ export const Home = () => {
               href="https://o-n-r.ru/contacts/stores/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
             >
               Все магазины на сайте o-n-r.ru
               <ExternalLink className="w-4 h-4" />

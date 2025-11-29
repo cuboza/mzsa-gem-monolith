@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MobileBottomNav } from './components/layout/MobileBottomNav';
@@ -20,6 +21,7 @@ import { AdminPanel } from './admin/AdminPanel';
 
 function App() {
   return (
+    <ThemeProvider>
     <AuthProvider>
       <BrowserRouter>
         <Routes>
@@ -28,7 +30,7 @@ function App() {
 
           {/* Основной сайт с шапкой и подвалом */}
           <Route path="*" element={
-            <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-900">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col font-sans text-gray-900 dark:text-gray-100 transition-colors duration-200">
               <Header />
               <main className="flex-grow pb-16 md:pb-0">
                 <Routes>
@@ -54,6 +56,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </ThemeProvider>
   );
 }
 
