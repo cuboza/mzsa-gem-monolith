@@ -199,7 +199,7 @@ export const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <a href="https://o-n-r.ru" target="_blank" rel="noopener noreferrer" className="inline-block mb-4">
-              <img src="/images/onr-logo.png" alt="Охота на рыбалку" className="h-16 mx-auto hover:opacity-80 transition-opacity dark:brightness-110" />
+              <img src="/images/onr-logo.png" alt="Охота на рыбалку" className="h-16 mx-auto hover:opacity-80 transition-opacity dark:brightness-0 dark:invert" />
             </a>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Наши магазины</h2>
             <p className="text-gray-600 dark:text-gray-400">Сеть магазинов «Охота на рыбалку» — официальный дилер МЗСА в ХМАО и ЯНАО</p>
