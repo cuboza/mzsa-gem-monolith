@@ -94,7 +94,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       )}
 
       {/* Изображение */}
-      <div className="relative h-48 bg-gray-50 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+      <div className="relative h-48 bg-white flex items-center justify-center overflow-hidden">
         {imageUrl && !imageError ? (
           <>
             {/* Skeleton loader */}
@@ -106,7 +106,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
             <img 
               src={imageUrl} 
               alt={trailer.model} 
-              className={`w-full h-full object-contain p-4 transition-all duration-300 ${
+              className={`w-full h-full object-contain scale-110 transition-all dark:mix-blend-multiply duration-300 ${
                 imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
               }`}
               onLoad={() => setImageLoaded(true)}
