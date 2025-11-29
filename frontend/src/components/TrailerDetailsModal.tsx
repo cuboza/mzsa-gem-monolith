@@ -173,10 +173,25 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   }, []);
 
   const allImages = useMemo(() => {
-    if (trailer.images && trailer.images.length > 0) {
-      return trailer.images;
+    // Собираем все изображения и убираем дубликаты
+    const images: string[] = [];
+    
+    // Добавляем главное изображение первым
+    if (trailer.image) {
+      images.push(trailer.image);
     }
-    return [trailer.image];
+    
+    // Добавляем остальные изображения, если они не дубликаты
+    if (trailer.images && trailer.images.length > 0) {
+      trailer.images.forEach(img => {
+        if (img && !images.includes(img)) {
+          images.push(img);
+        }
+      });
+    }
+    
+    // Если ничего нет, возвращаем плейсхолдер
+    return images.length > 0 ? images : [`https://placehold.co/600x400?text=${encodeURIComponent(trailer.model)}`];
   }, [trailer]);
 
   const nextImage = (e?: React.MouseEvent) => {
