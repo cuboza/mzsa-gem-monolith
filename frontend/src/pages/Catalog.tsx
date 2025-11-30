@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Trailer } from '../types';
 import { db } from '../services/api';
 import { TrailerCard } from '../components/TrailerCard';
@@ -144,11 +144,17 @@ export const Catalog = () => {
         }
       }
       
+
       // 0b. Умный поиск по размерам - прицеп должен ВМЕЩАТЬ указанную технику
       // но показываем только "следующий размер", не слишком большие
       if (parsed?.length) {
-        const trailerMaxLength = trailer.maxVehicleLength || 
-          parseInt(String(trailer.specs?.dlina_sudna || '').replace(/\D/g, '')) || 0;
+        // Источники максимальной длины техники:
+        // 1. maxVehicleLength - явное поле
+        // 2. specs.dlina_sudna - поле из Supabase
+        // 3. bodyDimensions - для лодочных прицепов
+        const trailerMaxLength = trailer.maxVehicleLength ||
+          parseInt(String(trailer.specs?.dlina_sudna || '').replace(/\D/g, '')) ||
+          parseInt(String(trailer.bodyDimensions || '').replace(/\D/g, '')) || 0;
         
         // Порог: показываем прицепы на 1500мм больше запрошенного размера
         // Для лодки 5м (5000) покажем прицепы 5000-6500мм (5.2, 5.45, 5.7, 6.2)

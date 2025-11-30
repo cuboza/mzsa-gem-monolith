@@ -240,14 +240,17 @@ export const SupabaseProvider: IDatabaseProvider = {
       supabase.from('features').select('*').in('trailer_id', trailerIds),
       supabase.from('images').select('*').eq('item_type', 'trailer').in('item_id', trailerIds),
     ]);
-
     // Группируем по trailer_id
     const specsMap = new Map<string, any[]>();
+    const allSpecKeys = new Set<string>();
+    console.log('[DEBUG-SPECS] specs raw length:', specificationsRes.data?.length);
     (specificationsRes.data || []).forEach((spec: any) => {
+      allSpecKeys.add(spec.key);
       const arr = specsMap.get(spec.trailer_id) || [];
       arr.push(spec);
       specsMap.set(spec.trailer_id, arr);
     });
+    console.log('[DEBUG-SPECS] unique keys:', [...allSpecKeys]);
 
     const featuresMap = new Map<string, any[]>();
     (featuresRes.data || []).forEach((feat: any) => {
