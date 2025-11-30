@@ -321,9 +321,9 @@ export const Catalog = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-xl border border-dashed">
-            <p className="text-xl text-gray-500 mb-2">Ничего не найдено</p>
-            <p className="text-sm text-gray-400">Попробуйте изменить параметры поиска</p>
+          <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600">
+            <p className="text-xl text-gray-500 dark:text-gray-400 mb-2">Ничего не найдено</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Попробуйте изменить параметры поиска</p>
             <button 
               onClick={() => {
                 setSearchQuery('');
@@ -332,7 +332,7 @@ export const Catalog = () => {
                 setMinPrice('');
                 setMaxPrice('');
               }}
-              className="mt-4 text-blue-600 hover:underline"
+              className="mt-4 text-blue-600 dark:text-blue-400 hover:underline"
             >
               Сбросить все фильтры
             </button>
