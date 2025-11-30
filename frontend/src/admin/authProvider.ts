@@ -25,7 +25,7 @@ export const authProvider: AuthProvider = {
   },
   
   checkError: (error) => {
-    const status = error.status;
+    const status = error?.status;
     if (status === 401 || status === 403) {
       localStorage.removeItem('onr_admin_auth');
       return Promise.reject();
