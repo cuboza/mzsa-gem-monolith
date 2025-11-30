@@ -632,7 +632,31 @@ export const SupabaseProvider: IDatabaseProvider = {
       }
     }
 
-    return mapSupabaseLead(data);
+    
+    // Отправляем email уведомление через Edge Function
+    try {
+      await supabase.functions.invoke('send-order-confirmation', {
+        body: {
+          orderNumber,
+          customerName: order.customer?.name,
+          customerEmail: order.customer?.email,
+          customerPhone: order.customer?.phone,
+          customerCity: order.customer?.city,
+          trailerName: order.configuration?.trailer?.name,
+          trailerModel: order.configuration?.trailer?.model,
+          trailerPrice: order.configuration?.trailer?.price,
+          accessories: order.configuration?.accessories?.map(acc => ({
+            name: acc.name,
+            price: acc.price,
+          })),
+          totalPrice: order.configuration?.totalPrice,
+          deliveryMethod: order.delivery?.method,
+        },
+      });
+    } catch (emailError) {
+      console.error('Failed to send order confirmation email:', emailError);
+    }
+return mapSupabaseLead(data);
   },
 
   async updateOrder(id: string, order: Partial<Order>): Promise<Order> {
