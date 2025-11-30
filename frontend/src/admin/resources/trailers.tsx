@@ -1,8 +1,45 @@
 import {
   List, Datagrid, TextField, NumberField, EditButton,
   Edit, SimpleForm, TextInput, SelectInput, NumberInput,
-  Filter, SearchInput, Create
+  Filter, SearchInput, Create, FunctionField
 } from 'react-admin';
+
+// Компонент миниатюры изображения
+const ThumbnailField = ({ source }: { source: string }) => (
+  <FunctionField
+    render={(record: any) => {
+      const imageUrl = record?.[source] || record?.images?.[0];
+      return imageUrl ? (
+        <img 
+          src={imageUrl} 
+          alt="" 
+          style={{ 
+            width: 60, 
+            height: 45, 
+            objectFit: 'cover', 
+            borderRadius: 4,
+            backgroundColor: '#f3f4f6'
+          }}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/images/placeholder.jpg'; }}
+        />
+      ) : (
+        <div style={{ 
+          width: 60, 
+          height: 45, 
+          backgroundColor: '#e5e7eb', 
+          borderRadius: 4,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#9ca3af',
+          fontSize: 10
+        }}>
+          Нет фото
+        </div>
+      );
+    }}
+  />
+);
 
 const TrailerFilter = (props: any) => (
   <Filter {...props}>
@@ -18,6 +55,7 @@ const TrailerFilter = (props: any) => (
 export const TrailerList = () => (
   <List filters={<TrailerFilter />}>
     <Datagrid rowClick="edit">
+      <ThumbnailField source="image" />
       <TextField source="model" label="Модель" />
       <TextField source="name" label="Название" />
       <TextField source="category" label="Категория" />
@@ -51,6 +89,8 @@ export const TrailerEdit = () => (
       ]} />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
+      <TextInput source="image" label="URL изображения" fullWidth />
+      <TextInput source="description" label="Описание" multiline fullWidth />
     </SimpleForm>
   </Edit>
 );
@@ -78,7 +118,8 @@ export const TrailerCreate = () => (
       ]} defaultValue="in_stock" />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
+      <TextInput source="image" label="URL изображения" fullWidth />
+      <TextInput source="description" label="Описание" multiline fullWidth />
     </SimpleForm>
   </Create>
 );
-
