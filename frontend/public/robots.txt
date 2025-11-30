@@ -1,0 +1,8 @@
+# Robots.txt для МЗСА GEM
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# Sitemap
+Sitemap: https://mzsa-gem-monolith-production.up.railway.app/sitemap.xml

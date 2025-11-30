@@ -366,7 +366,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
             </button>
             
             {trailer.badge && (
-              <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm z-10">
+              <div className="absolute top-4 right-4 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm z-10">
                 {trailer.badge}
               </div>
             )}
@@ -489,7 +489,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
               
               <button 
                 onClick={handleOrder}
-                className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-bold shadow-md transition-all transform active:scale-95 flex items-center justify-center"
+                className="w-full mt-4 bg-orange-600 hover:bg-orange-600 text-white py-3 rounded-lg font-bold shadow-md transition-all transform active:scale-95 flex items-center justify-center"
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Заказать

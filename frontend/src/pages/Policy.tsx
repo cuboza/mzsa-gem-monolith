@@ -62,7 +62,7 @@ export function Policy() {
                   'Данные о заказах',
                 ].map((item, index) => (
                   <li key={index} className="flex items-center gap-3 text-gray-700">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0" />
+                    <div className="w-2 h-2 bg-orange-600 rounded-full flex-shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -147,7 +147,7 @@ export function Policy() {
                   'Обжаловать действия или бездействие оператора в уполномоченный орган',
                 ].map((item, index) => (
                   <li key={index} className="flex items-start gap-3 text-gray-700">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0 mt-2" />
+                    <div className="w-2 h-2 bg-orange-600 rounded-full flex-shrink-0 mt-2" />
                     {item}
                   </li>
                 ))}

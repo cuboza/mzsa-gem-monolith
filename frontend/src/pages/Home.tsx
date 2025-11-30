@@ -84,7 +84,7 @@ export const Home = () => {
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
               <button 
                 onClick={() => navigate('/configurator')}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all transform hover:scale-105"
+                className="bg-orange-600 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all transform hover:scale-105"
               >
                 <Settings className="w-6 h-6 mr-2" />
                 Подобрать прицеп
@@ -100,7 +100,7 @@ export const Home = () => {
             {/* Преимущества */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {advantages.map((adv, idx) => (
-                <div key={idx} className="bg-orange-500 rounded-xl p-4 flex flex-col items-center text-center hover:bg-orange-600 transition-colors shadow-lg">
+                <div key={idx} className="bg-orange-600 rounded-xl p-4 flex flex-col items-center text-center hover:bg-orange-600 transition-colors shadow-lg">
                   <div className="mb-3 bg-white/20 p-2 rounded-lg">
                     {adv.icon}
                   </div>

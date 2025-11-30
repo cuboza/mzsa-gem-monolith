@@ -35,3 +35,7 @@ mzsa_gem_site.zip
 supabase/.temp/
 supabase/temp_schema.sql
 supabase/backup_*.sql
+
+# Lighthouse reports
+lighthouse*.html
+lighthouse*.json

@@ -147,7 +147,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
             </span>
           )}
           {trailer.badge && !trailer.isNew && !trailer.isOnSale && !trailer.isPriceReduced && (
-            <span className="bg-orange-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
+            <span className="bg-orange-600 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
               {trailer.badge}
             </span>
           )}
@@ -267,7 +267,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
                   e.stopPropagation();
                   onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } });
                 }}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
+                className="bg-orange-600 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
               >
                 {trailer.availability === 'in_stock' ? 'Купить' : 'Заказать'}
               </button>

@@ -482,7 +482,7 @@ export const Configurator = () => {
                       }`}
                     >
                       <div className={`w-6 h-6 rounded border mr-4 flex items-center justify-center flex-shrink-0 ${
-                        isSelected ? 'bg-orange-500 border-orange-500 text-white' : 'border-gray-300'
+                        isSelected ? 'bg-orange-600 border-orange-500 text-white' : 'border-gray-300'
                       }`}>
                         {isSelected && <Check size={14} />}
                       </div>
@@ -696,7 +696,7 @@ export const Configurator = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-bold text-lg shadow-lg mt-6"
+                  className="w-full bg-orange-600 hover:bg-orange-600 text-white py-4 rounded-lg font-bold text-lg shadow-lg mt-6"
                 >
                   Подтвердить заказ
                 </button>
