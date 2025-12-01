@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Lock, Eye, FileText, Mail, Phone } from 'lucide-react';
+import { Card } from '../components/ui';
 
 export function Policy() {
   return (
@@ -22,7 +23,7 @@ export function Policy() {
           <div className="max-w-4xl mx-auto space-y-8">
             
             {/* Introduction */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <Shield className="w-7 h-7 text-orange-600" />
                 Общие положения
@@ -40,10 +41,10 @@ export function Policy() {
                   Политикой и указанными в ней условиями обработки его персональных данных.
                 </p>
               </div>
-            </div>
+            </Card>
 
             {/* Data Collection */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <Eye className="w-7 h-7 text-orange-600" />
                 Сбор персональных данных
@@ -74,10 +75,10 @@ export function Policy() {
                   форм на сайте, оформлении заказа или обращении в службу поддержки.
                 </p>
               </div>
-            </div>
+            </Card>
 
             {/* Data Usage */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <FileText className="w-7 h-7 text-orange-600" />
                 Использование данных
@@ -100,10 +101,10 @@ export function Policy() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
 
             {/* Data Protection */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <Lock className="w-7 h-7 text-orange-600" />
                 Защита данных
@@ -129,10 +130,10 @@ export function Policy() {
                   Все данные передаются по защищённому соединению (SSL/TLS)
                 </p>
               </div>
-            </div>
+            </Card>
 
             {/* User Rights */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Права пользователя</h2>
               
               <div className="prose prose-lg max-w-none text-gray-600 space-y-4">
@@ -152,10 +153,10 @@ export function Policy() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Card>
 
             {/* Cookies */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Использование cookies</h2>
               
               <div className="prose prose-lg max-w-none text-gray-600 space-y-4">
@@ -170,7 +171,7 @@ export function Policy() {
                   однако это может повлиять на функциональность сайта.
                 </p>
               </div>
-            </div>
+            </Card>
 
             {/* Contact */}
             <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-8 text-white">

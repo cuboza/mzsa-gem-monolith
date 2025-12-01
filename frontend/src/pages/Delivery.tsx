@@ -1,5 +1,6 @@
 import React from 'react';
 import { Truck, MapPin, Clock, Phone, CreditCard, Package, CheckCircle } from 'lucide-react';
+import { Card } from '../components/ui';
 
 export function Delivery() {
   return (
@@ -35,7 +36,7 @@ export function Delivery() {
             </div>
 
             {/* City Delivery */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <MapPin className="w-7 h-7 text-orange-600" />
                 Доставка по городам присутствия
@@ -87,10 +88,10 @@ export function Delivery() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Regional Delivery */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <Package className="w-7 h-7 text-orange-600" />
                 Доставка в регионы России
@@ -125,10 +126,10 @@ export function Delivery() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Pickup */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <CheckCircle className="w-7 h-7 text-orange-600" />
                 Самовывоз
@@ -161,7 +162,7 @@ export function Delivery() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
 
             {/* CTA */}
             <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-8 text-white text-center">

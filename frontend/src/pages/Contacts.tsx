@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
+import { Card } from '../components/ui';
 
 interface StoreInfo {
   city: string;
@@ -61,7 +62,7 @@ export function Contacts() {
       <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+            <Card padding="lg" className="mb-8">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 mb-2">Единый номер</h2>
@@ -91,7 +92,7 @@ export function Contacts() {
                   </a>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
@@ -104,9 +105,10 @@ export function Contacts() {
             
             <div className="grid md:grid-cols-2 gap-6">
               {stores.map((store) => (
-                <div 
+                <Card 
                   key={store.city} 
-                  className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+                  padding="md"
+                  hover
                 >
                   <h3 className="text-xl font-bold text-gray-900 mb-4">{store.city}</h3>
                   
@@ -152,7 +154,7 @@ export function Contacts() {
                       <p className="text-gray-600">{store.hours}</p>
                     </div>
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           </div>
@@ -163,7 +165,7 @@ export function Contacts() {
       <section className="pb-12">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <Card padding="none" className="overflow-hidden">
               <iframe
                 src="https://yandex.ru/map-widget/v1/?um=constructor%3Aa0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0&amp;source=constructor&amp;ll=73.426112,61.257078&amp;z=5"
                 width="100%"
@@ -172,7 +174,7 @@ export function Contacts() {
                 title="Карта магазинов"
                 className="w-full"
               />
-            </div>
+            </Card>
           </div>
         </div>
       </section>

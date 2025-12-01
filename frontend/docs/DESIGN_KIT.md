@@ -285,6 +285,43 @@ className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 
 ---
 
+## 13. Состояние переиспользования компонентов
+
+### ✅ Используются
+| Компонент | Где используется |
+|-----------|------------------|
+| `StatusBadge` | `Profile.tsx`, `TrackOrder.tsx` |
+| `Card` | `About.tsx`, `Policy.tsx`, `Contacts.tsx`, `Delivery.tsx` |
+
+### ⚠️ Требуют рефакторинга
+| Компонент | Inline-дублирования | Приоритет |
+|-----------|---------------------|-----------|
+| `Button` | 7+ мест (Home, Profile, Configurator, TrailerCard) | Высокий |
+| `Card` | ~10 мест (Warranty, TrackOrder, Profile) | Средний |
+| `Input` | Не проверено | Низкий |
+
+### Рекомендации по рефакторингу
+
+**Button** — заменить:
+```tsx
+// ❌ Было
+<button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl...">
+
+// ✅ Стало  
+<Button variant="primary" size="lg">
+```
+
+**Card** — заменить:
+```tsx
+// ❌ Было
+<div className="bg-white rounded-xl shadow-sm p-8">
+
+// ✅ Стало
+<Card padding="lg">
+```
+
+---
+
 ## Ссылки
 
 - [Tailwind CSS Docs](https://tailwindcss.com/docs)

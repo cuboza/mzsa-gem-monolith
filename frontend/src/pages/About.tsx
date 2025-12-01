@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock, Users, Award, Truck, ShieldCheck } from 'lucide-react';
+import { Card, CardFooter } from '../components/ui';
 
 export function About() {
   return (
@@ -24,7 +25,7 @@ export function About() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* About Text */}
-            <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
+            <Card padding="lg" className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Сеть любимых магазинов охотника и рыболова
               </h2>
@@ -57,12 +58,12 @@ export function About() {
                   бортовые, лодочные и коммерческие прицепы для любых задач.
                 </p>
               </div>
-            </div>
+            </Card>
 
             {/* Features Grid */}
             <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-white rounded-xl shadow-sm p-6 flex items-start gap-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Card padding="md" className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Award className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
@@ -71,10 +72,10 @@ export function About() {
                     Гарантируем подлинность и качество всех прицепов
                   </p>
                 </div>
-              </div>
+              </Card>
 
-              <div className="bg-white rounded-xl shadow-sm p-6 flex items-start gap-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Card padding="md" className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Users className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
@@ -83,10 +84,10 @@ export function About() {
                     Работаем с 2005 года, 4 магазина в регионах ХМАО и ЯНАО
                   </p>
                 </div>
-              </div>
+              </Card>
 
-              <div className="bg-white rounded-xl shadow-sm p-6 flex items-start gap-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Card padding="md" className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Truck className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
@@ -95,10 +96,10 @@ export function About() {
                     По городу при заказе от 10 000 ₽, доставка по регионам
                   </p>
                 </div>
-              </div>
+              </Card>
 
-              <div className="bg-white rounded-xl shadow-sm p-6 flex items-start gap-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Card padding="md" className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
                   <ShieldCheck className="w-6 h-6 text-orange-600" />
                 </div>
                 <div>
@@ -107,11 +108,11 @@ export function About() {
                     Официальная гарантия производителя на все прицепы
                   </p>
                 </div>
-              </div>
+              </Card>
             </div>
 
             {/* Stores Preview */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Наши магазины</h2>
               
               <div className="grid md:grid-cols-2 gap-6">
@@ -160,7 +161,7 @@ export function About() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-100 flex flex-wrap gap-4">
+              <CardFooter className="flex flex-wrap gap-4">
                 <Link 
                   to="/contacts" 
                   className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium"
@@ -174,8 +175,8 @@ export function About() {
                 >
                   Перейти в каталог
                 </Link>
-              </div>
-            </div>
+              </CardFooter>
+            </Card>
           </div>
         </div>
       </section>
