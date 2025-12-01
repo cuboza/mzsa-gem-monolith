@@ -34,6 +34,7 @@
     - `status = 'active'` + `visible_on_site = true` (не `is_active`)
     - `retail_price` — основная цена (не `price`)
     - `main_image_url` — главное изображение (не `image`)
+    - `max_vehicle_length/width/weight` → `maxVehicleLength/Width/Weight`
     - Заявки хранятся в `leads` (не `orders`)
 - **REST API** (устаревший): `RestProvider` для работы с локальным бэкендом на :3001
 - **LocalStorage** (автономный): `LocalStorageProvider` для работы без сервера

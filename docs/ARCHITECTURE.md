@@ -40,7 +40,7 @@ Frontend может работать с разными провайдерами 
 
 #### Supabase (основной)
 Таблицы в PostgreSQL:
-- **trailers** — прицепы (slug, model, name, retail_price, main_image_url, status, visible_on_site)
+- **trailers** — прицепы (slug, model, name, retail_price, main_image_url, status, visible_on_site, max_vehicle_length/width/weight)
 - **categories** — категории прицепов (general, water, commercial)
 - **specifications** — характеристики прицепов
 - **features** — особенности/фичи
@@ -51,8 +51,12 @@ Frontend может работать с разными провайдерами 
 - **lead_items** — состав заявки
 - **customers** — клиенты
 - **warehouses** — склады
+- **user_roles** — роли пользователей (admin, manager)
 
 > **ВАЖНО**: Поля в Supabase отличаются от типов TypeScript!
+> - `max_vehicle_length` → `maxVehicleLength`
+> - `retail_price` → `price`
+> - `main_image_url` → `image`
 > См. маппинг в `supabaseProvider.ts` и `docs/DATA_MODELS.md`
 
 #### Backend SQLite (устаревший)

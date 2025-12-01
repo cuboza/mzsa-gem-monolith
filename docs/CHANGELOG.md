@@ -4,6 +4,24 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-12-01
+### Добавлено
+- **Supabase миграция**: Добавлены поля `max_vehicle_length`, `max_vehicle_width`, `max_vehicle_weight` в таблицу `trailers`
+- **Маппинг полей**: `supabaseProvider.ts` теперь маппит `max_vehicle_*` → `maxVehicle*` для конфигуратора
+
+### Изменено
+- **searchParser.ts**: Исправлен порядок regex-паттернов (мм перед м) для корректного парсинга "4000 мм"
+- **TrailerCard.tsx**: Добавлена функция `cleanDimension()` для очистки данных bodyDimensions от мусора
+- **Configurator.tsx**: Уменьшены отступы (pt-8→pt-4, pb-20→pb-12), автопереход на шаг 2 при поиске
+- **Home.tsx**: Исправлена типизация `NodeJS.Timeout` → `ReturnType<typeof setInterval>`
+
+### Исправлено
+- **Умный поиск**: "4000 мм" теперь корректно парсится как 4000мм (не 4000000мм)
+- **Карточки прицепов**: Отображение "4300 мм мм судно" → "4300 мм"
+
+### Документация
+- Обновлены `DATA_MODELS.md`, `ARCHITECTURE.md`, `copilot-instructions.md` с новыми полями
+
 ## [0.3.0] - 2025-01-XX
 ### Добавлено
 - **Настраиваемый API URL**: Переменная окружения `VITE_API_URL` для конфигурации backend URL.

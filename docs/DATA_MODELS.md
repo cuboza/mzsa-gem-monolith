@@ -14,6 +14,9 @@
 | `visible_on_site` | — | Видимость на сайте |
 | `retail_price` | `price` | Розничная цена |
 | `main_image_url` | `image` | Главное изображение |
+| `max_vehicle_length` | `maxVehicleLength` | Макс. длина техники, мм |
+| `max_vehicle_width` | `maxVehicleWidth` | Макс. ширина техники, мм |
+| `max_vehicle_weight` | `maxVehicleWeight` | Макс. вес техники, кг |
 | `leads` | `orders` | Заявки/заказы |
 
 ## Основные сущности
@@ -37,6 +40,9 @@ is_published BOOLEAN            -- Опубликован
 availability VARCHAR(20)        -- 'in_stock' | 'on_order' | 'out_of_stock'
 badges TEXT[]                   -- ['popular', 'new', 'sale']
 slug VARCHAR(255)               -- URL-friendly ID
+max_vehicle_length INTEGER      -- Макс. длина техники, мм
+max_vehicle_width INTEGER       -- Макс. ширина техники, мм
+max_vehicle_weight INTEGER      -- Макс. вес техники, кг
 ```
 
 **TypeScript тип (фронтенд):**
@@ -58,9 +64,16 @@ interface Trailer {
   images?: string[];        // Из таблицы images
 
   // --- Характеристики (из таблицы specifications) ---
-  capacity?: number;             // Грузоподъёмность, кг
-  dimensions?: string;           // Размеры кузова
+  capacity: number;              // Грузоподъёмность, кг
+  dimensions?: string;           // Размеры кузова "ДxШxВ"
+  bodyDimensions?: string;       // Для лодочных: макс. длина судна
+  gabarity?: string;             // Габаритные размеры
+  boardHeight?: number;          // Высота борта, мм
+  
+  // --- Для конфигуратора (max_vehicle_* из Supabase) ---
   maxVehicleLength?: number;     // Макс. длина техники, мм
+  maxVehicleWidth?: number;      // Макс. ширина техники, мм
+  maxVehicleWeight?: number;     // Макс. вес техники, кг
   maxVehicleVolume?: number;     // Объём кузова, м³
   
   // --- Особенности (из таблицы features) ---
@@ -74,6 +87,23 @@ interface Trailer {
   isPopular?: boolean;
   isNew?: boolean;
   isOnSale?: boolean;
+  isPriceReduced?: boolean;
+  
+  // --- Детализированные specs (из таблицы specifications) ---
+  specs?: {
+    dimensions: string;
+    capacity: string;
+    weight: string;
+    axles: number;
+    boardHeight?: number;
+    [key: string]: any;  // Динамические поля из скрапера
+  };
+  
+  suspension?: string;
+  brakes?: string;
+  stock?: number;            // Количество на складе
+  createdAt?: string;
+  updatedAt?: string;
 }
 ```
 

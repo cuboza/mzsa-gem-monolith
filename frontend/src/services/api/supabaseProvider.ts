@@ -46,6 +46,9 @@ function mapSupabaseTrailer(row: any, categories?: Map<string, string>): Trailer
       axles: 1,
     }, // загрузим отдельно
     compatibility, // Добавляем совместимость с техникой
+    maxVehicleLength: row.max_vehicle_length || undefined,
+    maxVehicleWidth: row.max_vehicle_width || undefined,
+    maxVehicleWeight: row.max_vehicle_weight || undefined,
     suspension: '',
     brakes: '',
     availability: mapAvailability(row.availability),
