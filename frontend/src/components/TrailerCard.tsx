@@ -26,13 +26,29 @@ const getCapacity = (trailer: Trailer): number | null => {
   return null;
 };
 
+const cleanDimension = (value: string): string => {
+  // Убираем дублирующиеся единицы и лишний текст: "4300 мм мм судно" → "4300 мм"
+  // Сначала извлекаем число в начале
+  const numberMatch = value.match(/^(\d+)/);
+  if (numberMatch) {
+    return `${numberMatch[1]} мм`;
+  }
+  return value.trim();
+};
+
+const isBoatDimension = (value: string): boolean => {
+  return /\d+\s*мм\s*мм\s*судно|\d+\s*мм\s*судно/.test(value);
+};
+
 const getBodyDimensions = (trailer: Trailer): string | null => {
   // Для лодочных - длина судна
-  if (trailer.specs?.dlina_sudna) return trailer.specs.dlina_sudna;
+  if (trailer.specs?.dlina_sudna) return cleanDimension(trailer.specs.dlina_sudna);
   // Размеры кузова из specs
   if (trailer.specs?.razmery_kuzova) return trailer.specs.razmery_kuzova;
-  // Legacy поля
-  if (trailer.bodyDimensions) return trailer.bodyDimensions;
+  // Legacy поля - очищаем если это "мм мм судно"
+  if (trailer.bodyDimensions) {
+    return isBoatDimension(trailer.bodyDimensions) ? cleanDimension(trailer.bodyDimensions) : trailer.bodyDimensions;
+  }
   if (trailer.dimensions) return trailer.dimensions;
   return null;
 };

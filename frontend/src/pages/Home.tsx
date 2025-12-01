@@ -1,13 +1,65 @@
 ﻿import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Settings, Award, MapPin, Phone, Clock, ExternalLink, Shield, Truck, Wrench, CheckCircle, ChevronLeft, ChevronRight, Anchor, Package, Ruler } from 'lucide-react';
+import { Settings, Award, MapPin, Phone, Clock, ExternalLink, Shield, Truck, Wrench, CheckCircle, ChevronLeft, ChevronRight, Anchor, Package, Ruler, Zap, Layers, Lock, Gauge, Users, Box, Puzzle } from 'lucide-react';
 
 export const Home = () => {
   const navigate = useNavigate();
   const [visibleBenefits, setVisibleBenefits] = useState<Set<number>>(new Set());
   const benefitsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const slideIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const techFeatures = [
+    {
+      title: "Горячее цинкование",
+      description: "Полное покрытие рамы методом горячего цинкования защищает от коррозии как внешние поверхности, так и внутренние полости. В разы эффективнее напыления или краски.",
+      image: "/images/tech/galvanizing.jpg",
+      footer: "Срок службы: 25+ лет",
+      footerColor: "text-blue-600 dark:text-blue-400"
+    },
+    {
+      title: "Усиленная рама",
+      description: "Сварная конструкция из профильной стали повышенной прочности. Рассчитана на интенсивную эксплуатацию в российских условиях — бездорожье, перепады температур, тяжёлые грузы.",
+      image: "/images/tech/frame.jpg",
+      footer: "Контроль качества сварки",
+      footerColor: "text-orange-600 dark:text-orange-400"
+    },
+    {
+      title: "Подвеска AL-KO",
+      description: "Комплектующие немецкого бренда AL-KO: оси, ступицы, тормоза наката. Тормозной путь на 17% короче, ускорение торможения на 25% выше.",
+      image: "/images/tech/suspension.jpg",
+      footer: "Европейское качество",
+      footerColor: "text-green-600 dark:text-green-400"
+    },
+    {
+      title: "Борта на выбор",
+      description: "Оцинкованные борта из профилированного листа — прочные и устойчивы к коррозии. Алюминиевые борта из анодированного профиля — лёгкие и долговечные.",
+      image: "/images/tech/cert.jpg",
+      footer: "Откидные и съёмные",
+      footerColor: "text-purple-600 dark:text-purple-400"
+    },
+    {
+      title: "Кастомизация",
+      description: "Гибкая система опций: тент, дуги, лебёдка, запасное колесо, стояночный тормоз. Соберите прицеп под ваши задачи — от базовой до максимальной комплектации.",
+      image: "/images/tech/options_custom.jpg",
+      imageFit: "object-contain bg-white",
+      footer: "50+ доступных опций",
+      footerColor: "text-yellow-600 dark:text-yellow-400",
+      subImages: [
+        "/images/tech/options/winch.jpg",
+        "/images/tech/options/tent.jpg",
+        "/images/tech/options/wheel.jpg",
+        "/images/tech/options/toolbox.jpg"
+      ]
+    },
+    {
+      title: "Сертификация",
+      description: "Система менеджмента качества ГОСТ Р ИСО 9001. Сертификат EFQM «Признанное совершенство 5 звёзд». Электронный ПТС с регистрацией в ГИБДД.",
+      image: "/images/tech/cert_scan.jpg",
+      footer: "ISO 9001 + EFQM 5★",
+      footerColor: "text-red-600 dark:text-red-400"
+    }
+  ];
 
   const heroSlides = [
     {
@@ -124,10 +176,10 @@ export const Home = () => {
   }, []);
 
   const advantages = [
-    { icon: <Award className="w-8 h-8 text-white" />, title: "Партнер завода", desc: "15 лет" },
-    { icon: <MapPin className="w-8 h-8 text-white" />, title: "В наличии", desc: "В 4-х городах" },
+    { icon: <Users className="w-8 h-8 text-white" />, title: "Партнер завода", desc: "15 лет" },
+    { icon: <Box className="w-8 h-8 text-white" />, title: "В наличии", desc: "В 4-х городах" },
     { icon: <Shield className="w-8 h-8 text-white" />, title: "Гарантия 1 год", desc: "От производителя" },
-    { icon: <Settings className="w-8 h-8 text-white" />, title: "Аксессуары", desc: "Выбор опций" }
+    { icon: <Puzzle className="w-8 h-8 text-white" />, title: "Аксессуары", desc: "Выбор опций" }
   ];
 
   const stores = [
@@ -170,7 +222,7 @@ export const Home = () => {
 
             {/* Content */}
             <div className="relative z-20 h-full flex items-center pb-40 sm:pb-24">
-              <div className="container mx-auto px-4 md:px-8">
+              <div className="container mx-auto px-12 md:px-8">
                 <div className="max-w-2xl">
                   {/* Badge */}
                   <div className={`inline-flex items-center bg-orange-500/90 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 transition-all duration-700 delay-200 ${
@@ -238,44 +290,45 @@ export const Home = () => {
         {/* Navigation Arrows */}
         <button
           onClick={() => handleManualNav(prevSlide)}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+          className="absolute left-2 sm:left-4 md:left-8 top-1/3 sm:top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
           aria-label="Предыдущий слайд"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         <button
           onClick={() => handleManualNav(nextSlide)}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+          className="absolute right-2 sm:right-4 md:right-8 top-1/3 sm:top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
           aria-label="Следующий слайд"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Dots */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-3">
-          {heroSlides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleManualNav(() => goToSlide(idx))}
-              className={`w-3 h-3 rounded-full transition-all ${
-                idx === currentSlide 
-                  ? 'bg-orange-500 w-8' 
-                  : 'bg-white/50 hover:bg-white/70'
-              }`}
-              aria-label={`Перейти к слайду ${idx + 1}`}
-            />
-          ))}
-        </div>
-
         {/* Stats Bar */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/80 to-transparent pt-8 sm:pt-16 pb-16 sm:pb-20">
+        <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/80 to-transparent pt-6 pb-4 sm:pt-8 sm:pb-6">
           <div className="container mx-auto px-4">
+            {/* Dots - теперь внутри Stats Bar */}
+            <div className="flex justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+              {heroSlides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleManualNav(() => goToSlide(idx))}
+                  className={`h-2 sm:h-3 rounded-full transition-all ${
+                    idx === currentSlide 
+                      ? 'bg-orange-500 w-6 sm:w-8' 
+                      : 'bg-white/50 hover:bg-white/70 w-2 sm:w-3'
+                  }`}
+                  aria-label={`Перейти к слайду ${idx + 1}`}
+                />
+              ))}
+            </div>
+            
+            {/* Advantages grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 max-w-4xl mx-auto">
               {advantages.map((adv, idx) => (
                 <div key={idx} className="text-center text-white">
-                  <div className="flex justify-center mb-2">{adv.icon}</div>
-                  <p className="text-sm font-bold">{adv.title}</p>
-                  <p className="text-xs text-gray-300">{adv.desc}</p>
+                  <div className="flex justify-center mb-1 sm:mb-2">{adv.icon}</div>
+                  <p className="text-xs sm:text-sm font-bold">{adv.title}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-300">{adv.desc}</p>
                 </div>
               ))}
             </div>
@@ -301,13 +354,72 @@ export const Home = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-blue-900 text-white">
+
+
+      {/* МЗСА Technology Section */}
+      <section className="py-20 bg-white dark:bg-gray-900 transition-colors overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-4xl mx-auto">
-            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">65+</div><div className="text-sm text-blue-200">Моделей прицепов</div></div>
-            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">136</div><div className="text-sm text-blue-200">Аксессуаров</div></div>
-            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">15</div><div className="text-sm text-blue-200">Лет на рынке</div></div>
-            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">4</div><div className="text-sm text-blue-200">Города присутствия</div></div>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <Award className="w-4 h-4" />
+              Официальный дилер
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Преимущества прицепов МЗСА
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Московский завод специализированных автомобилей — лидер российского рынка прицепной техники. 
+              Входит в десятку крупнейших производителей Европы.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {techFeatures.map((feature, idx) => (
+              <div key={idx} className="group bg-gray-50 dark:bg-gray-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 flex flex-col">
+                <div className="h-48 overflow-hidden relative">
+                  <img 
+                    src={feature.image} 
+                    alt={feature.title} 
+                    // @ts-ignore
+                    className={`w-full h-full ${feature.imageFit || 'object-cover'} transform group-hover:scale-110 transition-transform duration-700`}
+                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=' + feature.title; }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                  <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-10">
+                    {feature.title}
+                  </h3>
+                </div>
+                <div className="p-6 flex-grow flex flex-col">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4 flex-grow">
+                    {feature.description}
+                  </p>
+                  {/* @ts-ignore */}
+                  {feature.subImages && (
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+                      {/* @ts-ignore */}
+                      {feature.subImages.map((img, i) => (
+                        <img key={i} src={img} alt="" className="w-full h-12 object-cover rounded border border-gray-200 dark:border-gray-600" />
+                      ))}
+                    </div>
+                  )}
+                  <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <span className={`text-sm font-medium ${feature.footerColor}`}>{feature.footer}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <a 
+              href="https://mzsa.ru/about/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+            >
+              Подробнее о заводе МЗСА
+              <ExternalLink className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
@@ -344,6 +456,17 @@ export const Home = () => {
             <button onClick={() => navigate('/catalog')} className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-500/30 transition-all transform hover:scale-105">
               Перейти в каталог<ExternalLink className="w-5 h-5" />
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-blue-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-4xl mx-auto">
+            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">65+</div><div className="text-sm text-blue-200">Моделей прицепов</div></div>
+            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">136</div><div className="text-sm text-blue-200">Аксессуаров</div></div>
+            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">15</div><div className="text-sm text-blue-200">Лет на рынке</div></div>
+            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">4</div><div className="text-sm text-blue-200">Города присутствия</div></div>
           </div>
         </div>
       </section>

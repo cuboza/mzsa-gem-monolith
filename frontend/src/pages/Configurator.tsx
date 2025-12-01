@@ -153,23 +153,32 @@ export const Configurator = () => {
 
     const parsed = parseSearchQuery(searchInput);
 
+    // Если найдена категория техники, устанавливаем её
     if (parsed.category) {
       setSelectedCategory(parsed.category);
     }
 
-    // Создаём кастомный "vehicle" из поиска
-    const customVehicle: Vehicle = {
-      brand: 'Поиск',
-      model: searchInput,
-      length: parsed.length || 0,
-      width: 0,
-      height: 0,
-      weight: parsed.weight || 0,
-      volume: parsed.volume
-    };
-
-    if (parsed.length || parsed.volume || parsed.weight) {
+    // Создаём кастомный "vehicle" из поиска (если есть параметры)
+    const hasParams = parsed.length || parsed.volume || parsed.weight;
+    
+    if (hasParams) {
+      const customVehicle: Vehicle = {
+        brand: 'Поиск',
+        model: searchInput,
+        length: parsed.length || 0,
+        width: 0,
+        height: 0,
+        weight: parsed.weight || 0,
+        volume: parsed.volume
+      };
       setSelectedVehicle(customVehicle);
+    } else {
+      // Если только категория без размеров - сбрасываем vehicle
+      setSelectedVehicle(null);
+    }
+
+    // Переходим на шаг 2 если найдена категория или параметры
+    if (parsed.category || hasParams) {
       setStep(2);
     }
   };
@@ -273,10 +282,10 @@ export const Configurator = () => {
   // ШАГИ КОНФИГУРАТОРА
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-8 pb-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-4 pb-12">
       <div className="container mx-auto px-4">
         {/* Прогресс бар */}
-        <div className="mb-8">
+        <div className="mb-4">
           <Stepper steps={CONFIG_STEPS} currentStep={step} />
         </div>
 
@@ -387,10 +396,10 @@ export const Configurator = () => {
 
           {/* Шаг 2: Выбор прицепа */}
           {step === 2 && (
-            <div className="p-6 md:p-8 animate-fadeIn">
-              <h2 className="text-2xl font-bold mb-2 text-center text-gray-900 dark:text-white">Подходящие прицепы</h2>
+            <div className="p-4 md:p-6 animate-fadeIn">
+              <h2 className="text-xl font-bold mb-1 text-center text-gray-900 dark:text-white">Подходящие прицепы</h2>
               {selectedVehicle && (
-                <p className="text-center text-gray-500 dark:text-gray-400 mb-6">
+                <p className="text-center text-gray-500 dark:text-gray-400 mb-3 text-sm">
                   Для {selectedVehicle.brand} {selectedVehicle.model} ({selectedVehicle.length}x{selectedVehicle.width}мм)
                 </p>
               )}

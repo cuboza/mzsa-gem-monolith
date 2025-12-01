@@ -43,6 +43,9 @@ export interface Trailer {
   maxVehicleWeight?: number; // кг
   maxVehicleVolume?: number; // м³ - для грузовых прицепов
   
+  // Складские данные
+  stock?: number; // количество на складе
+  
   // Метаданные
   createdAt?: string;
   updatedAt?: string;
@@ -92,6 +95,7 @@ export interface Order {
   orderNumber: string; // отображаемый номер "ONR-20250106-0001"
   date: string; // ISO datetime
   status: 'new' | 'processing' | 'shipping' | 'ready' | 'completed' | 'cancelled';
+  paymentStatus?: 'unpaid' | 'partial' | 'paid';
   
   customer: {
     name: string;
@@ -107,6 +111,8 @@ export interface Order {
     accessories: Accessory[];
     vehicle?: Vehicle; // если был конфигуратор
     totalPrice: number;
+    discount?: number; // скидка в рублях
+    manualPrice?: number; // ручная цена (если задана, игнорируется расчет)
   };
   
   delivery: {

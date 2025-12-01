@@ -1,8 +1,23 @@
 import {
   List, Datagrid, TextField, NumberField, EditButton,
   Edit, SimpleForm, TextInput, SelectInput, NumberInput,
-  Filter, SearchInput, Create, FunctionField
+  Filter, SearchInput, Create, FunctionField,
+  required, minValue, DeleteWithConfirmButton,
+  BulkDeleteButton, BulkExportButton
 } from 'react-admin';
+
+// Валидаторы
+const validateRequired = required('Обязательное поле');
+const validatePrice = [required('Обязательное поле'), minValue(0, 'Цена не может быть отрицательной')];
+const validateStock = minValue(0, 'Остаток не может быть отрицательным');
+
+// Bulk Actions
+const TrailerBulkActions = () => (
+  <>
+    <BulkExportButton />
+    <BulkDeleteButton mutationMode="pessimistic" />
+  </>
+);
 
 // Компонент миниатюры изображения
 const ThumbnailField = ({ source }: { source: string }) => (
@@ -54,31 +69,33 @@ const TrailerFilter = (props: any) => (
 
 export const TrailerList = () => (
   <List filters={<TrailerFilter />}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="edit" bulkActionButtons={<TrailerBulkActions />}>
       <ThumbnailField source="image" />
       <TextField source="model" label="Модель" />
       <TextField source="name" label="Название" />
       <TextField source="category" label="Категория" />
       <NumberField source="price" label="Цена" options={{ style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }} />
+      <NumberField source="stock" label="Остаток" />
       <TextField source="availability" label="Наличие" />
       <EditButton />
+      <DeleteWithConfirmButton confirmTitle="Удалить прицеп?" confirmContent="Вы уверены, что хотите удалить этот прицеп?" />
     </Datagrid>
   </List>
 );
 
 export const TrailerEdit = () => (
-  <Edit>
+  <Edit mutationMode="pessimistic">
     <SimpleForm>
-      <TextInput source="model" label="Модель" fullWidth />
-      <TextInput source="name" label="Название" fullWidth />
+      <TextInput source="model" label="Модель" fullWidth validate={validateRequired} />
+      <TextInput source="name" label="Название" fullWidth validate={validateRequired} />
       
-      <SelectInput source="category" choices={[
+      <SelectInput source="category" validate={validateRequired} choices={[
         { id: 'general', name: 'Универсальные' },
         { id: 'water', name: 'Лодочные' },
         { id: 'commercial', name: 'Коммерческие' }
       ]} />
       
-      <NumberInput source="price" label="Цена" />
+      <NumberInput source="price" label="Цена" validate={validatePrice} />
       <NumberInput source="capacity" label="Грузоподъемность (кг)" />
       <TextInput source="dimensions" label="Размеры кузова" />
       
@@ -87,6 +104,8 @@ export const TrailerEdit = () => (
         { id: 'days_1_3', name: '1-3 дня' },
         { id: 'days_7_14', name: '7-14 дней' }
       ]} />
+      
+      <NumberInput source="stock" label="Количество на складе" validate={validateStock} />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
       <TextInput source="image" label="URL изображения" fullWidth />
@@ -98,16 +117,16 @@ export const TrailerEdit = () => (
 export const TrailerCreate = () => (
   <Create>
     <SimpleForm>
-      <TextInput source="model" label="Модель" fullWidth />
-      <TextInput source="name" label="Название" fullWidth />
+      <TextInput source="model" label="Модель" fullWidth validate={validateRequired} />
+      <TextInput source="name" label="Название" fullWidth validate={validateRequired} />
       
-      <SelectInput source="category" choices={[
+      <SelectInput source="category" validate={validateRequired} choices={[
         { id: 'general', name: 'Универсальные' },
         { id: 'water', name: 'Лодочные' },
         { id: 'commercial', name: 'Коммерческие' }
       ]} />
       
-      <NumberInput source="price" label="Цена" />
+      <NumberInput source="price" label="Цена" validate={validatePrice} />
       <NumberInput source="capacity" label="Грузоподъемность (кг)" />
       <TextInput source="dimensions" label="Размеры кузова" />
       
@@ -116,6 +135,8 @@ export const TrailerCreate = () => (
         { id: 'days_1_3', name: '1-3 дня' },
         { id: 'days_7_14', name: '7-14 дней' }
       ]} defaultValue="in_stock" />
+      
+      <NumberInput source="stock" label="Количество на складе" validate={validateStock} />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
       <TextInput source="image" label="URL изображения" fullWidth />

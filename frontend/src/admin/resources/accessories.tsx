@@ -1,7 +1,22 @@
 import {
   List, Datagrid, TextField, NumberField, EditButton, BooleanField,
-  Edit, SimpleForm, TextInput, NumberInput, BooleanInput, Create, FunctionField
+  Edit, SimpleForm, TextInput, NumberInput, BooleanInput, Create, FunctionField,
+  required, minValue, DeleteWithConfirmButton,
+  BulkDeleteButton, BulkExportButton
 } from 'react-admin';
+
+// Валидаторы
+const validateRequired = required('Обязательное поле');
+const validatePrice = [required('Обязательное поле'), minValue(0, 'Цена не может быть отрицательной')];
+const validateStock = minValue(0, 'Остаток не может быть отрицательным');
+
+// Bulk Actions
+const AccessoryBulkActions = () => (
+  <>
+    <BulkExportButton />
+    <BulkDeleteButton mutationMode="pessimistic" />
+  </>
+);
 
 // Компонент миниатюры изображения
 const ThumbnailField = ({ source }: { source: string }) => (
@@ -42,23 +57,26 @@ const ThumbnailField = ({ source }: { source: string }) => (
 
 export const AccessoryList = () => (
   <List>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="edit" bulkActionButtons={<AccessoryBulkActions />}>
       <ThumbnailField source="image" />
       <TextField source="name" label="Название" />
       <TextField source="category" label="Категория" />
       <NumberField source="price" label="Цена" options={{ style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }} />
+      <NumberField source="stock" label="Остаток" />
       <BooleanField source="isUniversal" label="Универсальный" />
       <EditButton />
+      <DeleteWithConfirmButton confirmTitle="Удалить аксессуар?" confirmContent="Вы уверены, что хотите удалить этот аксессуар?" />
     </Datagrid>
   </List>
 );
 
 export const AccessoryEdit = () => (
-  <Edit>
+  <Edit mutationMode="pessimistic">
     <SimpleForm>
-      <TextInput source="name" label="Название" fullWidth />
+      <TextInput source="name" label="Название" fullWidth validate={validateRequired} />
       <TextInput source="category" label="Категория" />
-      <NumberInput source="price" label="Цена" />
+      <NumberInput source="price" label="Цена" validate={validatePrice} />
+      <NumberInput source="stock" label="Количество на складе" validate={validateStock} />
       <TextInput source="description" label="Описание" multiline fullWidth />
       <TextInput source="image" label="URL изображения" fullWidth />
       <BooleanInput source="isUniversal" label="Универсальный (для всех прицепов)" />
@@ -69,9 +87,10 @@ export const AccessoryEdit = () => (
 export const AccessoryCreate = () => (
   <Create>
     <SimpleForm>
-      <TextInput source="name" label="Название" fullWidth />
+      <TextInput source="name" label="Название" fullWidth validate={validateRequired} />
       <TextInput source="category" label="Категория" />
-      <NumberInput source="price" label="Цена" />
+      <NumberInput source="price" label="Цена" validate={validatePrice} />
+      <NumberInput source="stock" label="Количество на складе" validate={validateStock} />
       <TextInput source="description" label="Описание" multiline fullWidth />
       <TextInput source="image" label="URL изображения" fullWidth />
       <BooleanInput source="isUniversal" label="Универсальный (для всех прицепов)" defaultValue={true} />
