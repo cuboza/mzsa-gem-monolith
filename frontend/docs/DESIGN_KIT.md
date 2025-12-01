@@ -291,14 +291,13 @@ className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 | Компонент | Где используется |
 |-----------|------------------|
 | `StatusBadge` | `Profile.tsx`, `TrackOrder.tsx` |
-| `Card` | `About.tsx`, `Policy.tsx`, `Contacts.tsx`, `Delivery.tsx` |
+| `Card` | `About.tsx`, `Policy.tsx`, `Contacts.tsx`, `Delivery.tsx`, `Warranty.tsx`, `TrackOrder.tsx` |
 
 ### ⚠️ Требуют рефакторинга
 | Компонент | Inline-дублирования | Приоритет |
 |-----------|---------------------|-----------|
 | `Button` | 7+ мест (Home, Profile, Configurator, TrailerCard) | Высокий |
-| `Card` | ~10 мест (Warranty, TrackOrder, Profile) | Средний |
-| `Input` | Не проверено | Низкий |
+| `Input` | Формы поиска, регистрации | Средний |
 
 ### Рекомендации по рефакторингу
 

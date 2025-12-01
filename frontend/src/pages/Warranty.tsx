@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, FileText, AlertTriangle, Phone, CheckCircle, XCircle } from 'lucide-react';
+import { Card } from '../components/ui';
 
 export function Warranty() {
   return (
@@ -36,7 +37,7 @@ export function Warranty() {
             </div>
 
             {/* General Info */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <FileText className="w-7 h-7 text-orange-600" />
                 Общая информация
@@ -72,10 +73,10 @@ export function Warranty() {
               <p className="mt-6 text-gray-600">
                 Модель и серийный номер изделия должны соответствовать указанным в гарантийном талоне.
               </p>
-            </div>
+            </Card>
 
             {/* Warranty Claims */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <AlertTriangle className="w-7 h-7 text-orange-600" />
                 Обращение по гарантии
@@ -104,10 +105,10 @@ export function Warranty() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Card>
 
             {/* Warranty Limitations */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <XCircle className="w-7 h-7 text-red-600" />
                 Ограничения гарантии
@@ -141,10 +142,10 @@ export function Warranty() {
                   гарантийный срок исчисляется с даты изготовления изделия.
                 </p>
               </div>
-            </div>
+            </Card>
 
             {/* Recommended Actions */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <Card padding="lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Рекомендации по сохранению гарантии
               </h2>
@@ -162,7 +163,7 @@ export function Warranty() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
 
             {/* CTA */}
             <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-8 text-white text-center">

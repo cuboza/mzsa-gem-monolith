@@ -4,7 +4,7 @@ import { db } from '../services/api';
 import { Order } from '../types';
 import { Search, AlertCircle, Truck, Package, User, MapPin } from 'lucide-react';
 import { Timeline } from '../components/layout/Timeline';
-import { StatusBadge } from '../components/ui';
+import { StatusBadge, Card } from '../components/ui';
 import { formatPrice, formatDateTime } from '../utils';
 
 export const TrackOrder = () => {
@@ -51,7 +51,7 @@ export const TrackOrder = () => {
         <h1 className="text-3xl font-bold text-center mb-8">Отследить статус заказа</h1>
 
         {/* Поиск */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <Card padding="md" className="mb-8">
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
             <div className="flex-grow relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -71,7 +71,7 @@ export const TrackOrder = () => {
               {loading ? 'Поиск...' : 'Найти'}
             </button>
           </form>
-        </div>
+        </Card>
 
         {/* Ошибка */}
         {error && (
@@ -85,7 +85,7 @@ export const TrackOrder = () => {
         {order && (
           <div className="animate-fadeIn space-y-6">
             {/* Основная инфо */}
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <Card padding="none" className="overflow-hidden">
               <div className="p-6 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gray-50">
                 <div>
                   <div className="text-sm text-gray-500 uppercase tracking-wider font-semibold">Заказ №</div>
@@ -105,12 +105,12 @@ export const TrackOrder = () => {
                   }))}
                 />
               </div>
-            </div>
+            </Card>
 
             {/* Детали заказа */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Состав */}
-              <div className="bg-white rounded-xl shadow-sm p-6">
+              <Card padding="md">
                 <div className="flex items-center gap-2 mb-4 text-gray-700">
                   <Truck className="w-5 h-5" />
                   <h3 className="font-bold text-lg">Состав заказа</h3>
@@ -161,10 +161,10 @@ export const TrackOrder = () => {
                     <span className="text-blue-600">{formatPrice(order.configuration.totalPrice)} ₽</span>
                   </div>
                 </div>
-              </div>
+              </Card>
 
               {/* Клиент и Доставка */}
-              <div className="bg-white rounded-xl shadow-sm p-6">
+              <Card padding="md">
                 <div className="flex items-center gap-2 mb-6 text-gray-700">
                   <User className="w-5 h-5" />
                   <h3 className="font-bold text-lg">Данные получателя</h3>
@@ -197,7 +197,7 @@ export const TrackOrder = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         )}
