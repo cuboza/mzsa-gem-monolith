@@ -1,87 +1,144 @@
 # Архитектура проекта
 
-Проект построен по классической **Client-Server** архитектуре.
-Frontend взаимодействует с Backend через REST API.
+Проект построен на архитектуре **Jamstack** — статический фронтенд с облачной базой данных.
+Frontend может работать с разными провайдерами данных через абстракцию `IDatabaseProvider`.
 
 ## Стек технологий
 
-### Frontend
+### Frontend (основной)
 - **Framework**: React 18
 - **Build Tool**: Vite
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Admin Interface**: React Admin
 - **State Management**: React Context + Hooks
+- **Hosting**: Railway (https://mzsa-gem-monolith-production.up.railway.app)
 
-### Backend
+### Backend (устаревший, для локальной разработки)
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Database**: SQLite
 - **ORM**: Sequelize
 - **API**: REST
 
+### Основной источник данных — Supabase
+- **Database**: PostgreSQL (облако)
+- **URL**: https://pulqvocnuvpwnsnyvlpt.supabase.co
+- **Auth**: Supabase Auth
+- **RLS**: Row Level Security для защиты данных
+
 ## Архитектурные решения
 
 ### 1. Data Layer (Слой данных)
-- **Backend**:
-  - Используется реляционная база данных **SQLite** для хранения данных.
-  - **Sequelize** используется как ORM для описания моделей и миграций.
-  - Реализован REST API для основных сущностей (`trailers`, `orders`, `accessories`, `customers`, `settings`).
-- **Frontend**:
-  - Используется паттерн **Provider** (`RestProvider`), который абстрагирует HTTP-запросы к API.
-  - В `src/services/api/index.ts` можно переключаться между `RestProvider` (продакшн/дев с бэкендом) и `LocalStorageProvider` (автономный режим/прототипирование).
+- **Провайдеры данных** (переключаемые через `DATA_SOURCE` в `services/api/index.ts`):
+  - `SupabaseProvider` — облачная PostgreSQL база (для продакшена)
+  - `LocalStorageProvider` — браузерное хранилище (для автономной работы/демо)
+  - `RestProvider` — REST API к локальному бэкенду (устаревший)
+- **Текущий провайдер**: `local` (LocalStorage) — см. `services/api/index.ts`
 
 ### 2. Database Schema (Схема БД)
-Основные модели данных описаны в `backend/models/`:
-- **Trailer**: Расширенная модель прицепа, включающая:
-  - Основную информацию (модель, цена, наличие).
-  - Физические характеристики (размеры, вес).
-  - Технические характеристики (оси, подвеска, тормоза).
-  - Данные для скрейпинга (`sourceUrl`, `externalId`).
-  - Медиа (`image`, `images`).
-  - Маркетинговые флаги (`isPopular`, `isNew`, `isOnSale`, `isPriceReduced`).
-- **Order**: Заказы клиентов.
-- **Accessory**: Аксессуары и доп. оборудование.
-- **Customer**: База клиентов.
-- **Settings**: Глобальные настройки сайта.
+
+#### Supabase (основной)
+Таблицы в PostgreSQL:
+- **trailers** — прицепы (slug, model, name, retail_price, main_image_url, status, visible_on_site)
+- **categories** — категории прицепов (general, water, commercial)
+- **specifications** — характеристики прицепов
+- **features** — особенности/фичи
+- **images** — галерея изображений
+- **options** — опции/аксессуары
+- **trailer_options** — связь прицеп-опция
+- **leads** — заявки (в TypeScript: Order)
+- **lead_items** — состав заявки
+- **customers** — клиенты
+- **warehouses** — склады
+
+> **ВАЖНО**: Поля в Supabase отличаются от типов TypeScript!
+> См. маппинг в `supabaseProvider.ts` и `docs/DATA_MODELS.md`
+
+#### Backend SQLite (устаревший)
+Модели в `backend/models/`:
+- **Trailer**, **Order**, **Accessory**, **Customer**, **Settings**
 
 ### 3. Project Structure (Структура проекта)
 
 ```
 root/
-├── backend/            # Node.js сервер
-│   ├── models/         # Sequelize модели
-│   ├── database.js     # Подключение к SQLite
-│   ├── server.js       # Точка входа и API роуты
-│   ├── seed.js         # Скрипт инициализации БД
-│   └── db.json         # Исходные данные для сидинга
-├── frontend/           # React приложение
+├── frontend/           # React приложение (основной)
 │   ├── src/
-│   │   ├── admin/      # Админ-панель
-│   │   ├── services/   # API клиенты (RestProvider)
-│   │   └── ...
+│   │   ├── admin/      # Админ-панель React Admin
+│   │   ├── components/ # UI компоненты
+│   │   ├── pages/      # Страницы (Home, Catalog, Configurator...)
+│   │   ├── services/   # API провайдеры (Supabase, Local, REST)
+│   │   ├── types/      # TypeScript типы (авторитетный источник)
+│   │   ├── utils/      # Утилиты (format, searchParser, orderStatus)
+│   │   └── context/    # React Context
+│   └── public/         # Статические файлы
+├── backend/            # Node.js сервер (устаревший)
+│   ├── models/         # Sequelize модели
+│   └── ...
+├── scraper/            # Python скрапер mzsa.ru
+├── scripts/            # Скрипты импорта данных
+├── supabase/           # Миграции и функции Supabase
+├── output/             # Результаты скрапера
 └── docs/               # Документация
 ```
 
 ## Потоки данных
 
-1.  **Frontend** отправляет HTTP-запрос (GET/POST/PUT/DELETE) на `http://localhost:3001/api/...`.
-2.  **Express Server** принимает запрос, валидирует данные и обращается к БД через **Sequelize**.
-3.  **SQLite** выполняет операцию и возвращает результат.
-4.  **Frontend** получает JSON-ответ и обновляет UI.
+### Supabase (основной)
+1. **Frontend** вызывает метод `db.getTrailers()` из провайдера
+2. **SupabaseProvider** делает запрос к Supabase через `@supabase/supabase-js`
+3. **PostgreSQL** выполняет запрос с учётом RLS
+4. Данные маппятся из формата Supabase в TypeScript типы
+5. **Frontend** получает типизированные данные и обновляет UI
+
+### LocalStorage (демо/автономный режим)
+1. **Frontend** вызывает метод `db.getTrailers()`
+2. **LocalStorageProvider** читает/пишет данные в `localStorage`
+3. Данные уже в формате TypeScript типов
+
+### REST API (устаревший)
+1. **Frontend** → HTTP-запрос на `http://localhost:3001/api/...`
+2. **Express Server** → **Sequelize** → **SQLite**
+3. **Frontend** получает JSON-ответ
 
 ## Развертывание и запуск
 
-1.  **Backend**:
-    - `cd backend`
-    - `npm install`
-    - `npm run seed` (первичная загрузка данных)
-    - `npm start` (запуск сервера на порту 3001)
-2.  **Frontend**:
-    - `cd frontend`
-    - `npm install`
-    - `npm run dev` (запуск клиента на порту 5173)
+### Frontend (основной)
+```bash
+cd frontend
+npm install
+npm run dev      # Vite dev server на :5173
+npm run build    # Сборка (включает tsc -b для проверки типов)
+```
 
-## Ограничения и планы
-- Текущая реализация использует SQLite, что отлично подходит для разработки и небольших нагрузок. Для масштабирования можно легко переключиться на PostgreSQL/MySQL, изменив диалект Sequelize.
-- Аутентификация на бэкенде пока упрощена (или отсутствует), полагается на клиентскую логику. В будущем планируется внедрение JWT.
+### Backend (устаревший, для локальной разработки)
+```bash
+cd backend
+npm install
+npm run seed     # Первичная загрузка данных
+npm start        # Express на :3001
+```
+
+### Scraper (Python)
+```bash
+cd scraper
+pip install -r requirements.txt
+python scraper.py  # Результаты в output/
+```
+
+## Переключение провайдера данных
+
+В файле `frontend/src/services/api/index.ts`:
+```typescript
+const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
+```
+
+- `'supabase'` — продакшен, облачная PostgreSQL
+- `'local'` — демо режим, LocalStorage браузера
+- `'rest'` — локальный бэкенд на :3001
+
+## Продакшен
+- **Hosting**: Railway
+- **URL**: https://mzsa-gem-monolith-production.up.railway.app
+- **Database**: Supabase PostgreSQL

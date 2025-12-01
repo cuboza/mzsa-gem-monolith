@@ -25,7 +25,8 @@
 - Скрапер: `cd scraper && pip install -r requirements.txt && python scraper.py`; результаты сохраняются в `output/` по слагам прицепов.
 
 ## Источники данных и провайдеры
-- **Supabase** (по умолчанию): `SupabaseProvider` в `frontend/src/services/api/supabaseProvider.ts`
+- **LocalStorage** (текущий `DATA_SOURCE = 'local'`): демо-режим без сервера
+- **Supabase** (для продакшена): `SupabaseProvider` в `frontend/src/services/api/supabaseProvider.ts`
   - URL: `https://pulqvocnuvpwnsnyvlpt.supabase.co`
   - Таблицы: `trailers`, `categories`, `specifications`, `features`, `images`, `options`, `trailer_options`, `leads`, `lead_items`, `customers`, `warehouses`
   - **ВАЖНО**: Поля в Supabase отличаются от типов TypeScript:
@@ -64,6 +65,12 @@
 - `Configurator.tsx` — многошаговый мастер подбора прицепа (6 категорий техники: снегоход, лодка, квадроцикл, мотоцикл, авто, грузы)
 - `TrackOrder.tsx` — отслеживание статуса заказа
 - `Profile.tsx` — личный кабинет пользователя
+- `About.tsx` — о компании
+- `Contacts.tsx` — контакты и карта магазинов
+- `Delivery.tsx` — информация о доставке
+- `Warranty.tsx` — гарантия и сервис
+- `Policy.tsx` — политика конфиденциальности
+- `Login.tsx` / `Register.tsx` — авторизация
 
 ### Компоненты (`src/components/`)
 - `Header.tsx` — шапка с навигацией и умным поиском
