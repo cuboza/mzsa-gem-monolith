@@ -1,5 +1,14 @@
 export type UserRole = 'user' | 'manager' | 'admin';
 
+export interface AdminUser {
+  id: string;
+  username: string;
+  password?: string; // В реальном приложении здесь должен быть хеш
+  fullName: string;
+  role: 'admin' | 'manager';
+  isActive: boolean;
+}
+
 export interface Trailer {
   id: string;
   model: string; // "МЗСА 817700.002"
@@ -149,6 +158,7 @@ export interface Settings {
   contacts: {
     phone: string;
     email: string;
+    orderEmail?: string; // Email для заявок
     workHours: string;
     addresses: {
       region: 'ХМАО' | 'ЯНАО';
@@ -156,6 +166,24 @@ export interface Settings {
       address: string;
       coordinates?: [number, number];
     }[];
+  };
+  
+  social?: {
+    whatsapp?: string;
+    telegram?: string;
+    vk?: string;
+    youtube?: string;
+  };
+
+  seo?: {
+    defaultTitle?: string;
+    defaultDescription?: string;
+    yandexMetrikaId?: string;
+  };
+
+  notifications?: {
+    telegramChatId?: string;
+    emailEnabled?: boolean;
   };
   
   delivery: {

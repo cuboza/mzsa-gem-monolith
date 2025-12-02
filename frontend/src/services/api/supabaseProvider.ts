@@ -5,7 +5,7 @@
 
 import { supabase } from './supabaseClient';
 import type { IDatabaseProvider } from './interface';
-import type { Trailer, Accessory, Order, Customer, Settings } from '../../types';
+import type { Trailer, Accessory, Order, Customer, Settings, AdminUser } from '../../types';
 import { parseSearchQuery, mapVehicleCategoryToTrailerCategory } from '../../utils/searchParser';
 
 // Маппинг из Supabase в наши типы
@@ -154,6 +154,17 @@ function mapLeadStatus(status: string): Order['status'] {
     'cancelled': 'cancelled',
   };
   return statusMap[status] || 'new';
+}
+
+function mapSupabaseAdminUser(row: any): AdminUser {
+  return {
+    id: String(row.id ?? row.username ?? `temp-${Date.now()}`),
+    username: row.username || 'unknown',
+    password: row.password || undefined,
+    fullName: row.full_name || row.username || 'Без имени',
+    role: row.role === 'admin' ? 'admin' : 'manager',
+    isActive: row.is_active ?? true,
+  };
 }
 
 // Кэш категорий
@@ -779,6 +790,103 @@ return mapSupabaseLead(data);
       .eq('id', id);
 
     if (error) throw new Error(error.message);
+  },
+
+  // ========== USERS (ADMIN PANEL) ==========
+  async getUsers(): Promise<AdminUser[]> {
+    try {
+      const { data, error } = await supabase
+        .from('admin_users')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (error || !data) {
+        console.warn('Admin users table is empty or unavailable in Supabase');
+        return [];
+      }
+
+      return data.map(mapSupabaseAdminUser);
+    } catch (err) {
+      console.error('Error fetching admin users:', err);
+      return [];
+    }
+  },
+
+  async getUser(id: string): Promise<AdminUser | null> {
+    try {
+      const { data, error } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error || !data) {
+        return null;
+      }
+
+      return mapSupabaseAdminUser(data);
+    } catch (err) {
+      console.error('Error fetching admin user:', err);
+      return null;
+    }
+  },
+
+  async saveUser(user: AdminUser): Promise<AdminUser> {
+    const payload = {
+      username: user.username,
+      password: user.password || null,
+      full_name: user.fullName,
+      role: user.role,
+      is_active: user.isActive,
+    };
+
+    try {
+      if (user.id) {
+        const { data, error } = await supabase
+          .from('admin_users')
+          .update(payload)
+          .eq('id', user.id)
+          .select()
+          .single();
+
+        if (error || !data) {
+          throw error || new Error('User update failed');
+        }
+
+        return mapSupabaseAdminUser(data);
+      }
+
+      const { data, error } = await supabase
+        .from('admin_users')
+        .insert(payload)
+        .select()
+        .single();
+
+      if (error || !data) {
+        throw error || new Error('User creation failed');
+      }
+
+      return mapSupabaseAdminUser(data);
+    } catch (err) {
+      console.error('Error saving admin user:', err);
+      throw new Error('Не удалось сохранить пользователя');
+    }
+  },
+
+  async deleteUser(id: string): Promise<void> {
+    try {
+      const { error } = await supabase
+        .from('admin_users')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        throw error;
+      }
+    } catch (err) {
+      console.error('Error deleting admin user:', err);
+      throw new Error('Не удалось удалить пользователя');
+    }
   },
 
   // ========== SETTINGS ==========

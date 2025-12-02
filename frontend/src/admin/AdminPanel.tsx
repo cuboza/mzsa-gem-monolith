@@ -13,13 +13,15 @@ import { HeroSlidesAdmin } from './resources/heroSlides';
 import { StoresAdmin } from './resources/stores';
 import { WarehousesAdmin } from './resources/warehouses';
 import { Import1CAdmin } from './resources/import1c';
-import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload } from 'lucide-react';
+import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload, Shield } from 'lucide-react';
+import { UserList, UserEdit, UserCreate } from './resources/users';
 
 // Компоненты иконок для меню
 const OrderIcon = () => <ShoppingCart size={20} />;
 const TrailerIcon = () => <Package size={20} />;
 const AccessoryIcon = () => <Wrench size={20} />;
 const CustomerIcon = () => <Users size={20} />;
+const UserIcon = () => <Shield size={20} />;
 const SettingsIcon = () => <Settings size={20} />;
 const BackupIcon = () => <Database size={20} />;
 const HeroIcon = () => <Image size={20} />;
@@ -67,6 +69,16 @@ export const AdminPanel = () => (
         icon={CustomerIcon}
         options={{ label: 'Клиенты' }} 
       />,
+      permissions === 'admin' ? (
+        <Resource 
+          name="users" 
+          list={UserList} 
+          edit={UserEdit}
+          create={UserCreate}
+          icon={UserIcon}
+          options={{ label: 'Пользователи' }} 
+        />
+      ) : null,
       permissions === 'admin' ? (
         <Resource 
           name="hero-slides" 

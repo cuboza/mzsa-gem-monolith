@@ -1,6 +1,12 @@
-import { Trailer, Order, Customer, Settings, Accessory } from '../../types';
+import { Trailer, Order, Customer, Settings, Accessory, AdminUser } from '../../types';
 
 export interface IDatabaseProvider {
+  // Users
+  getUsers(): Promise<AdminUser[]>;
+  getUser(id: string): Promise<AdminUser | null>;
+  saveUser(user: AdminUser): Promise<AdminUser>;
+  deleteUser(id: string): Promise<void>;
+
   // Trailers
   getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]>;
   getTrailer(id: string): Promise<Trailer | null>;

@@ -41,6 +41,9 @@ export const dataProvider: DataProvider = {
       case 'accessories':
         data = await db.getAccessories();
         break;
+      case 'users':
+        data = await db.getUsers();
+        break;
       case 'settings':
         // Settings is a singleton, but React Admin expects a list
         const settings = await db.getSettings();
@@ -92,6 +95,9 @@ export const dataProvider: DataProvider = {
       case 'accessories':
         item = await db.getAccessory(id);
         break;
+      case 'users':
+        item = await db.getUser(id);
+        break;
       case 'settings':
         const settings = await db.getSettings();
         item = settings ? { id: 'default', ...settings } : null;
@@ -109,6 +115,7 @@ export const dataProvider: DataProvider = {
       case 'trailers': data = await db.getTrailers(); break;
       case 'customers': data = await db.getCustomers(); break;
       case 'accessories': data = await db.getAccessories(); break;
+      case 'users': data = await db.getUsers(); break;
       case 'settings': 
         const s = await db.getSettings();
         data = s ? [{ id: 'default', ...s }] : [];
@@ -138,6 +145,7 @@ export const dataProvider: DataProvider = {
     else if (resource === 'trailers') await db.saveTrailer(newItem as unknown as Trailer);
     else if (resource === 'customers') await db.saveCustomer(newItem as unknown as Customer);
     else if (resource === 'accessories') await db.saveAccessory(newItem as unknown as Accessory);
+    else if (resource === 'users') await db.saveUser(newItem as any);
 
     return { data: newItem } as any;
   },
@@ -153,6 +161,8 @@ export const dataProvider: DataProvider = {
       updatedItem = await db.saveCustomer({ ...params.previousData, ...params.data } as Customer);
     } else if (resource === 'accessories') {
       updatedItem = await db.saveAccessory({ ...params.previousData, ...params.data } as Accessory);
+    } else if (resource === 'users') {
+      updatedItem = await db.saveUser({ ...params.previousData, ...params.data } as any);
     } else if (resource === 'settings') {
       // Remove id from data before saving
       const { id, ...settingsData } = params.data;
@@ -171,6 +181,7 @@ export const dataProvider: DataProvider = {
     else if (resource === 'trailers') await db.deleteTrailer(id);
     else if (resource === 'customers') await db.deleteCustomer(id);
     else if (resource === 'accessories') await db.deleteAccessory(id);
+    else if (resource === 'users') await db.deleteUser(id);
     
     return { data: params.previousData } as any;
   },
@@ -184,6 +195,7 @@ export const dataProvider: DataProvider = {
       else if (resource === 'trailers') await db.deleteTrailer(id);
       else if (resource === 'customers') await db.deleteCustomer(id);
       else if (resource === 'accessories') await db.deleteAccessory(id);
+      else if (resource === 'users') await db.deleteUser(id);
     }
     
     return { data: ids } as any;

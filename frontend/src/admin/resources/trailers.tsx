@@ -11,6 +11,21 @@ const validateRequired = required('Обязательное поле');
 const validatePrice = [required('Обязательное поле'), minValue(0, 'Цена не может быть отрицательной')];
 const validateStock = minValue(0, 'Остаток не может быть отрицательным');
 
+// Хелпер для отображения наличия
+const getAvailabilityLabel = (availability: string, stock?: number) => {
+  // Если есть остаток > 0, показываем "В наличии"
+  if (stock && stock > 0) {
+    return 'В наличии';
+  }
+  // Иначе по значению availability
+  switch (availability) {
+    case 'in_stock': return 'В наличии';
+    case 'days_1_3': return '1-3 дня';
+    case 'days_7_14': return '7-14 дней';
+    default: return 'Под заказ';
+  }
+};
+
 // Bulk Actions
 const TrailerBulkActions = () => (
   <>
@@ -75,8 +90,26 @@ export const TrailerList = () => (
       <TextField source="name" label="Название" />
       <TextField source="category" label="Категория" />
       <NumberField source="price" label="Цена" options={{ style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }} />
-      <NumberField source="stock" label="Остаток" />
-      <TextField source="availability" label="Наличие" />
+      <NumberField source="stock" label="Остаток" emptyText="0" />
+      <FunctionField 
+        label="Наличие" 
+        render={(record: any) => {
+          const label = getAvailabilityLabel(record?.availability, record?.stock);
+          const isInStock = (record?.stock && record.stock > 0) || record?.availability === 'in_stock';
+          return (
+            <span style={{ 
+              padding: '2px 8px', 
+              borderRadius: 4, 
+              backgroundColor: isInStock ? '#dcfce7' : '#fef3c7',
+              color: isInStock ? '#166534' : '#92400e',
+              fontSize: 12,
+              fontWeight: 500
+            }}>
+              {label}
+            </span>
+          );
+        }}
+      />
       <EditButton />
       <DeleteWithConfirmButton confirmTitle="Удалить прицеп?" confirmContent="Вы уверены, что хотите удалить этот прицеп?" />
     </Datagrid>
@@ -99,13 +132,13 @@ export const TrailerEdit = () => (
       <NumberInput source="capacity" label="Грузоподъемность (кг)" />
       <TextInput source="dimensions" label="Размеры кузова" />
       
-      <SelectInput source="availability" choices={[
+      <NumberInput source="stock" label="Остаток на складе" validate={validateStock} helperText="При остатке > 0 статус автоматически 'В наличии'" />
+      
+      <SelectInput source="availability" label="Статус наличия (если остаток = 0)" choices={[
         { id: 'in_stock', name: 'В наличии' },
         { id: 'days_1_3', name: '1-3 дня' },
         { id: 'days_7_14', name: '7-14 дней' }
       ]} />
-      
-      <NumberInput source="stock" label="Количество на складе" validate={validateStock} />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
       <TextInput source="image" label="URL изображения" fullWidth />
@@ -130,13 +163,13 @@ export const TrailerCreate = () => (
       <NumberInput source="capacity" label="Грузоподъемность (кг)" />
       <TextInput source="dimensions" label="Размеры кузова" />
       
-      <SelectInput source="availability" choices={[
+      <NumberInput source="stock" label="Остаток на складе" validate={validateStock} defaultValue={0} helperText="При остатке > 0 статус автоматически 'В наличии'" />
+      
+      <SelectInput source="availability" label="Статус наличия (если остаток = 0)" choices={[
         { id: 'in_stock', name: 'В наличии' },
         { id: 'days_1_3', name: '1-3 дня' },
         { id: 'days_7_14', name: '7-14 дней' }
-      ]} defaultValue="in_stock" />
-      
-      <NumberInput source="stock" label="Количество на складе" validate={validateStock} />
+      ]} defaultValue="days_7_14" />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
       <TextInput source="image" label="URL изображения" fullWidth />

@@ -147,9 +147,24 @@ export const getAllImages = (trailer: Trailer): string[] => {
 // ============================================================================
 
 /**
- * Возвращает текстовый статус наличия
+ * Проверяет, есть ли товар в наличии (stock > 0 или availability === 'in_stock')
  */
-export const getAvailabilityLabel = (availability: Trailer['availability']): string => {
+export const isInStock = (trailer: Trailer): boolean => {
+  // Если есть остаток на складе > 0, то в наличии
+  if (trailer.stock && trailer.stock > 0) return true;
+  // Иначе по значению availability
+  return trailer.availability === 'in_stock';
+};
+
+/**
+ * Возвращает текстовый статус наличия
+ * Приоритет: stock > 0 → "В наличии", иначе по availability
+ */
+export const getAvailabilityLabel = (availability: Trailer['availability'], stock?: number): string => {
+  // Если есть остаток > 0, показываем "В наличии"
+  if (stock && stock > 0) {
+    return 'В наличии';
+  }
   const labels: Record<Trailer['availability'], string> = {
     in_stock: 'В наличии',
     days_1_3: '1-3 дня',
@@ -161,7 +176,11 @@ export const getAvailabilityLabel = (availability: Trailer['availability']): str
 /**
  * Возвращает CSS-классы для бейджа наличия
  */
-export const getAvailabilityClasses = (availability: Trailer['availability']): string => {
+export const getAvailabilityClasses = (availability: Trailer['availability'], stock?: number): string => {
+  // Если есть остаток > 0, показываем зелёный бейдж
+  if (stock && stock > 0) {
+    return 'bg-green-500 text-white';
+  }
   const classes: Record<Trailer['availability'], string> = {
     in_stock: 'bg-green-500 text-white',
     days_1_3: 'bg-blue-500 text-white',

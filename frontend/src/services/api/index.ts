@@ -15,7 +15,7 @@ class DatabaseFactory {
   public static getInstance(): IDatabaseProvider {
     if (!DatabaseFactory.instance) {
       if (DATA_SOURCE === 'supabase') {
-        DatabaseFactory.instance = SupabaseProvider;
+        DatabaseFactory.instance = new SupabaseProvider();
       } else if (DATA_SOURCE === 'rest') {
         DatabaseFactory.instance = new RestProvider();
       } else {

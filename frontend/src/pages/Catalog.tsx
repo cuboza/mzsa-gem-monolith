@@ -138,11 +138,11 @@ export const Catalog = () => {
       <BreadcrumbSchema items={breadcrumbs} />
       
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Каталог прицепов МЗСА</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-gray-900 dark:text-white">Каталог прицепов МЗСА</h1>
 
-        <ResponsiveSticky className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-8 z-30" stickyAt="md" maxHeight="auto" offsetClass="top-20">
+        <ResponsiveSticky className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-3 md:p-4 mb-4 md:mb-8 z-30" stickyAt="md" maxHeight="auto" offsetClass="top-20">
           {/* Поиск — над всеми фильтрами */}
-          <div className="mb-4">
+          <div className="mb-3 md:mb-4">
             <CatalogSearch 
               value={searchQuery}
               onChange={handleSearchChange}

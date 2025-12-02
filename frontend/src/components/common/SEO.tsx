@@ -27,7 +27,9 @@ export const ProductSchema = ({
   baseUrl = 'https://mzsa-gem-monolith-production.up.railway.app',
 }: ProductSchemaProps) => {
   const imageUrl = getMainImage(trailer);
-  const availability = trailer.availability === 'in_stock'
+  // Проверяем наличие по stock > 0 или availability === 'in_stock'
+  const isInStock = (trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock';
+  const availability = isInStock
     ? 'https://schema.org/InStock'
     : trailer.availability === 'days_1_3'
     ? 'https://schema.org/PreOrder'

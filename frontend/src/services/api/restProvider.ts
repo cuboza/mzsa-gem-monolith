@@ -1,5 +1,5 @@
 import { IDatabaseProvider } from './interface';
-import { Trailer, Order, Customer, Accessory, Settings } from '../../types';
+import { Trailer, Order, Customer, Accessory, Settings, AdminUser } from '../../types';
 
 // API URL: 
 // - В режиме разработки с отдельным бэкендом: VITE_API_URL=http://localhost:3001
@@ -7,6 +7,12 @@ import { Trailer, Order, Customer, Accessory, Settings } from '../../types';
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export class RestProvider implements IDatabaseProvider {
+  // --- Users (Stubs) ---
+  async getUsers(): Promise<AdminUser[]> { return []; }
+  async getUser(id: string): Promise<AdminUser | null> { return null; }
+  async saveUser(user: AdminUser): Promise<AdminUser> { return user; }
+  async deleteUser(id: string): Promise<void> {}
+
   async initializeData(trailers: Trailer[], accessories: Accessory[], settings: Settings, orders: Order[] = []): Promise<void> {
     // В REST API мы предполагаем, что данные уже есть на сервере.
     // Но для json-server можно проверить, пустая ли база, и если да - заполнить.

@@ -55,7 +55,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       )}
 
       {/* Изображение */}
-      <div className="relative h-36 sm:h-44 bg-white flex items-center justify-center overflow-hidden">
+      <div className="relative h-40 sm:h-44 bg-white flex items-center justify-center overflow-hidden rounded-t-xl">
         {imageUrl && !imageError ? (
           <>
             {/* Skeleton loader */}
@@ -67,7 +67,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
             <img 
               src={imageUrl} 
               alt={trailer.model} 
-              className={`w-full h-full object-contain scale-110 transition-all dark:mix-blend-multiply duration-300 ${
+              className={`w-full h-full object-contain p-2 transition-all duration-300 ${
                 imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
               }`}
               onLoad={() => setImageLoaded(true)}
@@ -92,13 +92,13 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
           )}
         </div>
 
-        {/* Наличие - используем утилиты из features */}
+        {/* Наличие - используем утилиты из features с учётом stock */}
         <Badge 
-          variant={trailer.availability === 'in_stock' ? 'success' : trailer.availability === 'days_1_3' ? 'info' : 'neutral'}
+          variant={(trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock' ? 'success' : trailer.availability === 'days_1_3' ? 'info' : 'neutral'}
           className="absolute top-2 right-2 sm:top-3 sm:right-3"
           size="sm"
         >
-          {getAvailabilityLabel(trailer.availability)}
+          {getAvailabilityLabel(trailer.availability, trailer.stock)}
         </Badge>
       </div>
 
@@ -188,7 +188,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
                 }}
                 className="bg-orange-600 hover:bg-orange-600 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm shadow-md transition-colors flex items-center justify-center"
               >
-                {trailer.availability === 'in_stock' ? 'Купить' : 'Заказать'}
+                {(trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock' ? 'Купить' : 'Заказать'}
               </button>
             </div>
           )}

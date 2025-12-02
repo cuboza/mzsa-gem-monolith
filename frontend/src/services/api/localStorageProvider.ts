@@ -1,5 +1,5 @@
 import { IDatabaseProvider } from './interface';
-import { Trailer, Order, Customer, Settings, Accessory } from '../../types';
+import { Trailer, Order, Customer, Settings, Accessory, AdminUser } from '../../types';
 
 const STORAGE_KEYS = {
   TRAILERS: 'onr_trailers',
@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
   ORDERS: 'onr_orders',
   CUSTOMERS: 'onr_customers',
   SETTINGS: 'onr_settings',
+  USERS: 'onr_users',
   INITIALIZED: 'onr_initialized'
 };
 
@@ -279,6 +280,37 @@ export class LocalStorageProvider implements IDatabaseProvider {
     const customers = this.get<Customer>(STORAGE_KEYS.CUSTOMERS);
     const filtered = customers.filter(c => c.id !== id);
     this.set(STORAGE_KEYS.CUSTOMERS, filtered);
+  }
+
+  // --- Users ---
+
+  async getUsers(): Promise<AdminUser[]> {
+    return this.get<AdminUser>(STORAGE_KEYS.USERS);
+  }
+
+  async getUser(id: string): Promise<AdminUser | null> {
+    const users = this.get<AdminUser>(STORAGE_KEYS.USERS);
+    return users.find(u => u.id === id) || null;
+  }
+
+  async saveUser(user: AdminUser): Promise<AdminUser> {
+    const users = this.get<AdminUser>(STORAGE_KEYS.USERS);
+    const index = users.findIndex(u => u.id === user.id);
+    
+    if (index >= 0) {
+      users[index] = user;
+    } else {
+      users.push(user);
+    }
+    
+    this.set(STORAGE_KEYS.USERS, users);
+    return user;
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    const users = this.get<AdminUser>(STORAGE_KEYS.USERS);
+    const filtered = users.filter(u => u.id !== id);
+    this.set(STORAGE_KEYS.USERS, filtered);
   }
 
   // --- Settings ---
