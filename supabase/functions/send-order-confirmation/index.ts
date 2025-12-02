@@ -189,6 +189,9 @@ function generateTelegramMessage(data: OrderData): string {
     ? data.accessories.map(acc => `• ${acc.name}`).join('\n')
     : 'Нет'
 
+  // Ссылка на админку с поиском по номеру заказа
+  const adminUrl = `https://mzsa-gem-monolith-production.up.railway.app/admin#/orders?filter=${encodeURIComponent(JSON.stringify({ q: data.orderNumber }))}`
+
   return `
 🔥 <b>Новый заказ ${data.orderNumber}</b>
 
@@ -208,6 +211,8 @@ ${accessoriesList}
 📦 <b>Получение:</b> ${data.deliveryMethod === 'delivery' ? 'Доставка' : 'Самовывоз'}
 
 💰 <b>Итого: ${formatPrice(data.totalPrice || 0)} ₽</b>
+
+<a href="${adminUrl}">📋 Открыть заказ ${data.orderNumber}</a>
   `.trim()
 }
 
