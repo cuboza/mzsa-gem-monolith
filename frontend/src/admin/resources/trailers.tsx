@@ -3,7 +3,7 @@ import {
   Edit, SimpleForm, TextInput, SelectInput, NumberInput,
   Filter, SearchInput, Create, FunctionField,
   required, minValue, DeleteWithConfirmButton,
-  BulkDeleteButton, BulkExportButton
+  BulkDeleteButton, BulkExportButton, BooleanInput, BooleanField
 } from 'react-admin';
 
 // Валидаторы
@@ -91,6 +91,7 @@ export const TrailerList = () => (
       <TextField source="category" label="Категория" />
       <NumberField source="price" label="Цена" options={{ style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }} />
       <NumberField source="stock" label="Остаток" emptyText="0" />
+      <BooleanField source="isVisible" label="Видим" />
       <FunctionField 
         label="Наличие" 
         render={(record: any) => {
@@ -140,6 +141,8 @@ export const TrailerEdit = () => (
         { id: 'days_7_14', name: '7-14 дней' }
       ]} />
       
+      <BooleanInput source="isVisible" label="Видимость в каталоге" defaultValue={true} helperText="Показывать в каталоге и конфигураторе" />
+      
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
       <TextInput source="image" label="URL изображения" fullWidth />
       <TextInput source="description" label="Описание" multiline fullWidth />
@@ -170,6 +173,8 @@ export const TrailerCreate = () => (
         { id: 'days_1_3', name: '1-3 дня' },
         { id: 'days_7_14', name: '7-14 дней' }
       ]} defaultValue="days_7_14" />
+      
+      <BooleanInput source="isVisible" label="Видимость в каталоге" defaultValue={true} helperText="Показывать в каталоге и конфигураторе" />
       
       <TextInput source="badge" label="Бейдж (Новинка/Хит)" />
       <TextInput source="image" label="URL изображения" fullWidth />

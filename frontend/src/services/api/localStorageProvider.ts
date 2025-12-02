@@ -83,8 +83,15 @@ export class LocalStorageProvider implements IDatabaseProvider {
 
   // --- Trailers ---
 
+  /**
+   * Получить прицепы для публичного сайта (только видимые isVisible !== false)
+   */
   async getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
     let trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
+    
+    // Фильтр видимости - скрываем прицепы с isVisible === false
+    // undefined считается как true (видимый по умолчанию)
+    trailers = trailers.filter(t => t.isVisible !== false);
     
     if (params?.category && params.category !== 'all') {
       trailers = trailers.filter(t => t.category === params.category);
@@ -146,6 +153,29 @@ export class LocalStorageProvider implements IDatabaseProvider {
 
         return false;
       });
+    }
+    
+    return trailers;
+  }
+
+  /**
+   * Получить ВСЕ прицепы для админки (включая скрытые isVisible === false)
+   */
+  async getAllTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
+    let trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
+    
+    // НЕ фильтруем по isVisible - это для админки
+    
+    if (params?.category && params.category !== 'all') {
+      trailers = trailers.filter(t => t.category === params.category);
+    }
+    
+    if (params?.q) {
+      const q = params.q.toLowerCase();
+      trailers = trailers.filter(t =>
+        t.model.toLowerCase().includes(q) ||
+        t.name.toLowerCase().includes(q)
+      );
     }
     
     return trailers;

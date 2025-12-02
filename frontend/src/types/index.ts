@@ -55,6 +55,9 @@ export interface Trailer {
   // Складские данные
   stock?: number; // количество на складе
   
+  // Видимость
+  isVisible?: boolean; // видимость в каталоге и конфигураторе (по умолчанию true)
+  
   // Метаданные
   createdAt?: string;
   updatedAt?: string;

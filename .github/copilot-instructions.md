@@ -40,6 +40,20 @@
 - **LocalStorage** (автономный): `LocalStorageProvider` для работы без сервера
 - Переключение: константа `DATA_SOURCE` в `frontend/src/services/api/index.ts`
 
+## Видимость прицепов (isVisible)
+Поле `isVisible` управляет показом прицепов:
+- **На сайте (каталог, конфигуратор)**: показываются только прицепы с `isVisible !== false`
+- **В админке**: показываются ВСЕ прицепы с возможностью редактировать флажок
+
+### API методы:
+- `getTrailers()` — для публичного сайта, возвращает только видимые (`isVisible !== false`)
+- `getAllTrailers()` — для админки, возвращает все прицепы
+
+### Маппинг полей:
+- **LocalStorage**: `trailer.isVisible`
+- **Supabase**: `visible_on_site` (булево поле в таблице `trailers`)
+- **REST/Backend**: `trailer.isVisible` + query param `?admin=true` для админки
+
 ## Категории прицепов (Supabase)
 В базе данных три категории (таблица `categories`):
 - `general` — Универсальные (бортовые) прицепы

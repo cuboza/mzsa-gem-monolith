@@ -33,7 +33,8 @@ export const dataProvider: DataProvider = {
         data = await db.getOrders();
         break;
       case 'trailers':
-        data = await db.getTrailers();
+        // Для админки используем getAllTrailers - показываем ВСЕ прицепы (включая скрытые)
+        data = await db.getAllTrailers();
         break;
       case 'customers':
         data = await db.getCustomers();
@@ -112,7 +113,7 @@ export const dataProvider: DataProvider = {
     let data: any[] = [];
     switch (resource) {
       case 'orders': data = await db.getOrders(); break;
-      case 'trailers': data = await db.getTrailers(); break;
+      case 'trailers': data = await db.getAllTrailers(); break;  // Для админки - все прицепы
       case 'customers': data = await db.getCustomers(); break;
       case 'accessories': data = await db.getAccessories(); break;
       case 'users': data = await db.getUsers(); break;

@@ -57,6 +57,16 @@ const Trailer = sequelize.define('Trailer', {
     defaultValue: false,
     comment: 'Новинка'
   },
+  isVisible: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+    comment: 'Видимость в каталоге и конфигураторе (для админки)'
+  },
+  stock: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    comment: 'Количество на складе'
+  },
   
   // --- Медиа (Media) ---
   image: {

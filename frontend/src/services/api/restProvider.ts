@@ -62,6 +62,9 @@ export class RestProvider implements IDatabaseProvider {
   }
 
   // --- Trailers ---
+  /**
+   * Получить прицепы для публичного сайта (на бэкенде добавить фильтр isVisible)
+   */
   async getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
     // Строим query string вручную, так как new URL() не работает с относительными путями
     const queryParams: string[] = [];
@@ -69,6 +72,21 @@ export class RestProvider implements IDatabaseProvider {
     if (params?.category && params.category !== 'all') queryParams.push(`category=${encodeURIComponent(params.category)}`);
     
     const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+    const res = await fetch(`${API_URL}/trailers${queryString}`);
+    const trailers = await res.json();
+    // Фильтр видимости на клиенте (пока бэкенд не обновлён)
+    return trailers.filter((t: Trailer) => t.isVisible !== false);
+  }
+
+  /**
+   * Получить ВСЕ прицепы для админки (без фильтра видимости)
+   */
+  async getAllTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
+    const queryParams: string[] = ['admin=true'];  // Указываем что это запрос из админки
+    if (params?.q) queryParams.push(`q=${encodeURIComponent(params.q)}`);
+    if (params?.category && params.category !== 'all') queryParams.push(`category=${encodeURIComponent(params.category)}`);
+    
+    const queryString = `?${queryParams.join('&')}`;
     const res = await fetch(`${API_URL}/trailers${queryString}`);
     return res.json();
   }

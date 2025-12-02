@@ -283,6 +283,10 @@ export const SupabaseProvider: IDatabaseProvider = {
     return trailersData.map((row: any) => {
       const trailer = mapSupabaseTrailer(row, categories);
       
+      // Добавляем isVisible из visible_on_site (для публичного сайта всегда true,
+      // так как фильтр .eq('visible_on_site', true) уже применён в запросе)
+      trailer.isVisible = row.visible_on_site ?? true;
+      
       // Добавляем specifications
       const specs = specsMap.get(row.id) || [];
       if (specs.length > 0) {
@@ -305,6 +309,124 @@ export const SupabaseProvider: IDatabaseProvider = {
             if (volumeValue) {
               trailer.maxVehicleVolume = volumeValue;
             }
+          }
+        });
+      }
+      
+      // Добавляем features
+      const features = featuresMap.get(row.id) || [];
+      if (features.length > 0) {
+        trailer.features = features
+          .sort((a: any, b: any) => a.display_order - b.display_order)
+          .map((f: any) => f.text);
+      }
+      
+      // Добавляем images
+      const images = imagesMap.get(row.id) || [];
+      if (images.length > 0) {
+        trailer.images = images
+          .sort((a: any, b: any) => a.display_order - b.display_order)
+          .map((img: any) => img.url);
+        if (trailer.images.length > 0) {
+          trailer.image = trailer.images[0];
+        }
+      }
+      
+      return trailer;
+    });
+  },
+
+  /**
+   * Получить ВСЕ прицепы для админки (включая скрытые visible_on_site = false)
+   */
+  async getAllTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
+    // Загружаем категории для маппинга
+    const categories = await loadCategories();
+    
+    // Находим category_id по slug если передана категория
+    let categoryId: string | null = null;
+    if (params?.category && params.category !== 'all') {
+      for (const [id, slug] of categories) {
+        if (slug === params.category) {
+          categoryId = id;
+          break;
+        }
+      }
+    }
+    
+    // Базовый запрос БЕЗ фильтра visible_on_site - для админки показываем всё
+    let query = supabase
+      .from('trailers')
+      .select('*');
+    
+    // Фильтр по категории
+    if (categoryId) {
+      query = query.eq('category_id', categoryId);
+    }
+    
+    // Поиск по тексту
+    if (params?.q && params.q.trim()) {
+      query = query.or(`name.ilike.%${params.q}%,model.ilike.%${params.q}%`);
+    }
+    
+    const { data: trailersData, error: trailersError } = await query
+      .order('sort_order', { ascending: true });
+
+    if (trailersError) {
+      console.error('Error fetching all trailers for admin:', trailersError);
+      return [];
+    }
+
+    if (!trailersData || trailersData.length === 0) {
+      return [];
+    }
+
+    // Получаем ID всех прицепов
+    const trailerIds = trailersData.map((t: any) => t.id);
+
+    // Загружаем связанные данные параллельно
+    const [specificationsRes, featuresRes, imagesRes] = await Promise.all([
+      supabase.from('specifications').select('*').in('trailer_id', trailerIds),
+      supabase.from('features').select('*').in('trailer_id', trailerIds),
+      supabase.from('images').select('*').eq('item_type', 'trailer').in('item_id', trailerIds),
+    ]);
+
+    // Группируем по trailer_id
+    const specsMap = new Map<string, any[]>();
+    (specificationsRes.data || []).forEach((spec: any) => {
+      const arr = specsMap.get(spec.trailer_id) || [];
+      arr.push(spec);
+      specsMap.set(spec.trailer_id, arr);
+    });
+
+    const featuresMap = new Map<string, any[]>();
+    (featuresRes.data || []).forEach((feat: any) => {
+      const arr = featuresMap.get(feat.trailer_id) || [];
+      arr.push(feat);
+      featuresMap.set(feat.trailer_id, arr);
+    });
+
+    const imagesMap = new Map<string, any[]>();
+    (imagesRes.data || []).forEach((img: any) => {
+      const arr = imagesMap.get(img.item_id) || [];
+      arr.push(img);
+      imagesMap.set(img.item_id, arr);
+    });
+
+    return trailersData.map((row: any) => {
+      const trailer = mapSupabaseTrailer(row, categories);
+      
+      // Добавляем isVisible из visible_on_site
+      trailer.isVisible = row.visible_on_site ?? true;
+      
+      // Добавляем specifications
+      const specs = specsMap.get(row.id) || [];
+      if (specs.length > 0) {
+        trailer.specs = { dimensions: '', capacity: '', weight: '', axles: 1 };
+        specs.forEach((spec: any) => {
+          trailer.specs![spec.key] = spec.value_numeric || spec.value_text;
+          if (spec.key === 'gruzopodemnost') {
+            trailer.capacity = spec.value_numeric || 0;
           }
         });
       }

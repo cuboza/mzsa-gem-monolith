@@ -71,6 +71,10 @@ export const useTrailerFilters = (
     const parsed = searchQuery ? parseSearchQuery(searchQuery) : null;
 
     let result = trailers.filter((trailer) => {
+      // ВАЖНО: Фильтрация по isVisible выполняется на уровне провайдера данных
+      // (getTrailers возвращает только видимые, getAllTrailers - все для админки)
+      // Здесь фильтр НЕ нужен - прицепы уже отфильтрованы
+
       // =========================================
       // 1. Фильтрация по категории прицепа
       // =========================================

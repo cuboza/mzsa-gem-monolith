@@ -120,6 +120,12 @@ app.get('/trailers', async (req, res) => {
   try {
     let where = {};
     
+    // Фильтр видимости: для публичного сайта показываем только isVisible !== false
+    // Админка отправляет ?admin=true чтобы получить все прицепы
+    if (!req.query.admin) {
+      where.isVisible = { [Op.ne]: false };
+    }
+    
     // Smart Search Logic for Trailers
     if (req.query.q) {
       const q = req.query.q.toLowerCase();
@@ -184,7 +190,7 @@ app.get('/trailers', async (req, res) => {
       }
       
       if (conditions.length > 0) {
-          where = { [Op.and]: conditions };
+          where = { ...where, [Op.and]: conditions };
       }
     }
     

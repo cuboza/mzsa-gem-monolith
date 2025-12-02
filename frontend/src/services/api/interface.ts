@@ -8,7 +8,10 @@ export interface IDatabaseProvider {
   deleteUser(id: string): Promise<void>;
 
   // Trailers
+  // getTrailers - для публичного сайта (только видимые прицепы с isVisible !== false)
   getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]>;
+  // getAllTrailers - для админки (все прицепы, включая скрытые)
+  getAllTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]>;
   getTrailer(id: string): Promise<Trailer | null>;
   saveTrailer(trailer: Trailer): Promise<Trailer>;
   deleteTrailer(id: string): Promise<void>;
