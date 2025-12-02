@@ -23,6 +23,7 @@ const Delivery = lazy(() => import('./pages/Delivery').then(m => ({ default: m.D
 const Warranty = lazy(() => import('./pages/Warranty').then(m => ({ default: m.Warranty })));
 const Policy = lazy(() => import('./pages/Policy').then(m => ({ default: m.Policy })));
 const Registration = lazy(() => import('./pages/Registration').then(m => ({ default: m.Registration })));
+const Favorites = lazy(() => import('./pages/Favorites').then(m => ({ default: m.Favorites })));
 const AdminPanel = lazy(() => import('./admin/AdminPanel').then(m => ({ default: m.AdminPanel })));
 
 // Компонент загрузки для Suspense
@@ -65,6 +66,7 @@ function App() {
                     <Route path="/delivery" element={<Delivery />} />
                     <Route path="/warranty" element={<Warranty />} />
                     <Route path="/registration" element={<Registration />} />
+                    <Route path="/favorites" element={<Favorites />} />
                     <Route path="/policy" element={<Policy />} />
                     <Route path="*" element={<div className="p-20 text-center text-2xl">404 - Страница не найдена</div>} />
                   </Routes>

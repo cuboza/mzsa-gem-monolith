@@ -20,6 +20,8 @@ import {
   calculateStockAfterReservation,
   calculateStockAfterRelease,
   calculateStockAfterCommit,
+  calculateStockAfterTransfer,
+  calculateStockAfterReturn,
   validateStockState,
   validateMultiWarehouseStock,
   normalizeCity,
@@ -687,5 +689,112 @@ describe('formatStockDisplay', () => {
       showQuantity: true,
     };
     expect(formatStockDisplay(stock, settings)).toBe('5 шт.');
+  });
+});
+
+// ============================================================================
+// ТЕСТЫ: ПЕРЕМЕЩЕНИЕ МЕЖДУ СКЛАДАМИ
+// ============================================================================
+
+describe('calculateStockAfterTransfer', () => {
+  it('успешное перемещение', () => {
+    const source = createStockInfo({
+      itemId: 'item-1',
+      warehouseId: 'wh-1',
+      quantity: 10,
+      availableQuantity: 10,
+      reservedQuantity: 0,
+    });
+    
+    const destination = createStockInfo({
+      itemId: 'item-1',
+      warehouseId: 'wh-2',
+      quantity: 5,
+      availableQuantity: 5,
+      reservedQuantity: 0,
+    });
+    
+    const { sourceStock, destinationStock } = calculateStockAfterTransfer(source, destination, 3);
+    
+    expect(sourceStock.quantity).toBe(7);
+    expect(sourceStock.availableQuantity).toBe(7);
+    expect(destinationStock.quantity).toBe(8);
+    expect(destinationStock.availableQuantity).toBe(8);
+  });
+  
+  it('ошибка при недостаточном количестве', () => {
+    const source = createStockInfo({
+      itemId: 'item-1',
+      quantity: 2,
+      availableQuantity: 2,
+    });
+    
+    const destination = createStockInfo({ itemId: 'item-1' });
+    
+    expect(() => calculateStockAfterTransfer(source, destination, 5))
+      .toThrow('Недостаточно товара');
+  });
+  
+  it('ошибка при нулевом количестве', () => {
+    const source = createStockInfo({ itemId: 'item-1', availableQuantity: 10 });
+    const destination = createStockInfo({ itemId: 'item-1' });
+    
+    expect(() => calculateStockAfterTransfer(source, destination, 0))
+      .toThrow('Количество для перемещения должно быть положительным');
+  });
+  
+  it('ошибка при разных товарах', () => {
+    const source = createStockInfo({ itemId: 'item-1', availableQuantity: 10 });
+    const destination = createStockInfo({ itemId: 'item-2' });
+    
+    expect(() => calculateStockAfterTransfer(source, destination, 1))
+      .toThrow('Перемещение возможно только для одного товара');
+  });
+});
+
+// ============================================================================
+// ТЕСТЫ: ВОЗВРАТ ТОВАРА
+// ============================================================================
+
+describe('calculateStockAfterReturn', () => {
+  it('успешный возврат', () => {
+    const stock = createStockInfo({
+      quantity: 5,
+      availableQuantity: 5,
+      reservedQuantity: 0,
+    });
+    
+    const returned = calculateStockAfterReturn(stock, 2);
+    
+    expect(returned.quantity).toBe(7);
+    expect(returned.availableQuantity).toBe(7);
+    expect(returned.reservedQuantity).toBe(0);
+  });
+  
+  it('возврат на пустой склад', () => {
+    const stock = createStockInfo({
+      quantity: 0,
+      availableQuantity: 0,
+      reservedQuantity: 0,
+    });
+    
+    const returned = calculateStockAfterReturn(stock, 1);
+    
+    expect(returned.quantity).toBe(1);
+    expect(returned.availableQuantity).toBe(1);
+  });
+  
+  it('ошибка при отрицательном количестве', () => {
+    const stock = createStockInfo({ quantity: 5 });
+    
+    expect(() => calculateStockAfterReturn(stock, -1))
+      .toThrow('Количество для возврата должно быть положительным');
+  });
+  
+  it('ошибка при нулевом количестве', () => {
+    const stock = createStockInfo({ quantity: 5 });
+    
+    expect(() => calculateStockAfterReturn(stock, 0))
+      .toThrow('Количество для возврата должно быть положительным');
   });
 });

@@ -11,6 +11,7 @@ import {
   getMainImage,
 } from '../features/trailers';
 import { useTrailerAvailability } from '../hooks/useAvailability';
+import { isFavorite, toggleFavorite } from '../pages/Favorites';
 
 // Хелперы теперь импортируются из features/trailers
 
@@ -26,6 +27,16 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [favorite, setFavorite] = useState(() => isFavorite(trailer.id));
+
+  // Слушаем изменения избранного
+  useEffect(() => {
+    const handleFavoritesChanged = () => {
+      setFavorite(isFavorite(trailer.id));
+    };
+    window.addEventListener('favoritesChanged', handleFavoritesChanged);
+    return () => window.removeEventListener('favoritesChanged', handleFavoritesChanged);
+  }, [trailer.id]);
 
   // Расчёт доступности с учётом города пользователя
   const availability = useTrailerAvailability(trailer);
@@ -164,8 +175,20 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
               showLabel
             />
             {!hideActions && (
-              <button className="p-1.5 sm:p-2 text-gray-400 hover:text-red-500 transition-colors">
-                <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const isNowFavorite = toggleFavorite(trailer.id);
+                  setFavorite(isNowFavorite);
+                }}
+                className={`p-1.5 sm:p-2 transition-colors ${
+                  favorite 
+                    ? 'text-red-500' 
+                    : 'text-gray-400 hover:text-red-500'
+                }`}
+                title={favorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+              >
+                <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${favorite ? 'fill-current' : ''}`} />
               </button>
             )}
           </div>

@@ -1,13 +1,25 @@
 import { Link, useLocation } from 'react-router-dom';
-import { User, Sun, Moon, FileText } from 'lucide-react';
+import { User, Sun, Moon, FileText, Heart } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { CitySelector } from './ui';
+import { getFavorites } from '../pages/Favorites';
 
 export const Header = () => {
   const location = useLocation();
   const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const [favoritesCount, setFavoritesCount] = useState(() => getFavorites().length);
+
+  // Слушаем изменения избранного
+  useEffect(() => {
+    const handleFavoritesChanged = () => {
+      setFavoritesCount(getFavorites().length);
+    };
+    window.addEventListener('favoritesChanged', handleFavoritesChanged);
+    return () => window.removeEventListener('favoritesChanged', handleFavoritesChanged);
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -60,6 +72,23 @@ export const Header = () => {
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
+
+            <Link
+              to="/favorites"
+              className={`relative p-2 rounded-lg transition-colors ${
+                isActive('/favorites')
+                  ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
+              title="Избранное"
+            >
+              <Heart size={20} />
+              {favoritesCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  {favoritesCount > 9 ? '9+' : favoritesCount}
+                </span>
+              )}
+            </Link>
             
             <Link
               to={user ? "/profile" : "/login"}

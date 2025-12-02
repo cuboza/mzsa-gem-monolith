@@ -15,6 +15,8 @@ import {
   calculateStockAfterReservation,
   calculateStockAfterRelease,
   calculateStockAfterCommit,
+  calculateStockAfterTransfer,
+  calculateStockAfterReturn,
   canReserve,
   selectWarehouseForReservation,
   prepareReservation,
@@ -636,5 +638,161 @@ describe('Итоговая проверка workflow', () => {
     expect(afterCommit?.totalReserved).toBe(0);
     
     console.log('🎉 Workflow завершён успешно!');
+  });
+});
+
+// ============================================================================
+// ТЕСТЫ: СЦЕНАРИЙ 8 - Перемещение между складами
+// ============================================================================
+
+describe('Сценарий 8: Перемещение товара между складами', () => {
+  let stockMap: Map<string, StockInfo[]>;
+  
+  beforeEach(() => {
+    stockMap = createInitialStock();
+  });
+  
+  it('Успешное перемещение прицепа из Сургута в Ноябрьск', () => {
+    // Начальные остатки: Сургут - 3 шт, Ноябрьск - 0 шт (прицепа 817701 нет)
+    const initialSurgut = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    expect(initialSurgut?.quantity).toBe(3);
+    expect(initialSurgut?.availableQuantity).toBe(3);
+    
+    // В Ноябрьске нет этого прицепа - создаём запись
+    const noyabrskStock: StockInfo = {
+      itemId: 'mzsa-817701',
+      itemType: 'trailer',
+      warehouseId: 'wh-noyabrsk',
+      quantity: 0,
+      availableQuantity: 0,
+      reservedQuantity: 0,
+    };
+    
+    // Перемещаем 1 прицеп
+    const { sourceStock, destinationStock } = calculateStockAfterTransfer(
+      initialSurgut!,
+      noyabrskStock,
+      1
+    );
+    
+    expect(sourceStock.quantity).toBe(2);
+    expect(sourceStock.availableQuantity).toBe(2);
+    expect(destinationStock.quantity).toBe(1);
+    expect(destinationStock.availableQuantity).toBe(1);
+  });
+  
+  it('Перемещение между существующими складами', () => {
+    // Прицеп 817701: Сургут - 3, Нижневартовск - 2
+    const surgutStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    const nvStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-nv');
+    
+    expect(surgutStock?.quantity).toBe(3);
+    expect(nvStock?.quantity).toBe(2);
+    
+    // Перемещаем 2 из Сургута в НВ
+    const { sourceStock, destinationStock } = calculateStockAfterTransfer(
+      surgutStock!,
+      nvStock!,
+      2
+    );
+    
+    expect(sourceStock.quantity).toBe(1); // 3 - 2
+    expect(sourceStock.availableQuantity).toBe(1);
+    expect(destinationStock.quantity).toBe(4); // 2 + 2
+    expect(destinationStock.availableQuantity).toBe(4);
+  });
+  
+  it('Нельзя переместить больше чем есть на складе', () => {
+    const surgutStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    const nvStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-nv');
+    
+    expect(() => calculateStockAfterTransfer(surgutStock!, nvStock!, 10))
+      .toThrow('Недостаточно товара');
+  });
+  
+  it('Нельзя переместить зарезервированный товар', () => {
+    // Резервируем 2 из 3
+    applyReservation(stockMap, 'mzsa-817701', 'wh-surgut', 2);
+    
+    const surgutStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    const nvStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-nv');
+    
+    expect(surgutStock?.availableQuantity).toBe(1);
+    expect(surgutStock?.reservedQuantity).toBe(2);
+    
+    // Можем переместить только 1
+    const { sourceStock } = calculateStockAfterTransfer(surgutStock!, nvStock!, 1);
+    expect(sourceStock.availableQuantity).toBe(0);
+    
+    // Но не 2
+    expect(() => calculateStockAfterTransfer(surgutStock!, nvStock!, 2))
+      .toThrow('Недостаточно товара');
+  });
+  
+  it('Нельзя переместить разные товары', () => {
+    const trailerStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    const optionStock = stockMap.get('opt-tent')?.find(s => s.warehouseId === 'wh-surgut');
+    
+    expect(() => calculateStockAfterTransfer(trailerStock!, optionStock!, 1))
+      .toThrow('Перемещение возможно только для одного товара');
+  });
+});
+
+// ============================================================================
+// ТЕСТЫ: СЦЕНАРИЙ 9 - Возврат товара от клиента
+// ============================================================================
+
+describe('Сценарий 9: Возврат товара от клиента', () => {
+  let stockMap: Map<string, StockInfo[]>;
+  
+  beforeEach(() => {
+    stockMap = createInitialStock();
+  });
+  
+  it('Возврат после выполнения заказа', () => {
+    // Начальное: 3 прицепа в Сургуте
+    let surgutStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    expect(surgutStock?.quantity).toBe(3);
+    
+    // Резервируем и списываем (продажа)
+    applyReservation(stockMap, 'mzsa-817701', 'wh-surgut', 1);
+    applyCommit(stockMap, 'mzsa-817701', 'wh-surgut', 1);
+    
+    surgutStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    expect(surgutStock?.quantity).toBe(2);
+    
+    // Возврат
+    const returned = calculateStockAfterReturn(surgutStock!, 1);
+    expect(returned.quantity).toBe(3);
+    expect(returned.availableQuantity).toBe(3);
+  });
+  
+  it('Возврат на другой склад (ближайший к клиенту)', () => {
+    // Клиент из Ноябрьска купил прицеп из Сургута
+    // При возврате принимаем на склад Ноябрьска
+    
+    // Создаём запись для Ноябрьска (там нет этого прицепа)
+    const noyabrskStock: StockInfo = {
+      itemId: 'mzsa-817701',
+      itemType: 'trailer',
+      warehouseId: 'wh-noyabrsk',
+      quantity: 0,
+      availableQuantity: 0,
+      reservedQuantity: 0,
+    };
+    
+    const returned = calculateStockAfterReturn(noyabrskStock, 1);
+    expect(returned.quantity).toBe(1);
+    expect(returned.availableQuantity).toBe(1);
+  });
+  
+  it('Нельзя вернуть отрицательное количество', () => {
+    const surgutStock = stockMap.get('mzsa-817701')?.find(s => s.warehouseId === 'wh-surgut');
+    
+    expect(() => calculateStockAfterReturn(surgutStock!, -1))
+      .toThrow('Количество для возврата должно быть положительным');
+      
+    expect(() => calculateStockAfterReturn(surgutStock!, 0))
+      .toThrow('Количество для возврата должно быть положительным');
   });
 });

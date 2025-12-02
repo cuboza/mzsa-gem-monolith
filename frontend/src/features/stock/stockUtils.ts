@@ -362,6 +362,79 @@ export function calculateStockAfterCommit(
   };
 }
 
+/**
+ * Результат перемещения между складами
+ */
+export interface TransferResult {
+  sourceStock: StockInfo;
+  destinationStock: StockInfo;
+}
+
+/**
+ * Рассчитывает остатки после перемещения между складами
+ * 
+ * @param sourceStock - Остатки на исходном складе
+ * @param destinationStock - Остатки на целевом складе  
+ * @param quantity - Количество для перемещения
+ * @returns Новые остатки для обоих складов
+ * @throws Error если недостаточно товара на исходном складе
+ */
+export function calculateStockAfterTransfer(
+  sourceStock: StockInfo,
+  destinationStock: StockInfo,
+  quantity: number
+): TransferResult {
+  if (quantity <= 0) {
+    throw new Error('Количество для перемещения должно быть положительным');
+  }
+  
+  if (sourceStock.availableQuantity < quantity) {
+    throw new Error(
+      `Недостаточно товара на складе ${sourceStock.warehouseName || sourceStock.warehouseId}. ` +
+      `Доступно: ${sourceStock.availableQuantity}, требуется: ${quantity}`
+    );
+  }
+  
+  if (sourceStock.itemId !== destinationStock.itemId) {
+    throw new Error('Перемещение возможно только для одного товара');
+  }
+
+  return {
+    sourceStock: {
+      ...sourceStock,
+      quantity: sourceStock.quantity - quantity,
+      availableQuantity: sourceStock.availableQuantity - quantity,
+    },
+    destinationStock: {
+      ...destinationStock,
+      quantity: destinationStock.quantity + quantity,
+      availableQuantity: destinationStock.availableQuantity + quantity,
+    },
+  };
+}
+
+/**
+ * Возвращает товар на склад (возврат от клиента)
+ * 
+ * @param stock - Текущие остатки на складе
+ * @param quantity - Количество возвращаемого товара
+ * @returns Новые остатки с добавленным товаром
+ */
+export function calculateStockAfterReturn(
+  stock: StockInfo,
+  quantity: number
+): StockInfo {
+  if (quantity <= 0) {
+    throw new Error('Количество для возврата должно быть положительным');
+  }
+  
+  return {
+    ...stock,
+    quantity: stock.quantity + quantity,
+    availableQuantity: stock.availableQuantity + quantity,
+  };
+}
+
 // ============================================================================
 // ВАЛИДАЦИЯ
 // ============================================================================

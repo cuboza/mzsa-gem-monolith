@@ -45,6 +45,8 @@ export {
   calculateStockAfterReservation,
   calculateStockAfterRelease,
   calculateStockAfterCommit,
+  calculateStockAfterTransfer,
+  calculateStockAfterReturn,
   
   // Валидация
   validateStockState,
@@ -55,3 +57,6 @@ export {
   aggregateStock,
   formatStockDisplay,
 } from './stockUtils';
+
+// Типы утилит
+export type { TransferResult } from './stockUtils';

@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { supabase } from '../services/api/supabaseClient';
 import { UserRole } from '../types';
 
 interface User {
@@ -6,13 +8,28 @@ interface User {
   email: string;
   name: string;
   role: UserRole;
+  phone?: string;
+  city?: string;
+}
+
+interface UserSettings {
+  preferredCity?: string;
+  theme?: 'light' | 'dark' | 'system';
+  emailNotifications?: boolean;
+  smsNotifications?: boolean;
+  pushNotifications?: boolean;
+  marketingConsent?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string) => Promise<void>;
-  register: (email: string, name: string) => Promise<void>;
-  logout: () => void;
+  session: Session | null;
+  settings: UserSettings | null;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<{ error?: string }>;
+  register: (email: string, password: string, name: string, phone?: string) => Promise<{ error?: string }>;
+  logout: () => Promise<void>;
+  updateSettings: (settings: Partial<UserSettings>) => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -20,60 +37,207 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [settings, setSettings] = useState<UserSettings | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('mzsa_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  // Загрузка настроек пользователя
+  const loadUserSettings = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('user_settings')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading user settings:', error);
+        return null;
+      }
+
+      if (data) {
+        return {
+          preferredCity: data.preferred_city,
+          theme: data.theme,
+          emailNotifications: data.email_notifications,
+          smsNotifications: data.sms_notifications,
+          pushNotifications: data.push_notifications,
+          marketingConsent: data.marketing_consent,
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error('Failed to load settings:', err);
+      return null;
     }
+  };
+
+  // Загрузка роли пользователя
+  const loadUserRole = async (userId: string): Promise<UserRole> => {
+    try {
+      const { data } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .single();
+
+      if (data?.role === 'admin') return 'admin';
+      if (data?.role === 'manager') return 'manager';
+      return 'user';
+    } catch {
+      return 'user';
+    }
+  };
+
+  // Преобразование Supabase User в наш User
+  const mapSupabaseUser = async (supabaseUser: SupabaseUser): Promise<User> => {
+    const role = await loadUserRole(supabaseUser.id);
+    
+    return {
+      id: supabaseUser.id,
+      email: supabaseUser.email || '',
+      name: supabaseUser.user_metadata?.full_name || supabaseUser.email?.split('@')[0] || 'Пользователь',
+      role,
+      phone: supabaseUser.user_metadata?.phone,
+      city: supabaseUser.user_metadata?.city,
+    };
+  };
+
+  // Инициализация при монтировании
+  useEffect(() => {
+    // Получаем текущую сессию
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      setSession(session);
+      
+      if (session?.user) {
+        const mappedUser = await mapSupabaseUser(session.user);
+        setUser(mappedUser);
+        
+        const userSettings = await loadUserSettings(session.user.id);
+        setSettings(userSettings);
+      }
+      
+      setLoading(false);
+    });
+
+    // Слушаем изменения auth состояния
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setSession(session);
+      
+      if (session?.user) {
+        const mappedUser = await mapSupabaseUser(session.user);
+        setUser(mappedUser);
+        
+        const userSettings = await loadUserSettings(session.user.id);
+        setSettings(userSettings);
+      } else {
+        setUser(null);
+        setSettings(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const login = async (email: string) => {
-    // Mock login - in a real app this would call an API
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        let role: UserRole = 'user';
-        if (email.includes('admin')) role = 'admin';
-        if (email.includes('manager')) role = 'manager';
+  const login = async (email: string, password: string) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-        const mockUser: User = {
-          id: '1',
-          email,
-          name: email.split('@')[0],
-          role
-        };
-        setUser(mockUser);
-        localStorage.setItem('mzsa_user', JSON.stringify(mockUser));
-        resolve();
-      }, 500);
-    });
+      if (error) {
+        return { error: error.message };
+      }
+
+      if (data.user) {
+        const mappedUser = await mapSupabaseUser(data.user);
+        setUser(mappedUser);
+        
+        const userSettings = await loadUserSettings(data.user.id);
+        setSettings(userSettings);
+      }
+
+      return {};
+    } catch (err) {
+      return { error: 'Произошла ошибка при входе' };
+    }
   };
 
-  const register = async (email: string, name: string) => {
-    // Mock registration
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const newUser: User = {
-          id: Math.random().toString(36).substr(2, 9),
-          email,
-          name,
-          role: 'user'
-        };
-        setUser(newUser);
-        localStorage.setItem('mzsa_user', JSON.stringify(newUser));
-        resolve();
-      }, 500);
-    });
+  const register = async (email: string, password: string, name: string, phone?: string) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+            phone: phone,
+          },
+        },
+      });
+
+      if (error) {
+        return { error: error.message };
+      }
+
+      if (data.user) {
+        const mappedUser = await mapSupabaseUser(data.user);
+        setUser(mappedUser);
+      }
+
+      return {};
+    } catch (err) {
+      return { error: 'Произошла ошибка при регистрации' };
+    }
   };
 
-
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('mzsa_user');
+    setSession(null);
+    setSettings(null);
+  };
+
+  const updateSettings = async (newSettings: Partial<UserSettings>) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('user_settings')
+        .upsert({
+          user_id: user.id,
+          preferred_city: newSettings.preferredCity,
+          theme: newSettings.theme,
+          email_notifications: newSettings.emailNotifications,
+          sms_notifications: newSettings.smsNotifications,
+          push_notifications: newSettings.pushNotifications,
+          marketing_consent: newSettings.marketingConsent,
+          marketing_consent_date: newSettings.marketingConsent ? new Date().toISOString() : null,
+        }, {
+          onConflict: 'user_id',
+        });
+
+      if (error) throw error;
+
+      setSettings(prev => ({ ...prev, ...newSettings }));
+    } catch (err) {
+      console.error('Failed to update settings:', err);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      session,
+      settings,
+      loading,
+      login, 
+      register, 
+      logout, 
+      updateSettings,
+      isAuthenticated: !!user 
+    }}>
       {children}
     </AuthContext.Provider>
   );
