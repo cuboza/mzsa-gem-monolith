@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { User, Sun, Moon } from 'lucide-react';
+import { User, Sun, Moon, FileText } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
@@ -23,8 +23,30 @@ export const Header = () => {
             />
           </Link>
 
-          {/* Переключатель темы и профиль */}
+          {/* Навигация и иконки */}
           <div className="flex items-center space-x-2">
+            <Link
+              to="/registration"
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isActive('/registration')
+                  ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
+            >
+              <FileText size={18} />
+              <span>Регистрация прицепа</span>
+            </Link>
+            <Link
+              to="/registration"
+              className={`sm:hidden p-2 rounded-lg transition-colors ${
+                isActive('/registration')
+                  ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
+              title="Регистрация прицепа"
+            >
+              <FileText size={20} />
+            </Link>
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { vehicleDatabase } from '../data/vehicles';
-import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff } from 'lucide-react';
+import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff, X } from 'lucide-react';
 import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';

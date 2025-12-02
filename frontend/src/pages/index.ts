@@ -7,3 +7,4 @@ export { Contacts } from './Contacts';
 export { Delivery } from './Delivery';
 export { Warranty } from './Warranty';
 export { Policy } from './Policy';
+export { Registration } from './Registration';

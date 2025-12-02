@@ -64,6 +64,7 @@ export const Footer = () => {
               <li><Link to="/about" className="hover:text-white">О компании</Link></li>
               <li><Link to="/delivery" className="hover:text-white">Доставка и оплата</Link></li>
               <li><Link to="/warranty" className="hover:text-white">Гарантия</Link></li>
+              <li><Link to="/registration" className="hover:text-white">Регистрация прицепа</Link></li>
               <li><Link to="/policy" className="hover:text-white">Политика конфиденциальности</Link></li>
             </ul>
           </div>

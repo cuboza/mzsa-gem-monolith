@@ -610,8 +610,6 @@ const adminHappyPath: TutorialSection = {
               Выбор количества ограничен полем <code>available_quantity</code>.
             </p>
           </div>
-            </p>
-          </div>
           <p className="mt-4 font-medium">Автоматические операции:</p>
           <ul className="list-disc list-inside space-y-1 text-gray-600">
             <li><strong>Новый заказ:</strong> available↓ reserved↑</li>
