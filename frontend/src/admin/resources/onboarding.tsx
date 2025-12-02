@@ -4,7 +4,7 @@
  */
 
 import { Title, usePermissions, useGetIdentity } from 'react-admin';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { 
   CheckCircle, 
   ShoppingCart, 
@@ -13,6 +13,7 @@ import {
   Settings, 
   Database, 
   ArrowRight,
+  ArrowDown,
   Lightbulb,
   Shield,
   ClipboardList,
@@ -42,7 +43,10 @@ import {
   Wrench,
   Boxes,
   LayoutDashboard,
-  Circle
+  Circle,
+  X,
+  Workflow,
+  GitBranch
 } from 'lucide-react';
 
 // =====================================================
@@ -76,6 +80,15 @@ interface OnboardingProgress {
   completedSteps: string[];
   currentSection: string;
   lastUpdated: string;
+}
+
+interface SearchResult {
+  sectionId: string;
+  sectionTitle: string;
+  stepId: string;
+  stepTitle: string;
+  matchText: string;
+  matchType: 'title' | 'description' | 'content' | 'tip';
 }
 
 // =====================================================
@@ -736,6 +749,268 @@ const allSections: TutorialSection[] = [
 ];
 
 // =====================================================
+// ФУНКЦИЯ ПОИСКА
+// =====================================================
+
+const searchInContent = (query: string): SearchResult[] => {
+  if (!query || query.length < 2) return [];
+  
+  const results: SearchResult[] = [];
+  const lowerQuery = query.toLowerCase();
+  
+  for (const section of allSections) {
+    for (const step of section.steps) {
+      // Поиск в заголовке шага
+      if (step.title.toLowerCase().includes(lowerQuery)) {
+        results.push({
+          sectionId: section.id,
+          sectionTitle: section.title,
+          stepId: step.id,
+          stepTitle: step.title,
+          matchText: step.title,
+          matchType: 'title'
+        });
+      }
+      
+      // Поиск в описании
+      if (step.description.toLowerCase().includes(lowerQuery)) {
+        results.push({
+          sectionId: section.id,
+          sectionTitle: section.title,
+          stepId: step.id,
+          stepTitle: step.title,
+          matchText: step.description,
+          matchType: 'description'
+        });
+      }
+      
+      // Поиск в советах
+      if (step.tips) {
+        for (const tip of step.tips) {
+          if (tip.toLowerCase().includes(lowerQuery)) {
+            results.push({
+              sectionId: section.id,
+              sectionTitle: section.title,
+              stepId: step.id,
+              stepTitle: step.title,
+              matchText: tip,
+              matchType: 'tip'
+            });
+            break; // Одно совпадение из советов достаточно
+          }
+        }
+      }
+    }
+  }
+  
+  // Убираем дубликаты по stepId
+  const uniqueResults = results.filter((result, index, self) =>
+    index === self.findIndex(r => r.stepId === result.stepId)
+  );
+  
+  return uniqueResults.slice(0, 10); // Максимум 10 результатов
+};
+
+// =====================================================
+// КОМПОНЕНТ ВИЗУАЛЬНОЙ СХЕМЫ HAPPY PATH
+// =====================================================
+
+const HappyPathDiagram = ({ 
+  section, 
+  progress,
+  onStepClick 
+}: { 
+  section: TutorialSection;
+  progress: OnboardingProgress;
+  onStepClick: (stepId: string) => void;
+}) => {
+  return (
+    <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl">
+      <div className="flex items-center gap-2 mb-6">
+        <Workflow size={20} className={section.color} />
+        <h3 className="font-bold text-gray-900">Схема: {section.title}</h3>
+      </div>
+      
+      <div className="flex flex-col items-center gap-2">
+        {section.steps.map((step, index) => {
+          const Icon = step.icon;
+          const isCompleted = progress.completedSteps.includes(step.id);
+          const isLast = index === section.steps.length - 1;
+          
+          return (
+            <div key={step.id} className="flex flex-col items-center">
+              {/* Шаг */}
+              <button
+                onClick={() => onStepClick(step.id)}
+                className={`
+                  group relative flex items-center gap-3 px-4 py-3 rounded-xl
+                  transition-all duration-200 hover:scale-105 hover:shadow-lg
+                  ${isCompleted 
+                    ? 'bg-green-100 border-2 border-green-300' 
+                    : `${section.bgColor} border-2 ${section.borderColor}`
+                  }
+                `}
+              >
+                <div className={`
+                  p-2 rounded-lg
+                  ${isCompleted ? 'bg-green-200' : 'bg-white'}
+                `}>
+                  {isCompleted ? (
+                    <CheckCircle size={20} className="text-green-600" />
+                  ) : (
+                    <Icon size={20} className={section.color} />
+                  )}
+                </div>
+                <div className="text-left">
+                  <div className={`font-medium ${isCompleted ? 'text-green-800' : 'text-gray-900'}`}>
+                    {index + 1}. {step.title}
+                  </div>
+                  <div className="text-xs text-gray-500 max-w-[200px] truncate">
+                    {step.description}
+                  </div>
+                </div>
+                
+                {/* Tooltip */}
+                <div className="
+                  absolute left-full ml-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg
+                  opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none
+                  whitespace-nowrap z-10
+                ">
+                  {step.tips?.[0] || step.description}
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
+                </div>
+              </button>
+              
+              {/* Стрелка вниз */}
+              {!isLast && (
+                <div className="py-1">
+                  <ArrowDown size={24} className="text-gray-300" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      
+      {/* Легенда */}
+      <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-center gap-6 text-sm">
+        <div className="flex items-center gap-2">
+          <div className={`w-4 h-4 rounded ${section.bgColor} border ${section.borderColor}`}></div>
+          <span className="text-gray-600">Не пройден</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 rounded bg-green-100 border-2 border-green-300"></div>
+          <span className="text-gray-600">Пройден</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// =====================================================
+// КОМПОНЕНТ ПОИСКА
+// =====================================================
+
+const SearchPanel = ({
+  onResultClick,
+  onClose
+}: {
+  onResultClick: (sectionId: string, stepId: string) => void;
+  onClose: () => void;
+}) => {
+  const [query, setQuery] = useState('');
+  const results = useMemo(() => searchInContent(query), [query]);
+  
+  return (
+    <div className="absolute inset-0 bg-black/50 z-50 flex items-start justify-center pt-20">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
+        {/* Поле поиска */}
+        <div className="p-4 border-b flex items-center gap-3">
+          <Search size={20} className="text-gray-400" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Поиск по мануалу... (заказы, клиенты, прицепы...)"
+            className="flex-1 text-lg outline-none"
+            autoFocus
+          />
+          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded">
+            <X size={20} className="text-gray-400" />
+          </button>
+        </div>
+        
+        {/* Результаты */}
+        <div className="max-h-96 overflow-y-auto">
+          {query.length < 2 ? (
+            <div className="p-8 text-center text-gray-500">
+              <Search size={32} className="mx-auto mb-3 text-gray-300" />
+              <p>Введите минимум 2 символа для поиска</p>
+              <p className="text-sm mt-2">Попробуйте: заказ, клиент, прицеп, статус</p>
+            </div>
+          ) : results.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">
+              <AlertTriangle size={32} className="mx-auto mb-3 text-gray-300" />
+              <p>Ничего не найдено по запросу "{query}"</p>
+            </div>
+          ) : (
+            <div className="divide-y">
+              {results.map((result, index) => (
+                <button
+                  key={`${result.stepId}-${index}`}
+                  onClick={() => {
+                    onResultClick(result.sectionId, result.stepId);
+                    onClose();
+                  }}
+                  className="w-full p-4 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+                    <span className="px-2 py-0.5 bg-gray-100 rounded text-xs">
+                      {result.sectionTitle}
+                    </span>
+                    <span>→</span>
+                    <span>{result.stepTitle}</span>
+                  </div>
+                  <div className="text-gray-900">
+                    {highlightMatch(result.matchText, query)}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    {result.matchType === 'title' && '📌 Заголовок'}
+                    {result.matchType === 'description' && '📝 Описание'}
+                    {result.matchType === 'tip' && '💡 Совет'}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        {/* Подсказка */}
+        <div className="p-3 bg-gray-50 border-t text-xs text-gray-500 flex items-center justify-between">
+          <span>Нажмите Enter для перехода к первому результату</span>
+          <span>ESC для закрытия</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Подсветка совпадений
+const highlightMatch = (text: string, query: string) => {
+  if (!query) return text;
+  const parts = text.split(new RegExp(`(${query})`, 'gi'));
+  return (
+    <span>
+      {parts.map((part, i) => 
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark key={i} className="bg-yellow-200 rounded px-0.5">{part}</mark>
+        ) : part
+      )}
+    </span>
+  );
+};
+
+// =====================================================
 // КОМПОНЕНТЫ
 // =====================================================
 
@@ -956,7 +1231,9 @@ const SectionContent = ({
   progress,
   onMarkComplete,
   onStepChange,
-  onNavigate
+  onNavigate,
+  showDiagram,
+  onToggleDiagram
 }: { 
   section: TutorialSection;
   currentStepId: string;
@@ -964,6 +1241,8 @@ const SectionContent = ({
   onMarkComplete: (stepId: string) => void;
   onStepChange: (stepId: string) => void;
   onNavigate?: (path: string) => void;
+  showDiagram: boolean;
+  onToggleDiagram: () => void;
 }) => {
   const currentStep = section.steps.find(s => s.id === currentStepId) || section.steps[0];
   const currentIndex = section.steps.findIndex(s => s.id === currentStepId);
@@ -973,12 +1252,27 @@ const SectionContent = ({
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Заголовок секции */}
       <div className={`px-6 py-4 ${section.bgColor} border-b ${section.borderColor}`}>
-        <div className="flex items-center gap-3">
-          <section.icon size={24} className={section.color} />
-          <div>
-            <h2 className="font-bold text-gray-900">{section.title}</h2>
-            <p className="text-sm text-gray-600">{section.description}</p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <section.icon size={24} className={section.color} />
+            <div>
+              <h2 className="font-bold text-gray-900">{section.title}</h2>
+              <p className="text-sm text-gray-600">{section.description}</p>
+            </div>
           </div>
+          <button
+            onClick={onToggleDiagram}
+            className={`
+              flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+              ${showDiagram 
+                ? 'bg-white text-gray-700 shadow-sm' 
+                : 'bg-white/50 text-gray-600 hover:bg-white'
+              }
+            `}
+          >
+            <Workflow size={16} />
+            {showDiagram ? 'Скрыть схему' : 'Показать схему'}
+          </button>
         </div>
       </div>
       
@@ -1011,14 +1305,27 @@ const SectionContent = ({
         })}
       </div>
       
-      {/* Контент шага */}
+      {/* Контент шага или схема */}
       <div className="flex-1 overflow-y-auto">
-        <StepContent 
-          step={currentStep}
-          isCompleted={isCompleted}
-          onMarkComplete={() => onMarkComplete(currentStep.id)}
-          onNavigate={onNavigate}
-        />
+        {showDiagram ? (
+          <div className="p-6">
+            <HappyPathDiagram 
+              section={section} 
+              progress={progress}
+              onStepClick={(stepId) => {
+                onStepChange(stepId);
+                onToggleDiagram();
+              }}
+            />
+          </div>
+        ) : (
+          <StepContent 
+            step={currentStep}
+            isCompleted={isCompleted}
+            onMarkComplete={() => onMarkComplete(currentStep.id)}
+            onNavigate={onNavigate}
+          />
+        )}
       </div>
       
       {/* Навигация */}
@@ -1069,6 +1376,8 @@ export const OnboardingList = () => {
     currentSection: 'visitor',
     lastUpdated: new Date().toISOString()
   });
+  const [showSearch, setShowSearch] = useState(false);
+  const [showDiagram, setShowDiagram] = useState(false);
 
   const userRole = (permissions as 'admin' | 'manager') || 'manager';
   const availableSections = allSections.filter(s => s.availableFor.includes(userRole));
@@ -1174,6 +1483,38 @@ export const OnboardingList = () => {
       saveProgress(newProgress);
     }
   }, [saveProgress]);
+  
+  // Переход из поиска
+  const handleSearchResultClick = useCallback((sectionId: string, stepId: string) => {
+    setActiveSection(sectionId);
+    setCurrentStepId(stepId);
+    setShowDiagram(false);
+    const newProgress = {
+      ...progress,
+      currentSection: sectionId,
+      lastUpdated: new Date().toISOString()
+    };
+    setProgress(newProgress);
+    saveProgress(newProgress);
+  }, [progress, saveProgress]);
+  
+  // Обработка клавиш
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+K или Cmd+K для поиска
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowSearch(true);
+      }
+      // ESC для закрытия
+      if (e.key === 'Escape') {
+        setShowSearch(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const currentSection = availableSections.find(s => s.id === activeSection) || availableSections[0];
   const totalSteps = allSections.reduce((acc, s) => acc + s.steps.length, 0);
@@ -1181,8 +1522,16 @@ export const OnboardingList = () => {
   const progressPercent = Math.round((completedSteps / totalSteps) * 100);
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col relative">
       <Title title="Обучение" />
+      
+      {/* Панель поиска */}
+      {showSearch && (
+        <SearchPanel 
+          onResultClick={handleSearchResultClick}
+          onClose={() => setShowSearch(false)}
+        />
+      )}
       
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
@@ -1198,17 +1547,31 @@ export const OnboardingList = () => {
               </p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-3xl font-bold">{progressPercent}%</div>
-            <div className="text-blue-100 text-sm">
-              {completedSteps} из {totalSteps} шагов
-            </div>
+          
+          {/* Поиск и прогресс */}
+          <div className="flex items-center gap-6">
+            {/* Кнопка поиска */}
             <button
-              onClick={handleResetProgress}
-              className="mt-2 text-xs text-blue-200 hover:text-white underline"
+              onClick={() => setShowSearch(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
             >
-              Сбросить прогресс
+              <Search size={18} />
+              <span className="text-sm">Поиск</span>
+              <kbd className="ml-2 px-1.5 py-0.5 bg-white/20 rounded text-xs">Ctrl+K</kbd>
             </button>
+            
+            <div className="text-right">
+              <div className="text-3xl font-bold">{progressPercent}%</div>
+              <div className="text-blue-100 text-sm">
+                {completedSteps} из {totalSteps} шагов
+              </div>
+              <button
+                onClick={handleResetProgress}
+                className="mt-2 text-xs text-blue-200 hover:text-white underline"
+              >
+                Сбросить прогресс
+              </button>
+            </div>
           </div>
         </div>
         
@@ -1240,6 +1603,8 @@ export const OnboardingList = () => {
             onMarkComplete={handleMarkComplete}
             onStepChange={setCurrentStepId}
             onNavigate={handleNavigate}
+            showDiagram={showDiagram}
+            onToggleDiagram={() => setShowDiagram(!showDiagram)}
           />
         )}
       </div>
