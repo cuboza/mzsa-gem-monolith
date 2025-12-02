@@ -4,6 +4,8 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+const TELEGRAM_BOT_TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN')
+const TELEGRAM_CHAT_IDS = Deno.env.get('TELEGRAM_CHAT_IDS') // Comma separated IDs
 const FROM_EMAIL = 'orders@o-n-r.ru'
 const ADMIN_EMAIL = 'info@o-n-r.ru'
 
@@ -59,8 +61,19 @@ serve(async (req) => {
       html: adminEmailHtml,
     })
 
+    // Отправка уведомления в Telegram
+    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_IDS) {
+      const chatIds = TELEGRAM_CHAT_IDS.split(',').map(id => id.trim()).filter(id => id)
+      const telegramMessage = generateTelegramMessage(orderData)
+      
+      // Отправляем всем получателям параллельно
+      await Promise.all(chatIds.map(chatId => 
+        sendTelegramMessage(TELEGRAM_BOT_TOKEN, chatId, telegramMessage)
+      ))
+    }
+
     return new Response(
-      JSON.stringify({ success: true, message: 'Emails sent successfully' }),
+      JSON.stringify({ success: true, message: 'Notifications sent successfully' }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
 
@@ -169,4 +182,52 @@ function generateAdminEmail(data: OrderData): string {
     </p>
   </div>
 </body></html>`
+}
+
+function generateTelegramMessage(data: OrderData): string {
+  const accessoriesList = data.accessories?.length
+    ? data.accessories.map(acc => `• ${acc.name}`).join('\n')
+    : 'Нет'
+
+  return `
+🔥 <b>Новый заказ ${data.orderNumber}</b>
+
+👤 <b>Клиент:</b>
+${data.customerName}
+📞 ${data.customerPhone}
+${data.customerEmail ? `📧 ${data.customerEmail}` : ''}
+📍 ${data.customerCity}
+
+🚛 <b>Прицеп:</b>
+${data.trailerModel || 'Не выбран'}
+${data.trailerName || ''}
+
+🛠 <b>Опции:</b>
+${accessoriesList}
+
+📦 <b>Получение:</b> ${data.deliveryMethod === 'delivery' ? 'Доставка' : 'Самовывоз'}
+
+💰 <b>Итого: ${formatPrice(data.totalPrice || 0)} ₽</b>
+  `.trim()
+}
+
+async function sendTelegramMessage(token: string, chatId: string, text: string) {
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: text,
+      parse_mode: 'HTML',
+    }),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.text()
+    console.error(`Failed to send Telegram message to ${chatId}: ${errorData}`)
+    // Don't throw error to prevent blocking other notifications
+  }
+  return response.json()
 }

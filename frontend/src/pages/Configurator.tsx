@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { vehicleDatabase } from '../data/vehicles';
-import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check } from 'lucide-react';
+import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff } from 'lucide-react';
 import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
@@ -32,6 +32,7 @@ export const Configurator = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [selectedTrailer, setSelectedTrailer] = useState<Trailer | null>(location.state?.trailer || null);
   const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
+  const [accessoryQuantities, setAccessoryQuantities] = useState<Record<string, number>>({});
   const [orderNumber, setOrderNumber] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
@@ -71,6 +72,14 @@ export const Configurator = () => {
             location.state.initialAccessories.includes(acc.id)
           );
           setSelectedAccessories(selectedAccs);
+
+          if (location.state.initialAccessoryQuantities) {
+            setAccessoryQuantities(location.state.initialAccessoryQuantities);
+          } else {
+            const initialQty: Record<string, number> = {};
+            selectedAccs.forEach(acc => initialQty[acc.id] = 1);
+            setAccessoryQuantities(initialQty);
+          }
         }
         
         // Переходим на указанный шаг (по умолчанию 4 - "Детали")
@@ -143,7 +152,7 @@ export const Configurator = () => {
 
   // Итоговая сумма
   const totalPrice = (selectedTrailer?.price || 0) + 
-    selectedAccessories.reduce((sum, acc) => sum + acc.price, 0);
+    selectedAccessories.reduce((sum, acc) => sum + (acc.price * (accessoryQuantities[acc.id] || 1)), 0);
 
   // Используем formatPrice из utils/
 
@@ -189,11 +198,33 @@ export const Configurator = () => {
     setSelectedTrailer(null); // Сброс прицепа при смене техники
   };
 
+  const updateAccessoryQuantity = (acc: Accessory, delta: number) => {
+    setAccessoryQuantities(prev => {
+      const currentQty = prev[acc.id] || 0;
+      const newQty = Math.max(0, currentQty + delta);
+      
+      if (newQty === 0) {
+        const { [acc.id]: _, ...rest } = prev;
+        setSelectedAccessories(prevAccs => prevAccs.filter(a => a.id !== acc.id));
+        return rest;
+      }
+      
+      if (currentQty === 0 && newQty > 0) {
+         if (!selectedAccessories.find(a => a.id === acc.id)) {
+            setSelectedAccessories(prevAccs => [...prevAccs, acc]);
+         }
+      }
+      
+      return { ...prev, [acc.id]: newQty };
+    });
+  };
+
   const handleAccessoryToggle = (acc: Accessory) => {
-    if (selectedAccessories.find(a => a.id === acc.id)) {
-      setSelectedAccessories(prev => prev.filter(a => a.id !== acc.id));
+    const currentQty = accessoryQuantities[acc.id] || 0;
+    if (currentQty > 0) {
+      updateAccessoryQuantity(acc, -currentQty);
     } else {
-      setSelectedAccessories(prev => [...prev, acc]);
+      updateAccessoryQuantity(acc, 1);
     }
   };
 
@@ -468,7 +499,11 @@ export const Configurator = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 max-h-[60vh] overflow-y-auto">
                 {accessories.map(acc => {
-                   const isSelected = selectedAccessories.some(a => a.id === acc.id);
+                   const quantity = accessoryQuantities[acc.id] || 0;
+                   const isSelected = quantity > 0;
+                   const stockValue = parseInt(acc.stock || '10', 10);
+                   const isInStock = stockValue > 0;
+
                    // Простая фильтрация аксессуаров (можно усложнить)
                    // Используем compatibility (массив) вместо compatibleWith
                    const accCompat = acc.compatibility || [];
@@ -484,38 +519,81 @@ export const Configurator = () => {
                    return (
                     <div 
                       key={acc.id}
-                      onClick={() => handleAccessoryToggle(acc)}
-                      className={`flex items-center p-4 rounded-xl border transition-all cursor-pointer ${
+                      onClick={() => {
+                        if (isInStock && !isSelected) handleAccessoryToggle(acc);
+                      }}
+                      className={`flex flex-col p-4 rounded-xl border transition-all ${
                         isSelected 
                           ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20 ring-1 ring-orange-200 dark:ring-orange-800' 
-                          : 'border-gray-100 dark:border-gray-600 dark:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-500'
+                          : isInStock
+                            ? 'border-gray-100 dark:border-gray-600 dark:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-500 cursor-pointer'
+                            : 'border-gray-100 dark:border-gray-600 dark:bg-gray-800 opacity-60 cursor-not-allowed'
                       }`}
                     >
-                      <div className={`w-6 h-6 rounded border mr-4 flex items-center justify-center flex-shrink-0 ${
-                        isSelected ? 'bg-orange-600 border-orange-500 text-white' : 'border-gray-300'
-                      }`}>
-                        {isSelected && <Check size={14} />}
-                      </div>
-                      
-                      {/* Фото аксессуара */}
-                      <div className="w-20 h-20 mr-4 flex-shrink-0 bg-white dark:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-500 overflow-hidden">
-                        <img 
-                          src={acc.image} 
-                          alt={acc.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
-                          }}
-                        />
+                      <div className="flex items-center w-full">
+                        <div className={`w-6 h-6 rounded border mr-4 flex items-center justify-center flex-shrink-0 ${
+                          isSelected 
+                            ? 'bg-orange-600 border-orange-500 text-white' 
+                            : isInStock
+                              ? 'border-green-500 bg-white dark:bg-gray-700 text-green-500'
+                              : 'border-red-300 bg-red-50 dark:bg-red-900/20 text-red-400'
+                        }`}>
+                          {isSelected ? <Check size={14} /> : (
+                            isInStock ? <Check size={14} /> : <X size={14} />
+                          )}
+                        </div>
+                        
+                        {/* Фото аксессуара */}
+                        <div className="w-20 h-20 mr-4 flex-shrink-0 bg-white dark:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-500 overflow-hidden">
+                          <img 
+                            src={acc.image} 
+                            alt={acc.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                            }}
+                          />
+                        </div>
+
+                        <div className="flex-grow min-w-0">
+                          <h4 className={`font-bold text-sm ${isInStock ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>{acc.name}</h4>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{acc.description}</p>
+                          
+                          {!isInStock && (
+                            <div className="text-xs font-bold text-red-500 flex items-center gap-1 mt-1">
+                              <CircleOff size={12} />
+                              Нет в наличии
+                            </div>
+                          )}
+                        </div>
+                        <div className="font-bold text-blue-700 dark:text-blue-400 ml-4 whitespace-nowrap">
+                          + {formatPrice(acc.price)} ₽
+                        </div>
                       </div>
 
-                      <div className="flex-grow">
-                        <h4 className="font-bold text-sm text-gray-900 dark:text-white">{acc.name}</h4>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">{acc.description}</p>
-                      </div>
-                      <div className="font-bold text-blue-700 dark:text-blue-400 ml-4 whitespace-nowrap">
-                        + {formatPrice(acc.price)} ₽
-                      </div>
+                      {isSelected && (
+                        <div className="flex items-center justify-end gap-3 mt-3 pt-3 border-t border-orange-200 dark:border-orange-800/30 w-full" onClick={e => e.stopPropagation()}>
+                          <span className="text-sm text-gray-600 dark:text-gray-300 mr-auto">Количество:</span>
+                          <button 
+                            onClick={() => updateAccessoryQuantity(acc, -1)}
+                            className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors"
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <span className="font-bold text-gray-900 dark:text-white w-6 text-center">{quantity}</span>
+                          <button 
+                            onClick={() => updateAccessoryQuantity(acc, 1)}
+                            disabled={quantity >= stockValue}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                              quantity >= stockValue 
+                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed' 
+                                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                            }`}
+                          >
+                            <Plus size={14} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                    );
                 })}
@@ -566,7 +644,9 @@ export const Configurator = () => {
                   {selectedAccessories.length > 0 && (
                     <div className="space-y-2 mb-4">
                       <div className="text-sm font-semibold text-gray-500 dark:text-gray-400">Дополнительно:</div>
-                      {selectedAccessories.map(acc => (
+                      {selectedAccessories.map(acc => {
+                        const qty = accessoryQuantities[acc.id] || 1;
+                        return (
                         <div key={acc.id} className="flex justify-between items-center text-sm pl-2 border-l-2 border-orange-200 dark:border-orange-700">
                           <div className="flex items-center gap-2">
                              <div className="w-8 h-8 bg-gray-100 dark:bg-gray-600 rounded overflow-hidden flex-shrink-0 border border-gray-200 dark:border-gray-500">
@@ -579,11 +659,13 @@ export const Configurator = () => {
                                   }}
                                 />
                              </div>
-                             <span className="text-gray-900 dark:text-white">{acc.name}</span>
+                             <span className="text-gray-900 dark:text-white">
+                               {acc.name} {qty > 1 && <span className="text-gray-500 dark:text-gray-400">x {qty}</span>}
+                             </span>
                           </div>
-                          <span className="text-gray-900 dark:text-white">{formatPrice(acc.price)} ₽</span>
+                          <span className="text-gray-900 dark:text-white">{formatPrice(acc.price * qty)} ₽</span>
                         </div>
-                      ))}
+                      )})}
                     </div>
                   )}
 

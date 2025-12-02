@@ -1,5 +1,5 @@
 import { Trailer } from '../types';
-import { Heart, Truck, Check } from 'lucide-react';
+import { Heart, Truck, Check, Clock, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Badge, NewBadge, SaleBadge, DiscountBadge, PopularBadge, Price, OptimizedImage } from './ui';
@@ -95,9 +95,14 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         {/* Наличие - используем утилиты из features с учётом stock */}
         <Badge 
           variant={(trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock' ? 'success' : trailer.availability === 'days_1_3' ? 'info' : 'neutral'}
-          className="absolute top-2 right-2 sm:top-3 sm:right-3"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-1"
           size="sm"
         >
+          {((trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock') ? (
+            <Check size={12} strokeWidth={3} />
+          ) : (
+            <Clock size={12} />
+          )}
           {getAvailabilityLabel(trailer.availability, trailer.stock)}
         </Badge>
       </div>

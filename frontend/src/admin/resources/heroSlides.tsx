@@ -18,6 +18,13 @@ const AVAILABLE_ICONS = [
   'Layers', 'Lock', 'Gauge', 'Activity'
 ];
 
+// Доступные изображения (из папки public/images/hero)
+const AVAILABLE_IMAGES = [
+  { value: '/images/hero/hero-freedom.png', label: 'Свобода (Горы)' },
+  { value: '/images/hero/hero-comfort.jpg', label: 'Комфорт (Лес)' },
+  { value: '/images/hero/hero-takeall.png', label: 'Возьми всё (Универсальный)' }
+];
+
 // Дефолтные слайды (те что сейчас в Home.tsx)
 const DEFAULT_SLIDES: HeroSlide[] = [
   {
@@ -170,15 +177,34 @@ const SlideEditor = ({
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               <Image size={14} className="inline mr-1" />
-              URL изображения
+              Изображение
             </label>
-            <input
-              type="text"
-              value={slide.image}
-              onChange={(e) => updateField('image', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="/images/hero/hero-example.jpg"
-            />
+            
+            <div className="space-y-2">
+              <select
+                value={AVAILABLE_IMAGES.some(img => img.value === slide.image) ? slide.image : 'custom'}
+                onChange={(e) => {
+                  if (e.target.value !== 'custom') {
+                    updateField('image', e.target.value);
+                  }
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="custom">Свой URL...</option>
+                {AVAILABLE_IMAGES.map(img => (
+                  <option key={img.value} value={img.value}>{img.label}</option>
+                ))}
+              </select>
+
+              <input
+                type="text"
+                value={slide.image}
+                onChange={(e) => updateField('image', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="/images/hero/hero-example.jpg"
+              />
+            </div>
+
             <p className="text-xs text-gray-500 mt-1">
               Рекомендуемый размер: 1920×1080px. Форматы: JPG, PNG, WebP
             </p>

@@ -84,6 +84,7 @@ interface Trailer {
   
   // --- Флаги (из badges[]) ---
   availability: Availability;
+  stock?: number;            // Количество на складе
   isPopular?: boolean;
   isNew?: boolean;
   isOnSale?: boolean;
@@ -163,6 +164,7 @@ interface Accessory {
   image: string;               // main_image_url
   compatibility?: string[];    // Через таблицу trailer_options
   required?: boolean;
+  stock?: string;              // Количество на складе
 }
 ```
 

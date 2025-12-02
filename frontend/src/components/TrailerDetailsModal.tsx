@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Trailer, Accessory } from '../types';
 import type { LucideIcon } from 'lucide-react';
-import { X, Check, ShoppingCart, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight, Maximize2, ArrowUpDown, Gauge, CircleDot, Anchor, MoveRight, MoveHorizontal } from 'lucide-react';
+import { X, Check, ShoppingCart, Ruler, Weight, Shield, Activity, CircleOff, ChevronLeft, ChevronRight, Maximize2, ArrowUpDown, Gauge, CircleDot, Anchor, MoveRight, MoveHorizontal, Plus, Minus } from 'lucide-react';
 import { accessories } from '../data/accessories';
 import { useNavigate } from 'react-router-dom';
 import { ResponsiveSticky } from './layout/ResponsiveSticky';
@@ -16,7 +16,7 @@ interface TrailerDetailsModalProps {
 
 export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalProps) => {
   const navigate = useNavigate();
-  const [selectedAccessoryIds, setSelectedAccessoryIds] = useState<string[]>([]);
+  const [selectedAccessories, setSelectedAccessories] = useState<Record<string, number>>({});
   const [showFullDescription, setShowFullDescription] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
@@ -225,24 +225,52 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     });
   }, [trailer]);
 
-  const toggleAccessory = (id: string) => {
-    setSelectedAccessoryIds(prev => 
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
+  const updateAccessoryQuantity = (id: string, delta: number) => {
+    setSelectedAccessories(prev => {
+      const currentQty = prev[id] || 0;
+      const newQty = Math.max(0, currentQty + delta);
+      
+      if (newQty === 0) {
+        const { [id]: _, ...rest } = prev;
+        return rest;
+      }
+      
+      return { ...prev, [id]: newQty };
+    });
   };
 
-  const selectedAccessories = compatibleAccessories.filter(a => selectedAccessoryIds.includes(a.id));
-  const optionsPrice = selectedAccessories.reduce((sum, acc) => sum + acc.price, 0);
+  const toggleAccessory = (id: string) => {
+    setSelectedAccessories(prev => {
+      if (prev[id]) {
+        const { [id]: _, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [id]: 1 };
+    });
+  };
+
+  const optionsPrice = compatibleAccessories.reduce((sum, acc) => {
+    const qty = selectedAccessories[acc.id] || 0;
+    return sum + (acc.price * qty);
+  }, 0);
+  
   const totalPrice = trailer.price + optionsPrice;
 
   // Используем formatPrice из utils/
 
   const handleOrder = () => {
     // Navigate to configurator step 4 (Details) with pre-selected trailer and accessories
+    // Convert map to array of IDs for compatibility, but ideally we should pass quantities
+    // For now, we'll pass IDs repeated by quantity or just IDs and handle quantity later if needed
+    // But the Configurator expects IDs. Let's just pass IDs for now.
+    // TODO: Update Configurator to handle quantities
+    const accessoryIds = Object.keys(selectedAccessories);
+    
     navigate('/configurator', { 
       state: { 
         trailer, 
-        initialAccessories: selectedAccessoryIds,
+        initialAccessories: accessoryIds,
+        initialAccessoryQuantities: selectedAccessories,
         skipToStep: 4 // Сразу на этап "Детали"
       } 
     });
@@ -516,24 +544,38 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
           <div className="flex flex-col flex-grow min-h-0">
             <div className="overflow-y-auto flex-grow custom-scrollbar">
               <div className="px-6 pb-6 space-y-3">
-                {compatibleAccessories.map(acc => (
+                {compatibleAccessories.map(acc => {
+                  const quantity = selectedAccessories[acc.id] || 0;
+                  const isSelected = quantity > 0;
+                  const stockValue = parseInt(acc.stock || '10', 10); // Default to 10 if not specified
+                  const isInStock = stockValue > 0;
+
+                  return (
                   <div 
                     key={acc.id}
-                    onClick={() => toggleAccessory(acc.id)}
                     className={`
-                      relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-start
-                      ${selectedAccessoryIds.includes(acc.id) 
+                      relative p-4 rounded-xl border-2 transition-all duration-200 flex items-start
+                      ${isSelected 
                         ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/30' 
-                        : 'border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-gray-50 dark:hover:bg-gray-700/50'}
+                        : isInStock 
+                          ? 'border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer'
+                          : 'border-gray-100 dark:border-gray-700 opacity-60 cursor-not-allowed bg-gray-50 dark:bg-gray-800'}
                     `}
+                    onClick={() => {
+                      if (isInStock && !isSelected) toggleAccessory(acc.id);
+                    }}
                   >
                     <div className={`
-                      w-5 h-5 rounded border flex items-center justify-center mr-4 mt-1 transition-colors
-                      ${selectedAccessoryIds.includes(acc.id)
+                      w-5 h-5 rounded border flex items-center justify-center mr-4 mt-1 transition-colors flex-shrink-0
+                      ${isSelected
                         ? 'bg-blue-500 border-blue-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700'}
+                        : isInStock 
+                          ? 'border-green-500 bg-white dark:bg-gray-700 text-green-500'
+                          : 'border-red-300 bg-red-50 dark:bg-red-900/20 text-red-400'}
                     `}>
-                      {selectedAccessoryIds.includes(acc.id) && <Check size={12} strokeWidth={3} />}
+                      {isSelected ? <Check size={12} strokeWidth={3} /> : (
+                        isInStock ? <Check size={12} strokeWidth={3} /> : <X size={12} strokeWidth={3} />
+                      )}
                     </div>
 
                     {acc.image && (
@@ -557,17 +599,50 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                       </div>
                     )}
                     
-                    <div className="flex-grow">
+                    <div className="flex-grow min-w-0">
                       <div className="flex justify-between items-start mb-1">
-                        <span className="font-semibold text-gray-900 dark:text-white">{acc.name}</span>
+                        <span className={`font-semibold ${isInStock ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+                          {acc.name}
+                        </span>
                         <span className="font-bold text-blue-600 whitespace-nowrap ml-2">
                           {formatPrice(acc.price)} ₽
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{acc.description}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{acc.description}</p>
+                      
+                      {!isInStock && (
+                        <div className="text-xs font-bold text-red-500 flex items-center gap-1">
+                          <CircleOff size={12} />
+                          Нет в наличии
+                        </div>
+                      )}
+
+                      {isSelected && (
+                        <div className="flex items-center gap-3 mt-2" onClick={e => e.stopPropagation()}>
+                          <button 
+                            onClick={() => updateAccessoryQuantity(acc.id, -1)}
+                            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors"
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <span className="font-bold text-gray-900 dark:text-white w-6 text-center">{quantity}</span>
+                          <button 
+                            onClick={() => updateAccessoryQuantity(acc.id, 1)}
+                            disabled={quantity >= stockValue}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                              quantity >= stockValue 
+                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed' 
+                                : 'bg-blue-100 dark:bg-blue-900/50 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400'
+                            }`}
+                          >
+                            <Plus size={14} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
+                );
+                })}
 
                 {compatibleAccessories.length === 0 && (
                   <div className="text-center py-8 text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed dark:border-gray-700">

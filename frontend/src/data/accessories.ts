@@ -11,7 +11,8 @@ export const accessories: Accessory[] = [
     "description": "",
     "compatibleWith": [
       "mzsa_817700_002"
-    ]
+    ],
+    "stock": "15"
   },
   {
     "id": "7709",
@@ -23,7 +24,8 @@ export const accessories: Accessory[] = [
     "description": "",
     "compatibleWith": [
       "mzsa_817700_002"
-    ]
+    ],
+    "stock": "0"
   },
   {
     "id": "904251",
@@ -35,7 +37,8 @@ export const accessories: Accessory[] = [
     "description": "Водонепроницаемый тент с двухсторонней пропиткой ПВХ (плотность 450–500 г/м²).Металлическая фурнитура с гальваническим покрытием.",
     "compatibleWith": [
       "mzsa_817700_002"
-    ]
+    ],
+    "stock": "5"
   },
   {
     "id": "7711",
