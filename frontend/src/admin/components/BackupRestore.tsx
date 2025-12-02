@@ -31,7 +31,8 @@ export const BackupRestore = () => {
     setLoading(true);
     try {
       const [trailers, accessories, orders, customers, settings] = await Promise.all([
-        db.getTrailers(),
+        // Backup should include all trailers (visible and hidden)
+        db.getAllTrailers(),
         db.getAccessories(),
         db.getOrders(),
         db.getCustomers(),

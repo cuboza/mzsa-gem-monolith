@@ -145,7 +145,7 @@ export const Dashboard = () => {
       try {
         const [orders, allTrailers, customers] = await Promise.all([
           db.getOrders(),
-          db.getTrailers(),
+          db.getAllTrailers(),
           db.getCustomers()
         ]);
 

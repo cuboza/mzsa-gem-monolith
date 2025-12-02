@@ -104,19 +104,22 @@ root/
 ## Потоки данных
 
 ### Supabase (основной)
-1. **Frontend** вызывает метод `db.getTrailers()` из провайдера
+1. **Frontend (Публичный сайт/Каталог/Конфигуратор)** вызывает метод `db.getTrailers()` из провайдера — публичный метод, возвращающий только видимые прицепы (isVisible !== false)
+2. **Админ-панель** использует `db.getAllTrailers()` — админский метод, возвращающий ВСЕ прицепы, включая скрытые (isVisible = false)
 2. **SupabaseProvider** делает запрос к Supabase через `@supabase/supabase-js`
 3. **PostgreSQL** выполняет запрос с учётом RLS
 4. Данные маппятся из формата Supabase в TypeScript типы
 5. **Frontend** получает типизированные данные и обновляет UI
 
 ### LocalStorage (демо/автономный режим)
-1. **Frontend** вызывает метод `db.getTrailers()`
+1. **Frontend (Публичный сайт/Каталог/Конфигуратор)** вызывает метод `db.getTrailers()` (фильтрует скрытые)
+2. **Админ-панель** вызывает `db.getAllTrailers()` (вернёт все прицепы)
 2. **LocalStorageProvider** читает/пишет данные в `localStorage`
 3. Данные уже в формате TypeScript типов
 
 ### REST API (устаревший)
-1. **Frontend** → HTTP-запрос на `http://localhost:3001/api/...`
+1. **Frontend (Публичный сайт/Каталог/Конфигуратор)** → HTTP-запрос на `http://localhost:3001/api/...` (публичный запрос — сервер добавляет фильтр видимости)
+2. **Админ-панель** → HTTP-запрос на `http://localhost:3001/api/...?admin=true` (запрос с admin=true возвращает все прицепы)
 2. **Express Server** → **Sequelize** → **SQLite**
 3. **Frontend** получает JSON-ответ
 
