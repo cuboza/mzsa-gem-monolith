@@ -8,7 +8,30 @@
 - **Routing**: React Router DOM v6
 - **State Management**: React Hooks (useState, useEffect, useContext)
 - **Admin Panel**: React Admin
-- **Data Layer**: IDatabaseProvider (RestProvider / LocalStorageProvider)
+- **Data Layer**: IDatabaseProvider (SupabaseProvider / LocalStorageProvider / RestProvider)
+
+### Модульная архитектура
+
+#### Feature-модули (`src/features/`)
+Бизнес-логика, сгруппированная по доменам:
+- `trailers/` — утилиты, константы и хуки для работы с прицепами
+
+#### UI-компоненты (`src/components/ui/`)
+- `Button`, `Input`, `Card`, `StatusBadge` — базовые компоненты
+- `Badge`, `NewBadge`, `SaleBadge`, `DiscountBadge`, `PopularBadge` — бейджи
+- `Price` — форматирование цен со скидками
+- `OptimizedImage` — оптимизированные изображения
+
+#### SEO-компоненты (`src/components/common/`)
+- `ProductSchema` — микроданные товара schema.org
+- `BreadcrumbSchema` — микроданные хлебных крошек
+- `LocalBusinessSchema` — микроданные компании
+- `useMetaTags` — хук для мета-тегов
+
+#### Кастомные хуки (`src/hooks/`)
+- `useBreakpoint` — адаптивность
+- `useHeroSlides` — управление каруселью
+- `useStores` — работа с магазинами
 
 ## Backend (УСТАРЕВШИЙ — только для локальной разработки)
 - **Runtime**: Node.js

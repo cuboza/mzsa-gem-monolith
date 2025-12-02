@@ -4,6 +4,38 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-12-01
+### Добавлено
+- **Feature-модули** (`src/features/`): Модульная архитектура для бизнес-логики
+  - `trailers/trailerUtils.ts` — утилиты: getAxlesCount, getCapacity, hasBrakes, getMainImage, getAvailabilityLabel
+  - `trailers/trailerConstants.ts` — константы: TRAILER_CATEGORIES, AVAILABILITY_LABELS, BODY_TYPES
+  - `trailers/useTrailerFilters.ts` — хук фильтрации каталога (замена 100+ строк useMemo)
+- **UI-компоненты** (`src/components/ui/`):
+  - `Badge.tsx` — универсальные бейджи: Badge, NewBadge, SaleBadge, DiscountBadge, PopularBadge
+  - `Price.tsx` — компонент цены с форматированием и скидками
+  - `OptimizedImage.tsx` — оптимизированное изображение с lazy loading
+- **SEO-компоненты** (`src/components/common/`):
+  - `SEO.tsx` — микроданные schema.org: ProductSchema, BreadcrumbSchema, LocalBusinessSchema
+  - `useMetaTags()` — хук для управления мета-тегами
+- **Кастомные хуки** (`src/hooks/`):
+  - `useHeroSlides.ts` — управление слайдами Hero карусели
+  - `useStores.ts` — работа с магазинами/филиалами
+- **Админ-ресурсы** (`src/admin/resources/`):
+  - `heroSlides.tsx` — управление Hero-каруселью на главной
+  - `stores.tsx` — управление магазинами/филиалами
+  - `warehouses.tsx` — управление складами
+  - `import1c.tsx` — импорт данных из 1С (stub)
+
+### Изменено
+- **TrailerCard.tsx**: Рефакторинг — использование Badge, Price компонентов и утилит из features/trailers
+- **Catalog.tsx**: Рефакторинг — замена useMemo на useTrailerFilters хук, добавление BreadcrumbSchema для SEO
+- **Home.tsx**: Добавление LocalBusinessSchema для SEO микроданных
+- **Документация**: Полное обновление всех инструкций и архитектурных документов
+
+### Удалено
+- Дублирующийся код из TrailerCard.tsx (~60 строк helper-функций)
+- Дублирующаяся логика фильтрации из Catalog.tsx (~100 строк useMemo)
+
 ## [0.4.0] - 2025-12-01
 ### Добавлено
 - **Supabase миграция**: Добавлены поля `max_vehicle_length`, `max_vehicle_width`, `max_vehicle_weight` в таблицу `trailers`

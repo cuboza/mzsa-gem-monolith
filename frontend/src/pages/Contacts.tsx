@@ -1,49 +1,10 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock, ExternalLink } from 'lucide-react';
 import { Card } from '../components/ui';
-
-interface StoreInfo {
-  city: string;
-  address: string;
-  phone: string;
-  phone2?: string;
-  hours: string;
-  mapLink: string;
-}
-
-const stores: StoreInfo[] = [
-  {
-    city: 'Сургут',
-    address: 'пр-т Мира, 55',
-    phone: '+7 (3462) 22-33-55',
-    phone2: '+7 (3462) 55-04-49',
-    hours: '9:00-20:00, без перерывов и выходных',
-    mapLink: 'https://yandex.ru/maps/-/CHuZjYBR',
-  },
-  {
-    city: 'Нижневартовск',
-    address: 'ул. Индустриальная, 11а',
-    phone: '+7 (3466) 62-54-20',
-    hours: '9:00-19:00, без перерывов и выходных',
-    mapLink: 'https://yandex.ru/maps/-/CHuZjLTP',
-  },
-  {
-    city: 'Ноябрьск',
-    address: 'ул. Ленина, 22',
-    phone: '+7 (3496) 42-46-14',
-    hours: '10:00-19:00, без перерывов и выходных',
-    mapLink: 'https://yandex.ru/maps/-/CHuZj4y2',
-  },
-  {
-    city: 'Новый Уренгой',
-    address: 'ул. Таёжная, 75',
-    phone: '+7 (3494) 22-21-52',
-    hours: '10:00-19:00, без перерывов и выходных',
-    mapLink: 'https://yandex.ru/maps/-/CHuZjS~I',
-  },
-];
+import { useStores } from '../hooks/useStores';
 
 export function Contacts() {
+  const { stores, mainStore } = useStores();
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
@@ -67,10 +28,10 @@ export function Contacts() {
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 mb-2">Единый номер</h2>
                   <a 
-                    href="tel:+73462223355" 
+                    href={`tel:${mainStore?.phone.replace(/[^+\d]/g, '') || '+73462223355'}`}
                     className="text-3xl font-bold text-orange-600 hover:text-orange-700 transition-colors"
                   >
-                    +7 (3462) 22-33-55
+                    {mainStore?.phone || '+7 (3462) 22-33-55'}
                   </a>
                 </div>
                 <div className="flex flex-col gap-2">

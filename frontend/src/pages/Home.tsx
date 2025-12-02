@@ -1,6 +1,10 @@
 ﻿import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Settings, Award, MapPin, Phone, Clock, ExternalLink, Shield, Truck, Wrench, CheckCircle, ChevronLeft, ChevronRight, Anchor, Package, Ruler, Zap, Layers, Lock, Gauge, Users, Box, Puzzle } from 'lucide-react';
+import { Settings, Award, MapPin, Phone, Clock, ExternalLink, Shield, Truck, Wrench, CheckCircle, ChevronLeft, ChevronRight, Users, Box, Puzzle } from 'lucide-react';
+import { useHeroSlides } from '../hooks/useHeroSlides';
+import { useStores } from '../hooks/useStores';
+import { DynamicIcon } from '../utils/iconUtils';
+import { LocalBusinessSchema } from '../components/common';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -8,6 +12,10 @@ export const Home = () => {
   const benefitsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  
+  // Загрузка слайдов и магазинов из настроек
+  const { slides: heroSlides } = useHeroSlides();
+  const { stores } = useStores();
 
   const techFeatures = [
     {
@@ -58,45 +66,6 @@ export const Home = () => {
       image: "/images/tech/cert_scan.jpg",
       footer: "ISO 9001 + EFQM 5★",
       footerColor: "text-red-600 dark:text-red-400"
-    }
-  ];
-
-  const heroSlides = [
-    {
-      image: '/images/hero/hero-freedom.png',
-      title: 'Свобода не знает границ.',
-      subtitle: 'Твой прицеп — тоже.',
-      description: 'Бортовые прицепы от 1.8 до 4.6 м кузова • Лодочные от 3 до 9 м судна • Фургоны от 5 до 8 м³ объёма • Грузоподъёмность до 2.6 тонн',
-      features: [
-        { icon: <Ruler className="w-5 h-5" />, text: 'Кузов: 1853×1231 — 4587×1511 мм' },
-        { icon: <Anchor className="w-5 h-5" />, text: 'Судно: 3000 — 9000 мм' },
-        { icon: <Package className="w-5 h-5" />, text: 'Фургоны: 5 — 7.9 м³' }
-      ],
-      cta: { text: 'Подобрать размер', action: () => navigate('/configurator') }
-    },
-    {
-      image: '/images/hero/hero-comfort.jpg',
-      title: 'Не выбирай между уютом и приключениями.',
-      subtitle: 'Бери всё сразу.',
-      description: 'Тенты 15+ конфигураций и цветов • Дуги, стойки, каркасы • Лебёдки и ложементы для лодок • Крылья, борта, аппарели',
-      features: [
-        { icon: <Settings className="w-5 h-5" />, text: 'Тенты: плоские, высокие, каркасные' },
-        { icon: <Anchor className="w-5 h-5" />, text: 'Лодочные: ролики, кильблоки, лебёдки' },
-        { icon: <Wrench className="w-5 h-5" />, text: '136 аксессуаров в наличии' }
-      ],
-      cta: { text: 'Выбрать опции', action: () => navigate('/catalog') }
-    },
-    {
-      image: '/images/hero/hero-takeall.png',
-      title: 'Возьми всё.',
-      subtitle: 'Один прицеп — тысяча возможностей.',
-      description: 'Снегоход зимой, лодка летом, стройматериалы круглый год. Универсальные прицепы МЗСА адаптируются под любую задачу.',
-      features: [
-        { icon: <Truck className="w-5 h-5" />, text: 'Универсальные: мото, груз, техника' },
-        { icon: <Shield className="w-5 h-5" />, text: 'Оцинковка: защита от коррозии' },
-        { icon: <Award className="w-5 h-5" />, text: 'Гарантия 1 год от завода' }
-      ],
-      cta: { text: 'Смотреть каталог', action: () => navigate('/catalog') }
     }
   ];
 
@@ -177,16 +146,9 @@ export const Home = () => {
 
   const advantages = [
     { icon: <Users className="w-8 h-8 text-white" />, title: "Партнер завода", desc: "15 лет" },
-    { icon: <Box className="w-8 h-8 text-white" />, title: "В наличии", desc: "В 4-х городах" },
+    { icon: <Box className="w-8 h-8 text-white" />, title: "В наличии", desc: `В ${stores.length} городах` },
     { icon: <Shield className="w-8 h-8 text-white" />, title: "Гарантия 1 год", desc: "От производителя" },
     { icon: <Puzzle className="w-8 h-8 text-white" />, title: "Аксессуары", desc: "Выбор опций" }
-  ];
-
-  const stores = [
-    { city: "Сургут", address: "пр-т Мира, 55", phone: "+7 (3462) 22-33-55", hours: "9:00-20:00", mapUrl: "https://yandex.ru/maps/-/CHEiV6wh" },
-    { city: "Нижневартовск", address: "ул. Индустриальная, 11а", phone: "+7 (3466) 62-54-20", hours: "9:00-19:00", mapUrl: "https://yandex.ru/maps/-/CHEiVCsN" },
-    { city: "Ноябрьск", address: "ул. Ленина, 22", phone: "+7 (3496) 42-46-14", hours: "10:00-19:00", mapUrl: "https://yandex.ru/maps/-/CHEiVC8R" },
-    { city: "Новый Уренгой", address: "ул. Таежная, 75", phone: "+7 (3494) 22-21-82", hours: "10:00-19:00", mapUrl: "https://yandex.ru/maps/-/CHEiVGzJ" }
   ];
 
   const categories = [
@@ -197,6 +159,9 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* SEO: Микроразметка для локального бизнеса */}
+      <LocalBusinessSchema />
+      
       {/* Hero Carousel */}
       <section className="relative h-[650px] sm:h-[700px] md:h-[700px] lg:h-[800px] overflow-hidden">
         {/* Slides */}
@@ -257,7 +222,9 @@ export const Home = () => {
                   }`}>
                     {slide.features.map((feature, fIdx) => (
                       <div key={fIdx} className="flex items-center gap-1.5 sm:gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-2.5 sm:px-4 py-1.5 sm:py-2 text-white">
-                        <span className="text-orange-400 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5">{feature.icon}</span>
+                        <span className="text-orange-400 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5">
+                          <DynamicIcon name={feature.icon} className="w-5 h-5" />
+                        </span>
                         <span className="text-xs sm:text-sm font-medium">{feature.text}</span>
                       </div>
                     ))}
@@ -268,11 +235,11 @@ export const Home = () => {
                     idx === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}>
                     <button
-                      onClick={slide.cta.action}
+                      onClick={() => navigate(slide.ctaLink)}
                       className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all transform hover:scale-105"
                     >
                       <Settings className="w-6 h-6 mr-2" />
-                      {slide.cta.text}
+                      {slide.ctaText}
                     </button>
                     <button
                       onClick={() => navigate('/catalog')}
@@ -466,7 +433,7 @@ export const Home = () => {
             <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">65+</div><div className="text-sm text-blue-200">Моделей прицепов</div></div>
             <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">136</div><div className="text-sm text-blue-200">Аксессуаров</div></div>
             <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">15</div><div className="text-sm text-blue-200">Лет на рынке</div></div>
-            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">4</div><div className="text-sm text-blue-200">Города присутствия</div></div>
+            <div><div className="text-4xl md:text-5xl font-bold text-orange-400 mb-2">{stores.length}</div><div className="text-sm text-blue-200">Города присутствия</div></div>
           </div>
         </div>
       </section>
@@ -481,15 +448,15 @@ export const Home = () => {
             <p className="text-gray-600 dark:text-gray-400">Сеть магазинов Охота на рыбалку — официальный дилер МЗСА в ХМАО и ЯНАО</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {stores.map((store, idx) => (
-              <div key={idx} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700">
+            {stores.map((store) => (
+              <div key={store.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">{store.city}</h3>
                 <div className="space-y-2.5 text-sm">
                   <div className="flex items-start gap-2"><MapPin className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" /><span className="text-gray-700 dark:text-gray-300">{store.address}</span></div>
                   <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-green-500 flex-shrink-0" /><a href={'tel:' + store.phone.replace(/[^\d+]/g, '')} className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">{store.phone}</a></div>
                   <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-orange-500 flex-shrink-0" /><span className="text-gray-700 dark:text-gray-300">{store.hours}</span></div>
                 </div>
-                <a href={store.mapUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"><ExternalLink className="w-4 h-4" />Показать на карте</a>
+                <a href={store.mapLink} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"><ExternalLink className="w-4 h-4" />Показать на карте</a>
               </div>
             ))}
           </div>

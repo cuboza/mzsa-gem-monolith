@@ -9,7 +9,11 @@ import { TrailerList, TrailerEdit, TrailerCreate } from './resources/trailers';
 import { AccessoryList, AccessoryEdit, AccessoryCreate } from './resources/accessories';
 import { CustomerList, CustomerEdit, CustomerCreate } from './resources/customers';
 import { SettingsEdit } from './resources/settings';
-import { ShoppingCart, Package, Wrench, Users, Settings, Database } from 'lucide-react';
+import { HeroSlidesAdmin } from './resources/heroSlides';
+import { StoresAdmin } from './resources/stores';
+import { WarehousesAdmin } from './resources/warehouses';
+import { Import1CAdmin } from './resources/import1c';
+import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload } from 'lucide-react';
 
 // Компоненты иконок для меню
 const OrderIcon = () => <ShoppingCart size={20} />;
@@ -18,6 +22,10 @@ const AccessoryIcon = () => <Wrench size={20} />;
 const CustomerIcon = () => <Users size={20} />;
 const SettingsIcon = () => <Settings size={20} />;
 const BackupIcon = () => <Database size={20} />;
+const HeroIcon = () => <Image size={20} />;
+const StoreIcon = () => <MapPin size={20} />;
+const WarehouseIcon = () => <Warehouse size={20} />;
+const Import1CIcon = () => <Upload size={20} />;
 
 export const AdminPanel = () => (
   <Admin
@@ -59,6 +67,38 @@ export const AdminPanel = () => (
         icon={CustomerIcon}
         options={{ label: 'Клиенты' }} 
       />,
+      permissions === 'admin' ? (
+        <Resource 
+          name="hero-slides" 
+          list={HeroSlidesAdmin}
+          icon={HeroIcon}
+          options={{ label: 'Hero-карусель' }} 
+        />
+      ) : null,
+      permissions === 'admin' ? (
+        <Resource 
+          name="stores" 
+          list={StoresAdmin}
+          icon={StoreIcon}
+          options={{ label: 'Магазины' }} 
+        />
+      ) : null,
+      permissions === 'admin' ? (
+        <Resource 
+          name="warehouses" 
+          list={WarehousesAdmin}
+          icon={WarehouseIcon}
+          options={{ label: 'Склады' }} 
+        />
+      ) : null,
+      permissions === 'admin' ? (
+        <Resource 
+          name="import-1c" 
+          list={Import1CAdmin}
+          icon={Import1CIcon}
+          options={{ label: 'Импорт 1С' }} 
+        />
+      ) : null,
       permissions === 'admin' ? (
         <Resource 
           name="settings" 

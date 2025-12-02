@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Trailer } from '../types';
 import { db } from '../services/api';
 import { TrailerCard } from '../components/TrailerCard';
@@ -8,7 +8,8 @@ import { CatalogSearch } from '../components/CatalogSearch';
 import { TrailerDetailsModal } from '../components/TrailerDetailsModal';
 import { useSearchParams } from 'react-router-dom';
 import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
-import { parseSearchQuery, mapVehicleCategoryToTrailerCategory } from '../utils/searchParser';
+import { useTrailerFilters, TRAILER_CATEGORIES } from '../features/trailers';
+import { BreadcrumbSchema } from '../components/common';
 
 export const Catalog = () => {
   const [trailers, setTrailers] = useState<Trailer[]>([]);
@@ -82,24 +83,26 @@ export const Catalog = () => {
     });
   };
 
-  const parseDimensions = (dimStr?: string) => {
-    if (!dimStr) return { length: 0, width: 0, height: 0 };
-    const match = dimStr.match(/(\d+)[xх](\d+)[xх](\d+)/);
-    if (match) {
-      return {
-        length: parseInt(match[1]),
-        width: parseInt(match[2]),
-        height: parseInt(match[3])
-      };
-    }
-    return { length: 0, width: 0, height: 0 };
-  };
+  // Используем хук из features/trailers для фильтрации и сортировки
+  const { filteredTrailers } = useTrailerFilters(trailers, {
+    searchQuery,
+    category: activeCategory,
+    onlyInStock,
+    minPrice,
+    maxPrice,
+    axles,
+    brakes,
+    sortOption,
+  });
 
-  const parseBoatLength = (dimStr?: string) => {
-    if (!dimStr) return 0;
-    const match = dimStr.match(/(\d+)/);
-    return match ? parseInt(match[1]) : 0;
-  };
+  // Хлебные крошки для SEO
+  const breadcrumbs = [
+    { name: 'Главная', url: '/' },
+    { name: 'Каталог', url: '/catalog' },
+    ...(activeCategory !== 'all' ? [{ 
+      name: TRAILER_CATEGORIES.find(c => c.id === activeCategory)?.name || activeCategory 
+    }] : [])
+  ];
 
   useEffect(() => {
     const loadTrailers = async () => {
@@ -119,139 +122,7 @@ export const Catalog = () => {
     loadTrailers();
   }, [activeCategory]); // Загружаем только при смене категории
 
-  // Client-side filtering and sorting
-  const filteredTrailers = useMemo(() => {
-    // Парсим поисковый запрос для умного поиска
-    const parsed = searchQuery ? parseSearchQuery(searchQuery) : null;
-    
-    let result = trailers.filter(trailer => {
-      // 0a. Фильтрация по категории техники (boat, snowmobile, cargo и т.д.)
-      if (parsed?.category) {
-        const vehicleCategory = parsed.category;
-        // Мапим категорию техники на категорию прицепа
-        const requiredTrailerCategory = mapVehicleCategoryToTrailerCategory(vehicleCategory);
-        
-        // Проверяем совместимость
-        if (requiredTrailerCategory && trailer.category !== requiredTrailerCategory) {
-          // Если категория техники задана, прицеп должен быть совместим
-          return false;
-        }
-        
-        // Дополнительно проверяем compatibility массив
-        if (trailer.compatibility && !trailer.compatibility.includes(vehicleCategory as any)) {
-          // Если прицеп явно не совместим с этой техникой
-          // return false; // Пока не блокируем, только по категории
-        }
-      }
-      
-
-      // 0b. Умный поиск по размерам - прицеп должен ВМЕЩАТЬ указанную технику
-      // но показываем только "следующий размер", не слишком большие
-      if (parsed?.length) {
-        // Источники максимальной длины техники:
-        // 1. maxVehicleLength - явное поле
-        // 2. specs.dlina_sudna - поле из Supabase
-        // 3. bodyDimensions - для лодочных прицепов
-        const trailerMaxLength = trailer.maxVehicleLength ||
-          parseInt(String(trailer.specs?.dlina_sudna || '').replace(/\D/g, '')) ||
-          parseInt(String(trailer.bodyDimensions || '').replace(/\D/g, '')) || 0;
-        
-        // Порог: показываем прицепы на 1500мм больше запрошенного размера
-        // Для лодки 5м (5000) покажем прицепы 5000-6500мм (5.2, 5.45, 5.7, 6.2)
-        const NEXT_SIZE_THRESHOLD = 1500; // мм
-        const maxAllowed = parsed.length + NEXT_SIZE_THRESHOLD;
-        
-        if (trailerMaxLength < parsed.length || trailerMaxLength > maxAllowed) return false;
-      }
-      
-      if (parsed?.volume) {
-        // Фильтр по объёму: maxVehicleVolume >= запрошенный_объём
-        const trailerVolume = trailer.maxVehicleVolume ||
-          parseFloat(String(trailer.specs?.objem_kuzova || '').replace(',', '.').replace(/[^\d.]/g, '')) || 0;
-        if (trailerVolume < parsed.volume) return false;
-      }
-      
-      if (parsed?.weight) {
-        // Фильтр по весу: грузоподъёмность >= запрошенный_вес
-        const trailerCapacity = trailer.capacity ||
-          parseInt(String(trailer.specs?.gruzopodemnost || '').replace(/\D/g, '')) || 0;
-        if (trailerCapacity < parsed.weight) return false;
-      }
-      
-      // Текстовый поиск по cleanQuery (если есть текст после парсинга размеров)
-      if (parsed?.cleanQuery && parsed.cleanQuery.trim()) {
-        const searchLower = parsed.cleanQuery.toLowerCase();
-        const nameMatch = trailer.name?.toLowerCase().includes(searchLower);
-        const modelMatch = trailer.model?.toLowerCase().includes(searchLower);
-        const descMatch = trailer.description?.toLowerCase().includes(searchLower);
-        if (!nameMatch && !modelMatch && !descMatch) return false;
-      }
-      
-      // 1. Наличие
-      if (onlyInStock && trailer.availability !== 'in_stock') return false;
-
-      // 2. Цена
-      if (minPrice && trailer.price < parseInt(minPrice)) return false;
-      if (maxPrice && trailer.price > parseInt(maxPrice)) return false;
-
-      // 3. Оси
-      if (axles !== 'all') {
-        if (trailer.specs?.axles && trailer.specs.axles !== parseInt(axles)) return false;
-      }
-
-      // 4. Тормоза (по полной массе)
-      if (brakes !== 'all') {
-        // Парсим "750 кг" -> 750
-        const weightStr = trailer.specs?.weight || '';
-        const weight = parseInt(weightStr.replace(/\D/g, ''));
-        
-        if (!isNaN(weight)) {
-          if (brakes === 'no' && weight > 750) return false;
-          if (brakes === 'yes' && weight <= 750) return false;
-        }
-      }
-
-      return true;
-    });
-
-    // Sorting
-    result.sort((a, b) => {
-      switch (sortOption) {
-        case 'price_asc':
-          return a.price - b.price;
-        case 'price_desc':
-          return b.price - a.price;
-        case 'availability':
-          const availOrder = { 'in_stock': 0, 'days_1_3': 1, 'days_7_14': 2 };
-          return (availOrder[a.availability] || 3) - (availOrder[b.availability] || 3);
-        case 'axles_asc':
-          return (a.specs?.axles || 0) - (b.specs?.axles || 0);
-        case 'axles_desc':
-          return (b.specs?.axles || 0) - (a.specs?.axles || 0);
-        case 'brakes':
-           // Sort by weight as proxy for brakes/complexity
-           const wA = parseInt((a.specs?.weight || '0').replace(/\D/g, ''));
-           const wB = parseInt((b.specs?.weight || '0').replace(/\D/g, ''));
-           return wB - wA;
-        case 'length_desc':
-          return parseDimensions(b.dimensions).length - parseDimensions(a.dimensions).length;
-        case 'area_desc':
-          const dimA = parseDimensions(a.dimensions);
-          const dimB = parseDimensions(b.dimensions);
-          return (dimB.length * dimB.width) - (dimA.length * dimA.width);
-        case 'volume_desc':
-          const volA = parseDimensions(a.dimensions);
-          const volB = parseDimensions(b.dimensions);
-          return (volB.length * volB.width * volB.height) - (volA.length * volA.width * volA.height);
-        case 'boat_length_desc':
-          return parseBoatLength(b.bodyDimensions) - parseBoatLength(a.bodyDimensions);
-        default:
-          return 0;
-      }
-    });
-
-    return result;
-  }, [trailers, searchQuery, onlyInStock, minPrice, maxPrice, axles, brakes, sortOption]);
+  // Фильтрация теперь выполняется через useTrailerFilters хук
 
   const handleCategoryChange = (id: string) => {
     setSearchParams(prev => {
@@ -263,6 +134,9 @@ export const Catalog = () => {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen pt-4 pb-12">
+      {/* SEO: Хлебные крошки для поисковых систем */}
+      <BreadcrumbSchema items={breadcrumbs} />
+      
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Каталог прицепов МЗСА</h1>
 

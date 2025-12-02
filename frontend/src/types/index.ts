@@ -172,5 +172,72 @@ export interface Settings {
     advantages: string[];
     certificates: string[];
   };
+  
+  // Hero-слайды на главной странице
+  heroSlides?: HeroSlide[];
+  
+  // Магазины сети
+  stores?: Store[];
+  
+  // Склады
+  warehouses?: Warehouse[];
+}
+
+// ============================================================================
+// HERO SLIDES - слайды карусели на главной странице
+// ============================================================================
+
+export interface HeroSlideFeature {
+  icon: string; // Название иконки из lucide-react: 'Ruler', 'Anchor', 'Package', etc.
+  text: string;
+}
+
+export interface HeroSlide {
+  id: string;
+  image: string; // URL изображения
+  title: string; // Заголовок
+  subtitle: string; // Подзаголовок (оранжевый)
+  description: string; // Описание под заголовком
+  features: HeroSlideFeature[]; // Фичи с иконками
+  ctaText: string; // Текст кнопки CTA
+  ctaLink: string; // Ссылка кнопки CTA ('/catalog', '/configurator', etc.)
+  order: number; // Порядок отображения
+  isActive: boolean; // Активен ли слайд
+}
+
+// ============================================================================
+// STORES - Магазины сети
+// ============================================================================
+
+export interface Store {
+  id: string;
+  city: string; // Название города
+  address: string; // Адрес магазина
+  phone: string; // Основной телефон
+  phone2?: string; // Дополнительный телефон
+  email?: string; // Email магазина
+  hours: string; // Часы работы
+  mapLink: string; // Ссылка на Яндекс.Карты
+  coordinates?: [number, number]; // [lat, lng] для карты
+  region: 'ХМАО' | 'ЯНАО'; // Регион
+  isMain?: boolean; // Главный магазин (показывается первым)
+  isActive: boolean; // Активен ли магазин
+  order: number; // Порядок отображения
+}
+
+// ============================================================================
+// WAREHOUSES - Склады
+// ============================================================================
+
+export interface Warehouse {
+  id: string;
+  name: string; // Название склада
+  city: string; // Город
+  address: string; // Адрес
+  phone?: string; // Телефон склада
+  region: 'ХМАО' | 'ЯНАО';
+  type: 'main' | 'regional' | 'partner'; // Тип склада
+  isActive: boolean;
+  order: number;
 }
 

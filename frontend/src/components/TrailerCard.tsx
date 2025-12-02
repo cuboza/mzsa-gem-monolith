@@ -1,74 +1,19 @@
 import { Trailer } from '../types';
-import { Star, Heart, Truck, Check, Percent, Flame, Sparkles } from 'lucide-react';
+import { Heart, Truck, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { formatPrice } from '../utils';
+import { Badge, NewBadge, SaleBadge, DiscountBadge, PopularBadge, Price, OptimizedImage } from './ui';
+import {
+  getAxlesCount,
+  getCapacity,
+  getBodyDimensions,
+  hasBrakes,
+  getAvailabilityLabel,
+  getAvailabilityClasses,
+  getMainImage,
+} from '../features/trailers';
 
-// Хелперы для извлечения данных из specs или legacy полей
-const getAxlesCount = (trailer: Trailer): number => {
-  // Сначала из specs.kol_vo_osey_kolyos (например "1/2" или "2/4")
-  const kolVo = trailer.specs?.kol_vo_osey_kolyos;
-  if (kolVo && typeof kolVo === 'string') {
-    const match = kolVo.match(/^(\d+)/);
-    if (match) return parseInt(match[1]);
-  }
-  // Потом из specs.axles
-  if (trailer.specs?.axles) return trailer.specs.axles;
-  // Потом из legacy поля axles
-  return 1;
-};
-
-const getCapacity = (trailer: Trailer): number | null => {
-  // Сначала из specs.gruzopodemnost
-  if (trailer.specs?.gruzopodemnost) return trailer.specs.gruzopodemnost;
-  // Потом из legacy поля capacity
-  if (trailer.capacity) return trailer.capacity;
-  return null;
-};
-
-const cleanDimension = (value: string): string => {
-  // Убираем дублирующиеся единицы и лишний текст: "4300 мм мм судно" → "4300 мм"
-  // Сначала извлекаем число в начале
-  const numberMatch = value.match(/^(\d+)/);
-  if (numberMatch) {
-    return `${numberMatch[1]} мм`;
-  }
-  return value.trim();
-};
-
-const isBoatDimension = (value: string): boolean => {
-  return /\d+\s*мм\s*мм\s*судно|\d+\s*мм\s*судно/.test(value);
-};
-
-const getBodyDimensions = (trailer: Trailer): string | null => {
-  // Для лодочных - длина судна
-  if (trailer.specs?.dlina_sudna) return cleanDimension(trailer.specs.dlina_sudna);
-  // Размеры кузова из specs
-  if (trailer.specs?.razmery_kuzova) return trailer.specs.razmery_kuzova;
-  // Legacy поля - очищаем если это "мм мм судно"
-  if (trailer.bodyDimensions) {
-    return isBoatDimension(trailer.bodyDimensions) ? cleanDimension(trailer.bodyDimensions) : trailer.bodyDimensions;
-  }
-  if (trailer.dimensions) return trailer.dimensions;
-  return null;
-};
-
-const hasBrakes = (trailer: Trailer): boolean => {
-  // Проверяем specs.tormoz
-  const tormoz = trailer.specs?.tormoz;
-  if (tormoz && typeof tormoz === 'string') {
-    const lowerTormoz = tormoz.toLowerCase();
-    if (lowerTormoz.includes('без тормоз') || lowerTormoz.includes('нет')) {
-      return false;
-    }
-    if (lowerTormoz.includes('тормоз наката') || lowerTormoz.includes('есть')) {
-      return true;
-    }
-  }
-  // Legacy поле brakes
-  if (trailer.brakes && trailer.brakes !== 'Нет') return true;
-  return false;
-};
+// Хелперы теперь импортируются из features/trailers
 
 interface TrailerCardProps {
   trailer: Trailer;
@@ -83,8 +28,8 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  // Получаем URL изображения - сначала пробуем images[0], затем image
-  const imageUrl = trailer.images?.[0] || trailer.image;
+  // Получаем URL изображения из утилиты
+  const imageUrl = getMainImage(trailer);
 
   // Сброс состояния при изменении изображения
   useEffect(() => {
@@ -136,50 +81,25 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
           </div>
         )}
         
-        {/* Бейджи */}
+        {/* Бейджи - используем компоненты из ui */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-          {trailer.isNew && (
-            <span className="bg-purple-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
-              <Sparkles size={12} className="mr-1" />
-              Новинка
-            </span>
-          )}
-          {trailer.isOnSale && (
-            <span className="bg-red-500 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
-              <Flame size={12} className="mr-1" />
-              Акция
-            </span>
-          )}
-          {trailer.isPriceReduced && (
-            <span className="bg-green-600 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
-              <Percent size={12} className="mr-1" />
-              Скидка
-            </span>
-          )}
-          {trailer.isPopular && !trailer.isNew && !trailer.isOnSale && (
-            <span className="bg-yellow-400 text-gray-900 px-2.5 py-1 rounded-full text-xs font-bold shadow-sm flex items-center">
-              <Star size={12} className="mr-1 fill-current" />
-              Хит
-            </span>
-          )}
+          {trailer.isNew && <NewBadge />}
+          {trailer.isOnSale && <SaleBadge />}
+          {trailer.isPriceReduced && <DiscountBadge />}
+          {trailer.isPopular && !trailer.isNew && !trailer.isOnSale && <PopularBadge />}
           {trailer.badge && !trailer.isNew && !trailer.isOnSale && !trailer.isPriceReduced && (
-            <span className="bg-orange-600 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-sm">
-              {trailer.badge}
-            </span>
+            <Badge variant="orange">{trailer.badge}</Badge>
           )}
         </div>
 
-        {/* Наличие */}
-        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${
-          trailer.availability === 'in_stock' 
-            ? 'bg-green-500 text-white' 
-            : trailer.availability === 'days_1_3'
-            ? 'bg-blue-500 text-white'
-            : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300'
-        }`}>
-          {trailer.availability === 'in_stock' ? 'В наличии' : 
-           trailer.availability === 'days_1_3' ? '1-3 дня' : '7-14 дней'}
-        </div>
+        {/* Наличие - используем утилиты из features */}
+        <Badge 
+          variant={trailer.availability === 'in_stock' ? 'success' : trailer.availability === 'days_1_3' ? 'info' : 'neutral'}
+          className="absolute top-3 right-3"
+          size="sm"
+        >
+          {getAvailabilityLabel(trailer.availability)}
+        </Badge>
       </div>
 
       {/* Контент */}
@@ -238,28 +158,11 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         {/* Низ карточки */}
         <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
           <div className="flex items-end justify-between mb-4">
-            <div>
-              {trailer.price > 0 ? (
-                <>
-                  {trailer.oldPrice && trailer.oldPrice > trailer.price && (
-                    <p className="text-sm text-gray-400 line-through">
-                      {formatPrice(trailer.oldPrice)} ₽
-                    </p>
-                  )}
-                  <p className={`text-2xl font-bold ${trailer.oldPrice && trailer.oldPrice > trailer.price ? 'text-green-600 dark:text-green-400' : 'text-blue-700 dark:text-blue-400'}`}>
-                    {formatPrice(trailer.price)} ₽
-                  </p>
-                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Цена дилера</p>
-                </>
-              ) : (
-                <>
-                  <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                    Цена по запросу
-                  </p>
-                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Позвоните нам</p>
-                </>
-              )}
-            </div>
+            <Price 
+              price={trailer.price} 
+              oldPrice={trailer.oldPrice}
+              showLabel
+            />
             {!hideActions && (
               <button className="p-2 text-gray-400 hover:text-red-500 transition-colors">
                 <Heart className="w-6 h-6" />

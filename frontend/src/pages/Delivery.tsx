@@ -1,8 +1,11 @@
 import React from 'react';
 import { Truck, MapPin, Clock, Phone, CreditCard, Package, CheckCircle } from 'lucide-react';
 import { Card } from '../components/ui';
+import { useStores } from '../hooks/useStores';
 
 export function Delivery() {
+  const { stores, mainStore } = useStores();
+  
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
@@ -144,13 +147,8 @@ export function Delivery() {
               </div>
 
               <div className="mt-6 grid md:grid-cols-2 gap-4">
-                {[
-                  { city: 'Сургут', address: 'пр-т Мира, 55', hours: '9:00-20:00' },
-                  { city: 'Нижневартовск', address: 'ул. Индустриальная, 11а', hours: '9:00-19:00' },
-                  { city: 'Ноябрьск', address: 'ул. Ленина, 22', hours: '10:00-19:00' },
-                  { city: 'Новый Уренгой', address: 'ул. Таёжная, 75', hours: '10:00-19:00' },
-                ].map((store) => (
-                  <div key={store.city} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                {stores.map((store) => (
+                  <div key={store.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
                     <MapPin className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">{store.city}</p>
@@ -171,11 +169,11 @@ export function Delivery() {
                 Позвоните нам, и мы подберём оптимальный вариант доставки
               </p>
               <a 
-                href="tel:+73462223355"
+                href={`tel:${mainStore?.phone.replace(/[^+\d]/g, '') || '+73462223355'}`}
                 className="inline-flex items-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors"
               >
                 <Phone className="w-5 h-5" />
-                +7 (3462) 22-33-55
+                {mainStore?.phone || '+7 (3462) 22-33-55'}
               </a>
             </div>
           </div>

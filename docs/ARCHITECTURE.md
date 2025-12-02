@@ -70,7 +70,21 @@ root/
 ├── frontend/           # React приложение (основной)
 │   ├── src/
 │   │   ├── admin/      # Админ-панель React Admin
+│   │   │   └── resources/  # Ресурсы админки
+│   │   │       ├── trailers.tsx, orders.tsx, customers.tsx  # Базовые
+│   │   │       ├── heroSlides.tsx   # Управление Hero-каруселью
+│   │   │       ├── stores.tsx       # Управление магазинами
+│   │   │       ├── warehouses.tsx   # Управление складами
+│   │   │       └── import1c.tsx     # Импорт из 1С
 │   │   ├── components/ # UI компоненты
+│   │   │   ├── ui/     # Базовые компоненты (Button, Card, Badge, Price...)
+│   │   │   └── common/ # Общие компоненты (SEO, схемы schema.org)
+│   │   ├── features/   # Feature-модули (бизнес-логика по доменам)
+│   │   │   └── trailers/  # Работа с прицепами
+│   │   │       ├── trailerUtils.ts      # Утилиты (getAxlesCount, hasBrakes...)
+│   │   │       ├── trailerConstants.ts  # Константы
+│   │   │       └── useTrailerFilters.ts # Хук фильтрации каталога
+│   │   ├── hooks/      # Кастомные хуки (useBreakpoint, useHeroSlides, useStores)
 │   │   ├── pages/      # Страницы (Home, Catalog, Configurator...)
 │   │   ├── services/   # API провайдеры (Supabase, Local, REST)
 │   │   ├── types/      # TypeScript типы (авторитетный источник)
@@ -141,6 +155,30 @@ const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
 - `'supabase'` — продакшен, облачная PostgreSQL
 - `'local'` — демо режим, LocalStorage браузера
 - `'rest'` — локальный бэкенд на :3001
+
+## Модульная архитектура фронтенда
+
+### Feature-модули (`src/features/`)
+Бизнес-логика, сгруппированная по доменам приложения:
+- **trailers/** — утилиты для прицепов (getAxlesCount, hasBrakes), константы, хуки фильтрации
+
+### UI-компоненты (`src/components/ui/`)
+Переиспользуемые компоненты интерфейса:
+- **Badge** — универсальные бейджи (NewBadge, SaleBadge, DiscountBadge, PopularBadge)
+- **Price** — форматирование цен со скидками
+- **OptimizedImage** — lazy loading изображений
+- **Button, Input, Card, StatusBadge** — базовые компоненты
+
+### SEO-компоненты (`src/components/common/`)
+Микроданные schema.org для поисковых систем:
+- **ProductSchema** — данные товара
+- **BreadcrumbSchema** — хлебные крошки
+- **LocalBusinessSchema** — данные о компании
+
+### Кастомные хуки (`src/hooks/`)
+- **useBreakpoint** — определение текущего брейкпоинта
+- **useHeroSlides** — управление каруселью на главной
+- **useStores** — работа с магазинами
 
 ## Продакшен
 - **Hosting**: Railway

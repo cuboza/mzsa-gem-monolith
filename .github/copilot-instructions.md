@@ -76,15 +76,50 @@
 ### Компоненты (`src/components/`)
 - `Header.tsx` — шапка с навигацией и умным поиском
 - `Footer.tsx` — подвал с контактами
-- `TrailerCard.tsx` — карточка прицепа
+- `TrailerCard.tsx` — карточка прицепа (использует Badge, Price из ui/)
 - `TrailerDetailsModal.tsx` — модальное окно с деталями прицепа
 - `CatalogFilters.tsx` — фильтры каталога
 - `CatalogSearch.tsx` — строка поиска
+
+### UI-компоненты (`src/components/ui/`)
+- `Button.tsx` — кнопка с вариантами (primary, secondary, outline, ghost, danger, success)
+- `Input.tsx` — поле ввода с иконкой и ошибкой
+- `Card.tsx` — карточка с CardHeader, CardTitle, CardContent, CardFooter
+- `StatusBadge.tsx` — бейдж статуса заказа
+- `Badge.tsx` — универсальные бейджи: `Badge`, `NewBadge`, `SaleBadge`, `DiscountBadge`, `PopularBadge`
+- `Price.tsx` — компонент цены с форматированием и скидками
+- `OptimizedImage.tsx` — оптимизированное изображение с lazy loading
+
+### SEO-компоненты (`src/components/common/`)
+- `SEO.tsx` — микроданные schema.org:
+  - `ProductSchema` — для карточек товаров
+  - `BreadcrumbSchema` — хлебные крошки (используется в Catalog)
+  - `LocalBusinessSchema` — данные о компании (используется в Home)
+  - `useMetaTags()` — хук для управления мета-тегами
+
+### Feature-модули (`src/features/`)
+Модульная бизнес-логика, группирующая связанный код:
+- `trailers/` — работа с прицепами:
+  - `trailerUtils.ts` — утилиты: `getAxlesCount()`, `getCapacity()`, `hasBrakes()`, `getMainImage()`, `getAvailabilityLabel()`
+  - `trailerConstants.ts` — константы: `TRAILER_CATEGORIES`, `AVAILABILITY_LABELS`, `BODY_TYPES`
+  - `useTrailerFilters.ts` — хук фильтрации каталога (заменяет useMemo в Catalog)
 
 ### Утилиты (`src/utils/`)
 - `format.ts` — форматирование: `formatPrice()`, `formatDateTime()`, `formatDate()`, `formatPhone()`
 - `orderStatus.ts` — статусы заказов: `getStatusLabel()`, `getStatusClasses()`
 - `searchParser.ts` — парсер умного поиска: `parseSearchQuery()`, `mapVehicleCategoryToTrailerCategory()`
+
+### Хуки (`src/hooks/`)
+- `useBreakpoint.ts` — определение текущего брейкпоинта для адаптивности
+- `useHeroSlides.ts` — управление слайдами Hero карусели
+- `useStores.ts` — работа с магазинами/филиалами
+
+### Админ-панель (`src/admin/resources/`)
+- `trailers.tsx`, `orders.tsx`, `accessories.tsx`, `customers.tsx`, `settings.tsx` — базовые ресурсы
+- `heroSlides.tsx` — управление Hero-каруселью на главной
+- `stores.tsx` — управление магазинами/филиалами
+- `warehouses.tsx` — управление складами
+- `import1c.tsx` — импорт данных из 1С (stub)
 
 ## Переменные окружения
 ```env
@@ -101,6 +136,10 @@ VITE_API_URL=http://localhost:3001
 - Доступ к данным через `db` из `services/api/index.ts`
 - Фильтры каталога зеркалируют параметры URL для deep-linking
 - Конфигуратор определяет совместимые прицепы через `trailer.compatibility` и `maxVehicle*`
+- **Переиспользование кода**:
+  - Утилиты прицепов: `import { getAxlesCount, hasBrakes } from '../features/trailers';`
+  - UI-компоненты: `import { Badge, Price, Button } from '../components/ui';`
+  - SEO: `import { ProductSchema, BreadcrumbSchema } from '../components/common';`
 
 ## Логотип и брендинг
 - Логотип компании: `frontend/public/images/onr-logo.png`

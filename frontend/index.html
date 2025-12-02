@@ -22,6 +22,12 @@
     
     <!-- Preconnect to Supabase for faster API calls -->
     <link rel="preconnect" href="https://pulqvocnuvpwnsnyvlpt.supabase.co" />
+    
+    <!-- Preload critical hero image for LCP -->
+    <link rel="preload" as="image" href="/images/hero/hero-freedom.png" fetchpriority="high" />
+    
+    <!-- Preload critical fonts if any -->
+    <!-- <link rel="preload" as="font" href="/fonts/inter.woff2" type="font/woff2" crossorigin /> -->
   </head>
   <body>
     <div id="root"></div>
