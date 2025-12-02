@@ -31,7 +31,7 @@ function Step({ number, title, description, details, icon }: StepProps) {
   return (
     <div className="relative">
       {/* Линия соединения */}
-      <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-orange-200 hidden md:block" />
+      <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-orange-200 dark:bg-orange-800 hidden md:block" />
       
       <Card padding="lg" className="relative">
         <div className="flex flex-col md:flex-row gap-6">
@@ -45,11 +45,11 @@ function Step({ number, title, description, details, icon }: StepProps) {
           {/* Контент */}
           <div className="flex-grow">
             <div className="flex items-center gap-3 mb-3">
-              <div className="text-orange-600">{icon}</div>
-              <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+              <div className="text-orange-600 dark:text-orange-400">{icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
             </div>
-            <p className="text-gray-600 mb-4">{description}</p>
-            <div className="bg-gray-50 rounded-lg p-4">
+            <p className="text-gray-600 dark:text-gray-300 mb-4">{description}</p>
+            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
               {details}
             </div>
           </div>
@@ -61,7 +61,7 @@ function Step({ number, title, description, details, icon }: StepProps) {
 
 export function Registration() {
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-800 to-blue-900 text-white py-16">
         <div className="container mx-auto px-4">
@@ -85,13 +85,13 @@ export function Registration() {
       <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 flex items-start gap-4">
-              <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <AlertTriangle className="w-6 h-6 text-amber-600" />
+            <div className="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700 rounded-xl p-6 flex items-start gap-4">
+              <div className="w-12 h-12 bg-amber-100 dark:bg-amber-800 rounded-lg flex items-center justify-center flex-shrink-0">
+                <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400" />
               </div>
               <div>
-                <h3 className="font-bold text-amber-800 text-lg mb-2">Важно!</h3>
-                <p className="text-amber-700">
+                <h3 className="font-bold text-amber-800 dark:text-amber-300 text-lg mb-2">Важно!</h3>
+                <p className="text-amber-700 dark:text-amber-200">
                   Постановка прицепа на учёт обязательна в течение <strong>10 дней</strong> с момента 
                   покупки. За нарушение сроков предусмотрен штраф от 1 500 до 2 000 рублей 
                   (ст. 19.22 КоАП РФ).
@@ -115,7 +115,7 @@ export function Registration() {
               icon={<ClipboardList className="w-6 h-6" />}
               details={
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-900">Обязательные документы:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Обязательные документы:</h4>
                   <ul className="space-y-2">
                     {[
                       'Паспорт гражданина РФ (оригинал)',
@@ -126,12 +126,12 @@ export function Registration() {
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{item}</span>
+                        <span className="text-gray-700 dark:text-gray-200">{item}</span>
                       </li>
                     ))}
                   </ul>
                   
-                  <h4 className="font-semibold text-gray-900 pt-2">Дополнительно могут потребоваться:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white pt-2">Дополнительно могут потребоваться:</h4>
                   <ul className="space-y-2">
                     {[
                       'Доверенность (если регистрирует не собственник)',
@@ -140,7 +140,7 @@ export function Registration() {
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-600">{item}</span>
+                        <span className="text-gray-600 dark:text-gray-300">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -157,37 +157,37 @@ export function Registration() {
               details={
                 <div className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                      <div className="text-2xl font-bold text-orange-600 mb-1">2 350 ₽</div>
-                      <div className="text-sm text-gray-600">
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1">2 350 ₽</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
                         Полная регистрация с выдачей номеров
                       </div>
-                      <ul className="mt-2 text-xs text-gray-500 space-y-1">
+                      <ul className="mt-2 text-xs text-gray-500 dark:text-gray-400 space-y-1">
                         <li>• Госномер — 1 500 ₽</li>
                         <li>• СТС — 500 ₽</li>
                         <li>• Изменения в ПТС — 350 ₽</li>
                       </ul>
                     </div>
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                      <div className="text-2xl font-bold text-blue-600 mb-1">850 ₽</div>
-                      <div className="text-sm text-gray-600">
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">850 ₽</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
                         Без выдачи новых номеров
                       </div>
-                      <ul className="mt-2 text-xs text-gray-500 space-y-1">
+                      <ul className="mt-2 text-xs text-gray-500 dark:text-gray-400 space-y-1">
                         <li>• СТС — 500 ₽</li>
                         <li>• Изменения в ПТС — 350 ₽</li>
                       </ul>
                     </div>
                   </div>
                   
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <p className="text-green-800 text-sm">
+                  <div className="bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
+                    <p className="text-green-800 dark:text-green-300 text-sm">
                       <strong>💡 Совет:</strong> При оплате через Госуслуги действует скидка 30% 
                       (1 645 ₽ вместо 2 350 ₽)
                     </p>
                   </div>
 
-                  <h4 className="font-semibold text-gray-900">Способы оплаты:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Способы оплаты:</h4>
                   <ul className="space-y-2">
                     {[
                       'Через портал Госуслуги (со скидкой 30%)',
@@ -197,7 +197,7 @@ export function Registration() {
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{item}</span>
+                        <span className="text-gray-700 dark:text-gray-200">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -213,38 +213,38 @@ export function Registration() {
               icon={<Calendar className="w-6 h-6" />}
               details={
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-900">Способы записи:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Способы записи:</h4>
                   
                   <div className="grid sm:grid-cols-2 gap-4">
                     <a 
                       href="https://www.gosuslugi.ru/10059/2" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 bg-blue-50 hover:bg-blue-100 p-4 rounded-lg border border-blue-200 transition-colors group"
+                      className="flex items-center gap-3 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 p-4 rounded-lg border border-blue-200 dark:border-blue-700 transition-colors group"
                     >
                       <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                         <Building2 className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-grow">
-                        <div className="font-semibold text-blue-900 group-hover:text-blue-700">Госуслуги</div>
-                        <div className="text-sm text-blue-600">Рекомендуемый способ</div>
+                        <div className="font-semibold text-blue-900 dark:text-blue-300 group-hover:text-blue-700 dark:group-hover:text-blue-200">Госуслуги</div>
+                        <div className="text-sm text-blue-600 dark:text-blue-400">Рекомендуемый способ</div>
                       </div>
                       <ExternalLink className="w-4 h-4 text-blue-400" />
                     </a>
                     
-                    <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                      <div className="w-10 h-10 bg-gray-400 rounded-lg flex items-center justify-center">
+                    <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="w-10 h-10 bg-gray-400 dark:bg-gray-500 rounded-lg flex items-center justify-center">
                         <MapPin className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-700">Лично в ГИБДД</div>
-                        <div className="text-sm text-gray-500">Живая очередь</div>
+                        <div className="font-semibold text-gray-700 dark:text-gray-200">Лично в ГИБДД</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Живая очередь</div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <p className="text-blue-800 text-sm">
+                  <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg">
+                    <p className="text-blue-800 dark:text-blue-300 text-sm">
                       <strong>💡 Совет:</strong> Через Госуслуги можно выбрать точное время визита и 
                       избежать очередей. Также там можно заполнить заявление онлайн.
                     </p>
@@ -261,7 +261,7 @@ export function Registration() {
               icon={<Car className="w-6 h-6" />}
               details={
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-900">Что проверяет инспектор:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Что проверяет инспектор:</h4>
                   <ul className="space-y-2">
                     {[
                       'VIN-номер на раме прицепа',
@@ -272,12 +272,12 @@ export function Registration() {
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{item}</span>
+                        <span className="text-gray-700 dark:text-gray-200">{item}</span>
                       </li>
                     ))}
                   </ul>
                   
-                  <h4 className="font-semibold text-gray-900 pt-2">Рекомендации:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white pt-2">Рекомендации:</h4>
                   <ul className="space-y-2">
                     {[
                       'Прицеп должен быть чистым (VIN должен читаться)',
@@ -286,7 +286,7 @@ export function Registration() {
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-600">{item}</span>
+                        <span className="text-gray-600 dark:text-gray-300">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -302,39 +302,39 @@ export function Registration() {
               icon={<FileCheck className="w-6 h-6" />}
               details={
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-900">Вы получите:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Вы получите:</h4>
                   <ul className="space-y-3">
-                    <li className="flex items-start gap-3 bg-white p-3 rounded-lg border border-gray-200">
-                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <CreditCard className="w-4 h-4 text-blue-600" />
+                    <li className="flex items-start gap-3 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                        <CreditCard className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">СТС</div>
-                        <div className="text-sm text-gray-500">Свидетельство о регистрации ТС</div>
+                        <div className="font-semibold text-gray-900 dark:text-white">СТС</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Свидетельство о регистрации ТС</div>
                       </div>
                     </li>
-                    <li className="flex items-start gap-3 bg-white p-3 rounded-lg border border-gray-200">
-                      <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                        <Shield className="w-4 h-4 text-green-600" />
+                    <li className="flex items-start gap-3 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                        <Shield className="w-4 h-4 text-green-600 dark:text-green-400" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">Государственный номер</div>
-                        <div className="text-sm text-gray-500">Регистрационный знак для прицепа</div>
+                        <div className="font-semibold text-gray-900 dark:text-white">Государственный номер</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Регистрационный знак для прицепа</div>
                       </div>
                     </li>
-                    <li className="flex items-start gap-3 bg-white p-3 rounded-lg border border-gray-200">
-                      <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <FileText className="w-4 h-4 text-orange-600" />
+                    <li className="flex items-start gap-3 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
+                        <FileText className="w-4 h-4 text-orange-600 dark:text-orange-400" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">ПТС с отметкой</div>
-                        <div className="text-sm text-gray-500">Паспорт ТС с записью о регистрации</div>
+                        <div className="font-semibold text-gray-900 dark:text-white">ПТС с отметкой</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Паспорт ТС с записью о регистрации</div>
                       </div>
                     </li>
                   </ul>
 
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <p className="text-green-800 text-sm">
+                  <div className="bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
+                    <p className="text-green-800 dark:text-green-300 text-sm">
                       <strong>✓ Готово!</strong> После получения номеров не забудьте установить 
                       их на прицеп. Номер должен быть освещён и читаем.
                     </p>
@@ -344,14 +344,14 @@ export function Registration() {
             />
 
             {/* Сроки */}
-            <Card padding="lg" className="bg-blue-50 border-blue-200">
+            <Card padding="lg" className="bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-blue-900 text-lg mb-2">Сроки оформления</h3>
-                  <p className="text-blue-800">
+                  <h3 className="font-bold text-blue-900 dark:text-blue-300 text-lg mb-2">Сроки оформления</h3>
+                  <p className="text-blue-800 dark:text-blue-200">
                     Регистрация занимает <strong>1-2 часа</strong> при наличии всех документов. 
                     Если записались через Госуслуги — обслуживание в приоритетном порядке.
                   </p>
@@ -361,14 +361,14 @@ export function Registration() {
 
             {/* FAQ */}
             <div className="pt-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Частые вопросы</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Частые вопросы</h2>
               
               <div className="space-y-4">
                 <Card padding="md">
-                  <h4 className="font-bold text-gray-900 mb-2">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2">
                     Нужен ли техосмотр для прицепа?
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     Для <strong>легковых прицепов физических лиц</strong> (категория О1 и О2, до 3,5 т) 
                     техосмотр <strong>не требуется</strong> с 2012 года. Для прицепов юридических лиц 
                     и тяжёлых прицепов (более 3,5 т) — ТО обязателен.
@@ -376,10 +376,10 @@ export function Registration() {
                 </Card>
 
                 <Card padding="md">
-                  <h4 className="font-bold text-gray-900 mb-2">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2">
                     Нужна ли страховка ОСАГО на прицеп?
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     Для <strong>физических лиц</strong> — ОСАГО на прицеп <strong>не требуется</strong>. 
                     Ответственность покрывается полисом на тягач (автомобиль). 
                     Для <strong>юридических лиц</strong> — полис ОСАГО обязателен.
@@ -387,10 +387,10 @@ export function Registration() {
                 </Card>
 
                 <Card padding="md">
-                  <h4 className="font-bold text-gray-900 mb-2">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2">
                     Можно ли зарегистрировать прицеп в другом регионе?
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     Да, с 2020 года можно зарегистрировать прицеп в любом МРЭО России, 
                     независимо от места прописки. Номера будут выданы с кодом региона 
                     по месту прописки владельца.
@@ -398,10 +398,10 @@ export function Registration() {
                 </Card>
 
                 <Card padding="md">
-                  <h4 className="font-bold text-gray-900 mb-2">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2">
                     Что делать, если VIN нечитаем?
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     Если идентификационный номер повреждён или нечитаем, потребуется 
                     криминалистическая экспертиза. Это может занять дополнительное время (до 30 дней). 
                     Рекомендуем проверять читаемость VIN перед покупкой.
@@ -411,16 +411,16 @@ export function Registration() {
             </div>
 
             {/* Помощь */}
-            <Card padding="lg" className="bg-orange-50 border-orange-200">
+            <Card padding="lg" className="bg-orange-50 dark:bg-orange-900/30 border-orange-200 dark:border-orange-700">
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                <div className="w-16 h-16 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-8 h-8 text-orange-600" />
+                <div className="w-16 h-16 bg-orange-100 dark:bg-orange-800 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-8 h-8 text-orange-600 dark:text-orange-400" />
                 </div>
                 <div className="flex-grow">
-                  <h3 className="font-bold text-orange-900 text-lg mb-2">
+                  <h3 className="font-bold text-orange-900 dark:text-orange-300 text-lg mb-2">
                     Нужна помощь с документами?
                   </h3>
-                  <p className="text-orange-800 mb-4">
+                  <p className="text-orange-800 dark:text-orange-200 mb-4">
                     Наши специалисты помогут подготовить документы и проконсультируют 
                     по всем вопросам регистрации прицепа.
                   </p>
@@ -434,7 +434,7 @@ export function Registration() {
                     </a>
                     <a 
                       href="/contacts" 
-                      className="inline-flex items-center gap-2 bg-white hover:bg-orange-50 text-orange-700 px-6 py-3 rounded-lg font-semibold border border-orange-300 transition-colors"
+                      className="inline-flex items-center gap-2 bg-white dark:bg-gray-800 hover:bg-orange-50 dark:hover:bg-gray-700 text-orange-700 dark:text-orange-400 px-6 py-3 rounded-lg font-semibold border border-orange-300 dark:border-orange-600 transition-colors"
                     >
                       <MapPin className="w-5 h-5" />
                       Адреса магазинов
@@ -445,7 +445,7 @@ export function Registration() {
             </Card>
 
             {/* Дисклеймер */}
-            <div className="text-center text-sm text-gray-500 pt-4">
+            <div className="text-center text-sm text-gray-500 dark:text-gray-400 pt-4">
               <p>
                 Информация актуальна на декабрь 2025 года. Рекомендуем уточнять требования 
                 в вашем региональном отделении ГИБДД.
