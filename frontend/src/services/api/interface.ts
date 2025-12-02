@@ -1,5 +1,23 @@
 import { Trailer, Order, Customer, Settings, Accessory, AdminUser } from '../../types';
 
+// Типы для работы с остатками
+export interface StockInfo {
+  itemId: string;
+  itemType: 'trailer' | 'option';
+  warehouseId: string;
+  warehouseName?: string;
+  quantity: number;
+  availableQuantity: number;
+  reservedQuantity: number;
+}
+
+export interface StockReservationResult {
+  success: boolean;
+  reservationId?: string;
+  error?: string;
+  itemsReserved?: { itemId: string; itemType: string; quantity: number }[];
+}
+
 export interface IDatabaseProvider {
   // Users
   getUsers(): Promise<AdminUser[]>;
@@ -39,6 +57,13 @@ export interface IDatabaseProvider {
   // Settings
   getSettings(): Promise<Settings | null>;
   saveSettings(settings: Settings): Promise<Settings>;
+  
+  // Stock Management (остатки)
+  getStock?(itemId: string, itemType: 'trailer' | 'option'): Promise<StockInfo | null>;
+  reserveStock?(orderId: string, items: { itemId: string; itemType: 'trailer' | 'option'; quantity: number }[]): Promise<StockReservationResult>;
+  releaseStock?(orderId: string): Promise<{ success: boolean; error?: string }>;
+  releaseStockItem?(itemId: string, itemType: 'trailer' | 'option', quantity: number): Promise<void>;
+  commitStock?(orderId: string): Promise<{ success: boolean; error?: string }>;
   
   // Initialization
   initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings, orders?: Order[]): Promise<void>;

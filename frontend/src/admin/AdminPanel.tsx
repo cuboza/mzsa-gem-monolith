@@ -13,7 +13,8 @@ import { HeroSlidesAdmin } from './resources/heroSlides';
 import { StoresAdmin } from './resources/stores';
 import { WarehousesAdmin } from './resources/warehouses';
 import { Import1CAdmin } from './resources/import1c';
-import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload, Shield } from 'lucide-react';
+import { OnboardingList } from './resources/onboarding';
+import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload, Shield, BookOpen } from 'lucide-react';
 import { UserList, UserEdit, UserCreate } from './resources/users';
 
 // Компоненты иконок для меню
@@ -28,6 +29,7 @@ const HeroIcon = () => <Image size={20} />;
 const StoreIcon = () => <MapPin size={20} />;
 const WarehouseIcon = () => <Warehouse size={20} />;
 const Import1CIcon = () => <Upload size={20} />;
+const OnboardingIcon = () => <BookOpen size={20} />;
 
 export const AdminPanel = () => (
   <Admin
@@ -127,6 +129,13 @@ export const AdminPanel = () => (
           options={{ label: 'Бэкап' }} 
         />
       ) : null,
+      // Онбординг доступен всем авторизованным пользователям
+      <Resource 
+        name="onboarding" 
+        list={OnboardingList}
+        icon={OnboardingIcon}
+        options={{ label: 'Обучение' }} 
+      />,
     ]}
   </Admin>
 );

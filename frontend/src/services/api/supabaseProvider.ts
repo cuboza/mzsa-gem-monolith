@@ -743,15 +743,33 @@ export const SupabaseProvider: IDatabaseProvider = {
 
     if (error) throw new Error(error.message);
 
+    // Собираем позиции для резервирования
+    const itemsToReserve: { itemId: string; itemType: 'trailer' | 'option'; quantity: number }[] = [];
+
     // Добавляем позиции заказа
     if (order.configuration?.trailer) {
+      // Получаем UUID прицепа по slug
+      const { data: trailerData } = await supabase
+        .from('trailers')
+        .select('id')
+        .eq('slug', order.configuration.trailer.id)
+        .single();
+      
+      const trailerId = trailerData?.id || order.configuration.trailer.id;
+      
       await supabase.from('lead_items').insert({
         lead_id: data.id,
-        item_id: order.configuration.trailer.id,
+        item_id: trailerId,
         item_type: 'trailer',
         item_name: order.configuration.trailer.name,
         quantity: 1,
         unit_price: order.configuration.trailer.price,
+      });
+      
+      itemsToReserve.push({
+        itemId: order.configuration.trailer.id,
+        itemType: 'trailer',
+        quantity: 1,
       });
     }
 
@@ -765,9 +783,23 @@ export const SupabaseProvider: IDatabaseProvider = {
           quantity: 1,
           unit_price: acc.price,
         });
+        
+        itemsToReserve.push({
+          itemId: acc.id,
+          itemType: 'option',
+          quantity: 1,
+        });
       }
     }
 
+    // Резервируем остатки
+    if (itemsToReserve.length > 0) {
+      const reserveResult = await this.reserveStock?.(data.id, itemsToReserve);
+      if (!reserveResult?.success) {
+        console.warn('Не удалось зарезервировать остатки:', reserveResult?.error);
+        // Не прерываем создание заказа, но логируем предупреждение
+      }
+    }
     
     // Отправляем email уведомление через Edge Function
     try {
@@ -805,10 +837,20 @@ return mapSupabaseLead(data);
       'cancelled': 'cancelled',
     };
 
+    // Получаем текущий статус заказа
+    const { data: currentOrder } = await supabase
+      .from('leads')
+      .select('status')
+      .eq('id', id)
+      .single();
+    
+    const currentStatus = currentOrder?.status;
+    const newStatus = statusMap[order.status || 'new'] || 'new';
+
     const { data, error } = await supabase
       .from('leads')
       .update({
-        status: statusMap[order.status || 'new'] || 'new',
+        status: newStatus,
         customer_name: order.customer?.name,
         customer_phone: order.customer?.phone,
         customer_email: order.customer?.email,
@@ -820,10 +862,33 @@ return mapSupabaseLead(data);
       .single();
 
     if (error) throw new Error(error.message);
+
+    // Обработка остатков при изменении статуса
+    if (currentStatus !== newStatus) {
+      // При отмене заказа - освобождаем остатки
+      if (newStatus === 'cancelled' && currentStatus !== 'cancelled') {
+        const releaseResult = await this.releaseStock?.(id);
+        if (!releaseResult?.success) {
+          console.warn('Не удалось освободить остатки при отмене заказа:', releaseResult?.error);
+        }
+      }
+      
+      // При выполнении заказа - списываем остатки окончательно
+      if (newStatus === 'completed' && currentStatus !== 'completed') {
+        const commitResult = await this.commitStock?.(id);
+        if (!commitResult?.success) {
+          console.warn('Не удалось списать остатки при завершении заказа:', commitResult?.error);
+        }
+      }
+    }
+
     return mapSupabaseLead(data);
   },
 
   async deleteOrder(id: string): Promise<void> {
+    // Освобождаем остатки перед удалением
+    await this.releaseStock?.(id);
+    
     // Сначала удаляем позиции
     await supabase.from('lead_items').delete().eq('lead_id', id);
     
@@ -1055,6 +1120,241 @@ return mapSupabaseLead(data);
     // Пока возвращаем то что есть
     console.warn('Settings update not implemented for Supabase');
     return settings;
+  },
+
+  // ========== STOCK MANAGEMENT ==========
+  
+  /**
+   * Получить информацию об остатках товара
+   */
+  async getStock(itemId: string, itemType: 'trailer' | 'option') {
+    const tableName = itemType === 'trailer' ? 'trailer_stock' : 'option_stock';
+    const itemColumn = itemType === 'trailer' ? 'trailer_id' : 'option_id';
+    
+    // Сначала получаем реальный UUID по slug (для прицепов)
+    let realItemId = itemId;
+    if (itemType === 'trailer') {
+      const { data: trailer } = await supabase
+        .from('trailers')
+        .select('id')
+        .eq('slug', itemId)
+        .single();
+      
+      if (trailer) {
+        realItemId = trailer.id;
+      }
+    }
+    
+    const { data, error } = await supabase
+      .from(tableName)
+      .select(`
+        *,
+        warehouses (id, name)
+      `)
+      .eq(itemColumn, realItemId)
+      .single();
+    
+    if (error || !data) return null;
+    
+    return {
+      itemId,
+      itemType,
+      warehouseId: data.warehouse_id,
+      warehouseName: data.warehouses?.name,
+      quantity: data.quantity || 0,
+      availableQuantity: data.available_quantity || 0,
+      reservedQuantity: data.reserved_quantity || 0,
+    };
+  },
+
+  /**
+   * Зарезервировать товары для заказа
+   * Уменьшает available_quantity, увеличивает reserved_quantity
+   */
+  async reserveStock(orderId: string, items: { itemId: string; itemType: 'trailer' | 'option'; quantity: number }[]) {
+    const reservedItems: { itemId: string; itemType: string; quantity: number }[] = [];
+    
+    try {
+      for (const item of items) {
+        const tableName = item.itemType === 'trailer' ? 'trailer_stock' : 'option_stock';
+        const itemColumn = item.itemType === 'trailer' ? 'trailer_id' : 'option_id';
+        
+        // Получаем реальный UUID
+        let realItemId = item.itemId;
+        if (item.itemType === 'trailer') {
+          const { data: trailer } = await supabase
+            .from('trailers')
+            .select('id')
+            .eq('slug', item.itemId)
+            .single();
+          
+          if (trailer) {
+            realItemId = trailer.id;
+          }
+        }
+        
+        // Получаем текущие остатки
+        const { data: stock, error: stockError } = await supabase
+          .from(tableName)
+          .select('*')
+          .eq(itemColumn, realItemId)
+          .single();
+        
+        if (stockError || !stock) {
+          console.warn(`Stock not found for ${item.itemType} ${item.itemId}`);
+          continue;
+        }
+        
+        // Проверяем доступность
+        if (stock.available_quantity < item.quantity) {
+          return {
+            success: false,
+            error: `Недостаточно остатков для ${item.itemType} ${item.itemId}. Доступно: ${stock.available_quantity}, запрошено: ${item.quantity}`,
+          };
+        }
+        
+        // Резервируем
+        const { error: updateError } = await supabase
+          .from(tableName)
+          .update({
+            available_quantity: stock.available_quantity - item.quantity,
+            reserved_quantity: (stock.reserved_quantity || 0) + item.quantity,
+            last_reservation_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', stock.id);
+        
+        if (updateError) {
+          console.error(`Error reserving stock for ${item.itemType} ${item.itemId}:`, updateError);
+          // Откатываем предыдущие резервирования
+          for (const reserved of reservedItems) {
+            await this.releaseStockItem?.(reserved.itemId, reserved.itemType as 'trailer' | 'option', reserved.quantity);
+          }
+          return {
+            success: false,
+            error: `Ошибка резервирования: ${updateError.message}`,
+          };
+        }
+        
+        reservedItems.push(item);
+      }
+      
+      return {
+        success: true,
+        reservationId: orderId,
+        itemsReserved: reservedItems,
+      };
+    } catch (err) {
+      console.error('Error reserving stock:', err);
+      return {
+        success: false,
+        error: 'Ошибка резервирования остатков',
+      };
+    }
+  },
+
+  /**
+   * Освободить зарезервированные товары (при отмене заказа)
+   * Увеличивает available_quantity, уменьшает reserved_quantity
+   */
+  async releaseStock(orderId: string) {
+    try {
+      // Получаем позиции заказа
+      const { data: leadItems, error: itemsError } = await supabase
+        .from('lead_items')
+        .select('item_id, item_type, quantity')
+        .eq('lead_id', orderId);
+      
+      if (itemsError || !leadItems) {
+        return { success: false, error: 'Позиции заказа не найдены' };
+      }
+      
+      for (const item of leadItems) {
+        await this.releaseStockItem?.(
+          item.item_id, 
+          item.item_type === 'trailer' ? 'trailer' : 'option',
+          item.quantity || 1
+        );
+      }
+      
+      return { success: true };
+    } catch (err) {
+      console.error('Error releasing stock:', err);
+      return { success: false, error: 'Ошибка освобождения остатков' };
+    }
+  },
+
+  /**
+   * Подтвердить списание (при выполнении заказа)
+   * Уменьшает quantity и reserved_quantity
+   */
+  async commitStock(orderId: string) {
+    try {
+      // Получаем позиции заказа
+      const { data: leadItems, error: itemsError } = await supabase
+        .from('lead_items')
+        .select('item_id, item_type, quantity')
+        .eq('lead_id', orderId);
+      
+      if (itemsError || !leadItems) {
+        return { success: false, error: 'Позиции заказа не найдены' };
+      }
+      
+      for (const item of leadItems) {
+        const tableName = item.item_type === 'trailer' ? 'trailer_stock' : 'option_stock';
+        const itemColumn = item.item_type === 'trailer' ? 'trailer_id' : 'option_id';
+        const qty = item.quantity || 1;
+        
+        // Получаем текущие остатки
+        const { data: stock } = await supabase
+          .from(tableName)
+          .select('*')
+          .eq(itemColumn, item.item_id)
+          .single();
+        
+        if (stock) {
+          // Списываем: уменьшаем quantity и reserved
+          await supabase
+            .from(tableName)
+            .update({
+              quantity: Math.max(0, stock.quantity - qty),
+              reserved_quantity: Math.max(0, (stock.reserved_quantity || 0) - qty),
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', stock.id);
+        }
+      }
+      
+      return { success: true };
+    } catch (err) {
+      console.error('Error committing stock:', err);
+      return { success: false, error: 'Ошибка списания остатков' };
+    }
+  },
+
+  /**
+   * Вспомогательная функция для освобождения остатков одной позиции
+   */
+  async releaseStockItem(itemId: string, itemType: 'trailer' | 'option', quantity: number) {
+    const tableName = itemType === 'trailer' ? 'trailer_stock' : 'option_stock';
+    const itemColumn = itemType === 'trailer' ? 'trailer_id' : 'option_id';
+    
+    const { data: stock } = await supabase
+      .from(tableName)
+      .select('*')
+      .eq(itemColumn, itemId)
+      .single();
+    
+    if (stock) {
+      await supabase
+        .from(tableName)
+        .update({
+          available_quantity: stock.available_quantity + quantity,
+          reserved_quantity: Math.max(0, (stock.reserved_quantity || 0) - quantity),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', stock.id);
+    }
   },
 
   // ========== INIT ==========
