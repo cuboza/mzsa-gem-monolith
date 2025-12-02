@@ -147,26 +147,25 @@ export const getAllImages = (trailer: Trailer): string[] => {
 // ============================================================================
 
 /**
- * Проверяет, есть ли товар в наличии (stock > 0 или availability === 'in_stock')
+ * Проверяет, есть ли товар в наличии (только stock > 0)
  */
 export const isInStock = (trailer: Trailer): boolean => {
-  // Если есть остаток на складе > 0, то в наличии
-  if (trailer.stock && trailer.stock > 0) return true;
-  // Иначе по значению availability
-  return trailer.availability === 'in_stock';
+  // Товар в наличии ТОЛЬКО если есть остаток на складе > 0
+  return !!(trailer.stock && trailer.stock > 0);
 };
 
 /**
  * Возвращает текстовый статус наличия
- * Приоритет: stock > 0 → "В наличии", иначе по availability
+ * Приоритет: stock > 0 → "В наличии", иначе по availability (для сроков поставки)
  */
 export const getAvailabilityLabel = (availability: Trailer['availability'], stock?: number): string => {
   // Если есть остаток > 0, показываем "В наличии"
   if (stock && stock > 0) {
     return 'В наличии';
   }
+  // При нулевом остатке показываем срок поставки из availability
   const labels: Record<Trailer['availability'], string> = {
-    in_stock: 'В наличии',
+    in_stock: '1-3 дня',  // Даже если availability = 'in_stock', при stock = 0 показываем срок
     days_1_3: '1-3 дня',
     days_7_14: '7-14 дней',
   };
@@ -177,12 +176,13 @@ export const getAvailabilityLabel = (availability: Trailer['availability'], stoc
  * Возвращает CSS-классы для бейджа наличия
  */
 export const getAvailabilityClasses = (availability: Trailer['availability'], stock?: number): string => {
-  // Если есть остаток > 0, показываем зелёный бейдж
+  // Зелёный бейдж ТОЛЬКО при остатке > 0
   if (stock && stock > 0) {
     return 'bg-green-500 text-white';
   }
+  // При нулевом остатке — цвет по сроку поставки
   const classes: Record<Trailer['availability'], string> = {
-    in_stock: 'bg-green-500 text-white',
+    in_stock: 'bg-blue-500 text-white',  // При stock = 0 это уже не "В наличии"
     days_1_3: 'bg-blue-500 text-white',
     days_7_14: 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300',
   };

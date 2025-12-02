@@ -127,8 +127,8 @@ export const Configurator = () => {
       const max = maxPrice ? parseInt(maxPrice) : 10000000;
       if (t.price < min || t.price > max) return false;
       
-      // Фильтр "только в наличии": stock > 0 ИЛИ availability === 'in_stock'
-      if (onlyInStock && !((t.stock && t.stock > 0) || t.availability === 'in_stock')) return false;
+      // Фильтр "только в наличии": ТОЛЬКО stock > 0
+      if (onlyInStock && !(t.stock && t.stock > 0)) return false;
       if (axles !== 'all' && t.specs?.axles !== parseInt(axles)) return false;
       if (brakes !== 'all') {
         const hasBrakes = t.brakes && t.brakes.toLowerCase() !== 'нет';

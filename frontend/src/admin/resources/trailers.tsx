@@ -13,13 +13,13 @@ const validateStock = minValue(0, 'Остаток не может быть от�
 
 // Хелпер для отображения наличия
 const getAvailabilityLabel = (availability: string, stock?: number) => {
-  // Если есть остаток > 0, показываем "В наличии"
+  // "В наличии" ТОЛЬКО при stock > 0
   if (stock && stock > 0) {
     return 'В наличии';
   }
-  // Иначе по значению availability
+  // При нулевом остатке — срок поставки
   switch (availability) {
-    case 'in_stock': return 'В наличии';
+    case 'in_stock': return '1-3 дня';  // При stock = 0 это уже не "В наличии"
     case 'days_1_3': return '1-3 дня';
     case 'days_7_14': return '7-14 дней';
     default: return 'Под заказ';
@@ -83,20 +83,22 @@ const TrailerFilter = (props: any) => (
 );
 
 export const TrailerList = () => (
-  <List filters={<TrailerFilter />}>
+  <List filters={<TrailerFilter />} sort={{ field: 'model', order: 'ASC' }}>
     <Datagrid rowClick="edit" bulkActionButtons={<TrailerBulkActions />}>
       <ThumbnailField source="image" />
-      <TextField source="model" label="Модель" />
-      <TextField source="name" label="Название" />
-      <TextField source="category" label="Категория" />
-      <NumberField source="price" label="Цена" options={{ style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }} />
-      <NumberField source="stock" label="Остаток" emptyText="0" />
-      <BooleanField source="isVisible" label="Видим" />
+      <TextField source="model" label="Модель" sortable={true} />
+      <TextField source="name" label="Название" sortable={true} />
+      <TextField source="category" label="Категория" sortable={true} />
+      <NumberField source="price" label="Цена" options={{ style: 'currency', currency: 'RUB', minimumFractionDigits: 0 }} sortable={true} />
+      <NumberField source="stock" label="Остаток" emptyText="0" sortable={true} />
+      <BooleanField source="isVisible" label="Видим" sortable={true} />
       <FunctionField 
-        label="Наличие" 
+        label="Наличие"
+        sortBy="stock"
+        sortable={true}
         render={(record: any) => {
           const label = getAvailabilityLabel(record?.availability, record?.stock);
-          const isInStock = (record?.stock && record.stock > 0) || record?.availability === 'in_stock';
+          const isInStock = record?.stock && record.stock > 0;  // Только при stock > 0
           return (
             <span style={{ 
               padding: '2px 8px', 

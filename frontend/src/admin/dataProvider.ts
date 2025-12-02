@@ -62,8 +62,17 @@ export const dataProvider: DataProvider = {
       // Обработка вложенных полей (например customer.name)
       const getField = (obj: any, path: string) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
       
-      const valA = getField(a, field);
-      const valB = getField(b, field);
+      let valA = getField(a, field);
+      let valB = getField(b, field);
+
+      // Преобразуем строковые числа в числа для корректной сортировки
+      if (typeof valA === 'string' && !isNaN(Number(valA))) valA = Number(valA);
+      if (typeof valB === 'string' && !isNaN(Number(valB))) valB = Number(valB);
+      
+      // Обработка null/undefined — помещаем в конец
+      if (valA == null && valB == null) return 0;
+      if (valA == null) return order === 'ASC' ? 1 : -1;
+      if (valB == null) return order === 'ASC' ? -1 : 1;
 
       if (valA < valB) return order === 'ASC' ? -1 : 1;
       if (valA > valB) return order === 'ASC' ? 1 : -1;

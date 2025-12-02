@@ -16,11 +16,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const saved = localStorage.getItem('theme') as Theme;
     if (saved) return saved;
     
-    // Проверяем системные настройки
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
+    // По умолчанию — тёмная тема
+    return 'dark';
   });
 
   useEffect(() => {
