@@ -55,7 +55,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       )}
 
       {/* Изображение */}
-      <div className="relative h-48 bg-white flex items-center justify-center overflow-hidden">
+      <div className="relative h-36 sm:h-44 bg-white flex items-center justify-center overflow-hidden">
         {imageUrl && !imageError ? (
           <>
             {/* Skeleton loader */}
@@ -82,7 +82,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         )}
         
         {/* Бейджи - используем компоненты из ui */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1">
           {trailer.isNew && <NewBadge />}
           {trailer.isOnSale && <SaleBadge />}
           {trailer.isPriceReduced && <DiscountBadge />}
@@ -95,7 +95,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         {/* Наличие - используем утилиты из features */}
         <Badge 
           variant={trailer.availability === 'in_stock' ? 'success' : trailer.availability === 'days_1_3' ? 'info' : 'neutral'}
-          className="absolute top-3 right-3"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3"
           size="sm"
         >
           {getAvailabilityLabel(trailer.availability)}
@@ -103,17 +103,17 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
       </div>
 
       {/* Контент */}
-      <div className="p-5 flex-grow flex flex-col">
+      <div className="p-3 sm:p-4 flex-grow flex flex-col">
         <div className="flex-grow">
-          <h3 className="font-bold text-lg mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 dark:text-white">
+          <h3 className="font-bold text-base sm:text-lg mb-0.5 sm:mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 dark:text-white">
             {trailer.model}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2 min-h-[2.5rem]">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
             {trailer.name}
           </p>
 
           {/* Ключевые характеристики (сокращённый вид) */}
-          <div className="space-y-2 mb-4 text-sm bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+          <div className="space-y-1 sm:space-y-1.5 mb-2 sm:mb-3 text-xs sm:text-sm bg-gray-50 dark:bg-gray-700 p-2 sm:p-2.5 rounded-lg">
             {/* Размеры кузова или длина судна для лодочных */}
             {(() => {
               const dims = getBodyDimensions(trailer);
@@ -156,28 +156,28 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
         </div>
 
         {/* Низ карточки */}
-        <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
-          <div className="flex items-end justify-between mb-4">
+        <div className="pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700 mt-auto">
+          <div className="flex items-end justify-between mb-2 sm:mb-3">
             <Price 
               price={trailer.price} 
               oldPrice={trailer.oldPrice}
               showLabel
             />
             {!hideActions && (
-              <button className="p-2 text-gray-400 hover:text-red-500 transition-colors">
-                <Heart className="w-6 h-6" />
+              <button className="p-1.5 sm:p-2 text-gray-400 hover:text-red-500 transition-colors">
+                <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             )}
           </div>
 
           {!hideActions && (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate('/configurator', { state: { trailer } });
                 }}
-                className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg font-semibold text-sm transition-colors"
+                className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm transition-colors"
               >
                 Конфигуратор
               </button>
@@ -186,7 +186,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
                   e.stopPropagation();
                   onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } });
                 }}
-                className="bg-orange-600 hover:bg-orange-600 text-white px-3 py-2 rounded-lg font-semibold text-sm shadow-md transition-colors flex items-center justify-center"
+                className="bg-orange-600 hover:bg-orange-600 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm shadow-md transition-colors flex items-center justify-center"
               >
                 {trailer.availability === 'in_stock' ? 'Купить' : 'Заказать'}
               </button>

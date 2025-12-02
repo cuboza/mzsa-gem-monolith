@@ -235,17 +235,18 @@ export const Home = () => {
                     idx === currentSlide ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}>
                     <button
-                      onClick={() => navigate(slide.ctaLink)}
+                      onClick={() => navigate('/catalog')}
                       className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all transform hover:scale-105"
                     >
-                      <Settings className="w-6 h-6 mr-2" />
-                      {slide.ctaText}
+                      <Box className="w-6 h-6 mr-2" />
+                      Открыть каталог
                     </button>
                     <button
-                      onClick={() => navigate('/catalog')}
+                      onClick={() => navigate('/configurator')}
                       className="hidden sm:flex bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-xl font-bold text-lg items-center justify-center transition-all"
                     >
-                      Весь каталог
+                      <Settings className="w-6 h-6 mr-2" />
+                      Открыть конфигуратор
                     </button>
                   </div>
                 </div>
