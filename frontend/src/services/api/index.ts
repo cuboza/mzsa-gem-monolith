@@ -15,7 +15,8 @@ class DatabaseFactory {
   public static getInstance(): IDatabaseProvider {
     if (!DatabaseFactory.instance) {
       if (DATA_SOURCE === 'supabase') {
-        DatabaseFactory.instance = new SupabaseProvider();
+        // SupabaseProvider - это объект, не класс
+        DatabaseFactory.instance = SupabaseProvider;
       } else if (DATA_SOURCE === 'rest') {
         DatabaseFactory.instance = new RestProvider();
       } else {
