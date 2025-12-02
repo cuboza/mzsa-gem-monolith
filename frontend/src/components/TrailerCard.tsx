@@ -2,16 +2,15 @@ import { Trailer } from '../types';
 import { Heart, Truck, Check, Clock, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Badge, NewBadge, SaleBadge, DiscountBadge, PopularBadge, Price, OptimizedImage } from './ui';
+import { Badge, NewBadge, SaleBadge, DiscountBadge, PopularBadge, Price, OptimizedImage, AvailabilityBadge } from './ui';
 import {
   getAxlesCount,
   getCapacity,
   getBodyDimensions,
   hasBrakes,
-  getAvailabilityLabel,
-  getAvailabilityClasses,
   getMainImage,
 } from '../features/trailers';
+import { useTrailerAvailability } from '../hooks/useAvailability';
 
 // Хелперы теперь импортируются из features/trailers
 
@@ -27,6 +26,9 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+  // Расчёт доступности с учётом города пользователя
+  const availability = useTrailerAvailability(trailer);
 
   // Получаем URL изображения из утилиты
   const imageUrl = getMainImage(trailer);
@@ -92,19 +94,12 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
           )}
         </div>
 
-        {/* Наличие - используем утилиты из features с учётом stock */}
-        <Badge 
-          variant={(trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock' ? 'success' : trailer.availability === 'days_1_3' ? 'info' : 'neutral'}
-          className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-1"
+        {/* Наличие - используем расчёт по городу */}
+        <AvailabilityBadge 
+          availability={availability}
           size="sm"
-        >
-          {((trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock') ? (
-            <Check size={12} strokeWidth={3} />
-          ) : (
-            <Clock size={12} />
-          )}
-          {getAvailabilityLabel(trailer.availability, trailer.stock)}
-        </Badge>
+          className="absolute top-2 right-2 sm:top-3 sm:right-3"
+        />
       </div>
 
       {/* Контент */}
@@ -193,7 +188,7 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
                 }}
                 className="bg-orange-600 hover:bg-orange-600 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm shadow-md transition-colors flex items-center justify-center"
               >
-                {(trailer.stock && trailer.stock > 0) || trailer.availability === 'in_stock' ? 'Купить' : 'Заказать'}
+                {availability.isAvailable ? 'Купить' : 'Заказать'}
               </button>
             </div>
           )}

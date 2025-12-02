@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { CityProvider } from './context/CityContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MobileBottomNav } from './components/layout/MobileBottomNav';
@@ -34,6 +35,7 @@ const PageLoader = () => (
 function App() {
   return (
     <ThemeProvider>
+    <CityProvider>
     <AuthProvider>
       <BrowserRouter>
         <Routes>
@@ -75,6 +77,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </CityProvider>
     </ThemeProvider>
   );
 }

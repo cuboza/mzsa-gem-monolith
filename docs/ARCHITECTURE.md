@@ -164,6 +164,11 @@ const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
 ### Feature-модули (`src/features/`)
 Бизнес-логика, сгруппированная по доменам приложения:
 - **trailers/** — утилиты для прицепов (getAxlesCount, hasBrakes), константы, хуки фильтрации
+- **stock/** — управление складскими остатками и доступностью:
+  - `stockTypes.ts` — типы (StockInfo, MultiWarehouseStock, AvailabilityResult)
+  - `stockConstants.ts` — города, сроки доставки, CSS-классы бейджей
+  - `stockUtils.ts` — бизнес-логика (calculateAvailability, reserveStock, validateStockState)
+  - **67 unit-тестов, 97% покрытие** — полный workflow заказа с резервированием
 
 ### UI-компоненты (`src/components/ui/`)
 Переиспользуемые компоненты интерфейса:

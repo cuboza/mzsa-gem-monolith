@@ -4,6 +4,45 @@
 
 ## [Unreleased]
 
+## [0.8.0] - 2025-01-22
+### Добавлено
+- **Модуль управления остатками** (`src/features/stock/`):
+  - `stockTypes.ts` — типы: StockInfo, WarehouseStock, MultiWarehouseStock, AvailabilityResult, ReservationItem/Result, CityDeliveryConfig, StockChangeEvent
+  - `stockConstants.ts` — конфигурация доставки между городами ХМАО/ЯНАО (Сургут, Нижневартовск, Ноябрьск, Новый Уренгой), стили бейджей наличия
+  - `stockUtils.ts` — бизнес-логика (15+ функций):
+    - `calculateAvailability()` — расчёт доступности с учётом многоскладской модели
+    - `findNearestWarehouse()` — поиск ближайшего склада с товаром
+    - `getDeliveryDays()` — расчёт срока доставки между городами
+    - `canReserve()` / `selectWarehouseForReservation()` — логика резервирования
+    - `prepareReservation()` — подготовка резервирования с выбором оптимального склада
+    - `calculateStockAfterReservation/Release/Commit()` — изменение остатков при операциях
+    - `validateStockState()` — валидация состояния склада
+    - `normalizeCity()` / `aggregateStock()` — вспомогательные функции
+  - Полное покрытие тестами (67 тестов, 97% coverage)
+  
+- **E2E тесты workflow заказов** (`orderWorkflow.test.ts`):
+  - Сценарий: локальный заказ (товар на складе в городе пользователя)
+  - Сценарий: доставка из другого города
+  - Сценарий: товар отсутствует → предзаказ
+  - Сценарий: отмена заказа → возврат остатков
+  - Сценарий: конкурентные заказы (FIFO)
+  - Сценарий: заказ нескольких единиц
+
+- **Настройки отображения остатков** (`Settings.stock`):
+  - `displayMode`: 'badges' | 'text' | 'hidden'
+  - `showQuantity`: показывать точное количество
+  - `localDeliveryDays`: дни на локальную доставку
+  - `orderDeliveryDays`: дни на доставку при заказе
+
+- **Тестовая инфраструктура**:
+  - Vitest v4.0.15 + @vitest/coverage-v8
+  - Скрипты: `npm test`, `npm run test:run`, `npm run test:coverage`
+
+### Изменено
+- **types/index.ts**: Добавлен интерфейс `Settings.stock` для конфигурации отображения остатков
+- **features/index.ts**: Добавлен экспорт stock модуля
+- **Документация**: Обновлён ARCHITECTURE.md (раздел Feature-модули)
+
 ## [0.7.0] - 2025-12-02
 ### Добавлено
 - **Telegram-уведомления о заказах**:

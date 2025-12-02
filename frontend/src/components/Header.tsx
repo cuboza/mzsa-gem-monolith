@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { User, Sun, Moon, FileText } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { CitySelector } from './ui';
 
 export const Header = () => {
   const location = useLocation();
@@ -25,6 +26,10 @@ export const Header = () => {
 
           {/* Навигация и иконки */}
           <div className="flex items-center space-x-2">
+            {/* Выбор города */}
+            <CitySelector className="hidden sm:block" />
+            <CitySelector variant="compact" className="sm:hidden" />
+            
             <Link
               to="/registration"
               className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${

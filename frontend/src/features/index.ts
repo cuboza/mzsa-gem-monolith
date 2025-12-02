@@ -3,3 +3,4 @@
  */
 
 export * from './trailers';
+export * from './stock';

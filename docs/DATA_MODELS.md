@@ -102,11 +102,65 @@ interface Trailer {
   
   suspension?: string;
   brakes?: string;
-  stock?: number;            // Количество на складе
+  stock?: number;            // Количество на складе (deprecated, см. WarehouseStock)
+  warehouses?: WarehouseStock[];  // Многоскладская модель остатков
   createdAt?: string;
   updatedAt?: string;
 }
 ```
+
+### Многоскладская модель остатков
+
+Начиная с v0.8.0, система поддерживает распределённые остатки по городам.
+
+```typescript
+// Остаток на конкретном складе
+interface WarehouseStock {
+  warehouseId: string;      // ID склада
+  warehouseName: string;    // Название (напр. "Склад Сургут")
+  city: string;             // Город склада
+  quantity: number;         // Доступное количество
+  reserved: number;         // Зарезервировано
+  lastUpdated: string;      // ISO дата обновления
+}
+
+// Результат расчёта доступности
+interface AvailabilityResult {
+  status: 'in_stock' | 'delivery' | 'preorder';
+  label: string;            // "В наличии" / "Доставка 2-3 дня" / "Под заказ"
+  deliveryDays?: number;    // Срок доставки
+  warehouse?: string;       // Склад-источник
+  city?: string;            // Город склада
+  quantity?: number;        // Доступное количество
+}
+
+// Настройки отображения остатков (Settings.stock)
+interface StockSettings {
+  displayMode: 'badges' | 'text' | 'hidden';
+  showQuantity: boolean;    // Показывать точное количество
+  localDeliveryDays: number;
+  orderDeliveryDays: number;
+}
+```
+
+**Города и сроки доставки (ХМАО/ЯНАО):**
+| Откуда \ Куда | Сургут | Нижневартовск | Ноябрьск | Новый Уренгой |
+|---------------|--------|---------------|----------|---------------|
+| Сургут        | 0      | 1             | 2        | 3             |
+| Нижневартовск | 1      | 0             | 2        | 3             |
+| Ноябрьск      | 2      | 2             | 0        | 2             |
+| Новый Уренгой | 3      | 3             | 2        | 0             |
+
+**Логика расчёта доступности:**
+1. Ищем остаток в городе пользователя → `in_stock`
+2. Ищем ближайший склад с товаром → `delivery` (N дней)
+3. Если нигде нет → `preorder`
+
+> **Бизнес-логика в `features/stock/`:**
+> - `calculateAvailability()` — расчёт с учётом многоскладской модели
+> - `prepareReservation()` — выбор оптимального склада для резервирования
+> - `calculateStockAfterReservation/Release/Commit()` — изменение остатков
+> - 67 unit-тестов с 97% покрытием
 
 > **Именование полей (консистентность):**
 > - `image` — главное изображение (единственное)

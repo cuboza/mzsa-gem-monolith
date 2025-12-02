@@ -1,3 +1,5 @@
+import type { WarehouseStock } from '../features/stock';
+
 export type UserRole = 'user' | 'manager' | 'admin';
 
 export interface AdminUser {
@@ -53,7 +55,8 @@ export interface Trailer {
   maxVehicleVolume?: number; // м³ - для грузовых прицепов
   
   // Складские данные
-  stock?: number; // количество на складе
+  stock?: number; // количество на складе (deprecated: используйте warehouses)
+  warehouses?: WarehouseStock[]; // Многоскладская модель остатков
   
   // Видимость
   isVisible?: boolean; // видимость в каталоге и конфигураторе (по умолчанию true)
@@ -202,6 +205,14 @@ export interface Settings {
     description: string;
     advantages: string[];
     certificates: string[];
+  };
+  
+  // Настройки отображения остатков
+  stock?: {
+    displayMode: 'by_city' | 'total' | 'hidden';  // Режим отображения
+    showQuantity: boolean;     // Показывать количество
+    localDeliveryDays: string; // Срок доставки из другого города
+    orderDeliveryDays: string; // Срок поставки под заказ
   };
   
   // Hero-слайды на главной странице

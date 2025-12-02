@@ -16,3 +16,7 @@ export type { PriceProps } from './Price';
 
 export { OptimizedImage } from './OptimizedImage';
 export type { OptimizedImageProps } from './OptimizedImage';
+
+export { CitySelector } from './CitySelector';
+
+export { AvailabilityBadge, AvailabilityIcon } from './AvailabilityBadge';

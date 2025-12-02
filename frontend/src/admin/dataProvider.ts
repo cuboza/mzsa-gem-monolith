@@ -66,16 +66,50 @@ export const dataProvider: DataProvider = {
       let valB = getField(b, field);
 
       // Преобразуем строковые числа в числа для корректной сортировки
-      if (typeof valA === 'string' && !isNaN(Number(valA))) valA = Number(valA);
-      if (typeof valB === 'string' && !isNaN(Number(valB))) valB = Number(valB);
+      // Извлекаем число из строки (например "5 шт" → 5, "15" → 15)
+      const parseNumeric = (val: any): number | null => {
+        if (typeof val === 'number') return val;
+        if (typeof val === 'string') {
+          const trimmed = val.trim();
+          const match = trimmed.match(/^[\d.,]+/);
+          if (match) {
+            const num = parseFloat(match[0].replace(',', '.'));
+            if (!isNaN(num)) return num;
+          }
+        }
+        return null;
+      };
       
+      const numA = parseNumeric(valA);
+      const numB = parseNumeric(valB);
+      
+      // Для поля stock: нулевые и null значения ВСЕГДА внизу
+      if (field === 'stock') {
+        const isZeroA = numA === null || numA === 0;
+        const isZeroB = numB === null || numB === 0;
+        
+        if (isZeroA && !isZeroB) return 1;  // A внизу
+        if (!isZeroA && isZeroB) return -1; // B внизу
+        if (isZeroA && isZeroB) return 0;   // Оба внизу, равны
+        
+        // Оба ненулевые — сортируем по значению
+        if (numA! < numB!) return order === 'ASC' ? -1 : 1;
+        if (numA! > numB!) return order === 'ASC' ? 1 : -1;
+        return 0;
+      }
+      
+      // Для остальных полей: стандартная сортировка
       // Обработка null/undefined — помещаем в конец
       if (valA == null && valB == null) return 0;
-      if (valA == null) return order === 'ASC' ? 1 : -1;
-      if (valB == null) return order === 'ASC' ? -1 : 1;
+      if (valA == null) return 1;
+      if (valB == null) return -1;
+      
+      // Используем числовые значения если есть
+      const sortA = numA !== null ? numA : valA;
+      const sortB = numB !== null ? numB : valB;
 
-      if (valA < valB) return order === 'ASC' ? -1 : 1;
-      if (valA > valB) return order === 'ASC' ? 1 : -1;
+      if (sortA < sortB) return order === 'ASC' ? -1 : 1;
+      if (sortA > sortB) return order === 'ASC' ? 1 : -1;
       return 0;
     });
 

@@ -120,7 +120,7 @@ const CompatibilityField = () => {
 };
 
 export const AccessoryList = () => (
-  <List filters={<AccessoryFilter />} sort={{ field: 'name', order: 'ASC' }}>
+  <List filters={<AccessoryFilter />} sort={{ field: 'stock', order: 'DESC' }}>
     <Datagrid rowClick="edit" bulkActionButtons={<AccessoryBulkActions />}>
       <ThumbnailField source="image" />
       <TextField source="name" label="Название" sortable={true} />
