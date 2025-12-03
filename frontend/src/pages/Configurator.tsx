@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
+import { VehicleModel } from '../features/vehicles/vehicleTypes';
 import { vehicleDatabase } from '../data/vehicles';
 import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff, X, ShoppingCart, Phone } from 'lucide-react';
 import { Stepper } from '../components/layout/Stepper';
@@ -35,6 +36,8 @@ export const Configurator = () => {
   const [accessoryQuantities, setAccessoryQuantities] = useState<Record<string, number>>({});
   const [orderNumber, setOrderNumber] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const [vehicleSearchResults, setVehicleSearchResults] = useState<VehicleModel[]>([]);
+  const [showVehicleResults, setShowVehicleResults] = useState(false);
 
   // Фильтры
   const [showFilters, setShowFilters] = useState(false);
@@ -157,9 +160,43 @@ export const Configurator = () => {
   // Используем formatPrice из utils/
 
   // Обработчики
-  const handleSearch = (e: React.FormEvent) => {
+  const handleVehicleModelSelect = (model: VehicleModel) => {
+    const vehicle: Vehicle = {
+      brand: model.brand,
+      model: model.model,
+      length: model.length,
+      width: model.width,
+      height: model.height,
+      weight: model.weight,
+    };
+    
+    let category = 'other';
+    if (['boat_pvc', 'boat_aluminum', 'boat_soviet', 'boat_rigid', 'boat'].includes(model.type)) category = 'boat';
+    else if (model.type === 'snowmobile') category = 'snowmobile';
+    else if (model.type === 'atv') category = 'atv';
+    else if (model.type === 'motorcycle') category = 'motorcycle';
+    else if (model.type === 'car') category = 'car';
+    else if (model.type === 'cargo') category = 'cargo';
+    
+    setSelectedCategory(category);
+    setSelectedVehicle(vehicle);
+    setSelectedTrailer(null);
+    setSearchInput(`${model.brand} ${model.model}`);
+    setShowVehicleResults(false);
+    setStep(2);
+  };
+
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchInput.trim()) return;
+
+    // 1. Try database search
+    const results = await db.searchVehicles(searchInput);
+    if (results.length > 0) {
+      setVehicleSearchResults(results);
+      setShowVehicleResults(true);
+      return;
+    }
 
     const parsed = parseSearchQuery(searchInput);
 
@@ -345,6 +382,26 @@ export const Configurator = () => {
                     <Search size={24} />
                   </button>
                 </form>
+                
+                {showVehicleResults && vehicleSearchResults.length > 0 && (
+                  <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
+                    {vehicleSearchResults.map((v) => (
+                      <button
+                        key={v.id}
+                        onClick={() => handleVehicleModelSelect(v)}
+                        className="w-full text-left px-4 py-3 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0 transition-colors"
+                      >
+                        <div className="font-bold text-gray-900 dark:text-white">{v.brand} {v.model}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400 flex gap-3">
+                          <span>{v.length}x{v.width} мм</span>
+                          {v.weight > 0 && <span>{v.weight} кг</span>}
+                          <span className="capitalize">{v.type.replace('_', ' ')}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
                   Примеры: «лодка 4м», «снегоход 3.5м», «груз 10 куб м», «авто 3 тонны»
                 </p>

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "updatedAt": "2025-12-02T10:00:00Z",
+  "vehicles": [
+    {
+      "id": "boat-kazanka-5m4",
+      "type": "boat_soviet",
+      "brand": "Казанка",
+      "model": "5М4",
+      "length": 4600,
+      "width": 1650,
+      "height": 700,
+      "weight": 190,
+      "aliases": ["Kazanka 5M4", "Казанка-5М4"],
+      "searchKeywords": ["лодка", "алюминиевая", "советская"],
+      "popularityScore": 80
+    },
+    {
+      "id": "snowmobile-rm-frontier-1000",
+      "type": "snowmobile",
+      "brand": "Русская Механика",
+      "model": "Frontier 1000",
+      "length": 3275,
+      "width": 1270,
+      "height": 1440,
+      "weight": 300,
+      "aliases": ["Фронтьер 1000"],
+      "searchKeywords": ["снегоход", "рм", "frontier"],
+      "popularityScore": 90
+    }
+  ]
+}

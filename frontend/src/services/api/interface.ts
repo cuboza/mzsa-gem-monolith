@@ -1,4 +1,5 @@
 import { Trailer, Order, Customer, Settings, Accessory, AdminUser } from '../../types';
+import { VehicleModel, VehicleDatabase } from '../../features/vehicles/vehicleTypes';
 
 // Типы для работы с остатками
 export interface StockInfo {
@@ -57,6 +58,13 @@ export interface IDatabaseProvider {
   // Settings
   getSettings(): Promise<Settings | null>;
   saveSettings(settings: Settings): Promise<Settings>;
+
+  // Vehicles
+  getVehicles(): Promise<VehicleModel[]>;
+  searchVehicles(query: string): Promise<VehicleModel[]>;
+  importVehicles(data: VehicleDatabase): Promise<void>;
+  getVehiclesVersion(): Promise<number>;
+  syncVehiclesFromCloud?(): Promise<void>;
   
   // Stock Management (остатки)
   getStock?(itemId: string, itemType: 'trailer' | 'option'): Promise<StockInfo | null>;

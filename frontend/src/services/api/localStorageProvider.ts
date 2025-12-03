@@ -1,5 +1,8 @@
 import { IDatabaseProvider } from './interface';
 import { Trailer, Order, Customer, Settings, Accessory, AdminUser } from '../../types';
+import { VehicleModel, VehicleDatabase } from '../../features/vehicles/vehicleTypes';
+import { searchVehicles } from '../../features/vehicles/vehicleSearch';
+import defaultVehiclesDb from '../../data/vehiclesDatabase.json';
 
 const STORAGE_KEYS = {
   TRAILERS: 'onr_trailers',
@@ -374,6 +377,47 @@ export class LocalStorageProvider implements IDatabaseProvider {
     
     localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
     console.log('Database initialized with default data');
+  }
+
+  // ========== VEHICLES ==========
+  
+  async getVehicles(): Promise<VehicleModel[]> {
+    const stored = localStorage.getItem('onr_vehicles');
+    if (stored) {
+      try {
+        const db = JSON.parse(stored) as VehicleDatabase;
+        return db.vehicles;
+      } catch (e) {
+        console.error('Error parsing stored vehicles', e);
+      }
+    }
+    return (defaultVehiclesDb as any).vehicles as VehicleModel[];
+  }
+
+  async searchVehicles(query: string): Promise<VehicleModel[]> {
+    const vehicles = await this.getVehicles();
+    return searchVehicles(vehicles, query).map(r => r.vehicle);
+  }
+
+  async importVehicles(data: VehicleDatabase): Promise<void> {
+    localStorage.setItem('onr_vehicles', JSON.stringify(data));
+  }
+
+  async getVehiclesVersion(): Promise<number> {
+    const stored = localStorage.getItem('onr_vehicles');
+    if (stored) {
+      try {
+        const db = JSON.parse(stored) as VehicleDatabase;
+        return db.version;
+      } catch (e) {
+        return 0;
+      }
+    }
+    return (defaultVehiclesDb as any).version;
+  }
+
+  async syncVehiclesFromCloud(): Promise<void> {
+    // No-op for local provider
   }
 }
 

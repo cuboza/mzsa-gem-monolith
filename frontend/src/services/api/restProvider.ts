@@ -1,5 +1,7 @@
 import { IDatabaseProvider } from './interface';
 import { Trailer, Order, Customer, Accessory, Settings, AdminUser } from '../../types';
+import { VehicleModel, VehicleDatabase } from '../../features/vehicles/vehicleTypes';
+import defaultVehiclesDb from '../../data/vehiclesDatabase.json';
 
 // API URL: 
 // - В режиме разработки с отдельным бэкендом: VITE_API_URL=http://localhost:3001
@@ -12,6 +14,28 @@ export class RestProvider implements IDatabaseProvider {
   async getUser(id: string): Promise<AdminUser | null> { return null; }
   async saveUser(user: AdminUser): Promise<AdminUser> { return user; }
   async deleteUser(id: string): Promise<void> {}
+
+  // --- Vehicles ---
+  async getVehicles(): Promise<VehicleModel[]> {
+    return (defaultVehiclesDb as any).vehicles as VehicleModel[];
+  }
+
+  async searchVehicles(query: string): Promise<VehicleModel[]> {
+    const vehicles = await this.getVehicles();
+    const lowerQuery = query.toLowerCase();
+    return vehicles.filter(v => 
+      v.brand.toLowerCase().includes(lowerQuery) || 
+      v.model.toLowerCase().includes(lowerQuery)
+    );
+  }
+
+  async importVehicles(data: VehicleDatabase): Promise<void> {
+    console.warn('Import not supported in RestProvider');
+  }
+
+  async getVehiclesVersion(): Promise<number> {
+    return (defaultVehiclesDb as any).version;
+  }
 
   async initializeData(trailers: Trailer[], accessories: Accessory[], settings: Settings, orders: Order[] = []): Promise<void> {
     // В REST API мы предполагаем, что данные уже есть на сервере.

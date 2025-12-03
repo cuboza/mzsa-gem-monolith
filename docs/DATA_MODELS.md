@@ -311,6 +311,12 @@ interface IDatabaseProvider {
   getTrailers(): Promise<Trailer[]>;
   saveTrailer(trailer: Trailer): Promise<Trailer>;
   
+  // Техника
+  getVehicles(): Promise<VehicleModel[]>;
+  searchVehicles(query: string): Promise<VehicleModel[]>;
+  importVehicles(data: VehicleDatabase): Promise<void>;
+  getVehiclesVersion(): Promise<number>;
+
   // ... другие методы
 }
 ```

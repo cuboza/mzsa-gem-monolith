@@ -41,6 +41,7 @@ Frontend может работать с разными провайдерами 
 #### Supabase (основной)
 Таблицы в PostgreSQL:
 - **trailers** — прицепы (slug, model, name, retail_price, main_image_url, status, visible_on_site, max_vehicle_length/width/weight)
+- **vehicle_models** — справочник техники (лодки, снегоходы и т.д.) с версионированием (`data_version`)
 - **categories** — категории прицепов (general, water, commercial)
 - **specifications** — характеристики прицепов
 - **features** — особенности/фичи
@@ -80,10 +81,15 @@ root/
 │   │   │   ├── ui/     # Базовые компоненты (Button, Card, Badge, Price...)
 │   │   │   └── common/ # Общие компоненты (SEO, схемы schema.org)
 │   │   ├── features/   # Feature-модули (бизнес-логика по доменам)
-│   │   │   └── trailers/  # Работа с прицепами
-│   │   │       ├── trailerUtils.ts      # Утилиты (getAxlesCount, hasBrakes...)
-│   │   │       ├── trailerConstants.ts  # Константы
-│   │   │       └── useTrailerFilters.ts # Хук фильтрации каталога
+│   │   │   ├── trailers/  # Работа с прицепами
+│   │   │   │   ├── trailerUtils.ts      # Утилиты (getAxlesCount, hasBrakes...)
+│   │   │   │   ├── trailerConstants.ts  # Константы
+│   │   │   │   └── useTrailerFilters.ts # Хук фильтрации каталога
+│   │   │   └── vehicles/  # Справочник техники
+│   │   │       ├── vehicleTypes.ts      # Типы
+│   │   │       ├── vehicleSearch.ts     # Логика поиска
+│   │   │       ├── vehicleValidation.ts # Валидация JSON
+│   │   │       └── vehicleSync.ts       # Синхронизация
 │   │   ├── hooks/      # Кастомные хуки (useBreakpoint, useHeroSlides, useStores)
 │   │   ├── pages/      # Страницы (Home, Catalog, Configurator...)
 │   │   ├── services/   # API провайдеры (Supabase, Local, REST)

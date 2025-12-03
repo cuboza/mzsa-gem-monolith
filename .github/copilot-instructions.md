@@ -28,7 +28,7 @@
 - **LocalStorage** (текущий `DATA_SOURCE = 'local'`): демо-режим без сервера
 - **Supabase** (для продакшена): `SupabaseProvider` в `frontend/src/services/api/supabaseProvider.ts`
   - URL: `https://pulqvocnuvpwnsnyvlpt.supabase.co`
-  - Таблицы: `trailers`, `categories`, `specifications`, `features`, `images`, `options`, `trailer_options`, `leads`, `lead_items`, `customers`, `warehouses`
+  - Таблицы: `trailers`, `categories`, `specifications`, `features`, `images`, `options`, `trailer_options`, `leads`, `lead_items`, `customers`, `warehouses`, `vehicle_models`
   - **ВАЖНО**: Поля в Supabase отличаются от типов TypeScript:
     - `auth_user_id` (не `user_id`) — связь с Supabase Auth
     - `status = 'active'` + `visible_on_site = true` (не `is_active`)
@@ -36,6 +36,7 @@
     - `main_image_url` — главное изображение (не `image`)
     - `max_vehicle_length/width/weight` → `maxVehicleLength/Width/Weight`
     - Заявки хранятся в `leads` (не `orders`)
+    - Справочник техники в `vehicle_models` (синхронизируется с JSON через админку)
 - **REST API** (устаревший): `RestProvider` для работы с локальным бэкендом на :3001
 - **LocalStorage** (автономный): `LocalStorageProvider` для работы без сервера
 - Переключение: константа `DATA_SOURCE` в `frontend/src/services/api/index.ts`
@@ -117,6 +118,11 @@
   - `trailerUtils.ts` — утилиты: `getAxlesCount()`, `getCapacity()`, `hasBrakes()`, `getMainImage()`, `getAvailabilityLabel()`
   - `trailerConstants.ts` — константы: `TRAILER_CATEGORIES`, `AVAILABILITY_LABELS`, `BODY_TYPES`
   - `useTrailerFilters.ts` — хук фильтрации каталога (заменяет useMemo в Catalog)
+- `vehicles/` — справочник техники:
+  - `vehicleTypes.ts` — типы `VehicleModel`, `VehicleDatabase`
+  - `vehicleSearch.ts` — умный поиск с ранжированием
+  - `vehicleValidation.ts` — валидация JSON при импорте
+  - `vehicleSync.ts` — логика синхронизации версий
 
 ### Утилиты (`src/utils/`)
 - `format.ts` — форматирование: `formatPrice()`, `formatDateTime()`, `formatDate()`, `formatPhone()`

@@ -6,6 +6,7 @@
 import { supabase } from './supabaseClient';
 import type { IDatabaseProvider } from './interface';
 import type { Trailer, Accessory, Order, Customer, Settings, AdminUser } from '../../types';
+import { VehicleModel, VehicleDatabase } from '../../features/vehicles/vehicleTypes';
 import { parseSearchQuery, mapVehicleCategoryToTrailerCategory } from '../../utils/searchParser';
 
 // Маппинг из Supabase в наши типы
@@ -1355,6 +1356,85 @@ return mapSupabaseLead(data);
         })
         .eq('id', stock.id);
     }
+  },
+
+  // ========== VEHICLES ==========
+  
+  async getVehicles(): Promise<VehicleModel[]> {
+    const { data, error } = await supabase
+      .from('vehicle_models')
+      .select('*')
+      .order('popularity_score', { ascending: false });
+      
+    if (error) {
+      console.error('Error fetching vehicles:', error);
+      return [];
+    }
+    
+    return data.map(row => ({
+      id: row.id,
+      type: row.vehicle_type,
+      brand: row.manufacturer,
+      model: row.name,
+      length: row.length_mm,
+      width: row.width_mm,
+      height: row.height_mm,
+      weight: row.weight_kg,
+      aliases: row.aliases,
+      searchKeywords: row.search_keywords,
+      popularityScore: row.popularity_score,
+      imageUrl: row.image_url,
+      description: row.description,
+      foldedLength: row.folded_length_mm,
+      foldedWidth: row.folded_width_mm,
+      foldedHeight: row.folded_height_mm
+    }));
+  },
+
+  async searchVehicles(query: string): Promise<VehicleModel[]> {
+    const all = await this.getVehicles();
+    const { searchVehicles: fuzzySearch } = await import('../../features/vehicles/vehicleSearch');
+    return fuzzySearch(all, query).map(r => r.vehicle);
+  },
+
+  async importVehicles(data: VehicleDatabase): Promise<void> {
+    const rows = data.vehicles.map(v => ({
+      id: v.id,
+      vehicle_type: v.type,
+      manufacturer: v.brand,
+      name: v.model,
+      length_mm: v.length,
+      width_mm: v.width,
+      height_mm: v.height,
+      weight_kg: v.weight,
+      aliases: v.aliases,
+      search_keywords: v.searchKeywords,
+      popularity_score: v.popularityScore,
+      image_url: v.imageUrl,
+      description: v.description,
+      folded_length_mm: v.foldedLength,
+      folded_width_mm: v.foldedWidth,
+      folded_height_mm: v.foldedHeight,
+      data_version: data.version,
+      updated_at: new Date().toISOString()
+    }));
+
+    const { error } = await supabase
+      .from('vehicle_models')
+      .upsert(rows);
+      
+    if (error) throw error;
+  },
+
+  async getVehiclesVersion(): Promise<number> {
+    const { data, error } = await supabase
+      .from('vehicle_models')
+      .select('data_version')
+      .limit(1)
+      .order('data_version', { ascending: false });
+      
+    if (error || !data || data.length === 0) return 0;
+    return data[0].data_version || 0;
   },
 
   // ========== INIT ==========
