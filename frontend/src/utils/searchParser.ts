@@ -98,8 +98,9 @@ export function parseSearchQuery(query: string): ParsedSearch {
     }
   }
 
-  // === 4. Определение длины (только если не найден объём/вес) ===
-  if (!result.volume && !result.weight) {
+  // === 4. Определение длины (парсится независимо от объёма/веса) ===
+  // Не парсим длину если уже нашли объём (объём важнее для фургонов)
+  if (!result.volume) {
     // Варианты: 3.5м, 4 м, 350см, 3500мм, 4000 мм, 3,5 метра, просто 4.5
     // ВАЖНО: порядок паттернов критичен - сначала "мм", потом "м"
     const lengthPatterns = [
@@ -160,19 +161,28 @@ export function parseSearchQuery(query: string): ParsedSearch {
 }
 
 /**
- * Определяет категорию прицепа по категории техники
+ * Определяет категорию прицепа по категории техники.
+ * 
+ * Правила совместимости:
+ * - boat (лодки, катера, гидроциклы) → только 'water'
+ * - snowmobile, atv, motorcycle → 'general' и 'commercial' (возвращаем undefined — не ограничиваем)
+ * - car, cargo → 'commercial' и 'general' (возвращаем undefined — не ограничиваем)
+ * 
+ * Возвращает категорию прицепа ТОЛЬКО если нужно жёсткое ограничение.
  */
 export function mapVehicleCategoryToTrailerCategory(vehicleCategory: string): string | undefined {
   switch (vehicleCategory) {
     case 'boat':
+      // Лодки, катера, гидроциклы → ТОЛЬКО водные прицепы
       return 'water';
     case 'car':
     case 'cargo':
-      return 'commercial';
     case 'snowmobile':
     case 'atv':
     case 'motorcycle':
-      return 'general';
+      // Наземная техника → general и commercial, НЕ ограничиваем категорией
+      // Ограничение water/non-water уже есть в шаге 3 фильтра
+      return undefined;
     default:
       return undefined;
   }
