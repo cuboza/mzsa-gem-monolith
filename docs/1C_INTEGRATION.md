@@ -32,7 +32,8 @@
 | `guid_1c` | UUID | ✅ | Уникальный идентификатор из 1С |
 | `model` | string | ✅ | Модель, напр. "МЗСА 817700.002" |
 | `name` | string | ✅ | Название, напр. "Прицеп КОМПАКТ" |
-| `article` | string | - | Артикул |
+| `article` | string | - | Артикул производителя (МЗСА) |
+| `onr_article` | string | - | Артикул ОНР (внутренний) |
 | `description` | string | - | Полное описание |
 | `category` | string | ✅ | Категория: `general`, `water`, `commercial` |
 | `base_price` | number | - | Базовая цена |
@@ -74,7 +75,8 @@
 |------|-----|--------------|----------|
 | `guid_1c` | UUID | ✅ | Уникальный идентификатор из 1С |
 | `name` | string | ✅ | Название опции |
-| `article` | string | - | Артикул |
+| `article` | string | - | Артикул производителя |
+| `onr_article` | string | - | Артикул ОНР (внутренний) |
 | `description` | string | - | Описание |
 | `category` | string | ✅ | Категория: `cover`, `loading`, `spare`, `safety`, `guides`, `boat_support` |
 | `retail_price` | number | - | Цена |

@@ -88,7 +88,17 @@ export const hasBrakes = (trailer: Trailer): boolean => {
     }
   }
   // Legacy поле brakes
-  if (trailer.brakes && trailer.brakes !== 'Нет') return true;
+  if (trailer.brakes) {
+    const lowerBrakes = trailer.brakes.toLowerCase();
+    // Проверяем на отсутствие тормозов
+    if (lowerBrakes.includes('без тормоз') || lowerBrakes === 'нет') {
+      return false;
+    }
+    // Проверяем на наличие тормозов
+    if (lowerBrakes.includes('тормоз наката') || lowerBrakes.includes('есть')) {
+      return true;
+    }
+  }
   return false;
 };
 

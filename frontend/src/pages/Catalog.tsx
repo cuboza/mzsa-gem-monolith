@@ -11,6 +11,8 @@ import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
 import { useTrailerFilters, TRAILER_CATEGORIES } from '../features/trailers';
 import { BreadcrumbSchema } from '../components/common';
 import { VehicleModel } from '../features/vehicles/vehicleTypes';
+import { searchVehicles } from '../features/vehicles/vehicleSearch';
+import vehiclesDb from '../data/vehiclesDatabase.json';
 
 export const Catalog = () => {
   const [trailers, setTrailers] = useState<Trailer[]>([]);
@@ -41,6 +43,23 @@ export const Catalog = () => {
   useEffect(() => {
     setSearchQuery(queryParam);
   }, [queryParam]);
+
+  // Восстановление selectedVehicle при загрузке страницы с ?q=
+  // Если q точно совпадает с "Brand Model" техники — устанавливаем selectedVehicle
+  useEffect(() => {
+    if (queryParam && !selectedVehicle) {
+      // @ts-ignore - vehiclesDb structure
+      const results = searchVehicles(vehiclesDb.vehicles as VehicleModel[], queryParam, { limit: 1 });
+      if (results.length > 0) {
+        const match = results[0].vehicle;
+        const expectedName = `${match.brand} ${match.model}`;
+        // Точное совпадение — значит это выбранная техника, а не произвольный текст
+        if (queryParam === expectedName) {
+          setSelectedVehicle(match);
+        }
+      }
+    }
+  }, [queryParam]); // eslint-disable-line react-hooks/exhaustive-deps
   
   // Живое обновление URL при вводе с debounce
   const handleSearchChange = useCallback((value: string) => {
@@ -99,6 +118,8 @@ export const Catalog = () => {
     vehicleWidth: selectedVehicle?.width,
     vehicleWeight: selectedVehicle?.weight,
     vehicleCategory: selectedVehicle?.type,
+    // Когда выбрана техника из автодополнения — поиск только по совместимости
+    vehicleSelected: !!selectedVehicle,
   });
 
   // Хлебные крошки для SEO
@@ -118,6 +139,7 @@ export const Catalog = () => {
         const data = await db.getTrailers({
           category: activeCategory
         });
+        console.log('[Catalog] Loaded trailers:', data.length, 'hasTarget:', data.some(t => t.id === 'mzsa_817718_022'));
         setTrailers(data);
       } catch (err) {
         console.error(err);

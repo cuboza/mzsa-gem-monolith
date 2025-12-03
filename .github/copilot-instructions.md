@@ -35,6 +35,8 @@
     - `retail_price` — основная цена (не `price`)
     - `main_image_url` — главное изображение (не `image`)
     - `max_vehicle_length/width/weight` → `maxVehicleLength/Width/Weight`
+    - `article` — артикул производителя (МЗСА)
+    - `onr_article` — **сквозной артикул ОНР** (внутренний, для всех товаров)
     - Заявки хранятся в `leads` (не `orders`)
     - Справочник техники в `vehicle_models` (синхронизируется с JSON через админку)
 - **REST API** (устаревший): `RestProvider` для работы с локальным бэкендом на :3001
@@ -94,7 +96,7 @@
 - `TrailerCard.tsx` — карточка прицепа (использует Badge, Price из ui/)
 - `TrailerDetailsModal.tsx` — модальное окно с деталями прицепа
 - `CatalogFilters.tsx` — фильтры каталога
-- `CatalogSearch.tsx` — строка поиска
+- `CatalogSearch.tsx` — строка поиска с автодополнением по базе техники (vehiclesDatabase.json)
 
 ### UI-компоненты (`src/components/ui/`)
 - `Button.tsx` — кнопка с вариантами (primary, secondary, outline, ghost, danger, success)

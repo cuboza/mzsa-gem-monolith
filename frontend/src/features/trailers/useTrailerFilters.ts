@@ -36,6 +36,8 @@ export interface TrailerFilters {
   vehicleLength?: number;
   vehicleWidth?: number;
   vehicleWeight?: number;
+  /** Когда true, техника выбрана из автодополнения — поиск только по совместимости */
+  vehicleSelected?: boolean;
 }
 
 export interface UseTrailerFiltersResult {
@@ -65,10 +67,20 @@ export const useTrailerFilters = (
       vehicleLength,
       vehicleWidth,
       vehicleWeight,
+      vehicleSelected,
     } = filters;
 
     // Парсим поисковый запрос для умного поиска
     const parsed = searchQuery ? parseSearchQuery(searchQuery) : null;
+    
+    console.log('[Filter] Starting with:', { 
+      count: trailers.length, 
+      vehicleCategory, 
+      vehicleLength, 
+      vehicleWidth, 
+      vehicleSelected,
+      parsed 
+    });
 
     let result = trailers.filter((trailer) => {
       // ВАЖНО: Фильтрация по isVisible выполняется на уровне провайдера данных
@@ -76,14 +88,15 @@ export const useTrailerFilters = (
       // Здесь фильтр НЕ нужен - прицепы уже отфильтрованы
 
       // =========================================
-      // 1. Фильтрация по категории прицепа
+      // 1. Фильтрация по категории прицепа (из UI фильтра)
       // =========================================
       if (category && category !== 'all' && trailer.category !== category) {
         return false;
       }
 
       // =========================================
-      // 2. Умный поиск по категории техники
+      // 2. Умный поиск по категории техники (из текстового запроса)
+      // Например: "лодка 4м" → показать лодочные прицепы
       // =========================================
       if (parsed?.category) {
         const requiredTrailerCategory = mapVehicleCategoryToTrailerCategory(parsed.category);
@@ -92,20 +105,31 @@ export const useTrailerFilters = (
         }
       }
 
-      // Категория техники из конфигуратора
+      // =========================================
+      // 3. Совместимость техники и прицепа
+      // - Лодочные прицепы (water) подходят ТОЛЬКО для лодок/катеров/гидроциклов
+      // - Универсальные (general) и коммерческие (commercial) — для остальной техники
+      // =========================================
       if (vehicleCategory) {
-        const requiredTrailerCategory = mapVehicleCategoryToTrailerCategory(vehicleCategory);
-        if (requiredTrailerCategory && trailer.category !== requiredTrailerCategory) {
-          // Проверяем также массив compatibility
-          if (!trailer.compatibility?.includes(vehicleCategory as any)) {
-            return false;
-          }
+        const isWaterVehicle = vehicleCategory === 'boat';
+        const isWaterTrailer = trailer.category === 'water';
+        
+        // Лодочные прицепы — только для водной техники
+        if (isWaterTrailer && !isWaterVehicle) {
+          return false;
+        }
+        // Водная техника — только на лодочные прицепы
+        if (isWaterVehicle && !isWaterTrailer) {
+          return false;
         }
       }
 
       // =========================================
-      // 3. Умный поиск по размерам
+      // 4. Фильтрация по РАЗМЕРАМ техники (главный фильтр!)
+      // Когда выбрана техника — показываем ВСЕ прицепы, куда она помещается
       // =========================================
+      
+      // Умный поиск по размерам из текста (например "лодка 4м")
       if (parsed?.length) {
         const trailerMaxLength = getMaxVehicleLength(trailer);
         const maxAllowed = parsed.length + SMART_SEARCH_SIZE_THRESHOLD_MM;
@@ -114,32 +138,27 @@ export const useTrailerFilters = (
         }
       }
 
-      // Точный размер техники из конфигуратора
+      // Точный размер техники из автодополнения/конфигуратора
       if (vehicleLength && vehicleLength > 0) {
         const trailerMaxLength = getMaxVehicleLength(trailer);
+        // Если у прицепа указана макс. длина и техника не влезает — отсеиваем
         if (trailerMaxLength > 0 && vehicleLength > trailerMaxLength) {
           return false;
         }
       }
 
       if (vehicleWidth && vehicleWidth > 0) {
+        // Если у прицепа указана макс. ширина и техника не влезает — отсеиваем
         if (trailer.maxVehicleWidth && vehicleWidth > trailer.maxVehicleWidth) {
           return false;
         }
       }
 
-      if (vehicleWeight && vehicleWeight > 0) {
-        if (trailer.maxVehicleWeight && vehicleWeight > trailer.maxVehicleWeight) {
-          return false;
-        }
-        // Также проверяем грузоподъёмность
-        if (trailer.capacity && vehicleWeight > trailer.capacity) {
-          return false;
-        }
-      }
+      // Весовое ограничение НЕ учитываем при выборе техники —
+      // только размерное (длина, ширина). Вес проверяется только для умного поиска.
 
       // =========================================
-      // 4. Умный поиск по объёму
+      // 5. Умный поиск по объёму
       // =========================================
       if (parsed?.volume) {
         const trailerVolume = getVehicleVolume(trailer);
@@ -162,7 +181,9 @@ export const useTrailerFilters = (
       // =========================================
       // 6. Текстовый поиск
       // =========================================
-      if (parsed?.cleanQuery && parsed.cleanQuery.trim()) {
+      // Если выбрана конкретная техника из автодополнения — НЕ ищем по названию прицепа,
+      // т.к. фильтрация уже применена через vehicleCategory/Length/Width/Weight
+      if (!vehicleSelected && parsed?.cleanQuery && parsed.cleanQuery.trim()) {
         const searchLower = parsed.cleanQuery.toLowerCase();
         const nameMatch = trailer.name?.toLowerCase().includes(searchLower);
         const modelMatch = trailer.model?.toLowerCase().includes(searchLower);

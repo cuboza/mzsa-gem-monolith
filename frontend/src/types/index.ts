@@ -13,6 +13,8 @@ export interface AdminUser {
 
 export interface Trailer {
   id: string;
+  article?: string; // Артикул производителя (МЗСА)
+  onr_article?: string; // Артикул ОНР (внутренний)
   model: string; // "МЗСА 817700.002"
   name: string; // "Прицеп КОМПАКТ"
   category: 'general' | 'water' | 'commercial';
@@ -68,6 +70,8 @@ export interface Trailer {
 
 export interface Accessory {
   id: string;
+  article?: string; // Артикул производителя
+  onr_article?: string; // Артикул ОНР (внутренний, сквозной)
   name: string;
   price: number;
   oldPrice?: number | null;
@@ -85,6 +89,7 @@ export interface Accessory {
 }
 
 export interface Vehicle {
+  onr_article?: string; // Артикул ОНР (внутренний, сквозной)
   brand: string;
   model: string;
   length: number; // мм

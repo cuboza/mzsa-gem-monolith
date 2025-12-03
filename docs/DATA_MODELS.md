@@ -52,6 +52,8 @@ type Availability = 'in_stock' | 'days_1_3' | 'days_7_14';
 
 interface Trailer {
   id: string;               // slug из Supabase
+  article?: string;         // Артикул производителя (МЗСА)
+  onr_article?: string;     // Артикул ОНР (сквозной, внутренний)
   model: string;            // «МЗСА 817701»
   name: string;             // Маркетинговое имя
   category: TrailerCategory;
@@ -211,6 +213,8 @@ type AccessoryCategory = 'loading' | 'support' | 'spare' | 'cover' | 'safety' | 
 
 interface Accessory {
   id: string;
+  article?: string;            // Артикул производителя
+  onr_article?: string;        // Артикул ОНР (сквозной, внутренний)
   name: string;
   price: number;               // retail_price
   description: string;

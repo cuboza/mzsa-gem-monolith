@@ -87,10 +87,39 @@ export class LocalStorageProvider implements IDatabaseProvider {
   // --- Trailers ---
 
   /**
+   * Генерирует массив compatibility на основе категории прицепа
+   * (аналогично supabaseProvider)
+   */
+  private addCompatibility(trailer: Trailer): Trailer {
+    if (trailer.compatibility && trailer.compatibility.length > 0) {
+      return trailer;
+    }
+    
+    let compatibility: Trailer['compatibility'];
+    switch (trailer.category) {
+      case 'water':
+        compatibility = ['boat'];
+        break;
+      case 'commercial':
+        compatibility = ['cargo', 'car', 'snowmobile', 'atv'];
+        break;
+      case 'general':
+      default:
+        compatibility = ['snowmobile', 'atv', 'motorcycle'];
+        break;
+    }
+    
+    return { ...trailer, compatibility };
+  }
+
+  /**
    * Получить прицепы для публичного сайта (только видимые isVisible !== false)
    */
   async getTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
     let trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
+    
+    // Добавляем compatibility на основе категории
+    trailers = trailers.map(t => this.addCompatibility(t));
     
     // Фильтр видимости - скрываем прицепы с isVisible === false
     // undefined считается как true (видимый по умолчанию)
@@ -167,6 +196,9 @@ export class LocalStorageProvider implements IDatabaseProvider {
   async getAllTrailers(params?: { q?: string; category?: string }): Promise<Trailer[]> {
     let trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
     
+    // Добавляем compatibility на основе категории
+    trailers = trailers.map(t => this.addCompatibility(t));
+    
     // НЕ фильтруем по isVisible - это для админки
     
     if (params?.category && params.category !== 'all') {
@@ -186,7 +218,8 @@ export class LocalStorageProvider implements IDatabaseProvider {
 
   async getTrailer(id: string): Promise<Trailer | null> {
     const trailers = this.get<Trailer>(STORAGE_KEYS.TRAILERS);
-    return trailers.find(t => t.id === id) || null;
+    const trailer = trailers.find(t => t.id === id);
+    return trailer ? this.addCompatibility(trailer) : null;
   }
 
   async saveTrailer(trailer: Trailer): Promise<Trailer> {
