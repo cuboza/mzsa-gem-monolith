@@ -97,61 +97,91 @@ export const Register = () => {
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            <div className="relative">
-              <User className="absolute top-3 left-3 text-gray-400" size={20} />
-              <input
-                type="text"
-                required
-                className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Ваше имя"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Имя <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <User className="absolute top-3 left-3 text-gray-400" size={20} />
+                <input
+                  id="name"
+                  type="text"
+                  required
+                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Введите ваше имя"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="relative">
-              <Mail className="absolute top-3 left-3 text-gray-400" size={20} />
-              <input
-                type="email"
-                required
-                className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Email адрес"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Mail className="absolute top-3 left-3 text-gray-400" size={20} />
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="example@mail.ru"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="relative">
-              <Phone className="absolute top-3 left-3 text-gray-400" size={20} />
-              <input
-                type="tel"
-                className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Телефон (необязательно)"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Телефон
+              </label>
+              <div className="relative">
+                <Phone className="absolute top-3 left-3 text-gray-400" size={20} />
+                <input
+                  id="phone"
+                  type="tel"
+                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="+7 (999) 123-45-67"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="relative">
-              <Lock className="absolute top-3 left-3 text-gray-400" size={20} />
-              <input
-                type="password"
-                required
-                minLength={6}
-                className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Пароль (минимум 6 символов)"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Пароль <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Lock className="absolute top-3 left-3 text-gray-400" size={20} />
+                <input
+                  id="password"
+                  type="password"
+                  required
+                  minLength={6}
+                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Минимум 6 символов"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="relative">
-              <Lock className="absolute top-3 left-3 text-gray-400" size={20} />
-              <input
-                type="password"
-                required
-                minLength={6}
-                className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Подтвердите пароль"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Подтверждение пароля <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Lock className="absolute top-3 left-3 text-gray-400" size={20} />
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  required
+                  minLength={6}
+                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Повторите пароль"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
