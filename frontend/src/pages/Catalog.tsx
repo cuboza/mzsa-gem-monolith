@@ -10,11 +10,13 @@ import { useSearchParams } from 'react-router-dom';
 import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
 import { useTrailerFilters, TRAILER_CATEGORIES } from '../features/trailers';
 import { BreadcrumbSchema } from '../components/common';
+import { VehicleModel } from '../features/vehicles/vehicleTypes';
 
 export const Catalog = () => {
   const [trailers, setTrailers] = useState<Trailer[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTrailer, setSelectedTrailer] = useState<Trailer | null>(null);
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleModel | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Фильтры
@@ -93,6 +95,10 @@ export const Catalog = () => {
     axles,
     brakes,
     sortOption,
+    vehicleLength: selectedVehicle?.length,
+    vehicleWidth: selectedVehicle?.width,
+    vehicleWeight: selectedVehicle?.weight,
+    vehicleCategory: selectedVehicle?.type,
   });
 
   // Хлебные крошки для SEO
@@ -145,7 +151,11 @@ export const Catalog = () => {
           <div className="mb-3 md:mb-4">
             <CatalogSearch 
               value={searchQuery}
-              onChange={handleSearchChange}
+              onChange={(val) => {
+                handleSearchChange(val);
+                if (!val) setSelectedVehicle(null);
+              }}
+              onVehicleSelect={setSelectedVehicle}
             />
           </div>
           
