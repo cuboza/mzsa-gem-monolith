@@ -611,9 +611,21 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
                       <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{acc.description}</p>
                       
                       {!isInStock && (
-                        <div className="text-xs font-bold text-red-500 flex items-center gap-1">
-                          <CircleOff size={12} />
-                          Нет в наличии
+                        <div className="flex flex-col gap-2">
+                          <div className="text-xs font-bold text-red-500 flex items-center gap-1">
+                            <CircleOff size={12} />
+                            Нет в наличии
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.open(`tel:+73462223355`, '_self');
+                            }}
+                            className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
+                          >
+                            <ShoppingCart size={12} />
+                            Заказать у менеджера
+                          </button>
                         </div>
                       )}
 

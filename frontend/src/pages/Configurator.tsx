@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { vehicleDatabase } from '../data/vehicles';
-import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff, X } from 'lucide-react';
+import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff, X, ShoppingCart, Phone } from 'lucide-react';
 import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
@@ -560,9 +560,21 @@ export const Configurator = () => {
                           <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{acc.description}</p>
                           
                           {!isInStock && (
-                            <div className="text-xs font-bold text-red-500 flex items-center gap-1 mt-1">
-                              <CircleOff size={12} />
-                              Нет в наличии
+                            <div className="flex flex-col gap-2 mt-1">
+                              <div className="text-xs font-bold text-red-500 flex items-center gap-1">
+                                <CircleOff size={12} />
+                                Нет в наличии
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.open(`tel:+73462223355`, '_self');
+                                }}
+                                className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
+                              >
+                                <ShoppingCart size={12} />
+                                Заказать у менеджера
+                              </button>
                             </div>
                           )}
                         </div>
