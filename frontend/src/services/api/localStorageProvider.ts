@@ -409,7 +409,6 @@ export class LocalStorageProvider implements IDatabaseProvider {
     if (!localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) this.set(STORAGE_KEYS.CUSTOMERS, []);
     
     localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
-    console.log('Database initialized with default data');
   }
 
   // ========== VEHICLES ==========

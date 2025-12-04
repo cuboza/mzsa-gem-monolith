@@ -72,15 +72,6 @@ export const useTrailerFilters = (
 
     // Парсим поисковый запрос для умного поиска
     const parsed = searchQuery ? parseSearchQuery(searchQuery) : null;
-    
-    console.log('[Filter] Starting with:', { 
-      count: trailers.length, 
-      vehicleCategory, 
-      vehicleLength, 
-      vehicleWidth, 
-      vehicleSelected,
-      parsed 
-    });
 
     let result = trailers.filter((trailer) => {
       // ВАЖНО: Фильтрация по isVisible выполняется на уровне провайдера данных

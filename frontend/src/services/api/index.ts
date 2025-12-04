@@ -3,11 +3,12 @@ import { LocalStorageProvider } from './localStorageProvider';
 import { RestProvider } from './restProvider';
 import { SupabaseProvider } from './supabaseProvider';
 
-// Переключатель провайдера данных
-// 'local' - LocalStorage (браузер)
+// Переключатель провайдера данных через env-переменную
+// 'local' - LocalStorage (браузер) — по умолчанию для разработки
 // 'rest' - JSON Server (http://localhost:3001)
-// 'supabase' - Supabase (облако)
-const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local'; 
+// 'supabase' - Supabase (облако) — для продакшена
+type DataSourceType = 'local' | 'rest' | 'supabase';
+const DATA_SOURCE: DataSourceType = (import.meta.env.VITE_DATA_SOURCE as DataSourceType) || 'local'; 
 
 class DatabaseFactory {
   private static instance: IDatabaseProvider;

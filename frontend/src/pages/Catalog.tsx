@@ -139,7 +139,6 @@ export const Catalog = () => {
         const data = await db.getTrailers({
           category: activeCategory
         });
-        console.log('[Catalog] Loaded trailers:', data.length, 'hasTarget:', data.some(t => t.id === 'mzsa_817718_022'));
         setTrailers(data);
       } catch (err) {
         console.error(err);

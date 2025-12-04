@@ -22,7 +22,6 @@ export function mergeVehicleDatabases(
   // If local version is greater (shouldn't happen in "Cloud wins" unless dev updated local), we might keep local or warn.
   
   if (cloudVersion > localDb.version) {
-    console.log(`Syncing from cloud: v${cloudVersion} > v${localDb.version}`);
     return {
       version: cloudVersion,
       updatedAt: new Date().toISOString(),

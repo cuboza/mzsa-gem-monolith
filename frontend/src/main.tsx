@@ -5,8 +5,6 @@ import './index.css'
 import { db } from './services/api'
 import { allTrailers, accessories, defaultSettings, mockOrders } from './data'
 
-console.log('Starting app initialization...');
-
 const initPromise = db.initializeData(allTrailers, accessories, defaultSettings, mockOrders);
 const timeoutPromise = new Promise((_, reject) => 
   setTimeout(() => reject(new Error('Initialization timed out (3s)')), 3000)
@@ -15,7 +13,6 @@ const timeoutPromise = new Promise((_, reject) =>
 // Инициализируем данные перед рендером с таймаутом
 Promise.race([initPromise, timeoutPromise])
   .then(() => {
-    console.log('Data initialized successfully');
     const rootElement = document.getElementById('root');
     if (!rootElement) {
       throw new Error('Root element not found');

@@ -41,7 +41,6 @@ export class RestProvider implements IDatabaseProvider {
     // В REST API мы предполагаем, что данные уже есть на сервере.
     // Но для json-server можно проверить, пустая ли база, и если да - заполнить.
     // Пока оставим пустым, так как db.json мы создали вручную.
-    console.log('RestProvider initialized');
   }
 
   // --- Orders ---
