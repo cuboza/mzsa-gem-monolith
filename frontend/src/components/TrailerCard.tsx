@@ -207,7 +207,8 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
-                  onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer } });
+                  // Переходим на шаг 3 (Аксессуары) для выбора опций
+                  onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer, skipToStep: 3 } });
                 }}
                 className="bg-orange-600 hover:bg-orange-600 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm shadow-md transition-colors flex items-center justify-center"
               >

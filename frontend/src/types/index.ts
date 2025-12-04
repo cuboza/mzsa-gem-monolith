@@ -2,6 +2,203 @@ import type { WarehouseStock } from '../features/stock';
 
 export type UserRole = 'user' | 'manager' | 'admin';
 
+// ========== СИСТЕМА ПРАВ ДОСТУПА ==========
+
+/** Модули системы (ресурсы) */
+export type PermissionResource = 
+  | 'orders'       // Заказы
+  | 'trailers'     // Прицепы
+  | 'accessories'  // Аксессуары
+  | 'customers'    // Клиенты
+  | 'users'        // Пользователи
+  | 'settings'     // Настройки
+  | 'warehouses'   // Склады
+  | 'stock'        // Остатки
+  | 'hero-slides'  // Слайды на главной
+  | 'stores'       // Магазины
+  | 'import-1c';   // Импорт 1С
+
+/** Операции над ресурсами */
+export type PermissionOperation = 'view' | 'create' | 'edit' | 'delete' | 'export';
+
+/** Права доступа на один ресурс */
+export interface ResourcePermission {
+  resource: PermissionResource;
+  operations: PermissionOperation[];
+}
+
+/** Метаданные модуля для UI */
+export interface PermissionModuleMeta {
+  resource: PermissionResource;
+  label: string;
+  description: string;
+  operations: {
+    operation: PermissionOperation;
+    label: string;
+    description: string;
+  }[];
+}
+
+/** Объект прав доступа (хранится как JSON в БД) */
+export type UserPermissions = Record<PermissionResource, PermissionOperation[]>;
+
+/** Права по умолчанию для ролей */
+export const DEFAULT_ADMIN_PERMISSIONS: UserPermissions = {
+  orders: ['view', 'create', 'edit', 'delete', 'export'],
+  trailers: ['view', 'create', 'edit', 'delete', 'export'],
+  accessories: ['view', 'create', 'edit', 'delete', 'export'],
+  customers: ['view', 'create', 'edit', 'delete', 'export'],
+  users: ['view', 'create', 'edit', 'delete'],
+  settings: ['view', 'edit'],
+  warehouses: ['view', 'create', 'edit', 'delete'],
+  stock: ['view', 'create', 'edit', 'delete', 'export'],
+  'hero-slides': ['view', 'create', 'edit', 'delete'],
+  stores: ['view', 'create', 'edit', 'delete'],
+  'import-1c': ['view', 'create'],
+};
+
+export const DEFAULT_MANAGER_PERMISSIONS: UserPermissions = {
+  orders: ['view', 'create', 'edit', 'export'],
+  trailers: ['view', 'export'],
+  accessories: ['view', 'export'],
+  customers: ['view', 'create', 'edit', 'export'],
+  users: [],
+  settings: ['view'],
+  warehouses: ['view'],
+  stock: ['view', 'export'],
+  'hero-slides': ['view'],
+  stores: ['view'],
+  'import-1c': [],
+};
+
+/** Конфигурация всех модулей для UI настройки прав */
+export const PERMISSION_MODULES: PermissionModuleMeta[] = [
+  {
+    resource: 'orders',
+    label: 'Заказы',
+    description: 'Управление заказами покупателей',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр списка и деталей заказов' },
+      { operation: 'create', label: 'Создание', description: 'Создание новых заказов' },
+      { operation: 'edit', label: 'Редактирование', description: 'Изменение статуса и данных заказов' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление заказов' },
+      { operation: 'export', label: 'Экспорт', description: 'Выгрузка заказов в Excel/CSV' },
+    ],
+  },
+  {
+    resource: 'trailers',
+    label: 'Прицепы',
+    description: 'Управление каталогом прицепов',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр каталога прицепов' },
+      { operation: 'create', label: 'Создание', description: 'Добавление новых прицепов' },
+      { operation: 'edit', label: 'Редактирование', description: 'Изменение характеристик и цен' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление прицепов из каталога' },
+      { operation: 'export', label: 'Экспорт', description: 'Выгрузка каталога' },
+    ],
+  },
+  {
+    resource: 'accessories',
+    label: 'Аксессуары',
+    description: 'Управление дополнительными товарами',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр аксессуаров' },
+      { operation: 'create', label: 'Создание', description: 'Добавление аксессуаров' },
+      { operation: 'edit', label: 'Редактирование', description: 'Изменение аксессуаров' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление аксессуаров' },
+      { operation: 'export', label: 'Экспорт', description: 'Выгрузка аксессуаров' },
+    ],
+  },
+  {
+    resource: 'customers',
+    label: 'Клиенты',
+    description: 'Управление базой клиентов',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр списка клиентов' },
+      { operation: 'create', label: 'Создание', description: 'Добавление новых клиентов' },
+      { operation: 'edit', label: 'Редактирование', description: 'Редактирование данных клиентов' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление клиентов' },
+      { operation: 'export', label: 'Экспорт', description: 'Выгрузка базы клиентов' },
+    ],
+  },
+  {
+    resource: 'users',
+    label: 'Пользователи',
+    description: 'Управление администраторами и менеджерами',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр списка пользователей' },
+      { operation: 'create', label: 'Создание', description: 'Добавление новых пользователей' },
+      { operation: 'edit', label: 'Редактирование', description: 'Изменение прав и данных' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление пользователей' },
+    ],
+  },
+  {
+    resource: 'warehouses',
+    label: 'Склады',
+    description: 'Управление складами',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр списка складов' },
+      { operation: 'create', label: 'Создание', description: 'Добавление новых складов' },
+      { operation: 'edit', label: 'Редактирование', description: 'Редактирование складов' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление складов' },
+    ],
+  },
+  {
+    resource: 'stock',
+    label: 'Остатки',
+    description: 'Управление остатками товаров',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр остатков' },
+      { operation: 'create', label: 'Приход', description: 'Оприходование товаров' },
+      { operation: 'edit', label: 'Корректировка', description: 'Изменение остатков' },
+      { operation: 'delete', label: 'Списание', description: 'Списание товаров' },
+      { operation: 'export', label: 'Экспорт', description: 'Выгрузка отчетов' },
+    ],
+  },
+  {
+    resource: 'settings',
+    label: 'Настройки',
+    description: 'Системные настройки',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр настроек' },
+      { operation: 'edit', label: 'Редактирование', description: 'Изменение настроек' },
+    ],
+  },
+  {
+    resource: 'hero-slides',
+    label: 'Слайды главной',
+    description: 'Управление каруселью на главной',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр слайдов' },
+      { operation: 'create', label: 'Создание', description: 'Добавление слайдов' },
+      { operation: 'edit', label: 'Редактирование', description: 'Изменение слайдов' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление слайдов' },
+    ],
+  },
+  {
+    resource: 'stores',
+    label: 'Магазины',
+    description: 'Управление филиалами',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр магазинов' },
+      { operation: 'create', label: 'Создание', description: 'Добавление магазинов' },
+      { operation: 'edit', label: 'Редактирование', description: 'Редактирование магазинов' },
+      { operation: 'delete', label: 'Удаление', description: 'Удаление магазинов' },
+    ],
+  },
+  {
+    resource: 'import-1c',
+    label: 'Импорт 1С',
+    description: 'Загрузка данных из 1С',
+    operations: [
+      { operation: 'view', label: 'Просмотр', description: 'Просмотр истории импортов' },
+      { operation: 'create', label: 'Импорт', description: 'Запуск импорта данных' },
+    ],
+  },
+];
+
+// ========== ПОЛЬЗОВАТЕЛИ ==========
+
 export interface AdminUser {
   id: string;
   username: string;
@@ -9,6 +206,8 @@ export interface AdminUser {
   fullName: string;
   role: 'admin' | 'manager';
   isActive: boolean;
+  /** Индивидуальные права доступа (переопределяют права роли) */
+  permissions?: UserPermissions;
 }
 
 export interface Trailer {
