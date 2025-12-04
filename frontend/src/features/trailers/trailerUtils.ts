@@ -125,8 +125,11 @@ export const requiresExtendedLicense = (trailer: Trailer): boolean => {
 /**
  * Получает URL главного изображения прицепа
  */
-export const getMainImage = (trailer: Trailer): string | null => {
-  return trailer.images?.[0] || trailer.image || null;
+export const getMainImage = (trailer: Trailer): string => {
+  const image = trailer.images?.[0] || trailer.image;
+  if (image) return image;
+  // Fallback на placeholder
+  return `https://placehold.co/600x400/e2e8f0/64748b?text=${encodeURIComponent(trailer.model || 'Прицеп')}`;
 };
 
 /**

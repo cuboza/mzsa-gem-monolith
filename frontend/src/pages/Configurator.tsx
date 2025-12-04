@@ -1,12 +1,11 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
 import { VehicleModel } from '../features/vehicles/vehicleTypes';
 import { vehicleDatabase } from '../data/vehicles';
-import { searchVehicles } from '../features/vehicles/vehicleSearch';
-import vehiclesDb from '../data/vehiclesDatabase.json';
 import { CheckCircle, Truck, ChevronRight, AlertCircle, Settings, Package, Search, Check, Plus, Minus, CircleOff, X, ShoppingCart, Phone } from 'lucide-react';
+import { hasBrakes as checkHasBrakes } from '../features/trailers/trailerUtils';
 import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
@@ -33,7 +32,7 @@ export const Configurator = () => {
   // Выбор пользователя
   const [selectedCategory, setSelectedCategory] = useState<string>('snowmobile');
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
-  const [selectedTrailer, setSelectedTrailer] = useState<Trailer | null>(null);
+  const [selectedTrailer, setSelectedTrailer] = useState<Trailer | null>(location.state?.trailer || null);
   const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
   const [accessoryQuantities, setAccessoryQuantities] = useState<Record<string, number>>({});
   const [orderNumber, setOrderNumber] = useState('');
@@ -71,19 +70,6 @@ export const Configurator = () => {
       
       // Если пришли из каталога с выбранным прицепом
       if (location.state?.trailer) {
-        const trailer = location.state.trailer as Trailer;
-        setSelectedTrailer(trailer);
-        
-        // Определяем категорию техники на основе категории прицепа
-        // water → boat, commercial → cargo, general → snowmobile (по умолчанию)
-        if (trailer.category === 'water') {
-          setSelectedCategory('boat');
-        } else if (trailer.category === 'commercial') {
-          setSelectedCategory('cargo');
-        } else {
-          setSelectedCategory('snowmobile');
-        }
-        
         // Загружаем выбранные аксессуары по их ID
         if (location.state?.initialAccessories?.length > 0) {
           const selectedAccs = a.filter(acc => 
@@ -108,48 +94,95 @@ export const Configurator = () => {
     loadData();
   }, [location.state]);
 
-  // Поиск техники в реальном времени
+  // Real-time поиск техники при вводе
   useEffect(() => {
-    if (searchInput.length > 1) {
-      // @ts-ignore - vehiclesDb structure
-      const results = searchVehicles(vehiclesDb.vehicles as VehicleModel[], searchInput, { limit: 8 });
-      setVehicleSearchResults(results.map(r => r.vehicle));
-      setShowVehicleResults(results.length > 0);
-    } else {
-      setVehicleSearchResults([]);
-      setShowVehicleResults(false);
-    }
+    const searchRealTime = async () => {
+      if (searchInput.length < 2) {
+        setVehicleSearchResults([]);
+        setShowVehicleResults(false);
+        return;
+      }
+
+      // Поиск в базе данных техники
+      const results = await db.searchVehicles(searchInput);
+      if (results.length > 0) {
+        setVehicleSearchResults(results);
+        setShowVehicleResults(true);
+      } else {
+        setVehicleSearchResults([]);
+        setShowVehicleResults(false);
+      }
+    };
+
+    // Debounce: задержка 200мс для оптимизации
+    const timeoutId = setTimeout(searchRealTime, 200);
+    return () => clearTimeout(timeoutId);
   }, [searchInput]);
 
   // Логика совместимости и фильтрации
   const compatibleTrailers = useMemo(() => {
     let result = trailers;
 
-    // 0. Фильтрация по совместимости с техникой (если выбрана)
-    if (selectedVehicle) {
+    // Маппинг категории техники на категорию прицепа
+    const getCategoryMatch = (trailerCategory: string, vehicleCategory: string): boolean => {
+      // water прицепы только для лодок
+      if (trailerCategory === 'water') {
+        return vehicleCategory === 'boat';
+      }
+      // commercial прицепы для грузов, авто
+      if (trailerCategory === 'commercial') {
+        return ['cargo', 'car'].includes(vehicleCategory);
+      }
+      // general (универсальные) для всего кроме лодок
+      if (trailerCategory === 'general') {
+        return ['snowmobile', 'atv', 'motorcycle', 'car', 'cargo'].includes(vehicleCategory);
+      }
+      return true;
+    };
+
+    // 0. Фильтрация по совместимости с техникой
+    if (selectedVehicle && selectedCategory) {
       result = result.filter(t => {
-        // 1. Проверка по категории совместимости
-        if (t.compatibility && t.compatibility.length > 0 && !t.compatibility.includes(selectedCategory as any)) {
+        // 1. Проверка по категории прицепа (water, general, commercial)
+        if (!getCategoryMatch(t.category, selectedCategory)) {
           return false;
         }
 
-        // 2. Проверка размеров и веса (не для cargo - там размеры условные)
+        // 2. Проверка по явному списку совместимости (если заполнен)
+        if (t.compatibility && t.compatibility.length > 0) {
+          if (!t.compatibility.includes(selectedCategory as any)) {
+            return false;
+          }
+        }
+
+        // 3. Проверка размеров и веса (не для cargo - там размеры условные)
         if (selectedCategory !== 'cargo') {
-          if (t.maxVehicleLength && selectedVehicle.length > 0 && selectedVehicle.length > t.maxVehicleLength) return false;
+          let maxLen = t.maxVehicleLength;
+          
+          // Для лодочных прицепов приоритетно используем bodyDimensions (макс. длина судна)
+          // так как maxVehicleLength может отсутствовать или быть некорректным
+          if (t.category === 'water' && t.bodyDimensions) {
+            const match = t.bodyDimensions.match(/(\d+)/);
+            if (match) {
+              maxLen = parseInt(match[1]);
+            }
+          }
+
+          if (maxLen && selectedVehicle.length > 0 && selectedVehicle.length > maxLen) return false;
           if (t.maxVehicleWidth && selectedVehicle.width > 0 && selectedVehicle.width > t.maxVehicleWidth) return false;
           if (t.maxVehicleWeight && selectedVehicle.weight > 0 && selectedVehicle.weight > t.maxVehicleWeight) return false;
         }
 
-        // 3. Проверка грузоподъёмности только для car (не для cargo - у фургонов иные параметры)
-        if (selectedCategory === 'car' && selectedVehicle.weight > 0) {
+        // 4. Проверка грузоподъёмности для авто и грузов
+        if ((selectedCategory === 'car' || selectedCategory === 'cargo') && selectedVehicle.weight > 0) {
           if (t.capacity && selectedVehicle.weight > t.capacity) return false;
         }
 
         return true;
       });
     } else if (selectedCategory) {
-       // Если техника не выбрана, фильтруем по категории
-       result = result.filter(t => !t.compatibility || t.compatibility.includes(selectedCategory as any));
+       // Если техника не выбрана, фильтруем по категории прицепа
+       result = result.filter(t => getCategoryMatch(t.category, selectedCategory));
     }
 
     // 3. Применение пользовательских фильтров
@@ -162,9 +195,9 @@ export const Configurator = () => {
       if (onlyInStock && !(t.stock && t.stock > 0)) return false;
       if (axles !== 'all' && t.specs?.axles !== parseInt(axles)) return false;
       if (brakes !== 'all') {
-        const hasBrakes = t.brakes && t.brakes.toLowerCase() !== 'нет';
-        if (brakes === 'yes' && !hasBrakes) return false;
-        if (brakes === 'no' && hasBrakes) return false;
+        const trailerHasBrakes = checkHasBrakes(t);
+        if (brakes === 'yes' && !trailerHasBrakes) return false;
+        if (brakes === 'no' && trailerHasBrakes) return false;
       }
       return true;
     });
@@ -214,18 +247,17 @@ export const Configurator = () => {
     setStep(2);
   };
 
-  // Обработка нажатия Enter или кнопки поиска - переход к прицепам с параметрами
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchInput.trim()) return;
 
-    // Если есть результаты поиска и выбрана первая модель — применить её
+    // Если есть результаты поиска и первый выбран - используем его
     if (vehicleSearchResults.length > 0) {
       handleVehicleModelSelect(vehicleSearchResults[0]);
       return;
     }
 
-    // Парсим текстовый поиск (размеры, категория)
+    // Парсим умный поиск (лодка 4м, снегоход 3200, груз 10 куб м)
     const parsed = parseSearchQuery(searchInput);
 
     // Если найдена категория техники, устанавливаем её
@@ -394,28 +426,15 @@ export const Configurator = () => {
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Что будем перевозить?</h2>
               
               {/* Умный поиск */}
-              <div className="max-w-2xl mx-auto mb-10 relative">
+              <div className="max-w-2xl mx-auto mb-10">
                 <form onSubmit={handleSearch} className="relative">
                   <input
                     type="text"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="Например: лодка 3.5 или снегоход 3200"
-                    className="w-full pl-5 pr-24 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900 text-lg shadow-sm transition-all"
+                    className="w-full pl-5 pr-14 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900 text-lg shadow-sm transition-all"
                   />
-                  {searchInput && (
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        setSearchInput('');
-                        setVehicleSearchResults([]);
-                        setShowVehicleResults(false);
-                      }}
-                      className="absolute right-16 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 p-1"
-                    >
-                      <X size={20} />
-                    </button>
-                  )}
                   <button 
                     type="submit"
                     className="absolute right-2 top-2 bottom-2 bg-blue-600 text-white px-4 rounded-lg hover:bg-blue-700 transition-colors"
@@ -424,9 +443,8 @@ export const Configurator = () => {
                   </button>
                 </form>
                 
-                {/* Выпадающий список результатов поиска */}
                 {showVehicleResults && vehicleSearchResults.length > 0 && (
-                  <div className="absolute z-50 left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
+                  <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
                     {vehicleSearchResults.map((v) => (
                       <button
                         key={v.id}

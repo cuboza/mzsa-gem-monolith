@@ -106,6 +106,8 @@
 - `Badge.tsx` — универсальные бейджи: `Badge`, `NewBadge`, `SaleBadge`, `DiscountBadge`, `PopularBadge`
 - `Price.tsx` — компонент цены с форматированием и скидками
 - `OptimizedImage.tsx` — оптимизированное изображение с lazy loading
+- `AvailabilityBadge.tsx` — бейдж доступности с учётом города
+- `CitySelector.tsx` — селектор города пользователя
 
 ### SEO-компоненты (`src/components/common/`)
 - `SEO.tsx` — микроданные schema.org:
@@ -117,7 +119,7 @@
 ### Feature-модули (`src/features/`)
 Модульная бизнес-логика, группирующая связанный код:
 - `trailers/` — работа с прицепами:
-  - `trailerUtils.ts` — утилиты: `getAxlesCount()`, `getCapacity()`, `hasBrakes()`, `getMainImage()`, `getAvailabilityLabel()`
+  - `trailerUtils.ts` — утилиты: `getAxlesCount()`, `getCapacity()`, `hasBrakes()`, `getMainImage()`, `getAvailabilityLabel()`, `cleanDimension()`
   - `trailerConstants.ts` — константы: `TRAILER_CATEGORIES`, `AVAILABILITY_LABELS`, `BODY_TYPES`
   - `useTrailerFilters.ts` — хук фильтрации каталога (заменяет useMemo в Catalog)
 - `vehicles/` — справочник техники:
@@ -125,22 +127,32 @@
   - `vehicleSearch.ts` — умный поиск с ранжированием
   - `vehicleValidation.ts` — валидация JSON при импорте
   - `vehicleSync.ts` — логика синхронизации версий
+- `stock/` — управление складскими остатками:
+  - `stockTypes.ts` — типы: `StockInfo`, `MultiWarehouseStock`, `AvailabilityResult`, `ReservationItem`
+  - `stockConstants.ts` — города, сроки доставки, CSS-классы бейджей
+  - `stockUtils.ts` — бизнес-логика: `calculateAvailability()`, `prepareReservation()`, `canReserve()`
 
 ### Утилиты (`src/utils/`)
 - `format.ts` — форматирование: `formatPrice()`, `formatDateTime()`, `formatDate()`, `formatPhone()`
 - `orderStatus.ts` — статусы заказов: `getStatusLabel()`, `getStatusClasses()`
 - `searchParser.ts` — парсер умного поиска: `parseSearchQuery()`, `mapVehicleCategoryToTrailerCategory()`
+- `imageOptimization.ts` — утилиты оптимизации изображений
+- `iconUtils.tsx` — утилиты для иконок
 
 ### Хуки (`src/hooks/`)
 - `useBreakpoint.ts` — определение текущего брейкпоинта для адаптивности
 - `useHeroSlides.ts` — управление слайдами Hero карусели
 - `useStores.ts` — работа с магазинами/филиалами
+- `useAvailability.ts` — хуки расчёта доступности: `useTrailerAvailability()`, `useAccessoryAvailability()`, `getAvailabilityBadgeProps()`
 
 ### Админ-панель (`src/admin/resources/`)
 - `trailers.tsx`, `orders.tsx`, `accessories.tsx`, `customers.tsx`, `settings.tsx` — базовые ресурсы
 - `heroSlides.tsx` — управление Hero-каруселью на главной
 - `stores.tsx` — управление магазинами/филиалами
 - `warehouses.tsx` — управление складами
+- `stockInventory.tsx`, `stockMovements.tsx` — остатки и движение товаров
+- `users.tsx` — управление пользователями и ролями
+- `vehiclesImport.tsx` — импорт справочника техники
 - `import1c.tsx` — импорт данных из 1С (stub)
 
 ## Переменные окружения

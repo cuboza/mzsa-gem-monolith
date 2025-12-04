@@ -4,3 +4,4 @@
 
 export * from './trailers';
 export * from './stock';
+export * from './vehicles';

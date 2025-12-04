@@ -169,11 +169,16 @@ const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
 
 ### Feature-модули (`src/features/`)
 Бизнес-логика, сгруппированная по доменам приложения:
-- **trailers/** — утилиты для прицепов (getAxlesCount, hasBrakes), константы, хуки фильтрации
+- **trailers/** — утилиты для прицепов (`getAxlesCount`, `hasBrakes`, `cleanDimension`), константы, хуки фильтрации
+- **vehicles/** — справочник техники:
+  - `vehicleTypes.ts` — типы (`VehicleModel`, `VehicleDatabase`)
+  - `vehicleSearch.ts` — логика поиска с ранжированием
+  - `vehicleValidation.ts` — валидация JSON при импорте
+  - `vehicleSync.ts` — синхронизация версий
 - **stock/** — управление складскими остатками и доступностью:
-  - `stockTypes.ts` — типы (StockInfo, MultiWarehouseStock, AvailabilityResult)
+  - `stockTypes.ts` — типы (`StockInfo`, `MultiWarehouseStock`, `AvailabilityResult`)
   - `stockConstants.ts` — города, сроки доставки, CSS-классы бейджей
-  - `stockUtils.ts` — бизнес-логика (calculateAvailability, reserveStock, validateStockState)
+  - `stockUtils.ts` — бизнес-логика (`calculateAvailability`, `reserveStock`, `validateStockState`)
   - **67 unit-тестов, 97% покрытие** — полный workflow заказа с резервированием
 
 ### UI-компоненты (`src/components/ui/`)
@@ -181,6 +186,8 @@ const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
 - **Badge** — универсальные бейджи (NewBadge, SaleBadge, DiscountBadge, PopularBadge)
 - **Price** — форматирование цен со скидками
 - **OptimizedImage** — lazy loading изображений
+- **AvailabilityBadge** — бейдж доступности с учётом города
+- **CitySelector** — селектор города пользователя
 - **Button, Input, Card, StatusBadge** — базовые компоненты
 
 ### SEO-компоненты (`src/components/common/`)
@@ -193,6 +200,7 @@ const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
 - **useBreakpoint** — определение текущего брейкпоинта
 - **useHeroSlides** — управление каруселью на главной
 - **useStores** — работа с магазинами
+- **useTrailerAvailability**, **useAccessoryAvailability** — расчёт доступности товара с учётом города
 
 ## Продакшен
 - **Hosting**: Railway
