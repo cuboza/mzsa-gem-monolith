@@ -12,9 +12,11 @@ import { SettingsEdit } from './resources/settings';
 import { HeroSlidesAdmin } from './resources/heroSlides';
 import { StoresAdmin } from './resources/stores';
 import { WarehousesAdmin } from './resources/warehouses';
+import { StockInventoryAdmin } from './resources/stockInventory';
+import { StockMovementsAdmin } from './resources/stockMovements';
 import { Import1CAdmin } from './resources/import1c';
 import { OnboardingList } from './resources/onboarding';
-import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload, Shield, BookOpen } from 'lucide-react';
+import { ShoppingCart, Package, Wrench, Users, Settings, Database, Image, MapPin, Warehouse, Upload, Shield, BookOpen, PackageSearch, History } from 'lucide-react';
 import { UserList, UserEdit, UserCreate } from './resources/users';
 
 // Компоненты иконок для меню
@@ -28,6 +30,8 @@ const BackupIcon = () => <Database size={20} />;
 const HeroIcon = () => <Image size={20} />;
 const StoreIcon = () => <MapPin size={20} />;
 const WarehouseIcon = () => <Warehouse size={20} />;
+const StockIcon = () => <PackageSearch size={20} />;
+const MovementsIcon = () => <History size={20} />;
 const Import1CIcon = () => <Upload size={20} />;
 const OnboardingIcon = () => <BookOpen size={20} />;
 
@@ -103,6 +107,22 @@ export const AdminPanel = () => (
           list={WarehousesAdmin}
           icon={WarehouseIcon}
           options={{ label: 'Склады' }} 
+        />
+      ) : null,
+      permissions === 'admin' ? (
+        <Resource 
+          name="stock-inventory" 
+          list={StockInventoryAdmin}
+          icon={StockIcon}
+          options={{ label: 'Остатки' }} 
+        />
+      ) : null,
+      permissions === 'admin' ? (
+        <Resource 
+          name="stock-movements" 
+          list={StockMovementsAdmin}
+          icon={MovementsIcon}
+          options={{ label: 'Движения' }} 
         />
       ) : null,
       permissions === 'admin' ? (

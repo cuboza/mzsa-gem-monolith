@@ -1,8 +1,8 @@
-# Robots.txt для МЗСА GEM
+# Robots.txt для МЗСА GEM - spricepom.ru
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api
 
 # Sitemap
-Sitemap: https://mzsa-gem-monolith-production.up.railway.app/sitemap.xml
+Sitemap: https://spricepom.ru/sitemap.xml

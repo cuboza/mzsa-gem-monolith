@@ -51,7 +51,7 @@ describe('Константы', () => {
   })
 
   it('должны иметь корректный базовый URL', () => {
-    expect(BASE_URL).toBe('https://mzsa-gem-monolith-production.up.railway.app')
+    expect(BASE_URL).toBe('https://spricepom.ru')
   })
 })
 

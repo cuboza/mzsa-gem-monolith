@@ -139,7 +139,7 @@ function generateCustomerEmail(data: OrderData): string {
       <p style="margin: 0 0 8px;"><strong>Способ получения:</strong> ${data.deliveryMethod === 'pickup' ? 'Самовывоз' : 'Доставка'}</p>
       <p style="margin: 0;"><strong>Город:</strong> ${data.customerCity}</p>
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;">
-      <p style="margin: 0; color: #6b7280; font-size: 14px;">Отследить статус заказа:<br><a href="https://mzsa-gem-monolith-production.up.railway.app/track?order=${data.orderNumber}" style="color: #1e40af;">Перейти к отслеживанию</a></p>
+      <p style="margin: 0; color: #6b7280; font-size: 14px;">Отследить статус заказа:<br><a href="https://spricepom.ru/track?order=${data.orderNumber}" style="color: #1e40af;">Перейти к отслеживанию</a></p>
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;">
       <div style="text-align: center; color: #6b7280; font-size: 14px;">
         <p style="margin: 0 0 8px;"><strong>Контакты:</strong></p>
@@ -178,7 +178,7 @@ function generateAdminEmail(data: OrderData): string {
       <span style="font-size: 24px; font-weight: bold; color: #dc2626; margin-left: 8px;">${formatPrice(data.totalPrice || 0)} RUB</span>
     </div>
     <p style="margin: 24px 0 0; text-align: center;">
-      <a href="https://mzsa-gem-monolith-production.up.railway.app/admin#/orders" style="display: inline-block; background: #1e40af; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Открыть в админке</a>
+      <a href="https://spricepom.ru/admin#/orders" style="display: inline-block; background: #1e40af; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Открыть в админке</a>
     </p>
   </div>
 </body></html>`
@@ -190,7 +190,7 @@ function generateTelegramMessage(data: OrderData): string {
     : 'Нет'
 
   // Ссылка на админку с поиском по номеру заказа
-  const adminUrl = `https://mzsa-gem-monolith-production.up.railway.app/admin#/orders?filter=${encodeURIComponent(JSON.stringify({ q: data.orderNumber }))}`
+  const adminUrl = `https://spricepom.ru/admin#/orders?filter=${encodeURIComponent(JSON.stringify({ q: data.orderNumber }))}`
 
   return `
 🔥 <b>Новый заказ ${data.orderNumber}</b>

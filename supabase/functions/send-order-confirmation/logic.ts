@@ -21,7 +21,7 @@ export const CORS_HEADERS = {
 
 export const FROM_EMAIL = 'orders@o-n-r.ru'
 export const ADMIN_EMAIL = 'info@o-n-r.ru'
-export const BASE_URL = 'https://mzsa-gem-monolith-production.up.railway.app'
+export const BASE_URL = 'https://spricepom.ru'
 
 export function formatPrice(price: number): string {
   return new Intl.NumberFormat('ru-RU').format(price)

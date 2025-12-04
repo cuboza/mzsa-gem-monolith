@@ -5,7 +5,7 @@
 ## Обзор архитектуры
 - Монорепозиторий содержит: `frontend/` (React + Vite + TypeScript), `backend/` (Express + Sequelize + SQLite, устаревший), `scraper/` (Python) с документацией в `docs/`.
 - **Основной источник данных: Supabase** (облачная PostgreSQL база). Переключение провайдера в `frontend/src/services/api/index.ts` через `DATA_SOURCE`.
-- Фронтенд деплоится на **Railway** (https://mzsa-gem-monolith-production.up.railway.app).
+- Фронтенд деплоится на **Railway** (https://spricepom.ru).
 - Админ-панель (`src/admin`) встроена, маршрутизируется через `/admin` и использует тот же провайдер данных.
 
 ## Контактные данные компании (актуальные)

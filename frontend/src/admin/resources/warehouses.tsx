@@ -21,6 +21,8 @@ const DEFAULT_WAREHOUSES: Warehouse[] = [
     phone: '+7 (3462) 22-33-55',
     region: 'ХМАО',
     type: 'main',
+    priceList: 'retail',
+    priority: 1,
     isActive: true,
     order: 0
   },
@@ -32,10 +34,19 @@ const DEFAULT_WAREHOUSES: Warehouse[] = [
     phone: '+7 (3466) 62-54-20',
     region: 'ХМАО',
     type: 'regional',
+    priceList: 'retail',
+    priority: 2,
     isActive: true,
     order: 1
   }
 ];
+
+const PRICE_LISTS = {
+  retail: { label: 'Розничные цены', color: 'bg-green-100 text-green-700' },
+  wholesale: { label: 'Оптовые цены', color: 'bg-blue-100 text-blue-700' },
+  dealer: { label: 'Дилерские цены', color: 'bg-purple-100 text-purple-700' },
+  special: { label: 'Специальные цены', color: 'bg-orange-100 text-orange-700' }
+};
 
 const WAREHOUSE_TYPES = {
   main: { label: 'Главный', color: 'bg-orange-100 text-orange-700' },
@@ -48,20 +59,22 @@ interface WarehouseEditorProps {
   warehouse: Warehouse;
   index: number;
   totalCount: number;
+  isNew?: boolean;
   onChange: (warehouse: Warehouse) => void;
   onDelete: () => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
 }
 
-const WarehouseEditor = ({ warehouse, index, totalCount, onChange, onDelete, onMoveUp, onMoveDown }: WarehouseEditorProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const WarehouseEditor = ({ warehouse, index, totalCount, isNew, onChange, onDelete, onMoveUp, onMoveDown }: WarehouseEditorProps) => {
+  const [isExpanded, setIsExpanded] = useState(isNew || false);
 
   const updateField = <K extends keyof Warehouse>(field: K, value: Warehouse[K]) => {
     onChange({ ...warehouse, [field]: value });
   };
 
   const typeInfo = WAREHOUSE_TYPES[warehouse.type];
+  const priceInfo = PRICE_LISTS[warehouse.priceList || 'retail'];
 
   return (
     <div className={`border rounded-lg overflow-hidden ${warehouse.isActive ? 'border-gray-200 bg-white' : 'border-gray-100 bg-gray-50 opacity-70'}`}>
@@ -88,11 +101,14 @@ const WarehouseEditor = ({ warehouse, index, totalCount, onChange, onDelete, onM
         </div>
         
         <div className="flex-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Building2 size={18} className="text-blue-500" />
             <span className="font-semibold">{warehouse.name || 'Новый склад'}</span>
             <span className={`text-xs px-2 py-0.5 rounded-full ${typeInfo.color}`}>
               {typeInfo.label}
+            </span>
+            <span className={`text-xs px-2 py-0.5 rounded-full ${priceInfo.color}`}>
+              {priceInfo.label}
             </span>
             {!warehouse.isActive && (
               <span className="bg-gray-200 text-gray-600 text-xs px-2 py-0.5 rounded-full">Скрыт</span>
@@ -100,6 +116,7 @@ const WarehouseEditor = ({ warehouse, index, totalCount, onChange, onDelete, onM
           </div>
           <p className="text-sm text-gray-500 mt-1">
             {warehouse.city} • {warehouse.address}
+            {warehouse.priority && <span className="ml-2 text-xs text-gray-400">Приоритет: {warehouse.priority}</span>}
           </p>
         </div>
 
@@ -203,6 +220,97 @@ const WarehouseEditor = ({ warehouse, index, totalCount, onChange, onDelete, onM
               placeholder="ул. Примерная, 1"
             />
           </div>
+
+          {/* Прайс-лист и приоритет */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Тип цен</label>
+              <select
+                value={warehouse.priceList || 'retail'}
+                onChange={(e) => updateField('priceList', e.target.value as Warehouse['priceList'])}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="retail">Розничные цены</option>
+                <option value="wholesale">Оптовые цены</option>
+                <option value="dealer">Дилерские цены</option>
+                <option value="special">Специальные цены</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Приоритет</label>
+              <input
+                type="number"
+                min="1"
+                value={warehouse.priority || 1}
+                onChange={(e) => updateField('priority', parseInt(e.target.value) || 1)}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="1"
+              />
+              <p className="text-xs text-gray-500 mt-1">Меньше = выше приоритет</p>
+            </div>
+          </div>
+
+          {/* Email и часы работы */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                value={warehouse.email || ''}
+                onChange={(e) => updateField('email', e.target.value || undefined)}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="warehouse@o-n-r.ru"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Часы работы</label>
+              <input
+                type="text"
+                value={warehouse.workingHours || ''}
+                onChange={(e) => updateField('workingHours', e.target.value || undefined)}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="9:00-20:00"
+              />
+            </div>
+          </div>
+
+          {/* Код склада и описание */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Код склада (1С)</label>
+              <input
+                type="text"
+                value={warehouse.code || ''}
+                onChange={(e) => updateField('code', e.target.value || undefined)}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="СК-001"
+              />
+            </div>
+            <div className="flex items-center gap-2 pt-6">
+              <input
+                type="checkbox"
+                id={`canShip-${warehouse.id}`}
+                checked={warehouse.canShip ?? true}
+                onChange={(e) => updateField('canShip', e.target.checked)}
+                className="rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+              />
+              <label htmlFor={`canShip-${warehouse.id}`} className="text-sm text-gray-700">
+                Может отгружать товар
+              </label>
+            </div>
+          </div>
+
+          {/* Описание */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Описание</label>
+            <textarea
+              value={warehouse.description || ''}
+              onChange={(e) => updateField('description', e.target.value || undefined)}
+              rows={2}
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Дополнительная информация о складе..."
+            />
+          </div>
         </div>
       )}
     </div>
@@ -216,6 +324,7 @@ export const WarehousesAdmin = () => {
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [newWarehouseId, setNewWarehouseId] = useState<string | null>(null);
 
   // Загрузка складов из настроек
   useEffect(() => {
@@ -276,11 +385,14 @@ export const WarehousesAdmin = () => {
       address: '',
       region: 'ХМАО',
       type: 'regional',
+      priceList: 'retail',
+      priority: warehouses.length + 1,
       isActive: false,
       order: warehouses.length
     };
     setWarehouses([...warehouses, newWarehouse]);
     setHasChanges(true);
+    setNewWarehouseId(newWarehouse.id);
   };
 
   // Удаление склада
@@ -399,7 +511,11 @@ export const WarehousesAdmin = () => {
               warehouse={warehouse}
               index={index}
               totalCount={warehouses.length}
-              onChange={(w) => updateWarehouse(index, w)}
+              isNew={warehouse.id === newWarehouseId}
+              onChange={(w) => {
+                updateWarehouse(index, w);
+                if (warehouse.id === newWarehouseId) setNewWarehouseId(null);
+              }}
               onDelete={() => deleteWarehouse(index)}
               onMoveUp={() => moveWarehouse(index, 'up')}
               onMoveDown={() => moveWarehouse(index, 'down')}

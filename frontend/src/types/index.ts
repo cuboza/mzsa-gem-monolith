@@ -276,15 +276,28 @@ export interface Store {
 // WAREHOUSES - Склады
 // ============================================================================
 
+export type PriceListType = 'retail' | 'wholesale' | 'dealer' | 'special';
+
 export interface Warehouse {
   id: string;
   name: string; // Название склада
+  code?: string; // Код склада (для интеграции с 1С)
   city: string; // Город
   address: string; // Адрес
   phone?: string; // Телефон склада
+  email?: string; // Email склада
   region: 'ХМАО' | 'ЯНАО';
   type: 'main' | 'regional' | 'partner'; // Тип склада
+  priceList: PriceListType; // Тип цен для этого склада
+  priority: number; // Приоритет при выборе склада (меньше = выше приоритет)
+  description?: string; // Описание склада
   isActive: boolean;
   order: number;
+  // Настройки отгрузки
+  canShip?: boolean; // Может ли отгружать товар
+  workingHours?: string; // Часы работы
+  // Метаданные
+  createdAt?: string;
+  updatedAt?: string;
 }
 

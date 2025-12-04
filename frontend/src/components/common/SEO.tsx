@@ -24,7 +24,7 @@ export interface ProductSchemaProps {
  */
 export const ProductSchema = ({
   trailer,
-  baseUrl = 'https://mzsa-gem-monolith-production.up.railway.app',
+  baseUrl = 'https://spricepom.ru',
 }: ProductSchemaProps) => {
   const imageUrl = getMainImage(trailer);
   // Проверяем наличие по stock > 0 или availability === 'in_stock'
@@ -110,7 +110,7 @@ export interface BreadcrumbSchemaProps {
  */
 export const BreadcrumbSchema = ({
   items,
-  baseUrl = 'https://mzsa-gem-monolith-production.up.railway.app',
+  baseUrl = 'https://spricepom.ru',
 }: BreadcrumbSchemaProps) => {
   const schema = {
     '@context': 'https://schema.org',
@@ -144,7 +144,7 @@ export interface LocalBusinessSchemaProps {
  * Используется на главной странице и странице контактов
  */
 export const LocalBusinessSchema = ({
-  baseUrl = 'https://mzsa-gem-monolith-production.up.railway.app',
+  baseUrl = 'https://spricepom.ru',
 }: LocalBusinessSchemaProps) => {
   const schema = {
     '@context': 'https://schema.org',

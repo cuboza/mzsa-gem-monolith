@@ -4,8 +4,8 @@
  */
 
 import { supabase } from './supabaseClient';
-import type { IDatabaseProvider } from './interface';
-import type { Trailer, Accessory, Order, Customer, Settings, AdminUser } from '../../types';
+import type { IDatabaseProvider, StockSummary, StockItem, StockMovement, StockMovementFilters } from './interface';
+import type { Trailer, Accessory, Order, Customer, Settings, AdminUser, Warehouse } from '../../types';
 import { VehicleModel, VehicleDatabase } from '../../features/vehicles/vehicleTypes';
 import { parseSearchQuery, mapVehicleCategoryToTrailerCategory } from '../../utils/searchParser';
 
@@ -1435,6 +1435,405 @@ return mapSupabaseLead(data);
       
     if (error || !data || data.length === 0) return 0;
     return data[0].data_version || 0;
+  },
+
+  // ========== WAREHOUSES (Склады) ==========
+  
+  async getWarehouses(): Promise<Warehouse[]> {
+    const { data, error } = await supabase
+      .from('warehouses')
+      .select('*')
+      .order('sort_order', { ascending: true });
+      
+    if (error) {
+      console.error('Error fetching warehouses:', error);
+      return [];
+    }
+    
+    return data.map(row => ({
+      id: row.id,
+      code: row.code,
+      name: row.name,
+      city: row.city,
+      address: row.address,
+      phone: row.phone,
+      email: row.email,
+      region: row.region,
+      type: row.type,
+      priceList: row.price_list,
+      priority: row.priority,
+      description: row.description,
+      canShip: row.can_ship,
+      workingHours: row.working_hours,
+      isActive: row.is_active,
+      order: row.sort_order,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    }));
+  },
+  
+  async getWarehouse(id: string): Promise<Warehouse | null> {
+    const { data, error } = await supabase
+      .from('warehouses')
+      .select('*')
+      .eq('id', id)
+      .single();
+      
+    if (error || !data) return null;
+    
+    return {
+      id: data.id,
+      code: data.code,
+      name: data.name,
+      city: data.city,
+      address: data.address,
+      phone: data.phone,
+      email: data.email,
+      region: data.region,
+      type: data.type,
+      priceList: data.price_list,
+      priority: data.priority,
+      description: data.description,
+      canShip: data.can_ship,
+      workingHours: data.working_hours,
+      isActive: data.is_active,
+      order: data.sort_order,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
+  },
+  
+  async saveWarehouse(warehouse: Warehouse): Promise<Warehouse> {
+    const row = {
+      id: warehouse.id,
+      code: warehouse.code,
+      name: warehouse.name,
+      city: warehouse.city,
+      address: warehouse.address,
+      phone: warehouse.phone,
+      email: warehouse.email,
+      region: warehouse.region,
+      type: warehouse.type,
+      price_list: warehouse.priceList,
+      priority: warehouse.priority,
+      description: warehouse.description,
+      can_ship: warehouse.canShip,
+      working_hours: warehouse.workingHours,
+      is_active: warehouse.isActive,
+      sort_order: warehouse.order,
+    };
+    
+    const { data, error } = await supabase
+      .from('warehouses')
+      .upsert(row)
+      .select()
+      .single();
+      
+    if (error) throw error;
+    return this.getWarehouse!(data.id) as Promise<Warehouse>;
+  },
+  
+  async deleteWarehouse(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('warehouses')
+      .delete()
+      .eq('id', id);
+      
+    if (error) throw error;
+  },
+
+  // ========== STOCK SUMMARY (Сводка остатков) ==========
+  
+  async getStockSummary(): Promise<StockSummary[]> {
+    // Используем представление stock_summary
+    const { data, error } = await supabase
+      .from('stock_summary')
+      .select('*');
+      
+    if (error) {
+      console.error('Error fetching stock summary:', error);
+      return [];
+    }
+    
+    return data.map(row => ({
+      productId: row.trailer_id,
+      productType: 'trailer' as const,
+      productName: row.trailer_name,
+      productArticle: row.article,
+      productImage: row.main_image_url,
+      retailPrice: row.retail_price,
+      category: row.category,
+      totalQuantity: row.total_quantity || 0,
+      totalReserved: row.total_reserved || 0,
+      totalAvailable: row.total_available || 0,
+      totalInTransit: row.total_in_transit || 0,
+      byWarehouse: row.by_warehouse || {},
+    }));
+  },
+  
+  async getStockItems(warehouseId?: string): Promise<StockItem[]> {
+    let query = supabase
+      .from('stock_items')
+      .select('*');
+      
+    if (warehouseId) {
+      query = query.eq('warehouse_id', warehouseId);
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) {
+      console.error('Error fetching stock items:', error);
+      return [];
+    }
+    
+    return data.map(row => ({
+      id: row.id,
+      trailerId: row.trailer_id,
+      optionId: row.option_id,
+      warehouseId: row.warehouse_id,
+      quantity: row.quantity,
+      reserved: row.reserved,
+      inTransit: row.in_transit,
+      available: row.available,
+      minStock: row.min_stock,
+      lastCountedAt: row.last_counted_at,
+    }));
+  },
+  
+  async updateStockItem(stockItemId: string, updates: Partial<StockItem>): Promise<StockItem> {
+    const row: any = {};
+    if (updates.quantity !== undefined) row.quantity = updates.quantity;
+    if (updates.reserved !== undefined) row.reserved = updates.reserved;
+    if (updates.inTransit !== undefined) row.in_transit = updates.inTransit;
+    if (updates.minStock !== undefined) row.min_stock = updates.minStock;
+    if (updates.lastCountedAt !== undefined) row.last_counted_at = updates.lastCountedAt;
+    
+    const { data, error } = await supabase
+      .from('stock_items')
+      .update(row)
+      .eq('id', stockItemId)
+      .select()
+      .single();
+      
+    if (error) throw error;
+    
+    return {
+      id: data.id,
+      trailerId: data.trailer_id,
+      optionId: data.option_id,
+      warehouseId: data.warehouse_id,
+      quantity: data.quantity,
+      reserved: data.reserved,
+      inTransit: data.in_transit,
+      available: data.available,
+      minStock: data.min_stock,
+      lastCountedAt: data.last_counted_at,
+    };
+  },
+  
+  async setStockQuantity(
+    trailerId: string | null,
+    optionId: string | null,
+    warehouseId: string,
+    quantity: number
+  ): Promise<void> {
+    // Upsert остатка
+    const row: any = {
+      warehouse_id: warehouseId,
+      quantity,
+      reserved: 0,
+      in_transit: 0,
+    };
+    
+    if (trailerId) row.trailer_id = trailerId;
+    if (optionId) row.option_id = optionId;
+    
+    const { error } = await supabase
+      .from('stock_items')
+      .upsert(row, {
+        onConflict: trailerId ? 'trailer_id,warehouse_id' : 'option_id,warehouse_id'
+      });
+      
+    if (error) throw error;
+  },
+
+  // ========== STOCK MOVEMENTS (Движения) ==========
+  
+  async getStockMovements(filters?: StockMovementFilters): Promise<StockMovement[]> {
+    let query = supabase
+      .from('stock_movements')
+      .select(`
+        *,
+        from_warehouse:warehouses!stock_movements_from_warehouse_id_fkey(name, city),
+        to_warehouse:warehouses!stock_movements_to_warehouse_id_fkey(name, city),
+        trailer:trailers!stock_movements_trailer_id_fkey(name, article),
+        option:options!stock_movements_option_id_fkey(name)
+      `)
+      .order('created_at', { ascending: false });
+      
+    if (filters?.movementType) {
+      query = query.eq('movement_type', filters.movementType);
+    }
+    if (filters?.warehouseId) {
+      query = query.or(`from_warehouse_id.eq.${filters.warehouseId},to_warehouse_id.eq.${filters.warehouseId}`);
+    }
+    if (filters?.trailerId) {
+      query = query.eq('trailer_id', filters.trailerId);
+    }
+    if (filters?.optionId) {
+      query = query.eq('option_id', filters.optionId);
+    }
+    if (filters?.dateFrom) {
+      query = query.gte('created_at', filters.dateFrom);
+    }
+    if (filters?.dateTo) {
+      query = query.lte('created_at', filters.dateTo);
+    }
+    if (filters?.limit) {
+      query = query.limit(filters.limit);
+    }
+    if (filters?.offset) {
+      query = query.range(filters.offset, filters.offset + (filters.limit || 50) - 1);
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) {
+      console.error('Error fetching stock movements:', error);
+      return [];
+    }
+    
+    return data.map(row => ({
+      id: row.id,
+      movementType: row.movement_type,
+      trailerId: row.trailer_id,
+      optionId: row.option_id,
+      fromWarehouseId: row.from_warehouse_id,
+      toWarehouseId: row.to_warehouse_id,
+      quantity: row.quantity,
+      previousQuantity: row.previous_quantity,
+      newQuantity: row.new_quantity,
+      documentNumber: row.document_number,
+      reason: row.reason,
+      leadId: row.lead_id,
+      createdBy: row.created_by,
+      createdByName: row.created_by_name,
+      createdAt: row.created_at,
+      // Дополнительные поля из join
+      fromWarehouseName: row.from_warehouse?.name,
+      toWarehouseName: row.to_warehouse?.name,
+      productName: row.trailer?.name || row.option?.name,
+      productArticle: row.trailer?.article,
+    }));
+  },
+  
+  async createStockMovement(movement: Omit<StockMovement, 'id' | 'createdAt'>): Promise<StockMovement> {
+    // 1. Получаем текущий остаток
+    let currentQuantity = 0;
+    const warehouseId = movement.movementType === 'shipment' 
+      ? movement.fromWarehouseId 
+      : movement.toWarehouseId;
+      
+    if (warehouseId) {
+      const { data: stockData } = await supabase
+        .from('stock_items')
+        .select('quantity')
+        .eq('warehouse_id', warehouseId)
+        .eq(movement.trailerId ? 'trailer_id' : 'option_id', movement.trailerId || movement.optionId)
+        .single();
+        
+      currentQuantity = stockData?.quantity || 0;
+    }
+    
+    // 2. Вычисляем новый остаток
+    let newQuantity = currentQuantity;
+    switch (movement.movementType) {
+      case 'receipt':
+      case 'adjustment':
+        newQuantity = currentQuantity + movement.quantity;
+        break;
+      case 'shipment':
+        newQuantity = Math.max(0, currentQuantity - movement.quantity);
+        break;
+      case 'transfer':
+        // Для transfer обновляем оба склада
+        break;
+    }
+    
+    // 3. Создаём запись движения
+    const row = {
+      movement_type: movement.movementType,
+      trailer_id: movement.trailerId,
+      option_id: movement.optionId,
+      from_warehouse_id: movement.fromWarehouseId,
+      to_warehouse_id: movement.toWarehouseId,
+      quantity: movement.quantity,
+      previous_quantity: currentQuantity,
+      new_quantity: newQuantity,
+      document_number: movement.documentNumber,
+      reason: movement.reason,
+      lead_id: movement.leadId,
+      created_by: movement.createdBy,
+      created_by_name: movement.createdByName,
+    };
+    
+    const { data, error } = await supabase
+      .from('stock_movements')
+      .insert(row)
+      .select()
+      .single();
+      
+    if (error) throw error;
+    
+    // 4. Обновляем остатки
+    if (movement.movementType === 'transfer') {
+      // Уменьшаем на складе отправителя
+      if (movement.fromWarehouseId) {
+        await supabase.rpc('update_stock_quantity', {
+          p_trailer_id: movement.trailerId,
+          p_option_id: movement.optionId,
+          p_warehouse_id: movement.fromWarehouseId,
+          p_delta: -movement.quantity
+        });
+      }
+      // Увеличиваем на складе получателя
+      if (movement.toWarehouseId) {
+        await supabase.rpc('update_stock_quantity', {
+          p_trailer_id: movement.trailerId,
+          p_option_id: movement.optionId,
+          p_warehouse_id: movement.toWarehouseId,
+          p_delta: movement.quantity
+        });
+      }
+    } else {
+      // Для остальных типов обновляем один склад
+      const delta = movement.movementType === 'shipment' ? -movement.quantity : movement.quantity;
+      await supabase.rpc('update_stock_quantity', {
+        p_trailer_id: movement.trailerId,
+        p_option_id: movement.optionId,
+        p_warehouse_id: warehouseId,
+        p_delta: delta
+      });
+    }
+    
+    return {
+      id: data.id,
+      movementType: data.movement_type,
+      trailerId: data.trailer_id,
+      optionId: data.option_id,
+      fromWarehouseId: data.from_warehouse_id,
+      toWarehouseId: data.to_warehouse_id,
+      quantity: data.quantity,
+      previousQuantity: data.previous_quantity,
+      newQuantity: data.new_quantity,
+      documentNumber: data.document_number,
+      reason: data.reason,
+      leadId: data.lead_id,
+      createdBy: data.created_by,
+      createdByName: data.created_by_name,
+      createdAt: data.created_at,
+    };
   },
 
   // ========== INIT ==========

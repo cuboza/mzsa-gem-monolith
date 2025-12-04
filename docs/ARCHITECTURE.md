@@ -12,7 +12,7 @@ Frontend может работать с разными провайдерами 
 - **Styling**: Tailwind CSS
 - **Admin Interface**: React Admin
 - **State Management**: React Context + Hooks
-- **Hosting**: Railway (https://mzsa-gem-monolith-production.up.railway.app)
+- **Hosting**: Railway (https://spricepom.ru)
 
 ### Backend (устаревший, для локальной разработки)
 - **Runtime**: Node.js
@@ -196,5 +196,5 @@ const DATA_SOURCE: 'local' | 'rest' | 'supabase' = 'local';
 
 ## Продакшен
 - **Hosting**: Railway
-- **URL**: https://mzsa-gem-monolith-production.up.railway.app
+- **URL**: https://spricepom.ru
 - **Database**: Supabase PostgreSQL

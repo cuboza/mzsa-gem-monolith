@@ -1,4 +1,4 @@
-import { Trailer, Order, Customer, Settings, Accessory, AdminUser } from '../../types';
+import { Trailer, Order, Customer, Settings, Accessory, AdminUser, Warehouse } from '../../types';
 import { VehicleModel, VehicleDatabase } from '../../features/vehicles/vehicleTypes';
 
 // Типы для работы с остатками
@@ -10,6 +10,76 @@ export interface StockInfo {
   quantity: number;
   availableQuantity: number;
   reservedQuantity: number;
+}
+
+// Расширенный тип для матрицы остатков
+export interface StockItem {
+  id: string;
+  trailerId?: string;
+  optionId?: string;
+  warehouseId: string;
+  quantity: number;
+  reserved: number;
+  inTransit: number;
+  available: number;
+  minStock?: number;
+  lastCountedAt?: string;
+}
+
+// Сводка остатков по товару
+export interface StockSummary {
+  productId: string;
+  productType: 'trailer' | 'option';
+  productName: string;
+  productArticle?: string;
+  productImage?: string;
+  retailPrice?: number;
+  category?: string;
+  totalQuantity: number;
+  totalReserved: number;
+  totalAvailable: number;
+  totalInTransit: number;
+  byWarehouse: Record<string, {
+    warehouseName: string;
+    warehouseCity: string;
+    quantity: number;
+    reserved: number;
+    available: number;
+    inTransit: number;
+  }>;
+}
+
+// Движение товара
+export type MovementType = 'receipt' | 'shipment' | 'transfer' | 'adjustment';
+
+export interface StockMovement {
+  id: string;
+  movementType: MovementType;
+  trailerId?: string;
+  optionId?: string;
+  fromWarehouseId?: string;
+  toWarehouseId?: string;
+  quantity: number;
+  previousQuantity?: number;
+  newQuantity?: number;
+  documentNumber?: string;
+  reason?: string;
+  leadId?: string;
+  createdBy?: string;
+  createdByName?: string;
+  createdAt: string;
+}
+
+// Параметры фильтрации движений
+export interface StockMovementFilters {
+  movementType?: MovementType;
+  warehouseId?: string;
+  trailerId?: string;
+  optionId?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  limit?: number;
+  offset?: number;
 }
 
 export interface StockReservationResult {
@@ -66,12 +136,28 @@ export interface IDatabaseProvider {
   getVehiclesVersion(): Promise<number>;
   syncVehiclesFromCloud?(): Promise<void>;
   
-  // Stock Management (остатки)
+  // Warehouses (склады)
+  getWarehouses?(): Promise<Warehouse[]>;
+  getWarehouse?(id: string): Promise<Warehouse | null>;
+  saveWarehouse?(warehouse: Warehouse): Promise<Warehouse>;
+  deleteWarehouse?(id: string): Promise<void>;
+  
+  // Stock Management (остатки) - базовые методы
   getStock?(itemId: string, itemType: 'trailer' | 'option'): Promise<StockInfo | null>;
   reserveStock?(orderId: string, items: { itemId: string; itemType: 'trailer' | 'option'; quantity: number }[]): Promise<StockReservationResult>;
   releaseStock?(orderId: string): Promise<{ success: boolean; error?: string }>;
   releaseStockItem?(itemId: string, itemType: 'trailer' | 'option', quantity: number): Promise<void>;
   commitStock?(orderId: string): Promise<{ success: boolean; error?: string }>;
+  
+  // Stock Management (расширенные методы)
+  getStockSummary?(): Promise<StockSummary[]>;
+  getStockItems?(warehouseId?: string): Promise<StockItem[]>;
+  updateStockItem?(stockItemId: string, updates: Partial<StockItem>): Promise<StockItem>;
+  setStockQuantity?(trailerId: string | null, optionId: string | null, warehouseId: string, quantity: number): Promise<void>;
+  
+  // Stock Movements (движения)
+  getStockMovements?(filters?: StockMovementFilters): Promise<StockMovement[]>;
+  createStockMovement?(movement: Omit<StockMovement, 'id' | 'createdAt'>): Promise<StockMovement>;
   
   // Initialization
   initializeData(trailers: Trailer[], accessories: Accessory[], defaultSettings: Settings, orders?: Order[]): Promise<void>;
