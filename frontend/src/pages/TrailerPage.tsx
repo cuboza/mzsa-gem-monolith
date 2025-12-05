@@ -5,7 +5,6 @@ import { db } from '../services/api';
 import { TrailerDetailsModal } from '../components/TrailerDetailsModal';
 import { BreadcrumbSchema, ProductSchema, useMetaTags } from '../components/common';
 import { getMainImage } from '../features/trailers';
-import { useEffect } from 'react';
 
 export const TrailerPage = () => {
   const { id } = useParams<{ id: string }>();
