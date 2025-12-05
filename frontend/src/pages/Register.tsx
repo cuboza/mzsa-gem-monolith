@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, User, Phone, AlertCircle, CheckCircle } from 'lucide-react';
+import { maskPhone } from '../utils/format';
 
 export const Register = () => {
   const [name, setName] = useState('');
@@ -143,7 +144,7 @@ export const Register = () => {
                   className="appearance-none relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="+7 (999) 123-45-67"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(maskPhone(e.target.value))}
                 />
               </div>
             </div>

@@ -81,6 +81,16 @@ export const Login = () => {
             </div>
           </div>
 
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => alert('Функция восстановления пароля будет доступна в ближайшее время')}
+              className="text-sm text-blue-600 hover:text-blue-500"
+            >
+              Забыли пароль?
+            </button>
+          </div>
+
           <div>
             <button
               type="submit"

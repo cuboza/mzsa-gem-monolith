@@ -122,6 +122,15 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
             {trailer.name}
           </p>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/catalog/${trailer.id}`);
+            }}
+            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+          >
+            Подробнее о модели
+          </button>
 
           {/* Ключевые характеристики (сокращённый вид) */}
           <div className="space-y-1 sm:space-y-1.5 mb-2 sm:mb-3 text-xs sm:text-sm bg-gray-50 dark:bg-gray-700 p-2 sm:p-2.5 rounded-lg">
@@ -207,8 +216,8 @@ export const TrailerCard = ({ trailer, onOrder, onClick, selected, hideActions }
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Переходим на шаг 3 (Аксессуары) для выбора опций
-                  onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer, skipToStep: 3 } });
+                  // Переходим в конфигуратор с выбранным прицепом
+                  onOrder ? onOrder(trailer) : navigate('/configurator', { state: { trailer, skipToStep: 2 } });
                 }}
                 className="bg-orange-600 hover:bg-orange-600 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm shadow-md transition-colors flex items-center justify-center"
               >

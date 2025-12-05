@@ -517,7 +517,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
               
               <button 
                 onClick={handleOrder}
-                className="w-full mt-4 bg-orange-600 hover:bg-orange-600 text-white py-3 rounded-lg font-bold shadow-md transition-all transform active:scale-95 flex items-center justify-center"
+                className="w-full mt-4 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold shadow-md transition-all transform active:scale-95 flex items-center justify-center"
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Заказать

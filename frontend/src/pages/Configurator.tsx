@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { db } from '../services/api';
 import { Trailer, Accessory, Vehicle, Order } from '../types';
@@ -12,6 +12,8 @@ import { CatalogFilters } from '../components/CatalogFilters';
 import { formatPrice, maskPhone } from '../utils';
 import { parseSearchQuery } from '../utils/searchParser';
 import { useAuth } from '../context/AuthContext';
+
+const DRAFT_KEY = 'onr_config_draft_v1';
 
 const CONFIG_STEPS = [
   { label: 'Техника' },
@@ -35,6 +37,8 @@ export const Configurator = () => {
   });
   const [trailers, setTrailers] = useState<Trailer[]>([]);
   const [accessories, setAccessories] = useState<Accessory[]>([]);
+  const [draftAvailable, setDraftAvailable] = useState(false);
+  const draftRestoredRef = useRef(false);
   
   // Выбор пользователя
   const [selectedCategory, setSelectedCategory] = useState<string>('snowmobile');
@@ -68,6 +72,53 @@ export const Configurator = () => {
     notes: ''
   });
 
+  const saveDraft = () => {
+    const draft = {
+      step,
+      selectedCategory,
+      selectedVehicle,
+      selectedTrailerId: selectedTrailer?.id,
+      selectedAccessoriesIds: selectedAccessories.map(a => a.id),
+      accessoryQuantities,
+      customerForm,
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    setDraftAvailable(true);
+  };
+
+  const clearDraft = () => {
+    localStorage.removeItem(DRAFT_KEY);
+    setDraftAvailable(false);
+  };
+
+  const restoreDraft = () => {
+    if (draftRestoredRef.current) return;
+    if (!trailers.length || !accessories.length) return;
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return;
+    try {
+      const draft = JSON.parse(raw);
+      draftRestoredRef.current = true;
+      if (draft.selectedCategory) setSelectedCategory(draft.selectedCategory);
+      if (draft.selectedVehicle) setSelectedVehicle(draft.selectedVehicle);
+      if (draft.customerForm) setCustomerForm(draft.customerForm);
+      if (draft.accessoryQuantities) setAccessoryQuantities(draft.accessoryQuantities);
+      if (draft.step) setStep(draft.step);
+
+      if (draft.selectedTrailerId && trailers.length) {
+        const found = trailers.find(t => t.id === draft.selectedTrailerId);
+        if (found) setSelectedTrailer(found);
+      }
+      if (draft.selectedAccessoriesIds && accessories.length) {
+        const foundAccs = accessories.filter(a => draft.selectedAccessoriesIds.includes(a.id));
+        setSelectedAccessories(foundAccs);
+      }
+      setDraftAvailable(false);
+    } catch (err) {
+      console.error('Failed to restore draft', err);
+    }
+  };
+
   // Подставляем данные авторизованного пользователя в форму
   useEffect(() => {
     if (user) {
@@ -79,6 +130,12 @@ export const Configurator = () => {
       }));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (localStorage.getItem(DRAFT_KEY)) {
+      setDraftAvailable(true);
+    }
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -106,6 +163,31 @@ export const Configurator = () => {
         }
         
         // Step уже установлен при инициализации состояния
+      } else if (!draftRestoredRef.current) {
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (raw) {
+          try {
+            const draft = JSON.parse(raw);
+            draftRestoredRef.current = true;
+            if (draft.selectedCategory) setSelectedCategory(draft.selectedCategory);
+            if (draft.selectedVehicle) setSelectedVehicle(draft.selectedVehicle);
+            if (draft.customerForm) setCustomerForm(draft.customerForm);
+            if (draft.accessoryQuantities) setAccessoryQuantities(draft.accessoryQuantities);
+            if (draft.step) setStep(draft.step);
+
+            if (draft.selectedTrailerId) {
+              const found = t.find(tr => tr.id === draft.selectedTrailerId);
+              if (found) setSelectedTrailer(found);
+            }
+            if (draft.selectedAccessoriesIds) {
+              const foundAccs = a.filter(acc => draft.selectedAccessoriesIds.includes(acc.id));
+              setSelectedAccessories(foundAccs);
+            }
+            setDraftAvailable(false);
+          } catch (err) {
+            console.error('Failed to restore draft', err);
+          }
+        }
       }
     };
     loadData();
@@ -424,6 +506,7 @@ export const Configurator = () => {
       await db.saveCustomer(customer);
     }
 
+    clearDraft();
     setOrderNumber(newOrderNumber);
     setStep(6);
   };
@@ -433,6 +516,29 @@ export const Configurator = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-4 pb-12">
       <div className="container mx-auto px-4">
+        {draftAvailable && !draftRestoredRef.current && (
+          <div className="mb-4 p-4 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div>
+              <div className="font-bold text-blue-800 dark:text-blue-200">Найден черновик заказа</div>
+              <div className="text-sm text-blue-700 dark:text-blue-300">Можно продолжить заполнение или очистить его.</div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={restoreDraft}
+                className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Продолжить
+              </button>
+              <button
+                onClick={clearDraft}
+                className="px-4 py-2 rounded-lg border border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors"
+              >
+                Удалить
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Прогресс бар */}
         <div className="mb-4">
           <Stepper steps={CONFIG_STEPS} currentStep={step} />
@@ -809,12 +915,20 @@ export const Configurator = () => {
                   <ChevronRight size={18} className="rotate-180" />
                   Изменить
                 </button>
-                <button
-                  onClick={() => setStep(5)}
-                  className="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 flex items-center shadow-lg shadow-green-500/20 transition-colors"
-                >
-                  Перейти к оформлению <ChevronRight size={18} className="ml-2" />
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={saveDraft}
+                    className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    Сохранить черновик
+                  </button>
+                  <button
+                    onClick={() => setStep(5)}
+                    className="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 flex items-center shadow-lg shadow-green-500/20 transition-colors"
+                  >
+                    Перейти к оформлению <ChevronRight size={18} className="ml-2" />
+                  </button>
+                </div>
               </div>
 
                <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Проверьте конфигурацию</h2>
@@ -887,7 +1001,15 @@ export const Configurator = () => {
                   <ChevronRight size={18} className="rotate-180" />
                   Назад
                 </button>
-                <span className="text-sm text-gray-500 dark:text-gray-400">Итого: <b className="text-lg text-black dark:text-white">{formatPrice(totalPrice)} ₽</b></span>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={saveDraft}
+                    className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    Сохранить черновик
+                  </button>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Итого: <b className="text-lg text-black dark:text-white">{formatPrice(totalPrice)} ₽</b></span>
+                </div>
               </div>
 
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Оформление заказа</h2>

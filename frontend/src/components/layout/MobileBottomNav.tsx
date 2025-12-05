@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Grid3X3, Settings, Search, User } from 'lucide-react';
+import { Home, Grid3X3, Settings, Package, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface NavItem {
@@ -36,8 +36,8 @@ export const MobileBottomNav = () => {
     { 
       path: '/track', 
       label: 'Заказ', 
-      icon: <Search size={22} strokeWidth={1.5} />,
-      activeIcon: <Search size={22} strokeWidth={2.5} />
+      icon: <Package size={22} strokeWidth={1.5} />,
+      activeIcon: <Package size={22} strokeWidth={2.5} />
     },
     { 
       path: user ? '/profile' : '/login', 

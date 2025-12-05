@@ -13,6 +13,7 @@ import { Catalog } from './pages/Catalog';
 
 // Остальные страницы загружаются лениво для уменьшения начального бандла
 const Configurator = lazy(() => import('./pages/Configurator').then(m => ({ default: m.Configurator })));
+const TrailerPage = lazy(() => import('./pages/TrailerPage').then(m => ({ default: m.TrailerPage })));
 const TrackOrder = lazy(() => import('./pages/TrackOrder').then(m => ({ default: m.TrackOrder })));
 const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
 const Register = lazy(() => import('./pages/Register').then(m => ({ default: m.Register })));
@@ -56,6 +57,11 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/catalog" element={<Catalog />} />
+                    <Route path="/catalog/:id" element={
+                      <Suspense fallback={<PageLoader />}>
+                        <TrailerPage />
+                      </Suspense>
+                    } />
                     <Route path="/configurator" element={<Configurator />} />
                     <Route path="/track" element={<TrackOrder />} />
                     <Route path="/login" element={<Login />} />
