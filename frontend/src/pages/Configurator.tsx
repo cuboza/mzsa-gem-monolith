@@ -24,8 +24,13 @@ export const Configurator = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Начальные состояния
-  const [step, setStep] = useState(1);
+  // Начальные состояния - сразу устанавливаем step если пришли из каталога
+  const [step, setStep] = useState(() => {
+    if (location.state?.trailer) {
+      return location.state?.skipToStep ?? 3;
+    }
+    return 1;
+  });
   const [trailers, setTrailers] = useState<Trailer[]>([]);
   const [accessories, setAccessories] = useState<Accessory[]>([]);
   
@@ -86,9 +91,7 @@ export const Configurator = () => {
           }
         }
         
-        // Переходим на указанный шаг (по умолчанию 3 - "Аксессуары" для выбора опций)
-        const targetStep = location.state?.skipToStep ?? 3;
-        setStep(targetStep);
+        // Step уже установлен при инициализации состояния
       }
     };
     loadData();
@@ -545,7 +548,25 @@ export const Configurator = () => {
 
           {/* Шаг 2: Выбор прицепа */}
           {step === 2 && (
-            <div className="p-4 md:p-6 animate-fadeIn">
+            <div className="p-4 md:p-6 animate-fadeIn flex flex-col h-full">
+              {/* Навигация сверху */}
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                <button 
+                  onClick={() => setStep(1)} 
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
+                >
+                  <ChevronRight size={18} className="rotate-180" />
+                  Назад
+                </button>
+                <button
+                  onClick={() => setStep(3)}
+                  disabled={!selectedTrailer}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold disabled:opacity-50 hover:bg-blue-700 flex items-center transition-colors"
+                >
+                  К аксессуарам <ChevronRight size={18} className="ml-2" />
+                </button>
+              </div>
+
               <h2 className="text-xl font-bold mb-1 text-center text-gray-900 dark:text-white">Подходящие прицепы</h2>
               {selectedVehicle && (
                 <p className="text-center text-gray-500 dark:text-gray-400 mb-3 text-sm">
@@ -594,24 +615,32 @@ export const Configurator = () => {
                 </div>
               )}
 
-              <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700 mt-auto">
-                <button onClick={() => setStep(1)} className="text-gray-600 dark:text-gray-400 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                  Назад
-                </button>
-                <button
-                  onClick={() => setStep(3)}
-                  disabled={!selectedTrailer}
-                  className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold disabled:opacity-50 hover:bg-blue-700 flex items-center"
-                >
-                  К аксессуарам <ChevronRight size={20} className="ml-2" />
-                </button>
-              </div>
             </div>
           )}
 
           {/* Шаг 3: Аксессуары */}
           {step === 3 && (
-            <div className="p-6 md:p-8 animate-fadeIn">
+            <div className="p-6 md:p-8 animate-fadeIn flex flex-col h-full">
+              {/* Навигация сверху */}
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                <button 
+                  onClick={() => setStep(2)} 
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
+                >
+                  <ChevronRight size={18} className="rotate-180" />
+                  Назад
+                </button>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Итого: <b className="text-lg text-black dark:text-white">{formatPrice(totalPrice)} ₽</b></span>
+                  <button
+                    onClick={() => setStep(4)}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 flex items-center transition-colors"
+                  >
+                    К аксессуарам <ChevronRight size={18} className="ml-2" />
+                  </button>
+                </div>
+              </div>
+
               <h2 className="text-2xl font-bold mb-2 text-center text-gray-900 dark:text-white">Добавить аксессуары</h2>
               {selectedTrailer && (
                 <p className="text-center text-gray-500 dark:text-gray-400 mb-6 text-sm">
@@ -748,27 +777,29 @@ export const Configurator = () => {
                    );
                 })}
               </div>
-
-              <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700 mt-auto">
-                <button onClick={() => setStep(2)} className="text-gray-600 dark:text-gray-400 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                  Назад
-                </button>
-                <div className="text-right flex flex-col md:flex-row items-center gap-4">
-                   <span className="text-sm text-gray-500 dark:text-gray-400">Итого: <b className="text-lg text-black dark:text-white">{formatPrice(totalPrice)} ₽</b></span>
-                   <button
-                    onClick={() => setStep(4)}
-                    className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 flex items-center"
-                  >
-                    Продолжить <ChevronRight size={20} className="ml-2" />
-                  </button>
-                </div>
-              </div>
             </div>
           )}
 
           {/* Шаг 4: Детали заказа (переход к оформлению) */}
            {step === 4 && (
-            <div className="p-6 md:p-8 animate-fadeIn">
+            <div className="p-6 md:p-8 animate-fadeIn flex flex-col h-full">
+              {/* Навигация сверху */}
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                <button 
+                  onClick={() => setStep(3)} 
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
+                >
+                  <ChevronRight size={18} className="rotate-180" />
+                  Изменить
+                </button>
+                <button
+                  onClick={() => setStep(5)}
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 flex items-center shadow-lg shadow-green-500/20 transition-colors"
+                >
+                  Перейти к оформлению <ChevronRight size={18} className="ml-2" />
+                </button>
+              </div>
+
                <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Проверьте конфигурацию</h2>
 
                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 mb-8">
@@ -824,24 +855,24 @@ export const Configurator = () => {
                     <span className="text-3xl font-bold text-blue-700 dark:text-blue-400">{formatPrice(totalPrice)} ₽</span>
                   </div>
                </div>
-
-               <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700 mt-auto">
-                <button onClick={() => setStep(3)} className="text-gray-600 dark:text-gray-400 px-6 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                  Изменить
-                </button>
-                <button
-                  onClick={() => setStep(5)}
-                  className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 flex items-center shadow-lg shadow-green-500/20"
-                >
-                  Перейти к оформлению <ChevronRight size={20} className="ml-2" />
-                </button>
-              </div>
             </div>
           )}
 
           {/* Шаг 5: Форма оформления */}
           {step === 5 && (
-            <div className="p-6 md:p-8 animate-fadeIn">
+            <div className="p-6 md:p-8 animate-fadeIn flex flex-col h-full">
+              {/* Навигация сверху */}
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                <button 
+                  onClick={() => setStep(4)} 
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
+                >
+                  <ChevronRight size={18} className="rotate-180" />
+                  Назад
+                </button>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Итого: <b className="text-lg text-black dark:text-white">{formatPrice(totalPrice)} ₽</b></span>
+              </div>
+
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Оформление заказа</h2>
               
               <form onSubmit={handleSubmitOrder} className="max-w-lg mx-auto space-y-4">
@@ -951,16 +982,9 @@ export const Configurator = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-orange-600 hover:bg-orange-600 text-white py-4 rounded-lg font-bold text-lg shadow-lg mt-6"
+                  className="w-full bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-lg font-bold text-lg shadow-lg mt-6"
                 >
                   Подтвердить заказ
-                </button>
-                <button 
-                  type="button"
-                  onClick={() => setStep(4)}
-                  className="w-full text-gray-500 dark:text-gray-400 py-2 text-sm hover:underline"
-                >
-                  Вернуться назад
                 </button>
               </form>
             </div>

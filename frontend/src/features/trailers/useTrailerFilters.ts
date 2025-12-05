@@ -231,44 +231,69 @@ export const useTrailerFilters = (
     // =========================================
     // СОРТИРОВКА
     // =========================================
-    result.sort((a, b) => {
-      switch (sortOption) {
-        case 'price_asc':
-          return a.price - b.price;
-        case 'price_desc':
-          return b.price - a.price;
-        case 'availability': {
-          const availOrder = { in_stock: 0, days_1_3: 1, days_7_14: 2 };
-          return (availOrder[a.availability] ?? 3) - (availOrder[b.availability] ?? 3);
+    
+    // Специальная сортировка при выборе техники из автокомплита:
+    // 1. Сначала в наличии (in_stock, days_1_3) — по возрастанию размеров
+    // 2. Потом под заказ (days_7_14 и др.) — по возрастанию размеров
+    if (vehicleSelected) {
+      result.sort((a, b) => {
+        // Определяем "в наличии" как in_stock или days_1_3 (быстрая доставка)
+        const isAvailableA = a.availability === 'in_stock' || a.availability === 'days_1_3';
+        const isAvailableB = b.availability === 'in_stock' || b.availability === 'days_1_3';
+        
+        // Сначала сортируем по наличию
+        if (isAvailableA && !isAvailableB) return -1;
+        if (!isAvailableA && isAvailableB) return 1;
+        
+        // Внутри группы — по возрастанию максимальной длины техники (размеру прицепа)
+        const lengthA = getMaxVehicleLength(a);
+        const lengthB = getMaxVehicleLength(b);
+        if (lengthA !== lengthB) return lengthA - lengthB;
+        
+        // При равных размерах — по цене (дешевле сначала)
+        return a.price - b.price;
+      });
+    } else {
+      // Стандартная сортировка по выбранной опции
+      result.sort((a, b) => {
+        switch (sortOption) {
+          case 'price_asc':
+            return a.price - b.price;
+          case 'price_desc':
+            return b.price - a.price;
+          case 'availability': {
+            const availOrder = { in_stock: 0, days_1_3: 1, days_7_14: 2 };
+            return (availOrder[a.availability] ?? 3) - (availOrder[b.availability] ?? 3);
+          }
+          case 'axles_asc':
+            return getAxlesCount(a) - getAxlesCount(b);
+          case 'axles_desc':
+            return getAxlesCount(b) - getAxlesCount(a);
+          case 'brakes':
+            return getFullWeight(b) - getFullWeight(a);
+          case 'length_desc':
+            return parseDimensions(b.dimensions).length - parseDimensions(a.dimensions).length;
+          case 'area_desc': {
+            const dimA = parseDimensions(a.dimensions);
+            const dimB = parseDimensions(b.dimensions);
+            return dimB.length * dimB.width - dimA.length * dimA.width;
+          }
+          case 'volume_desc': {
+            const volA = parseDimensions(a.dimensions);
+            const volB = parseDimensions(b.dimensions);
+            return volB.length * volB.width * volB.height - volA.length * volA.width * volA.height;
+          }
+          case 'boat_length_desc':
+            return parseBoatLength(b.bodyDimensions) - parseBoatLength(a.bodyDimensions);
+          case 'name_asc':
+            return a.model.localeCompare(b.model);
+          case 'name_desc':
+            return b.model.localeCompare(a.model);
+          default:
+            return 0;
         }
-        case 'axles_asc':
-          return getAxlesCount(a) - getAxlesCount(b);
-        case 'axles_desc':
-          return getAxlesCount(b) - getAxlesCount(a);
-        case 'brakes':
-          return getFullWeight(b) - getFullWeight(a);
-        case 'length_desc':
-          return parseDimensions(b.dimensions).length - parseDimensions(a.dimensions).length;
-        case 'area_desc': {
-          const dimA = parseDimensions(a.dimensions);
-          const dimB = parseDimensions(b.dimensions);
-          return dimB.length * dimB.width - dimA.length * dimA.width;
-        }
-        case 'volume_desc': {
-          const volA = parseDimensions(a.dimensions);
-          const volB = parseDimensions(b.dimensions);
-          return volB.length * volB.width * volB.height - volA.length * volA.width * volA.height;
-        }
-        case 'boat_length_desc':
-          return parseBoatLength(b.bodyDimensions) - parseBoatLength(a.bodyDimensions);
-        case 'name_asc':
-          return a.model.localeCompare(b.model);
-        case 'name_desc':
-          return b.model.localeCompare(a.model);
-        default:
-          return 0;
-      }
-    });
+      });
+    }
 
     return result;
   }, [trailers, filters]);

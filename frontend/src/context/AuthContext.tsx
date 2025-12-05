@@ -105,6 +105,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Инициализация при монтировании
   useEffect(() => {
+    // Если supabase не настроен, работаем в режиме без авторизации
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+    
     // Получаем текущую сессию
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
