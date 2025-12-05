@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+coverage/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Backend (не нужен для Docker frontend)
+backend/
+
+# Scraper (Python)
+scraper/
+.venv/
+__pycache__/
+*.pyc
+
+# Mono (устаревший)
+mono/
+
+# Output directories
+output/
+
+# Tests (не нужны в продакшене)
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+e2e/
+playwright-report/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Dev tools
+.eslintcache
+.prettierignore
+*.log
+npm-debug.log*
+
+# Lighthouse reports
+lighthouse*.html
+lighthouse*.json
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Supabase local
+supabase/.temp/
+
+# Scripts (dev only)
+scripts/
+
+# Package files (redundant, already in frontend/)
+packages/

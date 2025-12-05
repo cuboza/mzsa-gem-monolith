@@ -1,0 +1,61 @@
+# Dependabot configuration
+# https://docs.github.com/en/code-security/dependabot
+
+version: 2
+updates:
+  # Frontend (npm)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Moscow"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(frontend):"
+    labels:
+      - "dependencies"
+      - "frontend"
+    groups:
+      # Группируем minor и patch обновления React
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
+          - "@types/react*"
+      # Группируем dev-зависимости
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Игнорируем major обновления (требуют ручной миграции)
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci:"
+    labels:
+      - "dependencies"
+      - "ci"
+
+  # Python (scraper)
+  - package-ecosystem: "pip"
+    directory: "/scraper"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "deps(scraper):"
+    labels:
+      - "dependencies"
+      - "scraper"
+    open-pull-requests-limit: 3
