@@ -347,15 +347,27 @@ export const SupabaseProvider: IDatabaseProvider = {
           if (spec.key === 'gruzopodemnost') {
             trailer.capacity = spec.value_numeric || 0;
           }
-          // Парсим длину судна/техники для фильтрации
-          if (spec.key === 'dlina_sudna' || spec.key === 'dlina_tehniki') {
+          // Размеры кузова для сортировки
+          if (spec.key === 'razmery_kuzova') {
+            trailer.dimensions = spec.value_text || '';
+          }
+          // Длина судна для лодочных прицепов
+          if (spec.key === 'dlina_sudna') {
+            trailer.bodyDimensions = spec.value_text || '';
+            const lengthValue = spec.value_numeric || parseInt(String(spec.value_text || '').replace(/\D/g, ''));
+            if (lengthValue) {
+              trailer.maxVehicleLength = lengthValue;
+            }
+          }
+          // Парсим длину техники для фильтрации
+          if (spec.key === 'dlina_tehniki') {
             const lengthValue = spec.value_numeric || parseInt(String(spec.value_text || '').replace(/\D/g, ''));
             if (lengthValue) {
               trailer.maxVehicleLength = lengthValue;
             }
           }
           // Парсим объём кузова для грузовых
-          if (spec.key === 'objem_kuzova' || spec.key === 'volume') {
+          if (spec.key === 'objem_kuzova' || spec.key === 'obyom_kuzova') {
             const volumeValue = spec.value_numeric || parseFloat(String(spec.value_text || '').replace(',', '.').replace(/[^\d.]/g, ''));
             if (volumeValue) {
               trailer.maxVehicleVolume = volumeValue;
@@ -479,6 +491,18 @@ export const SupabaseProvider: IDatabaseProvider = {
           if (spec.key === 'gruzopodemnost') {
             trailer.capacity = spec.value_numeric || 0;
           }
+          // Размеры кузова для сортировки
+          if (spec.key === 'razmery_kuzova') {
+            trailer.dimensions = spec.value_text || '';
+          }
+          // Длина судна для лодочных прицепов
+          if (spec.key === 'dlina_sudna') {
+            trailer.bodyDimensions = spec.value_text || '';
+            const lengthValue = spec.value_numeric || parseInt(String(spec.value_text || '').replace(/\D/g, ''), 10);
+            if (lengthValue) {
+              trailer.maxVehicleLength = lengthValue;
+            }
+          }
         });
       }
       
@@ -535,6 +559,18 @@ export const SupabaseProvider: IDatabaseProvider = {
         trailer.specs![spec.key] = spec.value_numeric || spec.value_text;
         if (spec.key === 'gruzopodemnost') {
           trailer.capacity = spec.value_numeric || 0;
+        }
+        // Размеры кузова для сортировки
+        if (spec.key === 'razmery_kuzova') {
+          trailer.dimensions = spec.value_text || '';
+        }
+        // Длина судна для лодочных прицепов
+        if (spec.key === 'dlina_sudna') {
+          trailer.bodyDimensions = spec.value_text || '';
+          const lengthValue = spec.value_numeric || parseInt(String(spec.value_text || '').replace(/\D/g, ''), 10);
+          if (lengthValue) {
+            trailer.maxVehicleLength = lengthValue;
+          }
         }
       });
     }
