@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { User, Sun, Moon, FileText, Heart } from 'lucide-react';
+import { User, Sun, Moon, FileText, Heart, Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -63,6 +63,28 @@ export const Header = () => {
               title="Регистрация прицепа"
             >
               <FileText size={20} />
+            </Link>
+            <Link
+              to="/track"
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isActive('/track')
+                  ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
+            >
+              <Search size={18} />
+              <span>Статус заказа</span>
+            </Link>
+            <Link
+              to="/track"
+              className={`sm:hidden p-2 rounded-lg transition-colors ${
+                isActive('/track')
+                  ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
+              title="Статус заказа"
+            >
+              <Search size={20} />
             </Link>
             <button
               onClick={toggleTheme}

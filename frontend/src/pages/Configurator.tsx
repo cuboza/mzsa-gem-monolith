@@ -9,8 +9,9 @@ import { hasBrakes as checkHasBrakes } from '../features/trailers/trailerUtils';
 import { Stepper } from '../components/layout/Stepper';
 import { TrailerCard } from '../components/TrailerCard';
 import { CatalogFilters } from '../components/CatalogFilters';
-import { formatPrice } from '../utils';
+import { formatPrice, maskPhone } from '../utils';
 import { parseSearchQuery } from '../utils/searchParser';
+import { useAuth } from '../context/AuthContext';
 
 const CONFIG_STEPS = [
   { label: 'Техника' },
@@ -23,11 +24,12 @@ const CONFIG_STEPS = [
 export const Configurator = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   // Начальные состояния - сразу устанавливаем step если пришли из каталога
   const [step, setStep] = useState(() => {
     if (location.state?.trailer) {
-      return location.state?.skipToStep ?? 3;
+      return location.state?.skipToStep ?? 2;
     }
     return 1;
   });
@@ -65,6 +67,18 @@ export const Configurator = () => {
     deliveryMethod: 'pickup',
     notes: ''
   });
+
+  // Подставляем данные авторизованного пользователя в форму
+  useEffect(() => {
+    if (user) {
+      setCustomerForm(prev => ({
+        ...prev,
+        name: prev.name || user.name || '',
+        email: prev.email || user.email || '',
+        phone: prev.phone || user.phone || '',
+      }));
+    }
+  }, [user]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -342,6 +356,9 @@ export const Configurator = () => {
     if (!selectedTrailer) return;
 
     const newOrderNumber = generateOrderNumber();
+    const customerName = customerForm.name || user?.name || 'Гость';
+    const customerEmail = customerForm.email || user?.email;
+    const customerPhone = customerForm.phone || user?.phone || '';
     
     const order: Order = {
       id: `order-${Date.now()}`,
@@ -349,9 +366,9 @@ export const Configurator = () => {
       date: new Date().toISOString(),
       status: 'new',
       customer: {
-        name: customerForm.name,
-        phone: customerForm.phone,
-        email: customerForm.email,
+        name: customerName,
+        phone: customerPhone,
+        email: customerEmail,
         region: customerForm.region as 'ХМАО' | 'ЯНАО',
         city: customerForm.city,
         address: customerForm.address
@@ -384,7 +401,7 @@ export const Configurator = () => {
     
     // Сохранение/обновление клиента
     const customers = await db.getCustomers();
-    let customer = customers.find(c => c.phone === customerForm.phone);
+    let customer = customers.find(c => c.phone === customerPhone || (customerEmail && c.email === customerEmail));
     
     if (customer) {
       customer.orders.push(order.id);
@@ -394,9 +411,9 @@ export const Configurator = () => {
     } else {
       customer = {
         id: `cust-${Date.now()}`,
-        name: customerForm.name,
-        phone: customerForm.phone,
-        email: customerForm.email,
+        name: customerName,
+        phone: customerPhone,
+        email: customerEmail,
         region: customerForm.region as 'ХМАО' | 'ЯНАО',
         city: customerForm.city,
         orders: [order.id],
@@ -636,7 +653,7 @@ export const Configurator = () => {
                     onClick={() => setStep(4)}
                     className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 flex items-center transition-colors"
                   >
-                    К аксессуарам <ChevronRight size={18} className="ml-2" />
+                    К деталям <ChevronRight size={18} className="ml-2" />
                   </button>
                 </div>
               </div>
@@ -894,7 +911,7 @@ export const Configurator = () => {
                       type="tel"
                       required
                       value={customerForm.phone}
-                      onChange={(e) => setCustomerForm({...customerForm, phone: e.target.value})}
+                      onChange={(e) => setCustomerForm({...customerForm, phone: maskPhone(e.target.value)})}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500"
                       placeholder="+7 (___) ___-__-__"
                     />

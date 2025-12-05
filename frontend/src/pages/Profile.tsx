@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User, Package, LogOut, Settings, ChevronRight, Clock, CheckCircle, Truck, XCircle } from 'lucide-react';
+import { User, Package, LogOut, Settings, ChevronRight, Clock, CheckCircle, Truck, XCircle, Search } from 'lucide-react';
 import { ResponsiveSticky } from '../components/layout/ResponsiveSticky';
 import { db } from '../services/api';
 import { Order } from '../types';
@@ -30,8 +30,13 @@ export const Profile = () => {
     fetchOrders();
   }, [user]);
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   if (!user) {
-    navigate('/login');
     return null;
   }
 
@@ -87,9 +92,18 @@ export const Profile = () => {
                     <Package className="text-blue-600" />
                     <h2>История заказов</h2>
                   </div>
-                  {orders.length > 0 && (
-                    <span className="text-sm text-gray-500">Всего: {orders.length}</span>
-                  )}
+                  <div className="flex items-center gap-3">
+                    {orders.length > 0 && (
+                      <span className="text-sm text-gray-500">Всего: {orders.length}</span>
+                    )}
+                    <button
+                      onClick={() => navigate('/track')}
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <Search size={16} />
+                      <span>Отследить заказ</span>
+                    </button>
+                  </div>
                 </div>
 
                 {loading ? (
@@ -134,7 +148,10 @@ export const Profile = () => {
                               <Clock size={16} />
                               <span>Последнее обновление: {new Date(order.updatedAt).toLocaleString('ru-RU')}</span>
                             </div>
-                            <button className="text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                            <button 
+                              onClick={() => navigate(`/track?order=${order.orderNumber}`)}
+                              className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
+                            >
                               Подробнее <ChevronRight size={16} />
                             </button>
                           </div>

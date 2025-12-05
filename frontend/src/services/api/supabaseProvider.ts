@@ -78,6 +78,54 @@ function mapSupabaseOption(row: any): Accessory {
 }
 
 function mapSupabaseLead(row: any): Order {
+  const items = Array.isArray(row.lead_items) ? row.lead_items : [];
+  const trailerItem = items.find((i: any) => i.item_type === 'trailer');
+  const accessoriesItems = items.filter((i: any) => i.item_type === 'option');
+  const totalPrice = items.reduce((sum: number, item: any) => {
+    const qty = item.quantity || 1;
+    const price = item.unit_price || 0;
+    return sum + qty * price;
+  }, 0);
+
+  const trailer: Trailer = trailerItem ? {
+    id: trailerItem.item_id || trailerItem.id || 'trailer',
+    model: trailerItem.item_name || 'Прицеп',
+    name: trailerItem.item_name || 'Прицеп',
+    category: 'general',
+    price: trailerItem.unit_price || 0,
+    capacity: 0,
+    features: [],
+    availability: 'in_stock',
+    image: '/images/placeholder.jpg',
+    specs: { dimensions: '', capacity: '', weight: '', axles: 1 },
+  } : {
+    id: 'trailer',
+    model: 'Прицеп',
+    name: 'Прицеп',
+    category: 'general',
+    price: 0,
+    capacity: 0,
+    features: [],
+    availability: 'days_7_14',
+    image: '/images/placeholder.jpg',
+    specs: { dimensions: '', capacity: '', weight: '', axles: 1 },
+  };
+
+  const accessories: Accessory[] = accessoriesItems.map((item: any, idx: number) => ({
+    id: item.item_id || item.id || `option-${idx}`,
+    name: item.item_name || 'Аксессуар',
+    price: item.unit_price || 0,
+    oldPrice: null,
+    category: 'loading',
+    description: '',
+    image: '/images/placeholder.jpg',
+    features: [],
+    compatibility: [],
+    compatibleWith: [],
+    stock: undefined,
+    isPopular: false,
+  }));
+
   return {
     id: row.id,
     orderNumber: row.lead_number,
@@ -91,16 +139,21 @@ function mapSupabaseLead(row: any): Order {
       city: row.customer_city || '',
     },
     configuration: {
-      trailer: {} as Trailer,
-      accessories: [],
-      totalPrice: 0,
+      trailer,
+      accessories,
+      totalPrice,
     },
     delivery: {
       method: 'pickup',
       region: 'ХМАО',
       city: row.customer_city || '',
     },
-    timeline: [],
+    timeline: [{
+      id: `evt-${row.id}`,
+      timestamp: row.created_at,
+      status: mapLeadStatus(row.status),
+      title: 'Заказ создан',
+    }],
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
