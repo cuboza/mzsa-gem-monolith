@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Trailer } from '../types';
 import { db } from '../services/api';
 import { TrailerDetailsModal } from '../components/TrailerDetailsModal';
+import { BreadcrumbSchema, ProductSchema, useMetaTags } from '../components/common';
+import { getMainImage } from '../features/trailers';
+import { useEffect } from 'react';
 
 export const TrailerPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -51,10 +54,54 @@ export const TrailerPage = () => {
     );
   }
 
+  const breadcrumbs = useMemo(() => ([
+    { name: 'Главная', url: '/' },
+    { name: 'Каталог', url: '/catalog' },
+    { name: trailer.model },
+  ]), [trailer.model]);
+
+  const image = getMainImage(trailer);
+  const pageTitle = `${trailer.model} — ${trailer.name}`;
+  useMetaTags({
+    title: pageTitle,
+    description: trailer.description || `Прицеп ${trailer.model} от официального дилера МЗСА`,
+    image,
+    url: typeof window !== 'undefined' ? window.location.href : undefined,
+    type: 'product',
+  });
+
+  useEffect(() => {
+    if (typeof document === 'undefined' || typeof window === 'undefined') return;
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href);
+  }, [trailer]);
+
   return (
-    <TrailerDetailsModal
-      trailer={trailer}
-      onClose={() => navigate('/catalog')}
-    />
+    <>
+      <BreadcrumbSchema items={breadcrumbs} />
+      <ProductSchema trailer={trailer} />
+      <div className="bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 py-4">
+          <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+            <button onClick={() => navigate(-1)} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              Назад
+            </button>
+            <span className="mx-2 text-gray-300">/</span>
+            <span className="font-semibold text-gray-700 dark:text-gray-200">{trailer.model}</span>
+          </div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{pageTitle}</h1>
+        </div>
+      </div>
+      <TrailerDetailsModal
+        trailer={trailer}
+        onClose={() => navigate(-1)}
+        variant="page"
+      />
+    </>
   );
 };

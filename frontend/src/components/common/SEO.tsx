@@ -53,7 +53,7 @@ export const ProductSchema = ({
     },
     offers: {
       '@type': 'Offer',
-      url: `${baseUrl}/catalog?id=${trailer.id}`,
+      url: `${baseUrl}/catalog/${trailer.id}`,
       priceCurrency: 'RUB',
       price: trailer.price,
       priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],

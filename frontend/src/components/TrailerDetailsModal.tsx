@@ -11,10 +11,11 @@ const formatNumberValue = (value: number) => new Intl.NumberFormat('ru-RU').form
 
 interface TrailerDetailsModalProps {
   trailer: Trailer;
-  onClose: () => void;
+  onClose?: () => void;
+  variant?: 'modal' | 'page';
 }
 
-export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalProps) => {
+export const TrailerDetailsModal = ({ trailer, onClose, variant = 'modal' }: TrailerDetailsModalProps) => {
   const navigate = useNavigate();
   const [selectedAccessories, setSelectedAccessories] = useState<Record<string, number>>({});
   const [showFullDescription, setShowFullDescription] = useState(true);
@@ -62,10 +63,8 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     maxVehicleLength: { label: 'Макс. длина техники', icon: MoveRight, suffix: ' мм', order: 90 },
     maxVehicleWidth: { label: 'Макс. ширина техники', icon: MoveHorizontal, suffix: ' мм', order: 100 },
     maxVehicleWeight: { label: 'Макс. вес техники', icon: Gauge, suffix: ' кг', order: 110 },
-    
-    // Extended specs from scraper
     polnaya_massa: { label: 'Полная масса', icon: Weight, suffix: ' кг', order: 21 },
-    snaryazhyonnaya_massa: { label: 'Снаряжённая масса', icon: Gauge, suffix: ' кг', order: 70 }, // Override weight
+    snaryazhyonnaya_massa: { label: 'Снаряжённая масса', icon: Gauge, suffix: ' кг', order: 70 },
     pogruzochnaya_vysota: { label: 'Погрузочная высота', icon: ArrowUpDown, suffix: ' мм', order: 61 },
     kol_vo_listov_ressory: { label: 'Количество листов рессоры', icon: Activity, order: 41 },
     nagruzka_na_odnu_os: { label: 'Нагрузка на одну ось', icon: Weight, suffix: ' кг', order: 81 },
@@ -85,7 +84,7 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     const normalized = raw.replace(/\r\n/g, '\n').trim();
 
     const bulletParts = normalized
-      .split(/●/)
+      .split(/•/)
       .map(part => normalizeWhitespace(part.replace(/\n+/g, ' ')))
       .filter(Boolean);
 
@@ -141,47 +140,37 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     addSpec('weight', trailer.specs?.weight);
     addSpec('axles', trailer.specs?.axles);
     addSpec('bodyDimensions', trailer.bodyDimensions);
-    
     if (['water'].includes(trailer.category)) {
       addSpec('maxVehicleLength', trailer.maxVehicleLength);
       addSpec('maxVehicleWidth', trailer.maxVehicleWidth);
       addSpec('maxVehicleWeight', trailer.maxVehicleWeight);
     }
-
-    // Add dynamic specs from scraper
     if (trailer.specs) {
       Object.keys(trailer.specs).forEach(key => {
-        // Skip keys that are already handled or not in definitions
         if (['dimensions', 'capacity', 'weight', 'axles', 'boardHeight'].includes(key)) return;
         if (key in specDefinitions) {
-          addSpec(key, trailer.specs![key]);
+          addSpec(key as keyof typeof specDefinitions, trailer.specs![key]);
         }
       });
     }
-
     return entries.sort((a, b) => a.order - b.order);
   }, [trailer, suspensionType, brakesType]);
   const summarySpecs = specEntries.filter(entry => entry.section === 'summary');
   const detailedSpecs = specEntries.filter(entry => entry.section !== 'summary');
 
-  // Lock body scroll when modal is open
   useEffect(() => {
+    if (variant !== 'modal') return;
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [variant]);
 
   const allImages = useMemo(() => {
-    // Собираем все изображения и убираем дубликаты
     const images: string[] = [];
-    
-    // Добавляем главное изображение первым
     if (trailer.image) {
       images.push(trailer.image);
     }
-    
-    // Добавляем остальные изображения, если они не дубликаты
     if (trailer.images && trailer.images.length > 0) {
       trailer.images.forEach(img => {
         if (img && !images.includes(img)) {
@@ -189,8 +178,6 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
         }
       });
     }
-    
-    // Если ничего нет, возвращаем плейсхолдер
     return images.length > 0 ? images : [`https://placehold.co/600x400?text=${encodeURIComponent(trailer.model)}`];
   }, [trailer]);
 
@@ -204,20 +191,13 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
 
-  // Filter compatible accessories
   const compatibleAccessories = useMemo(() => {
     return accessories.filter(acc => {
-      // Объединяем compatibleWith (из данных) и compatibility (из API) 
       const accCompat = acc.compatibleWith || acc.compatibility || [];
-      // Если пустой массив - значит специфичная опция, не показываем всем
       if (accCompat.length === 0) return false;
-      // 'all' = универсальная опция
       if (accCompat.includes('all')) return true;
-      // Прямое совпадение по ID прицепа
       if (accCompat.includes(trailer.id)) return true;
-      // Совпадение по категории прицепа
       if (accCompat.includes(trailer.category)) return true;
-      // Совпадение по тегам совместимости прицепа
       if (trailer.compatibility) {
         return trailer.compatibility.some(c => accCompat.includes(c));
       }
@@ -229,12 +209,10 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     setSelectedAccessories(prev => {
       const currentQty = prev[id] || 0;
       const newQty = Math.max(0, currentQty + delta);
-      
       if (newQty === 0) {
         const { [id]: _, ...rest } = prev;
         return rest;
       }
-      
       return { ...prev, [id]: newQty };
     });
   };
@@ -256,22 +234,14 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
   
   const totalPrice = trailer.price + optionsPrice;
 
-  // Используем formatPrice из utils/
-
   const handleOrder = () => {
-    // Navigate to configurator step 4 (Details) with pre-selected trailer and accessories
-    // Convert map to array of IDs for compatibility, but ideally we should pass quantities
-    // For now, we'll pass IDs repeated by quantity or just IDs and handle quantity later if needed
-    // But the Configurator expects IDs. Let's just pass IDs for now.
-    // TODO: Update Configurator to handle quantities
     const accessoryIds = Object.keys(selectedAccessories);
-    
     navigate('/configurator', { 
       state: { 
         trailer, 
         initialAccessories: accessoryIds,
         initialAccessoryQuantities: selectedAccessories,
-        skipToStep: 4 // Сразу на этап "Детали"
+        skipToStep: 4
       } 
     });
   };
@@ -289,9 +259,339 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
     setHoveredAccessoryImage(null);
   };
 
+  const content = (
+    <div 
+      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-5xl ${variant === 'modal' ? 'max-h-[90vh] overflow-y-auto' : ''} flex flex-col md:flex-row`} 
+      onClick={e => e.stopPropagation()}
+    >
+      <ResponsiveSticky 
+        stickyAt="md" 
+        offsetClass="top-0" 
+        maxHeight={variant === 'modal' ? 'calc(90vh - 32px)' : 'none'} 
+        className="w-full md:w-5/12 bg-gray-50 dark:bg-gray-900 flex flex-col border-r border-gray-100 dark:border-gray-700 shrink-0"
+      >
+        <div className="relative h-64 md:h-80 bg-white dark:bg-gray-800 shrink-0 group cursor-zoom-in" onClick={() => setLightboxImage(allImages[currentImageIndex])}>
+          <img 
+            src={allImages[currentImageIndex]} 
+            alt={trailer.model} 
+            className="w-full h-full object-contain p-4"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (!target.src.includes('placehold.co')) {
+                target.src = `https://placehold.co/600x400?text=${encodeURIComponent(trailer.model)}`;
+              }
+            }}
+          />
+          {allImages.length > 1 && (
+            <>
+              <button 
+                onClick={prevImage}
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-opacity opacity-0 group-hover:opacity-100 z-10"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button 
+                onClick={nextImage}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-opacity opacity-0 group-hover:opacity-100 z-10"
+              >
+                <ChevronRight size={24} />
+              </button>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {allImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
+                    className={`w-2 h-2 rounded-full transition-all shadow-sm ${
+                      idx === currentImageIndex ? 'bg-blue-600 w-4' : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {variant === 'modal' && onClose && (
+            <button 
+              onClick={onClose}
+              className="absolute top-4 left-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-sm transition-colors md:hidden z-20"
+            >
+              <X size={20} />
+            </button>
+          )}
+          {trailer.badge && (
+            <div className="absolute top-4 right-4 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm z-10">
+              {trailer.badge}
+            </div>
+          )}
+        </div>
+
+        <div className="p-6 flex-grow md:overflow-y-auto md:custom-scrollbar">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{trailer.model}</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">{trailer.name}</p>
+
+          <div className="mb-6">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
+              {summarySpecs.length ? summarySpecs.map(spec => {
+                const Icon = spec.icon;
+                return (
+                  <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0 last:pb-0">
+                    <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                      <Icon className="w-4 h-4 text-blue-500" />
+                      <span>{spec.label}</span>
+                    </div>
+                    <span className="font-semibold text-gray-900 dark:text-white">{spec.value}</span>
+                  </div>
+                );
+              }) : (
+                <p className="text-sm text-gray-500">Характеристики не указаны.</p>
+              )}
+            </div>
+
+            <div className="mt-2 space-y-4">
+              {detailedSpecs.length > 0 && (
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
+                  {detailedSpecs.map(spec => {
+                    const Icon = spec.icon;
+                    return (
+                      <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0 last:pb-0">
+                        <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                          <Icon className="w-4 h-4 text-blue-500" />
+                          <span>{spec.label}</span>
+                        </div>
+                        <span className="font-semibold text-gray-900 dark:text-white">{spec.value}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              <div>
+                  <h5 className="font-bold text-gray-900 dark:text-white mb-2">Особенности модели:</h5>
+                  {formattedFeatures.length > 0 ? (
+                    <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                      {formattedFeatures.map((feature, i) => (
+                        <li key={i}>{feature}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-gray-500">Характеристики уточняются.</p>
+                  )}
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-6 border-t border-gray-100 dark:border-gray-700 pt-6">
+             <h3 className="font-bold text-gray-900 dark:text-white mb-2">Описание</h3>
+             <div className={`text-sm text-gray-600 dark:text-gray-300 relative ${!showFullDescription ? 'max-h-36 overflow-hidden' : ''}`}>
+               {descriptionBullets.length > 0 ? (
+                 <ul className="space-y-3 pl-1">
+                   {descriptionBullets.map((item, idx) => (
+                     <li key={idx} className="flex gap-2">
+                       <span className="text-blue-500 mt-1">•</span>
+                       <p className="leading-relaxed text-gray-700 dark:text-gray-300">{item}</p>
+                     </li>
+                   ))}
+                 </ul>
+               ) : (
+                 descriptionParagraphs.map((paragraph, idx) => (
+                   <p key={idx} className="mb-3 last:mb-0 leading-relaxed">
+                     {paragraph}
+                   </p>
+                 ))
+               )}
+               {!showFullDescription && (
+                 <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"></div>
+               )}
+             </div>
+             <button 
+                onClick={() => setShowFullDescription(!showFullDescription)}
+                className="text-blue-600 text-sm font-semibold hover:underline mt-2"
+              >
+                {showFullDescription ? 'Свернуть' : 'Читать полностью'}
+             </button>
+          </div>
+        </div>
+
+        <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shrink-0 z-10">
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            {trailer.price > 0 ? (
+              <>
+                <div className="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span>Прицеп:</span>
+                  <span>{formatPrice(trailer.price || 0)} ₽</span>
+                </div>
+                {optionsPrice > 0 && (
+                  <div className="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span>Опции:</span>
+                    <span>+ {formatPrice(optionsPrice)} ₽</span>
+                  </div>
+                )}
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2 flex justify-between items-end">
+                  <span className="font-bold text-gray-900 dark:text-white">Итого:</span>
+                  <span className="text-2xl font-bold text-blue-600">{formatPrice(totalPrice || 0)} ₽</span>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-2">
+                <span className="text-xl font-bold text-gray-700 dark:text-gray-300">Цена по запросу</span>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Позвоните нам для уточнения</p>
+              </div>
+            )}
+            <button 
+              onClick={handleOrder}
+              className="w-full mt-4 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold shadow-md transition-all transform active:scale-95 flex items-center justify-center"
+            >
+              <ShoppingCart className="w-5 h-5 mr-2" />
+              Заказать
+            </button>
+          </div>
+        </div>
+      </ResponsiveSticky>
+
+      <div className="w-full md:w-7/12 flex flex-col h-full md:max-h-none">
+        <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 bg-white dark:bg-gray-800 z-10">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <Shield className="w-5 h-5 text-blue-600" />
+            Опции
+          </h3>
+          {variant === 'modal' && onClose && (
+            <button 
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors hidden md:block"
+            >
+              <X size={24} />
+            </button>
+          )}
+        </div>
+
+        <div className="flex flex-col flex-grow min-h-0">
+          <div className="overflow-y-auto flex-grow custom-scrollbar">
+            <div className="px-6 pb-6 space-y-3">
+              {compatibleAccessories.map(acc => {
+                const quantity = selectedAccessories[acc.id] || 0;
+                const isSelected = quantity > 0;
+                const stockValue = parseInt(acc.stock || '10', 10);
+                const isInStock = stockValue > 0;
+
+                return (
+                <div 
+                  key={acc.id}
+                  className={`
+                    relative p-4 rounded-xl border-2 transition-all duration-200 flex items-start
+                    ${isSelected 
+                      ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/30' 
+                      : isInStock 
+                        ? 'border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer'
+                        : 'border-gray-100 dark:border-gray-700 opacity-60 cursor-not-allowed bg-gray-50 dark:bg-gray-800'}
+                  `}
+                  onClick={() => {
+                    if (isInStock && !isSelected) toggleAccessory(acc.id);
+                  }}
+                >
+                  <div className={`
+                    w-5 h-5 rounded border flex items-center justify-center mr-4 mt-1 transition-colors flex-shrink-0
+                    ${isSelected
+                      ? 'bg-blue-500 border-blue-500 text-white'
+                      : isInStock 
+                        ? 'border-green-500 bg-white dark:bg-gray-700 text-green-500'
+                        : 'border-red-300 bg-red-50 dark:bg-red-900/20 text-red-400'}
+                  `}>
+                    {isSelected ? <Check size={12} strokeWidth={3} /> : (
+                      isInStock ? <Check size={12} strokeWidth={3} /> : <X size={12} strokeWidth={3} />
+                    )}
+                  </div>
+
+                  {acc.image && (
+                    <div 
+                      className="w-16 h-16 mr-4 rounded-lg overflow-hidden bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 flex-shrink-0 relative group/img cursor-zoom-in"
+                      onMouseEnter={(e) => handleAccessoryMouseEnter(e, acc.image!)}
+                      onMouseLeave={handleAccessoryMouseLeave}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLightboxImage(acc.image!);
+                      }}
+                    >
+                      <img 
+                        src={acc.image} 
+                        alt={acc.name} 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+                        }}
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="flex-grow min-w-0">
+                    <div className="flex justify-between items-start mb-1">
+                      <span className={`font-semibold ${isInStock ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+                        {acc.name}
+                      </span>
+                      <span className="font-bold text-blue-600 whitespace-nowrap ml-2">
+                        {formatPrice(acc.price)} ₽
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{acc.description}</p>
+                    
+                    {!isInStock && (
+                      <div className="flex flex-col gap-2">
+                        <div className="text-xs font-bold text-red-500 flex items-center gap-1">
+                          <CircleOff size={12} />
+                          Нет в наличии
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(`tel:+73462223355`, '_self');
+                          }}
+                          className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
+                        >
+                          <ShoppingCart size={12} />
+                          Заказать у менеджера
+                        </button>
+                      </div>
+                    )}
+
+                    {isSelected && (
+                      <div className="flex items-center gap-3 mt-2" onClick={e => e.stopPropagation()}>
+                        <button 
+                          onClick={() => updateAccessoryQuantity(acc.id, -1)}
+                          className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors"
+                        >
+                          <Minus size={14} />
+                        </button>
+                        <span className="font-bold text-gray-900 dark:text-white w-6 text-center">{quantity}</span>
+                        <button 
+                          onClick={() => updateAccessoryQuantity(acc.id, 1)}
+                          disabled={quantity >= stockValue}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                            quantity >= stockValue 
+                              ? 'bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed' 
+                              : 'bg-blue-100 dark:bg-blue-900/50 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400'
+                          }`}
+                        >
+                          <Plus size={14} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+              })}
+
+              {compatibleAccessories.length === 0 && (
+                <div className="text-center py-8 text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed dark:border-gray-700">
+                  Нет доступных опций для этой модели
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
-      {/* Lightbox */}
+    <div className={variant === 'modal' ? 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200' : 'bg-gray-50 dark:bg-gray-900 py-6'}>
       {lightboxImage && (
         <div 
           className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4 animate-in fade-in duration-200"
@@ -312,7 +612,6 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
         </div>
       )}
 
-      {/* Accessory Hover Preview */}
       {hoveredAccessoryImage && (
         <div 
           className="fixed z-[70] pointer-events-none bg-white dark:bg-gray-800 p-2 rounded-xl shadow-2xl border border-gray-200 animate-in fade-in zoom-in-95 duration-150"
@@ -331,341 +630,31 @@ export const TrailerDetailsModal = ({ trailer, onClose }: TrailerDetailsModalPro
         </div>
       )}
 
-      <div 
-        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row animate-in zoom-in-95 duration-200" 
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Left Column: Image & Key Info */}
-        <ResponsiveSticky 
-          stickyAt="md" 
-          offsetClass="top-0" 
-          maxHeight="calc(90vh - 32px)" 
-          className="w-full md:w-5/12 bg-gray-50 dark:bg-gray-900 flex flex-col border-r border-gray-100 dark:border-gray-700 shrink-0"
-        >
-          <div className="relative h-64 md:h-80 bg-white dark:bg-gray-800 shrink-0 group cursor-zoom-in" onClick={() => setLightboxImage(allImages[currentImageIndex])}>
-            <img 
-              src={allImages[currentImageIndex]} 
-              alt={trailer.model} 
-              className="w-full h-full object-contain p-4"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                if (!target.src.includes('placehold.co')) {
-                  target.src = `https://placehold.co/600x400?text=${encodeURIComponent(trailer.model)}`;
-                }
-              }}
-            />
-            
-            {/* Navigation Arrows */}
-            {allImages.length > 1 && (
-              <>
-                <button 
-                  onClick={prevImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-opacity opacity-0 group-hover:opacity-100 z-10"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button 
-                  onClick={nextImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-opacity opacity-0 group-hover:opacity-100 z-10"
-                >
-                  <ChevronRight size={24} />
-                </button>
-                
-                {/* Dots indicator */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                  {allImages.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
-                      className={`w-2 h-2 rounded-full transition-all shadow-sm ${
-                        idx === currentImageIndex ? 'bg-blue-600 w-4' : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-
-            <button 
-              onClick={onClose}
-              className="absolute top-4 left-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-sm transition-colors md:hidden z-20"
-            >
-              <X size={20} />
-            </button>
-            
-            {trailer.badge && (
-              <div className="absolute top-4 right-4 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm z-10">
-                {trailer.badge}
-              </div>
-            )}
-          </div>
-
-          <div className="p-6 flex-grow md:overflow-y-auto md:custom-scrollbar">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{trailer.model}</h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">{trailer.name}</p>
-
-            <div className="mb-6">
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
-                {summarySpecs.length ? summarySpecs.map(spec => {
-                  const Icon = spec.icon;
-                  return (
-                    <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0 last:pb-0">
-                      <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                        <Icon className="w-4 h-4 text-blue-500" />
-                        <span>{spec.label}</span>
-                      </div>
-                      <span className="font-semibold text-gray-900 dark:text-white">{spec.value}</span>
-                    </div>
-                  );
-                }) : (
-                  <p className="text-sm text-gray-500">Характеристики не указаны.</p>
-                )}
-              </div>
-
-              <div className="mt-2 space-y-4">
-                {detailedSpecs.length > 0 && (
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
-                    {detailedSpecs.map(spec => {
-                      const Icon = spec.icon;
-                      return (
-                        <div key={spec.key} className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0 last:pb-0">
-                          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                            <Icon className="w-4 h-4 text-blue-500" />
-                            <span>{spec.label}</span>
-                          </div>
-                          <span className="font-semibold text-gray-900 dark:text-white">{spec.value}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                <div>
-                    <h5 className="font-bold text-gray-900 dark:text-white mb-2">Особенности модели:</h5>
-                    {formattedFeatures.length > 0 ? (
-                      <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                        {formattedFeatures.map((feature, i) => (
-                          <li key={i}>{feature}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-sm text-gray-500">Характеристики уточняются.</p>
-                    )}
-                </div>
-              </div>
-            </div>
-
-            {/* Description Section */}
-            <div className="mb-6 border-t border-gray-100 dark:border-gray-700 pt-6">
-               <h3 className="font-bold text-gray-900 dark:text-white mb-2">Описание</h3>
-               <div className={`text-sm text-gray-600 dark:text-gray-300 relative ${!showFullDescription ? 'max-h-36 overflow-hidden' : ''}`}>
-                 {descriptionBullets.length > 0 ? (
-                   <ul className="space-y-3 pl-1">
-                     {descriptionBullets.map((item, idx) => (
-                       <li key={idx} className="flex gap-2">
-                         <span className="text-blue-500 mt-1">•</span>
-                         <p className="leading-relaxed text-gray-700 dark:text-gray-300">{item}</p>
-                       </li>
-                     ))}
-                   </ul>
-                 ) : (
-                   descriptionParagraphs.map((paragraph, idx) => (
-                     <p key={idx} className="mb-3 last:mb-0 leading-relaxed">
-                       {paragraph}
-                     </p>
-                   ))
-                 )}
-                 {!showFullDescription && (
-                   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"></div>
-                 )}
-               </div>
-               <button 
-                  onClick={() => setShowFullDescription(!showFullDescription)}
-                  className="text-blue-600 text-sm font-semibold hover:underline mt-2"
-                >
-                  {showFullDescription ? 'Свернуть' : 'Читать полностью'}
-               </button>
-            </div>
-          </div>
-
-          {/* Sticky Footer for Price & Order */}
-          <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shrink-0 z-10">
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-              {trailer.price > 0 ? (
-                <>
-                  <div className="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span>Прицеп:</span>
-                    <span>{formatPrice(trailer.price || 0)} ₽</span>
-                  </div>
-                  {optionsPrice > 0 && (
-                    <div className="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span>Опции:</span>
-                      <span>+ {formatPrice(optionsPrice)} ₽</span>
-                    </div>
-                  )}
-                  <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2 flex justify-between items-end">
-                    <span className="font-bold text-gray-900 dark:text-white">Итого:</span>
-                    <span className="text-2xl font-bold text-blue-600">{formatPrice(totalPrice || 0)} ₽</span>
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-2">
-                  <span className="text-xl font-bold text-gray-700 dark:text-gray-300">Цена по запросу</span>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Позвоните нам для уточнения</p>
-                </div>
-              )}
-              
-              <button 
-                onClick={handleOrder}
-                className="w-full mt-4 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold shadow-md transition-all transform active:scale-95 flex items-center justify-center"
-              >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Заказать
-              </button>
-            </div>
-          </div>
-        </ResponsiveSticky>
-
-        {/* Right Column: Details & Options */}
-        <div className="w-full md:w-7/12 flex flex-col h-full md:max-h-none">
-          <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center sticky top-0 bg-white dark:bg-gray-800 z-10">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-              <Shield className="w-5 h-5 text-blue-600" />
-              Опции
-            </h3>
-            <button 
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors hidden md:block"
-            >
-              <X size={24} />
-            </button>
-          </div>
-
-          <div className="flex flex-col flex-grow min-h-0">
-            <div className="overflow-y-auto flex-grow custom-scrollbar">
-              <div className="px-6 pb-6 space-y-3">
-                {compatibleAccessories.map(acc => {
-                  const quantity = selectedAccessories[acc.id] || 0;
-                  const isSelected = quantity > 0;
-                  const stockValue = parseInt(acc.stock || '10', 10); // Default to 10 if not specified
-                  const isInStock = stockValue > 0;
-
-                  return (
-                  <div 
-                    key={acc.id}
-                    className={`
-                      relative p-4 rounded-xl border-2 transition-all duration-200 flex items-start
-                      ${isSelected 
-                        ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/30' 
-                        : isInStock 
-                          ? 'border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer'
-                          : 'border-gray-100 dark:border-gray-700 opacity-60 cursor-not-allowed bg-gray-50 dark:bg-gray-800'}
-                    `}
-                    onClick={() => {
-                      if (isInStock && !isSelected) toggleAccessory(acc.id);
-                    }}
-                  >
-                    <div className={`
-                      w-5 h-5 rounded border flex items-center justify-center mr-4 mt-1 transition-colors flex-shrink-0
-                      ${isSelected
-                        ? 'bg-blue-500 border-blue-500 text-white'
-                        : isInStock 
-                          ? 'border-green-500 bg-white dark:bg-gray-700 text-green-500'
-                          : 'border-red-300 bg-red-50 dark:bg-red-900/20 text-red-400'}
-                    `}>
-                      {isSelected ? <Check size={12} strokeWidth={3} /> : (
-                        isInStock ? <Check size={12} strokeWidth={3} /> : <X size={12} strokeWidth={3} />
-                      )}
-                    </div>
-
-                    {acc.image && (
-                      <div 
-                        className="w-16 h-16 mr-4 rounded-lg overflow-hidden bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 flex-shrink-0 relative group/img cursor-zoom-in"
-                        onMouseEnter={(e) => handleAccessoryMouseEnter(e, acc.image!)}
-                        onMouseLeave={handleAccessoryMouseLeave}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setLightboxImage(acc.image!);
-                        }}
-                      >
-                        <img 
-                          src={acc.image} 
-                          alt={acc.name} 
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
-                          }}
-                        />
-                      </div>
-                    )}
-                    
-                    <div className="flex-grow min-w-0">
-                      <div className="flex justify-between items-start mb-1">
-                        <span className={`font-semibold ${isInStock ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
-                          {acc.name}
-                        </span>
-                        <span className="font-bold text-blue-600 whitespace-nowrap ml-2">
-                          {formatPrice(acc.price)} ₽
-                        </span>
-                      </div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{acc.description}</p>
-                      
-                      {!isInStock && (
-                        <div className="flex flex-col gap-2">
-                          <div className="text-xs font-bold text-red-500 flex items-center gap-1">
-                            <CircleOff size={12} />
-                            Нет в наличии
-                          </div>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              window.open(`tel:+73462223355`, '_self');
-                            }}
-                            className="inline-flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
-                          >
-                            <ShoppingCart size={12} />
-                            Заказать у менеджера
-                          </button>
-                        </div>
-                      )}
-
-                      {isSelected && (
-                        <div className="flex items-center gap-3 mt-2" onClick={e => e.stopPropagation()}>
-                          <button 
-                            onClick={() => updateAccessoryQuantity(acc.id, -1)}
-                            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors"
-                          >
-                            <Minus size={14} />
-                          </button>
-                          <span className="font-bold text-gray-900 dark:text-white w-6 text-center">{quantity}</span>
-                          <button 
-                            onClick={() => updateAccessoryQuantity(acc.id, 1)}
-                            disabled={quantity >= stockValue}
-                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                              quantity >= stockValue 
-                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-300 cursor-not-allowed' 
-                                : 'bg-blue-100 dark:bg-blue-900/50 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400'
-                            }`}
-                          >
-                            <Plus size={14} />
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-                })}
-
-                {compatibleAccessories.length === 0 && (
-                  <div className="text-center py-8 text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800 rounded-xl border border-dashed dark:border-gray-700">
-                    Нет доступных опций для этой модели
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+      {variant === 'modal' ? (
+        <div className="flex items-center justify-center w-full" onClick={onClose}>
+          {content}
         </div>
-      </div>
+      ) : (
+        <div className="container mx-auto px-4">
+          <div className="mb-4 flex items-center justify-between">
+            <button
+              onClick={() => navigate(-1)}
+              className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              Назад
+            </button>
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                Закрыть
+              </button>
+            )}
+          </div>
+          {content}
+        </div>
+      )}
     </div>
   );
 };
